@@ -122,6 +122,13 @@ def word_cols(w):
     ret.append('|'.join(morph) or '_')
     return ret
 
+PHRASE_RULES = [
+    # [ phrase_type, [ POS... ], [ [head, dep, rel] ... ] ]
+    ['PP', ['prep', 'subs'], [[1, 0, 'case']]],
+    ['NP', ['art', 'subs'], [[1, 0, 'det']]],
+    ['NP', ['subs', 'conj', 'subs'], [[0, 2, 'conj'], [2, 1, 'cc']]]
+]
+
 class SentenceTree:
     def __init__(self, sid):
         self.sid = sid
@@ -161,14 +168,18 @@ class SentenceTree:
             return F.typ.v(phrase(w))
         def words(w):
             return list(L.d(phrase(w), otype="word"))
+        for phr in L.d(self.sid, otype="phrase"):
+            wdls = list(L.d(phr, otype="word"))
+            posls = [F.sp.v(x) for x in wdls]
+            for typ, pat, rels in PHRASE_RULES:
+                if typ == F.typ.v(phr) and pat == posls:
+                    for h, d, r in rels:
+                        self.add_rel(wdls[h], wdls[d], r)
         for i, w in enumerate(self.words):
             pos = F.sp.v(w)
             wls = words(w)
             print(w, pos, ptype(w), phrase(w))
-            if pos == 'prep' and ptype(w) == 'PP':
-                if len(wls) == 2 and wls[0] == w and F.sp.v(wls[1]) == 'subs':
-                    self.add_rel(wls[1], w, 'case')
-            elif pos == 'verb' and F.lex_utf8.v(w) != 'היה':
+            if pos == 'verb' and F.lex_utf8.v(w) != 'היה':
                 l = [x for x in self.words if F.sp.v(x) == 'verb']
                 if len(l) == 1:
                     # TODO: what if it's a participle modifying subj or obj?
@@ -205,7 +216,7 @@ class SentenceTree:
         ret += '\n'
         return ret
 
-for s in list(F.otype.s('sentence'))[:4]:
+for s in list(F.otype.s('sentence'))[:6]:
     st = SentenceTree(s)
     print(st.conllu())
     #break

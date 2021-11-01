@@ -124,10 +124,22 @@ def word_cols(w):
 
 PHRASE_RULES = [
     # [ phrase_type, [ POS... ], [ [head, dep, rel] ... ] ]
-    ['PP', ['prep', 'subs'], [[1, 0, 'case']]],
-    ['NP', ['art', 'subs'], [[1, 0, 'det']]],
+    #['VP', ['prep', 'verb'], []],
     ['NP', ['subs', 'conj', 'subs'], [[0, 2, 'conj'], [2, 1, 'cc']]]
 ]
+
+def match_single(pos, pat):
+    if isinstance(pat, str):
+        return pat == pos
+    elif isinstance(pat, list):
+        return any(match_single(pos, p) for p in pat)
+    else:
+        return False # TODO: tuple conditions
+
+def match(posls, pat):
+    if len(posls) != len(pat):
+        return False
+    return all(match_single(x,y) for x,y in zip(posls, pat))
 
 class SentenceTree:
     def __init__(self, sid):
@@ -172,13 +184,28 @@ class SentenceTree:
             wdls = list(L.d(phr, otype="word"))
             posls = [F.sp.v(x) for x in wdls]
             for typ, pat, rels in PHRASE_RULES:
-                if typ == F.typ.v(phr) and pat == posls:
+                if typ == F.typ.v(phr) and match(posls, pat):
                     for h, d, r in rels:
                         self.add_rel(wdls[h], wdls[d], r)
+            nouns = ['subs', 'nmpr']
+            for i, p in enumerate(posls):
+                if p == 'prep':
+                    if i+1 < len(posls) and posls[i+1] in nouns:
+                        self.add_rel(wdls[i+1], wdls[i], 'case')
+                    elif i+2 < len(posls) and posls[i+1] == 'art' and posls[i+2] in nouns:
+                        self.add_rel(wdls[i+2], wdls[i], 'case')
+                elif p == 'art':
+                    if i+1 < len(posls) and posls[i+1] in nouns:
+                        self.add_rel(wdls[i+1], wdls[i], 'det')
+                elif p in nouns and F.st.v(wdls[i]) == 'c':
+                    if i+1 < len(posls) and posls[i+1] in nouns:
+                        self.add_rel(wdls[i], wdls[i+1], 'compound:smixut')
+                    elif i+2 < len(posls) and posls[i+1] == 'art' and posls[i+2] in nouns:
+                        self.add_rel(wdls[i], wdls[i+2], 'compound:smixut')
         for i, w in enumerate(self.words):
             pos = F.sp.v(w)
             wls = words(w)
-            print(w, pos, ptype(w), phrase(w))
+            print(w, pos, ptype(w), phrase(w), F.function.v(phrase(w)))
             if pos == 'verb' and F.lex_utf8.v(w) != 'היה':
                 l = [x for x in self.words if F.sp.v(x) == 'verb']
                 if len(l) == 1:
@@ -220,3 +247,8 @@ for s in list(F.otype.s('sentence'))[:6]:
     st = SentenceTree(s)
     print(st.conllu())
     #break
+
+#for p in F.otype.s('phrase'):
+#    w = L.d(p, otype="word")
+#    if len(w) > 1:
+#        print(F.typ.v(p), [F.sp.v(x) for x in w])

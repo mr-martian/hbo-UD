@@ -1,5 +1,10 @@
 #!/usr/bin/env python3
 
+# TODO LIST
+# - merge sub-verse sentence chunks
+# - add tokens for pronoun suffixes and punctuation
+# - maybe retag (e.g.) שם, פה
+
 from tf.app import use
 A = use("bhsa", mod="etcbc/trees/tf,etcbc/bridging/tf", hoist=globals(), volume="Torah")
 
@@ -28,7 +33,7 @@ class Node:
             assert start == len(ls) - 1
         return N
     def from_str(s):
-        print(s)
+        #print(s)
         return Node.from_ls(s.replace('(', ' ( ').replace(')', ' ) ').split())
     def iter(self):
         yield self
@@ -125,7 +130,9 @@ def word_cols(w):
 PHRASE_RULES = [
     # [ phrase_type, [ POS... ], [ [head, dep, rel] ... ] ]
     #['VP', ['prep', 'verb'], []],
-    ['NP', ['subs', 'conj', 'subs'], [[0, 2, 'conj'], [2, 1, 'cc']]]
+    ['PP', ['prep', ['prde', 'prin']], [[1, 0, 'case']]],
+    ['PP', ['prep', 'art', 'adjv'], [[2, 0, 'case']]],
+    ['PP', ['prep', 'adjv'], [[1, 0, 'case']]]
 ]
 
 def match_single(pos, pat):
@@ -140,6 +147,8 @@ def match(posls, pat):
     if len(posls) != len(pat):
         return False
     return all(match_single(x,y) for x,y in zip(posls, pat))
+
+HEADED = set()
 
 class SentenceTree:
     def __init__(self, sid):
@@ -167,6 +176,11 @@ class SentenceTree:
         # TODO: this isn't unique if there are multiple sentences in a verse
         return f'Masoretic-{book}-{verse}-hbo'
     def add_rel(self, h, d, r):
+        global HEADED
+        if d in HEADED:
+            f = T.text(d)
+            print(f'Word {d} ({f}) assigned a head multiple times!')
+        HEADED.add(d)
         h_lab = '0' if h == 0 else str(self.words.index(h) + 1)
         idx_d = self.words.index(d)
         self.rels[idx_d] = r
@@ -180,6 +194,19 @@ class SentenceTree:
             return F.typ.v(phrase(w))
         def words(w):
             return list(L.d(phrase(w), otype="word"))
+        def is_noun(w):
+            pos = F.sp.v(w)
+            if pos in ['subs', 'nmpr']:
+                return True
+            elif pos == 'verb' and F.vt.v(w) in ['ptca', 'ptcp', 'infa', 'infc']:
+                return True
+            return False
+        def is_NP(w):
+            if is_noun(w):
+                return True
+            elif F.sp.v(w) in ['prps', 'prde', 'adjv']: # TODO: adj?
+                return True
+            return False
         for phr in L.d(self.sid, otype="phrase"):
             wdls = list(L.d(phr, otype="word"))
             posls = [F.sp.v(x) for x in wdls]
@@ -190,27 +217,54 @@ class SentenceTree:
             nouns = ['subs', 'nmpr']
             for i, p in enumerate(posls):
                 if p == 'prep':
-                    if i+1 < len(posls) and posls[i+1] in nouns:
+                    if i+1 < len(posls) and is_noun(wdls[i+1]):
                         self.add_rel(wdls[i+1], wdls[i], 'case')
-                    elif i+2 < len(posls) and posls[i+1] == 'art' and posls[i+2] in nouns:
+                    elif i+2 < len(posls) and posls[i+1] in ['art', 'prep'] and is_noun(wdls[i+2]):
+                        # TODO: double check prep prep
                         self.add_rel(wdls[i+2], wdls[i], 'case')
+                    elif i+3 < len(posls) and posls[i+1] == 'prep' and posls[i+2] == 'art' and is_noun(wdls[i+3]):
+                        self.add_rel(wdls[i+3], wdls[i], 'case')
                 elif p == 'art':
-                    if i+1 < len(posls) and posls[i+1] in nouns:
+                    if i+1 < len(posls) and (is_noun(wdls[i+1]) or posls[i+1] in ['adjv', 'prps', 'prde']):
                         self.add_rel(wdls[i+1], wdls[i], 'det')
-                elif p in nouns and F.st.v(wdls[i]) == 'c':
-                    if i+1 < len(posls) and posls[i+1] in nouns:
+                    elif i+1 < len(posls) and posls[i+1] == 'prde':
+                        self.add_rel(wdls[i+1], wdls[i], 'det')
+                elif is_noun(wdls[i]) and F.st.v(wdls[i]) == 'c':
+                    if i+1 < len(posls) and is_noun(wdls[i+1]):
                         self.add_rel(wdls[i], wdls[i+1], 'compound:smixut')
-                    elif i+2 < len(posls) and posls[i+1] == 'art' and posls[i+2] in nouns:
+                    elif i+2 < len(posls) and posls[i+1] == 'art' and is_noun(wdls[i+2]):
                         self.add_rel(wdls[i], wdls[i+2], 'compound:smixut')
+                elif p == 'adjv':
+                    for j in reversed(range(i)):
+                        if is_noun(wdls[j]):
+                            if F.nu.v(wdls[i]) == F.nu.v(wdls[j]) and F.gn.v(wdls[i]) == F.gn.v(wdls[j]):
+                                self.add_rel(wdls[j], wdls[i], 'nmod')
+                                break
+                elif p == 'prde' or p == 'prps':
+                    for j in reversed(range(i)):
+                        if wdls[j] not in HEADED and is_noun(wdls[j]):
+                            self.add_rel(wdls[j], wdls[i], 'nmod') # TODO: ask about this
+                            break
+            wunhd = [w for w in wdls if w not in HEADED]
+            if len(wunhd) > 1 and all(is_NP(x) for x in wunhd):
+                for w in wunhd[1:]:
+                    self.add_rel(wunhd[0], w, 'appos') # TODO: check trees
+            elif len(wunhd) > 1 and all(is_NP(x) or F.sp.v(x) == 'conj' for x in wunhd):
+                for i, w in enumerate(wunhd):
+                    if i > 0 and is_NP(w):
+                        self.add_rel(wunhd[0], w, 'conj')
+                    elif i+1 < len(wunhd) and F.sp.v(w) == 'conj' and is_NP(wunhd[i+1]):
+                        self.add_rel(wunhd[i+1], w, 'cc')
         for i, w in enumerate(self.words):
             pos = F.sp.v(w)
             wls = words(w)
-            print(w, pos, ptype(w), phrase(w), F.function.v(phrase(w)))
+            #print(w, pos, ptype(w), phrase(w), F.function.v(phrase(w)))
             if pos == 'verb' and F.lex_utf8.v(w) != 'היה':
                 l = [x for x in self.words if F.sp.v(x) == 'verb']
                 if len(l) == 1:
                     # TODO: what if it's a participle modifying subj or obj?
-                    self.add_rel(0, w, 'root')
+                    #self.add_rel(0, w, 'root')
+                    pass
     def get_pos(self):
         for c in self.nodes.iter():
             if not c.ch:
@@ -243,12 +297,14 @@ class SentenceTree:
         ret += '\n'
         return ret
 
-for s in list(F.otype.s('sentence'))[:6]:
+for s in list(F.otype.s('sentence')):
     st = SentenceTree(s)
-    print(st.conllu())
+    st.gen_rels()
+    #print(st.conllu())
     #break
 
-#for p in F.otype.s('phrase'):
-#    w = L.d(p, otype="word")
-#    if len(w) > 1:
-#        print(F.typ.v(p), [F.sp.v(x) for x in w])
+for p in F.otype.s('phrase'):
+    wf = L.d(p, otype="word")
+    wl = [x for x in wf if x not in HEADED]
+    if len(wl) > 1:
+        print(F.typ.v(p), [F.sp.v(x) for x in wl], [F.sp.v(x) for x in wf])

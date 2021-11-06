@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
 # TODO LIST
-# - merge sub-verse sentence chunks
 # - add tokens for pronoun suffixes and punctuation
 # - maybe retag (e.g.) שם, פה
 
@@ -82,11 +81,16 @@ TENSE_MAP = {
 
 def word_cols(w):
     ret = []
-    ret.append(T.text(w).strip())
-    if len(F.trailer.v(w)) > 1:
-        ret[0] = ret[0][:-1]
-    ret.append(F.lex_utf8.v(w))
+    if isinstance(w, int):
+        ret.append(T.text(w).strip())
+        if len(F.trailer.v(w)) > 1:
+            ret[0] = ret[0][:-1]
+        ret.append(F.lex_utf8.v(w))
+    else:
+        ret += [w, w] # TODO: is this what should be there?
     pos = F.sp.v(w)
+    if not isinstance(w, int):
+        pos = 'prps'
     if pos in POS_MAP:
         ret.append(POS_MAP[pos])
     elif pos == 'conj' and ret[1] == 'ו':
@@ -103,19 +107,21 @@ def word_cols(w):
     elif pos == 'prin':
         morph.append('PronType=Int')
 
-    if F.gn.v(w) == 'm':
+    if F.gn.v(w) == 'm' or w in ['הוא', 'הם']:
         morph.append('Gender=Masc')
-    elif F.gn.v(w) == 'f':
+    elif F.gn.v(w) == 'f' or w in ['היא', 'הן']:
         morph.append('Gender=Fem')
 
-    if F.nu.v(w) == 'sg':
+    if F.nu.v(w) == 'sg' or w in ['הוא', 'היא']:
         morph.append('Number=Sing')
     elif F.nu.v(w) == 'du':
         morph.append('Number=Dual')
-    elif F.nu.v(w) == 'pl':
+    elif F.nu.v(w) == 'pl' or w in ['הם', 'הן']:
         morph.append('Number=Plur')
 
-    if F.ps.v(w).startswith('p'):
+    if w in ['הוא', 'היא', 'הם', 'הן']:
+        morph.append('Person=p3')
+    elif F.ps.v(w).startswith('p'):
         morph.append('Person=' + F.ps.v(w)[1])
 
     if F.vs.v(w) in BINYAN_MAP:
@@ -148,20 +154,40 @@ def match(posls, pat):
         return False
     return all(match_single(x,y) for x,y in zip(posls, pat))
 
+def get_prn(w):
+    pers = F.prs_ps.v(w)
+    gen = F.prs_gn.v(w)
+    num = F.prs_nu.v(w)
+    key = f'{pers}-{gen}-{num}'
+    dct = {
+        'p3-m-sg': 'הוא',
+        'p3-f-sg': 'היא',
+        'p3-m-pl': 'הם',
+        'p3-f-pl': 'הן'
+    }
+    return dct.get(key)
+
 HEADED = set()
 
 class SentenceTree:
-    def __init__(self, sid):
-        self.sid = sid
-        self.nodes = Node.from_str(F.tree.v(sid))
-        self.words = list(L.d(self.sid, otype="word"))
+    def __init__(self, sids):
+        self.sids = sids
+        self.nodes = []
+        self.words = []
+        for sid in self.sids:
+            self.nodes.append(Node.from_str(F.tree.v(sid)))
+            for w in L.d(sid, otype="word"):
+                self.words.append(w)
+                p = get_prn(w)
+                if p:
+                    self.words.append(p)
         self.heads = [None] * len(self.words)
         self.rels = [None] * len(self.words)
         self.pos = {}
     def get_label(self):
-        book = T.bookName(self.sid)
-        ws = L.d(self.sid, otype="word")[0]
-        we = L.d(self.sid, otype="word")[-1]
+        book = T.bookName(self.sids[0])
+        ws = L.d(self.sids[0], otype="word")[0]
+        we = L.d(self.sids[-1], otype="word")[-1]
         chs = F.chapter.v(L.u(ws, otype="chapter")[0])
         che = F.chapter.v(L.u(we, otype="chapter")[0])
         vs = F.verse.v(L.u(ws, otype="verse")[0])
@@ -173,18 +199,21 @@ class SentenceTree:
             verse = f'{chs}:{vs}-{ve}'
         else:
             verse = f'{chs}:{vs}'
-        # TODO: this isn't unique if there are multiple sentences in a verse
         return f'Masoretic-{book}-{verse}-hbo'
     def add_rel(self, h, d, r):
         global HEADED
-        if d in HEADED:
-            f = T.text(d)
-            print(f'Word {d} ({f}) assigned a head multiple times!')
-        HEADED.add(d)
+        if isinstance(d, int):
+            if d in HEADED:
+                f = T.text(d)
+                #print(f'Word {d} ({f}) assigned a head multiple times!')
+            HEADED.add(d)
         h_lab = '0' if h == 0 else str(self.words.index(h) + 1)
         idx_d = self.words.index(d)
         self.rels[idx_d] = r
         self.heads[idx_d] = h_lab
+    def phrases(self):
+        for s in self.sids:
+            yield from L.d(s, otype="phrase")
     def gen_rels(self):
         def phrase(w):
             loc = L.u(w, otype="phrase")
@@ -207,7 +236,8 @@ class SentenceTree:
             elif F.sp.v(w) in ['prps', 'prde', 'adjv']: # TODO: adj?
                 return True
             return False
-        for phr in L.d(self.sid, otype="phrase"):
+        phrase_heads = {}
+        for phr in self.phrases():
             wdls = list(L.d(phr, otype="word"))
             posls = [F.sp.v(x) for x in wdls]
             for typ, pat, rels in PHRASE_RULES:
@@ -255,9 +285,35 @@ class SentenceTree:
                         self.add_rel(wunhd[0], w, 'conj')
                     elif i+1 < len(wunhd) and F.sp.v(w) == 'conj' and is_NP(wunhd[i+1]):
                         self.add_rel(wunhd[i+1], w, 'cc')
+            wunhd = [w for w in wdls if w not in HEADED]
+            if len(wunhd) == 1:
+                phrase_heads[phr] = wunhd[0]
+        phr_lst = [(p, F.function.v(p)) for p in self.phrases()]
+        if len(phrase_heads) == len(phr_lst):
+            root = None
+            for i, (phr, fun) in enumerate(phr_lst):
+                if fun == 'Objc':
+                    for j in reversed(range(i)):
+                        if phr_lst[j][1] == 'Pred':
+                            self.add_rel(phrase_heads[phr_lst[j][0]],
+                                         phrase_heads[phr], 'obj')
+                            break
+                elif fun == 'Pred':
+                    if root:
+                        self.add_rel(root, phrase_heads[phr], 'conj')
+                    else:
+                        self.add_rel(0, phrase_heads[phr], 'root')
+                        root = phrase_heads[phr]
+                elif fun == 'Subj':
+                    for pos in [i-1, i+1]:
+                        if pos in range(len(phr_lst)):
+                            if phr_lst[pos][1] == 'Pred':
+                                self.add_rel(phrase_heads[phr_lst[pos][0]],
+                                             phrase_heads[phr], 'nsubj')
+                                break
         for i, w in enumerate(self.words):
             pos = F.sp.v(w)
-            wls = words(w)
+            #wls = words(w)
             #print(w, pos, ptype(w), phrase(w), F.function.v(phrase(w)))
             if pos == 'verb' and F.lex_utf8.v(w) != 'היה':
                 l = [x for x in self.words if F.sp.v(x) == 'verb']
@@ -272,21 +328,28 @@ class SentenceTree:
     def conllu(self):
         self.gen_rels()
         ret = '# sent_id = ' + self.get_label() + '\n'
-        ret += '# text = ' + T.text(self.sid).strip() + '\n'
-        words = list(L.d(self.sid, otype="word"))
+        ret += '# text = ' + ' '.join(T.text(s).strip() for s in self.sids) + '\n'
+        words = self.words
         last_group = 0
         for i, w in enumerate(words, start=1):
-            if i > last_group and F.trailer.v(w) == '':
-                t = T.text(words[i-1])
-                for j in range(i+1, len(words)+1):
-                    t += T.text(words[j-1])
-                    if F.trailer.v(words[j-1]) != '':
-                        t = t.strip()
-                        if F.trailer.v(words[j-1]) == '00 ':
-                            t = t[:-1]
-                        ret += f'{i}-{j}\t{t}\t' + '\t'.join(['_']*8) + '\n'
-                        last_group = j
-                        break
+            if i > last_group:
+                if F.trailer.v(w) == '':
+                    t = T.text(words[i-1])
+                    for j in range(i+1, len(words)+1):
+                        t += T.text(words[j-1])
+                        if F.trailer.v(words[j-1]) != '':
+                            t = t.strip()
+                            if F.trailer.v(words[j-1]) == '00 ':
+                                t = t[:-1]
+                            last_group = j
+                            break
+                    if last_group < len(words) and not isinstance(words[last_group], int):
+                        last_group += 1
+                    ret += f'{i}-{last_group}\t{t}\t' + '\t'.join(['_']*8) + '\n'
+                elif i < len(words) and not isinstance(words[i], int):
+                    j = i+1
+                    t = T.text(words[i-1])
+                    ret += f'{i}-{j}\t{t}\t' + '\t'.join(['_']*8) + '\n'
             ls = [str(i)]
             ls += word_cols(w)
             ls.append(self.heads[i-1] or '_')
@@ -297,14 +360,33 @@ class SentenceTree:
         ret += '\n'
         return ret
 
-for s in list(F.otype.s('sentence')):
-    st = SentenceTree(s)
-    st.gen_rels()
-    #print(st.conllu())
-    #break
+def sent_seg():
+    def start_verse(sent):
+        return F.verse.v(L.u(L.d(sent, otype="word")[0], otype="verse")[0])
+    def end_verse(sent):
+        return F.verse.v(L.u(L.d(sent, otype="word")[0], otype="verse")[0])
+    sents = list(F.otype.s('sentence'))
+    ret = []
+    i = 0
+    while i < len(sents):
+        ls = [sents[i]]
+        v = end_verse(sents[i])
+        while i+1 < len(sents) and start_verse(sents[i+1]) == v:
+            i += 1
+            ls.append(sents[i])
+            v = end_verse(sents[i])
+        i += 1
+        ret.append(ls)
+    return ret
 
-for p in F.otype.s('phrase'):
-    wf = L.d(p, otype="word")
-    wl = [x for x in wf if x not in HEADED]
-    if len(wl) > 1:
-        print(F.typ.v(p), [F.sp.v(x) for x in wl], [F.sp.v(x) for x in wf])
+with open('generated.conllu', 'w') as fout:
+    for s in sent_seg():
+        st = SentenceTree(s)
+        st.gen_rels()
+        fout.write(st.conllu())
+
+#for p in F.otype.s('phrase'):
+#    wf = L.d(p, otype="word")
+#    wl = [x for x in wf if x not in HEADED]
+#    if len(wl) > 1:
+#        print(F.typ.v(p), [F.sp.v(x) for x in wl], [F.sp.v(x) for x in wf])

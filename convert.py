@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 
 # TODO LIST
-# - add tokens for pronoun suffixes and punctuation
 # - maybe retag (e.g.) שם, פה
 
 from tf.app import use
 A = use("bhsa", mod="etcbc/trees/tf,etcbc/bridging/tf", hoist=globals(), volume="Torah")
+
+from functools import reduce
+
+PUNCT = reduce(lambda x,y: x.union(y), [set(x[0].split()) for x in F.trailer_utf8.freqList()])
 
 class Node:
     def __init__(self):
@@ -86,6 +89,8 @@ def word_cols(w):
         if len(F.trailer.v(w)) > 1:
             ret[0] = ret[0][:-1]
         ret.append(F.lex_utf8.v(w))
+    elif w in PUNCT:
+        return [w, w, 'PUNCT', '_', '_']
     else:
         ret += [w, w] # TODO: is this what should be there?
     pos = F.sp.v(w)
@@ -181,6 +186,7 @@ class SentenceTree:
                 p = get_prn(w)
                 if p:
                     self.words.append(p)
+                self.words += F.trailer_utf8.v(w).split()
         self.heads = [None] * len(self.words)
         self.rels = [None] * len(self.words)
         self.pos = {}
@@ -311,6 +317,12 @@ class SentenceTree:
                                 self.add_rel(phrase_heads[phr_lst[pos][0]],
                                              phrase_heads[phr], 'nsubj')
                                 break
+            if root:
+                root_loc = str(self.words.index(root)+1)
+                for i, w in enumerate(self.words):
+                    if w in PUNCT:
+                        self.rels[i] = 'punct'
+                        self.heads[i] = root_loc
         for i, w in enumerate(self.words):
             pos = F.sp.v(w)
             #wls = words(w)
@@ -338,15 +350,13 @@ class SentenceTree:
                     for j in range(i+1, len(words)+1):
                         t += T.text(words[j-1])
                         if F.trailer.v(words[j-1]) != '':
-                            t = t.strip()
-                            if F.trailer.v(words[j-1]) == '00 ':
-                                t = t[:-1]
+                            t = t.strip(F.trailer_utf8.v(words[j-i]))
                             last_group = j
                             break
                     if last_group < len(words) and not isinstance(words[last_group], int):
                         last_group += 1
                     ret += f'{i}-{last_group}\t{t}\t' + '\t'.join(['_']*8) + '\n'
-                elif i < len(words) and not isinstance(words[i], int):
+                elif i < len(words) and not isinstance(words[i], int) and words[i] not in PUNCT:
                     j = i+1
                     t = T.text(words[i-1])
                     ret += f'{i}-{j}\t{t}\t' + '\t'.join(['_']*8) + '\n'

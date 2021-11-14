@@ -323,6 +323,9 @@ class SentenceTree:
                     if w in PUNCT:
                         self.rels[i] = 'punct'
                         self.heads[i] = root_loc
+                for i, (phr, fun) in enumerate(phr_lst):
+                    if fun == 'Time':
+                        self.add_rel(root, phrase_heads[phr], 'obl')
         for i, w in enumerate(self.words):
             pos = F.sp.v(w)
             #wls = words(w)

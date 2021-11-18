@@ -94,7 +94,9 @@ SETPARENT (ClauseRoot @conj) TO (-1* @root) ;
 SETPARENT @obj TO (-1* @root) ;
 
 MAP @obl (subs Time) ;
-SETPARENT @obl TO (1* @root) ;
+MAP @obl (subs Cmpl) ;
+SETPARENT @obl TO (0* @root BARRIER (conj CP)) ;
+SETPARENT @obl TO (0*A ClauseRoot BARRIER (conj CP) LINK p @root) ;
 
 SECTION
 

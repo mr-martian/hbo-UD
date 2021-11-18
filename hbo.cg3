@@ -1,0 +1,102 @@
+DELIMITERS = "<׃>" ;
+
+LIST Det = art ;
+
+LIST Pr = prep ;
+
+LIST Sent = sent ;
+LIST Cm = cm ;
+
+LIST ClauseRoot = ClauseRoot ;
+
+# Universal Dependencies
+# ======================
+
+LIST @root = @root ;     # The root of the sentence, often a finite verb
+LIST @nsubj = @nsubj ;   # The nominal subject of the sentence
+LIST @amod = @amod ;       # 
+LIST @advmod = @advmod ; # An adverbial modifier
+LIST @case = @case ;     # The relation of an adposition to its head
+LIST @acl = @acl ;       # A clause which modifies a nominal
+LIST @nmod = @nmod ;     # Nominal modifier 
+LIST @dobj = @dobj ;     # The direct object of the sentence
+LIST @punct = @punct ;   # Any punctuation
+LIST @cop = @cop ;       # 
+LIST @nmod:poss = @nmod:poss ;
+LIST @obl = @obl ;
+LIST @obj = @obj ;
+LIST @advcl = @advcl ;
+LIST @aux = @aux ;
+LIST @parataxis = @parataxis ;
+LIST @det = @det ;
+LIST @csubj = @csubj ;
+LIST @nummod = @nummod ;
+LIST @compound:smixut = @compound:smixut ;
+LIST @cc = @cc ;
+LIST @conj = @conj ;
+LIST @dep = @dep ;       # Any remaining dependency
+
+SECTION # context-free mappings
+
+MAP @punct (punct) ;
+MAP @det Det ;
+MAP @case Pr ;
+MAP @compound:smixut (subs) IF (-1 (subs c)) ;
+MAP @compound:smixut (subs) IF (-1 (art)) (-2 (subs c)) ;
+MAP @cc (conj) ;
+MAP @cop (vbcp) ;
+
+SECTION # helper labels
+
+ADD ClauseRoot (PreC) IF (NOT 0 ClauseRoot) ;
+ADD ClauseRoot (Pred) IF (NOT 0 @cop) (NOT 0 ClauseRoot) ;
+
+SECTION # adjacent words
+
+SETPARENT @compound:smixut TO (-1 (subs)) ;
+SETPARENT @compound:smixut (-1 (art)) TO (-2 (subs)) ;
+
+SETPARENT @det TO (1 (subs)) ;
+
+SETPARENT @case TO (1 (subs)) ;
+SETPARENT @case (1 Det or @punct) TO (2 (subs)) ;
+
+SETPARENT ("־" @punct) TO (-1 (prep)) ;
+
+SECTION
+
+MAP @nsubj (subs Subj) ;
+SETPARENT @nsubj TO (-1 (verb Pred)) ;
+
+SETPARENT @cop TO (1* (PreC)) ;
+SETPARENT @nsubj TO (1* (PreC)) ;
+
+SECTION # conjunction
+
+SETPARENT (conj PP) TO (1* (subs PP)) ;
+MAP @conj (subs PP) IF (0 (subs) LINK c @cc) ;
+SETPARENT (subs PP @conj) TO (-1* (subs PP) LINK NOT 0 @conj) ;
+
+SETPARENT (conj NP) TO (1* (subs NP)) ;
+MAP @conj (subs NP) IF (0 (subs) LINK c @cc LINK NOT 0 (CP)) ;
+SETPARENT (subs NP @conj) TO (-1* (subs NP) LINK NOT 0 @conj) ;
+
+SECTION
+
+SETPARENT (conj CP) TO (1* ClauseRoot) ;
+
+SECTION
+
+MAP @obj (subs Objc) ;
+MAP @root ClauseRoot IF (NOT -1* ClauseRoot) ;
+MAP @conj ClauseRoot IF (-1* ClauseRoot) ;
+SETPARENT (ClauseRoot @conj) TO (-1* @root) ;
+SETPARENT @obj TO (-1* @root) ;
+
+MAP @obl (subs Time) ;
+SETPARENT @obl TO (1* @root) ;
+
+SECTION
+
+SETPARENT @root TO (@0 (*)) ;
+SETPARENT ("׃" @punct) TO (-1* @root) ;

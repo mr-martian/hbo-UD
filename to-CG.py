@@ -36,5 +36,4 @@ for w in F.otype.s('word'):
         else:
             lu += f'^{c}/{c}<punct>$'
     print(lu, end='')
-    if w > 40: break
 print('')

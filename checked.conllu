@@ -2,19 +2,50 @@
 # text = בְּרֵאשִׁ֖ית בָּרָ֣א אֱלֹהִ֑ים אֵ֥ת הַשָּׁמַ֖יִם וְאֵ֥ת הָאָֽרֶץ׃
 # checker = Daniel
 1-2	בְּרֵאשִׁ֖ית	_	_	_	_	_	_	_	_
-1	בְּ	ב	ADP	prep	_	2	case	_	_
-2	רֵאשִׁ֖ית	ראשׁית	NOUN	subs	Gender=Fem|Number=Sing	3	obl	_	_
-3	בָּרָ֣א	ברא	VERB	verb	Gender=Masc|Number=Sing|Person=3|HebBinyan=PAAL|VerbForm=Fin|Mood=Ind|Aspect=Perf	0	root	_	_
+1	_	ב	ADP	prep	_	2	case	_	_
+2	_	ראשׁית	NOUN	subs	Gender=Fem|Number=Sing	3	obl	_	_
+3	בָּרָ֣א	ברא	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	0	root	_	_
 4	אֱלֹהִ֑ים	אלהים	NOUN	subs	Gender=Masc|Number=Plur	3	nsubj	_	_
 5	אֵ֥ת	את	ADP	prep	_	7	case	_	_
 6-7	הַשָּׁמַ֖יִם	_	_	_	_	_	_	_	_
-6	הַ	ה	DET	art	_	7	det	_	_
-7	שָּׁמַ֖יִם	שׁמים	NOUN	subs	Gender=Masc|Number=Plur	3	obj	_	_
+6	_	ה	DET	art	_	7	det	_	_
+7	_	שׁמים	NOUN	subs	Gender=Masc|Number=Plur	3	obj	_	_
 8-9	וְאֵ֥ת	_	_	_	_	_	_	_	_
-8	וְ	ו	CCONJ	conj	_	11	cc	_	_
-9	אֵ֥ת	את	ADP	prep	_	11	case	_	_
-10-12	הָאָֽרֶץ׃	_	_	_	_	_	_	_	_
-10	הָ	ה	DET	art	_	11	det	_	_
-11	אָֽרֶץ	ארץ	NOUN	subs	Number=Sing	7	conj	_	_
-12	׃	׃	PUNCT	_	_	3	punct	_	_
+8	_	ו	CCONJ	conj	_	11	cc	_	_
+9	_	את	ADP	prep	_	11	case	_	_
+10-11	הָאָֽרֶץ	_	_	_	_	_	_	_	_
+10	_	ה	DET	art	_	11	det	_	_
+11	_	ארץ	NOUN	subs	Number=Sing	7	conj	_	_
+12	׃	׃	PUNCT	punct	_	3	punct	_	_
 
+# sent_id = Masoretic-Genesis-1:2-hbo
+# text = וְהָאָ֗רֶץ הָיְתָ֥ה תֹ֨הוּ֙ וָבֹ֔הוּ וְחֹ֖שֶׁךְ עַל־פְּנֵ֣י תְהֹ֑ום וְר֣וּחַ אֱלֹהִ֔ים מְרַחֶ֖פֶת עַל־פְּנֵ֥י הַמָּֽיִם׃
+# checker = Daniel
+1-3	וְהָאָ֗רֶץ	_	_	_	_	_	_	_	_
+1	_	ו	CCONJ	conj	_	5	cc	_	_
+2	_	ה	DET	art	_	3	det	_	_
+3	_	ארץ	NOUN	subs	Number=Sing	5	nsubj	_	_
+4	הָיְתָ֥ה	היה	VERB	verb	Aspect=Perf|Gender=Fem|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	5	cop	_	_
+5	תֹ֨הוּ֙	תהו	NOUN	subs	Gender=Masc|Number=Sing	0	root	_	_
+6-7	וָבֹ֔הוּ	_	_	_	_	_	_	_	_
+6	_	ו	CCONJ	conj	_	7	cc	_	_
+7	_	בהו	NOUN	subs	Gender=Masc|Number=Sing	5	conj	_	_
+8-9	וְחֹ֖שֶׁךְ	_	_	_	_	_	_	_	_
+8	_	ו	CCONJ	conj	_	12	cc	_	_
+9	_	חשׁך	NOUN	subs	Gender=Masc|Number=Sing	10	nsubj	_	_
+10	עַל	על	ADP	prep	_	12	case	_	_
+11	־	־	PUNCT	punct	_	10	punct	_	_
+12	פְּנֵ֣י	פנה	NOUN	subs	Gender=Masc|Number=Plur	5	conj	_	_
+13	תְהֹ֑ום	תהום	NOUN	subs	Gender=Fem|Number=Sing	12	compound:smixut	_	_
+14-15	וְר֣וּחַ	_	_	_	_	_	_	_	_
+14	_	ו	CCONJ	conj	_	17	cc	_	_
+15	_	רוח	NOUN	subs	Number=Sing	17	nsubj	_	_
+16	אֱלֹהִ֔ים	אלהים	NOUN	subs	Gender=Masc|Number=Plur	15	compound:smixut	_	_
+17	מְרַחֶ֖פֶת	רחף	VERB	verb	Gender=Fem|HebBinyan=PIEL|Number=Sing|VerbForm=Part	5	conj	_	_
+18	עַל	על	ADP	prep	_	20	case	_	_
+19	־	־	PUNCT	punct	_	18	punct	_	_
+20	פְּנֵ֥י	פנה	NOUN	subs	Gender=Masc|Number=Plur	17	obl	_	_
+21-22	הַמָּֽיִם	_	_	_	_	_	_	_	_
+21	_	ה	DET	art	_	22	det	_	_
+22	_	מים	NOUN	subs	Gender=Masc|Number=Plur	20	compound:smixut	_	_
+23	׃	׃	PUNCT	punct	_	5	punct	_	_

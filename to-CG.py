@@ -16,7 +16,7 @@ def get(w, f):
     else:
         return f'<{v}>'
 
-feats = ['sp', 'ls', 'vt', 'vs', 'typ', 'function', 'gn', 'nametype', 'nu', 'ps', 'st']
+feats = ['sp', 'ls', 'vt', 'vs', 'typ', 'function', 'domain', 'gn', 'nametype', 'nu', 'ps', 'st']
 
 for w in F.otype.s('word'):
     p = L.u(w, otype="phrase")[0]

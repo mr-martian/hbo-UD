@@ -44,7 +44,7 @@ MAP @case Pr ;
 MAP @compound:smixut (subs) IF (-1 (subs c)) ;
 MAP @compound:smixut (subs) IF (-1 (art)) (-2 (subs c)) ;
 MAP @cc (conj) ;
-MAP @cop (vbcp) ;
+MAP @cop (vbcp) IF (0* (PreC) BARRIER (conj CP)) ;
 
 SECTION # helper labels
 

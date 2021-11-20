@@ -7,7 +7,7 @@ from tf.app import use
 A = use("bhsa", mod="etcbc/trees/tf,etcbc/bridging/tf", hoist=globals(), volume="Torah")
 
 def surf(w):
-    return T.text(w).strip(F.trailer_utf8.v(w))
+    return T.text(w).strip(F.trailer_utf8.v(w)) or 'blah'
 
 def get(w, f):
     v = F.__getattribute__(f).v(w)
@@ -20,10 +20,12 @@ feats = ['sp', 'ls', 'vt', 'vs', 'typ', 'function', 'domain', 'gn', 'nametype', 
 
 for w in F.otype.s('word'):
     p = L.u(w, otype="phrase")[0]
+    c = L.u(w, otype="clause")[0]
     lu = '^' + surf(w) + '/' + F.lex_utf8.v(w)
     for f in feats:
         lu += get(w, f)
         lu += get(p, f)
+        lu += get(c, f)
     lu += f'<w{w}>$'
     prn = ''
     for f in ['prs_ps', 'prs_gn', 'prs_nu']:
@@ -34,6 +36,6 @@ for w in F.otype.s('word'):
         if c == ' ':
             lu += c
         else:
-            lu += f'^{c}/{c}<punct>$'
+            lu += f'^{c}/{c}<punct>$\n'
     print(lu, end='')
 print('')

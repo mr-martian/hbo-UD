@@ -37,8 +37,8 @@ MORPH = {
     'p1': ['Person=1'],
     'p2': ['Person=2'],
     'p3': ['Person=3'],
-    'hif': 'HIFIL',
-    'hit': 'HITPAEL',
+    'hif': ['HebBinyan=HIFIL'],
+    'hit': ['HebBinyan=HITPAEL'],
 #    'htpo': '???', # hitpo'el
 #    'hof': '???', # hof'al
     'nif': ['HebBinyan=NIFAL'],

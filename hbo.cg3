@@ -34,6 +34,7 @@ LIST @nummod = @nummod ;
 LIST @compound:smixut = @compound:smixut ;
 LIST @cc = @cc ;
 LIST @conj = @conj ;
+LIST @ccomp = @ccomp ;
 LIST @dep = @dep ;       # Any remaining dependency
 
 SECTION # context-free mappings
@@ -60,6 +61,7 @@ SETPARENT @det TO (1 (subs)) ;
 
 SETPARENT @case TO (1 (subs)) ;
 SETPARENT @case (1 Det or @punct) TO (2 (subs)) ;
+SETPARENT @case (1 @punct) (2 Det) TO (3 (subs)) ;
 
 SETPARENT ("־" @punct) TO (-1 (prep)) ;
 
@@ -67,15 +69,19 @@ SECTION
 
 MAP @nsubj (subs Subj) ;
 SETPARENT @nsubj TO (-1 (verb Pred)) ;
+SETPARENT @nsubj (-1 ("־" @punct)) TO (-2 (verb Pred)) ;
 
 SETPARENT @cop TO (1* (PreC)) ;
-SETPARENT @nsubj TO (1* (PreC)) ;
+SETPARENT @nsubj TO (1* (PreC) BARRIER (CP)) ;
+
+SETPARENT ("־" @punct) TO (1 @nsubj) ;
 
 SECTION # conjunction
 
 SETPARENT (conj PP) TO (1* (subs PP)) ;
 MAP @conj (subs PP) IF (0 (subs) LINK c @cc) ;
-SETPARENT (subs PP @conj) TO (-1* (subs PP) LINK NOT 0 @conj) ;
+LIST CorC = (@conj) (@compound:smixut) ;
+SETPARENT (subs PP @conj) TO (-1* (subs PP) LINK NOT 0 @conj OR @compound:smixut) ;
 
 SETPARENT (conj NP) TO (1* (subs NP)) ;
 MAP @conj (subs NP) IF (0 (subs) LINK c @cc LINK NOT 0 (CP)) ;
@@ -88,10 +94,14 @@ SETPARENT (conj CP) TO (1* ClauseRoot) ;
 SECTION
 
 MAP @obj (subs Objc) ;
+MAP @ccomp (ClauseRoot Q) IF (NOT -1* (ClauseRoot Q) BARRIER (N)) ;
 MAP @root ClauseRoot IF (NOT -1* ClauseRoot) ;
 MAP @conj ClauseRoot IF (-1* ClauseRoot) ;
+SETPARENT (ClauseRoot @conj Q) TO (-1* (ClauseRoot @ccomp Q)) ;
 SETPARENT (ClauseRoot @conj) TO (-1* @root) ;
-SETPARENT @obj TO (-1* @root) ;
+SETPARENT @obj TO (-1* (verb ClauseRoot)) ;
+
+SETPARENT @ccomp TO (-1* ("אמר" ClauseRoot)) ;
 
 MAP @obl (subs Time) ;
 MAP @obl (subs Cmpl) ;

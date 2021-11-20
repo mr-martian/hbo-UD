@@ -11,3 +11,4 @@ hbo.bin: hbo.cg3
 
 check: generated.conllu
 	./check.py $< checked.conllu
+	./report.py

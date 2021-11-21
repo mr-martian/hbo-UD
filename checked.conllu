@@ -32,7 +32,7 @@
 7	_	בהו	NOUN	subs	Gender=Masc|Number=Sing	5	conj	_	_
 8-9	וְחֹ֖שֶׁךְ	_	_	_	_	_	_	_	_
 8	_	ו	CCONJ	conj	_	12	cc	_	_
-9	_	חשׁך	NOUN	subs	Gender=Masc|Number=Sing	10	nsubj	_	_
+9	_	חשׁך	NOUN	subs	Gender=Masc|Number=Sing	12	nsubj	_	_
 10	עַל	על	ADP	prep	_	12	case	_	_
 11	־	־	PUNCT	punct	_	10	punct	_	_
 12	פְּנֵ֣י	פנה	NOUN	subs	Gender=Masc|Number=Plur	5	conj	_	_
@@ -65,3 +65,76 @@
 8	־	־	PUNCT	punct	_	9	punct	_	_
 9	אֹֽור	אור	NOUN	subs	Number=Sing	7	nsubj	_	_
 10	׃	׃	PUNCT	punct	_	2	punct	_	_
+
+# sent_id = Masoretic-Genesis-1:17-hbo
+# text = וַיִּתֵּ֥ן אֹתָ֛ם אֱלֹהִ֖ים בִּרְקִ֣יעַ הַשָּׁמָ֑יִם לְהָאִ֖יר עַל־הָאָֽרֶץ׃
+1-2	וַיִּתֵּ֥ן	_	_	_	_	_	_	_	_
+# checker = Daniel
+1	_	ו	CCONJ	conj	_	2	cc	_	_
+2	_	נתן	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
+3	אֹתָ֛ם	את	ADP	prep	_	4	case	_	_
+4	_	הם	PRON	prn	Gender=Masc|Number=Plur|Person=3	2	obj	_	_
+5	אֱלֹהִ֖ים	אלהים	NOUN	subs	Gender=Masc|Number=Plur	2	nsubj	_	_
+6-7	בִּרְקִ֣יעַ	_	_	_	_	_	_	_	_
+6	_	ב	ADP	prep	_	7	case	_	_
+7	_	רקיע	NOUN	subs	Gender=Masc|Number=Sing	2	obl	_	_
+8-9	הַשָּׁמָ֑יִם	_	_	_	_	_	_	_	_
+8	_	ה	DET	art	_	9	det	_	_
+9	_	שׁמים	NOUN	subs	Gender=Masc|Number=Plur	7	compound:smixut	_	_
+10-11	לְהָאִ֖יר	_	_	_	_	_	_	_	_
+10	_	ל	ADP	prep	_	11	case	_	_
+11	_	אור	VERB	verb	HebBinyan=HIFIL|VerbForm=Inf	2	ccomp	_	_
+12	עַל	על	ADP	prep	_	15	case	_	_
+13	־	־	PUNCT	punct	_	12	punct	_	_
+14-15	הָאָֽרֶץ	_	_	_	_	_	_	_	_
+14	_	ה	DET	art	_	15	det	_	_
+15	_	ארץ	NOUN	subs	Number=Sing	11	obl	_	_
+16	׃	׃	PUNCT	punct	_	2	punct	_	_
+
+# sent_id = Masoretic-Genesis-1:7-hbo
+# text = וַיַּ֣עַשׂ אֱלֹהִים֮ אֶת־הָרָקִיעַ֒ וַיַּבְדֵּ֗ל בֵּ֤ין הַמַּ֨יִם֙ אֲשֶׁר֙ מִתַּ֣חַת לָרָקִ֔יעַ וּבֵ֣ין הַמַּ֔יִם אֲשֶׁ֖ר מֵעַ֣ל לָרָקִ֑יעַ וַֽיְהִי־כֵֽן׃
+1-2	וַיַּ֣עַשׂ	_	_	_	_	_	_	_	_
+# checker = Daniel
+1	_	ו	CCONJ	conj	_	2	cc	_	_
+2	_	עשׂה	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
+3	אֱלֹהִים֮	אלהים	NOUN	subs	Gender=Masc|Number=Plur	2	nsubj	_	_
+4	אֶת	את	ADP	prep	_	7	case	_	_
+5	־	־	PUNCT	punct	_	4	punct	_	_
+6-7	הָרָקִיעַ֒	_	_	_	_	_	_	_	_
+6	_	ה	DET	art	_	7	det	_	_
+7	_	רקיע	NOUN	subs	Gender=Masc|Number=Sing	2	obj	_	_
+8-9	וַיַּבְדֵּ֗ל	_	_	_	_	_	_	_	_
+8	_	ו	CCONJ	conj	_	9	cc	_	_
+9	_	בדל	VERB	verb	Gender=Masc|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	2	conj	_	_
+10	בֵּ֤ין	בין	NOUN	subs	Gender=Masc|Number=Sing	9	obl	_	_
+11-12	הַמַּ֨יִם֙	_	_	_	_	_	_	_	_
+11	_	ה	DET	art	_	12	det	_	_
+12	_	מים	NOUN	subs	Gender=Masc|Number=Plur	10	compound:smixut	_	_
+13	אֲשֶׁר֙	אשׁר	SCONJ	conj	_	15	mark	_	_
+14-15	מִתַּ֣חַת	_	_	_	_	_	_	_	_
+14	_	מן	ADP	prep	_	15	case	_	_
+15	_	תחת	NOUN	subs	Gender=Masc|Number=Sing	12	acl	_	_
+16-18	לָרָקִ֔יעַ	_	_	_	_	_	_	_	_
+16	_	ל	ADP	prep	_	18	case	_	_
+17	_	ה	DET	art	_	18	det	_	_
+18	_	רקיע	NOUN	subs	Gender=Masc|Number=Sing	15	nmod	_	_
+19-20	וּבֵ֣ין	_	_	_	_	_	_	_	_
+19	_	ו	CCONJ	conj	_	20	cc	_	_
+20	_	בין	NOUN	subs	Gender=Masc|Number=Sing	10	conj	_	_
+21-22	הַמַּ֔יִם	_	_	_	_	_	_	_	_
+21	_	ה	DET	art	_	22	det	_	_
+22	_	מים	NOUN	subs	Gender=Masc|Number=Plur	20	compound:smixut	_	_
+23	אֲשֶׁ֖ר	אשׁר	SCONJ	conj	_	28	mark	_	_
+24-25	מֵעַ֣ל	_	_	_	_	_	_	_	_
+24	_	מן	ADP	prep	_	28	case	_	_
+25	_	על	ADP	prep	_	28	case	_	_
+26-28	לָרָקִ֑יעַ	_	_	_	_	_	_	_	_
+26	_	ל	ADP	prep	_	28	case	_	_
+27	_	ה	DET	art	_	28	det	_	_
+28	_	רקיע	NOUN	subs	Gender=Masc|Number=Sing	22	acl	_	_
+29-30	וַֽיְהִי	_	_	_	_	_	_	_	_
+29	_	ו	CCONJ	conj	_	30	cc	_	_
+30	_	היה	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	2	conj	_	_
+31	־	־	PUNCT	punct	_	32	punct	_	_
+32	כֵֽן	כן	ADV	advb	_	30	advmod	_	_
+33	׃	׃	PUNCT	punct	_	2	punct	_	_

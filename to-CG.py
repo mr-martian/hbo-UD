@@ -16,25 +16,30 @@ def get(w, f):
     else:
         return f'<{v}>'
 
-feats = ['sp', 'ls', 'vt', 'vs', 'typ', 'function', 'domain', 'gn', 'nametype', 'nu', 'ps', 'st']
+feats = ['sp', 'ls', 'vt', 'vs', 'typ', 'function', 'domain', 'gn', 'nametype', 'nu', 'ps', 'st', 'det']
 
 for w in F.otype.s('word'):
     p = L.u(w, otype="phrase")[0]
     c = L.u(w, otype="clause")[0]
+    phr_ft = ''
+    for f in feats:
+        phr_ft += get(p, f)
+        phr_ft += get(c, f)
     lu = '^' + surf(w) + '/' + F.lex_utf8.v(w)
     for f in feats:
         lu += get(w, f)
-        lu += get(p, f)
-        lu += get(c, f)
+    lu += phr_ft
     lu += f'<w{w}>$'
     prn = ''
     for f in ['prs_ps', 'prs_gn', 'prs_nu']:
         prn += get(w, f)
     if prn:
-        lu += f'^prn/prn{prn}$'
+        lu += f'^prn/prn<prn>{prn}{phr_ft}$'
     for c in F.trailer_utf8.v(w):
         if c == ' ':
             lu += c
+        elif c in 'נפס':
+            pass # skip inter-sentential punctuation
         else:
             lu += f'^{c}/{c}<punct>$\n'
     print(lu, end='')

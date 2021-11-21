@@ -17,7 +17,8 @@ POS_MAP = {
     'nega': 'ADV', # TODO?
     'inrg': 'PART', # TODO?
     'adjv': 'ADJ',
-    'punct': 'PUNCT'
+    'punct': 'PUNCT',
+    'prn': 'PRON'
 }
 
 MORPH = {
@@ -61,12 +62,12 @@ class Word:
         self.head = ''
         self.rel = ''
     def from_cg(self, inp):
-        parts = inp.split()
-        self.lemma = parts[0][1:-1]
-        self.xpos = parts[1]
+        self.lemma = inp.split('"')[1]
+        parts = inp.split('"')[-1].split()
+        self.xpos = parts[0]
         if self.xpos in POS_MAP:
             self.upos = POS_MAP[self.xpos]
-        for tg in parts[2:]:
+        for tg in parts[1:]:
             if tg in MORPH:
                 self.feats += MORPH[tg]
             elif tg[0] == 'w':
@@ -77,8 +78,11 @@ class Word:
                     self.head = ''
             elif tg[0] == '@':
                 self.rel = tg[1:]
-        if self.xpos == 'conj' and self.lemma == 'ו':
-            self.upos = 'CCONJ'
+        if self.xpos == 'conj':
+            if self.lemma == 'ו':
+                self.upos = 'CCONJ'
+            elif self.rel == 'mark':
+                self.upos = 'SCONJ'
     def to_conllu(self):
         ls = [
             self.pos,

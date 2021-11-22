@@ -70,7 +70,6 @@ MAP @cop (vbcp) IF (0* (PreC) BARRIER CB) ;
 MAP @advmod (nega) ;
 MAP @advmod (advb) ;
 MAP @discourse (intj) ; # TODO: is there a better way to handle הנה?
-MAP @obl Noun + (Adju a) ;
 
 SECTION # helper labels
 
@@ -107,14 +106,6 @@ LIST YesCaseAble = subs (verb infc) prn nmpr prps prde ;
 SET CaseAble = YesCaseAble - @nummod ;
 SETPARENT @case TO (1* CaseAble BARRIER BD) ;
 
-SETPARENT @cc TO (1* CaseAble BARRIER BD) ;
-
-MAP @conj (subs) IF (c @cc) (-1* CaseAble BARRIER BD LINK NOT p (*)) ;
-MAP @nmod (subs) IF (c @case - ("את")) (-1* CaseAble BARRIER BD LINK NOT p (*)) ;
-MAP @appos (subs) IF (NOT c @case) (NOT c @cc) (-1* CaseAble BARRIER BD LINK NOT p (*)) ;
-LIST NounNoun = @nmod @conj @appos ;
-SETPARENT (subs) + NounNoun (NOT p (*)) TO (-1* CaseAble BARRIER BD LINK NOT p (*)) ;
-
 MAP @obj (prn) IF (-1 (verb)) ;
 SETPARENT (prn @obj) TO (-1 (verb)) ;
 
@@ -125,7 +116,23 @@ SETPARENT (prn @iobj) TO (0* (verb)) ;
 MAP @nmod:poss (prn) IF (-1 (subs)) ;
 SETPARENT (prn @nmod:poss) TO (-1 (subs)) ;
 
+SETPARENT @cc TO (1* CaseAble BARRIER BD) ;
+
+SETPARENT CaseAble (NOT p (*)) TO (-1* BD LINK 1*A CaseAble BARRIER BD LINK NOT p (*)) ;
+MAP @conj CaseAble IF (c @cc) (p CaseAble) ;
+MAP @nmod CaseAble IF (c @case - ("את")) (p CaseAble) ;
+MAP @nmod CaseAble + (ppre) IF (p CaseAble) ;
+MAP @appos CaseAble IF (p CaseAble) ;
+
+MAP @conj (subs) IF (c @cc) (-1* CaseAble BARRIER BD LINK NOT p (*)) ;
+MAP @nmod (subs) IF (c @case - ("את")) (-1* CaseAble BARRIER BD LINK NOT p (*)) ;
+MAP @appos (subs) IF (NOT c @case) (NOT c @cc) (-1* CaseAble BARRIER BD LINK NOT p (*)) ;
+LIST NounNoun = @nmod @conj @appos ;
+SETPARENT (subs) + NounNoun (NOT p (*)) TO (-1* CaseAble BARRIER BD LINK NOT p (*)) ;
+
 SECTION
+
+MAP @obl Noun + (Adju a) ;
 
 SET NonNmCl = (*) - (NmCl) - (prn) ;
 LIST RelMark = ("אשׁר" conj) ;

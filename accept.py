@@ -13,7 +13,7 @@ with open('generated.conllu') as fin:
         fout.write('\n')
         written = False
         for ln in block.splitlines():
-            fout.write(ln + '\n')
             if ln[0] != '#' and not written:
                 fout.write(f'# checker = {args.annotator}\n')
                 written = True
+            fout.write(ln + '\n')

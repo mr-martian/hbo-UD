@@ -80,6 +80,7 @@ ADD ClauseRoot MaybeClauseRoot ;
 
 #ADD (PreC ClauseRoot) (prn) - ClauseRoot IF (-1 (prep PreC)) ;
 
+SUBSTITUTE ("prn") ("אתה") ("prn" prn p2 m sg) ;
 SUBSTITUTE ("prn") ("הוא") ("prn" prn p3 m sg) ;
 SUBSTITUTE ("prn") ("הם") ("prn" prn p3 m pl) ;
 
@@ -93,6 +94,7 @@ SETPARENT @compound:smixut TO (-1* Noun) ;
 
 SETPARENT (art @det) TO (1 (subs) OR (adjv) or (prde)) ;
 MAP @det (prde) + $$AGen + $$ANum IF (-1 (art)) (-2 (subs det) + $$AGen + $$ANum) ;
+MAP @det (prde pl) IF (-1 (art)) (-1 (subs det pl)) ;
 SETPARENT (prde @det) TO (-2 (subs)) ;
 
 SECTION # phrase-internal structure
@@ -118,6 +120,8 @@ SETPARENT (prn @nmod:poss) TO (-1 (subs)) ;
 
 SETPARENT @cc TO (1* CaseAble BARRIER BD) ;
 
+LIST ApposToLast = w11294 w14590 w18761 ;
+SETPARENT CaseAble + ApposToLast TO (-1 (subs)) ;
 SETPARENT CaseAble (NOT p (*)) TO (-1* BD LINK 1*A CaseAble BARRIER BD LINK NOT p (*)) ;
 MAP @conj CaseAble IF (c @cc) (p CaseAble) ;
 MAP @nmod CaseAble IF (c @case - ("את")) (p CaseAble) ;
@@ -203,7 +207,7 @@ SECTION
 
 LIST VerbArgs = @nsubj @obj @obl ;
 
-SETPARENT VerbArgs + $$ClauseType (NOT p (*)) TO (0* (ClauseRoot) + $$ClauseType BARRIER (*) - @punct - $$ClauseType + (CP)) ;
+SETPARENT VerbArgs + $$ClauseType (NOT p (*)) TO (0* (ClauseRoot) + $$ClauseType BARRIER (*) - @punct - $$ClauseType + (CP) + CB) ;
 
 SECTION
 

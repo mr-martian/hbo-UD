@@ -83,6 +83,8 @@ class Word:
                 self.upos = 'CCONJ'
             elif self.rel == 'mark':
                 self.upos = 'SCONJ'
+        if self.rel == 'nummod':
+            self.upos = 'NUM'
     def to_conllu(self):
         ls = [
             self.pos,

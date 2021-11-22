@@ -18,9 +18,18 @@ def get(w, f):
 
 feats = ['sp', 'ls', 'vt', 'vs', 'typ', 'function', 'domain', 'gn', 'nametype', 'nu', 'ps', 'st', 'det']
 
+prev_p = 0
+prev_c = 0
+
 for w in F.otype.s('word'):
     p = L.u(w, otype="phrase")[0]
     c = L.u(w, otype="clause")[0]
+    if c != prev_c:
+        print('^cb/cb<cb>$', end=' ')
+        prev_c = c
+    if p != prev_p:
+        print('^pb/pb<pb>$', end=' ')
+        prev_p = p
     phr_ft = ''
     for f in feats:
         phr_ft += get(p, f)

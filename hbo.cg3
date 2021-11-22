@@ -1,5 +1,9 @@
 DELIMITERS = "<׃>" ;
 
+LIST PB = pb ;
+LIST CB = cb ;
+LIST BD = pb cb ;
+
 LIST Det = art ;
 
 LIST Pr = prep ;
@@ -51,6 +55,7 @@ LIST @mark = @mark ;
 LIST @discourse = @discourse ;
 LIST @vocative = @vocative ;
 LIST @iobj = @iobj ;
+LIST @appos = @appos ;
 LIST @dep = @dep ;       # Any remaining dependency
 
 SECTION # context-free mappings
@@ -58,9 +63,10 @@ SECTION # context-free mappings
 MAP @punct (punct) ;
 MAP @det Det ;
 MAP @case Pr ;
-MAP @compound:smixut Noun IF (-1* Noun + (c) BARRIER (*) - Det - Joiner) ;
+MAP @nummod (card) OR (ordn) ;
+MAP @compound:smixut Noun IF (-1* Noun + (c) - @nummod BARRIER (*) - Det - Joiner) ;
 MAP @cc (conj) - (Rela) ;
-MAP @cop (vbcp) IF (0* (PreC) BARRIER (conj CP)) ;
+MAP @cop (vbcp) IF (0* (PreC) BARRIER CB) ;
 MAP @advmod (nega) ;
 MAP @advmod (advb) ;
 MAP @discourse (intj) ; # TODO: is there a better way to handle הנה?
@@ -69,11 +75,11 @@ MAP @obl Noun + (Adju a) ;
 SECTION # helper labels
 
 LIST CanAddClauseRoot = PreC Pred ;
-LIST CannotAddClauseRoot = @cop ClauseRoot ;
+LIST CannotAddClauseRoot = @cop ClauseRoot @nummod ;
 SET MaybeClauseRoot = CanAddClauseRoot - CannotAddClauseRoot ;
 ADD ClauseRoot MaybeClauseRoot ;
 
-ADD (PreC ClauseRoot) (prn) - ClauseRoot IF (-1 (prep PreC)) ;
+#ADD (PreC ClauseRoot) (prn) - ClauseRoot IF (-1 (prep PreC)) ;
 
 SUBSTITUTE ("prn") ("הוא") ("prn" prn p3 m sg) ;
 SUBSTITUTE ("prn") ("הם") ("prn" prn p3 m pl) ;
@@ -90,14 +96,24 @@ SETPARENT (art @det) TO (1 (subs) OR (adjv) or (prde)) ;
 MAP @det (prde) + $$AGen + $$ANum IF (-1 (art)) (-2 (subs det) + $$AGen + $$ANum) ;
 SETPARENT (prde @det) TO (-2 (subs)) ;
 
-MAP @nmod (adjv) ; # TODO: adj as ClauseRoot, or is that covered by PreC?
-SETPARENT @nmod + $$AGen + $$ANum + $$ADet TO (-1* (subs) + $$AGen + $$ANum + $$ADet) ;
+SECTION # phrase-internal structure
 
-LIST CaseAble = subs (verb infc) prn nmpr prps prde ;
-SETPARENT @case TO (1* CaseAble BARRIER (*) - Det - @punct - @case) ;
+MAP @amod (adjv) ; # TODO: adj as ClauseRoot, or is that covered by PreC?
+SETPARENT @amod + $$AGen + $$ANum + $$ADet TO (-1* (subs) + $$AGen + $$ANum + $$ADet) ;
 
-MAP @nmod (subs) + $$Function IF (0 (*) LINK c @case - ("את")) (-1* (subs) + $$Function BARRIER (*) - $$Function - @punct) ;
-SETPARENT (subs @nmod) TO (-1* (subs)) ;
+SETPARENT @nummod TO (0* Noun - @nummod BARRIER (*) - @nummod) ;
+
+LIST YesCaseAble = subs (verb infc) prn nmpr prps prde ;
+SET CaseAble = YesCaseAble - @nummod ;
+SETPARENT @case TO (1* CaseAble BARRIER BD) ;
+
+SETPARENT @cc TO (1* CaseAble BARRIER BD) ;
+
+MAP @conj (subs) IF (c @cc) (-1* CaseAble BARRIER BD LINK NOT p (*)) ;
+MAP @nmod (subs) IF (c @case - ("את")) (-1* CaseAble BARRIER BD LINK NOT p (*)) ;
+MAP @appos (subs) IF (NOT c @case) (NOT c @cc) (-1* CaseAble BARRIER BD LINK NOT p (*)) ;
+LIST NounNoun = @nmod @conj @appos ;
+SETPARENT (subs) + NounNoun (NOT p (*)) TO (-1* CaseAble BARRIER BD LINK NOT p (*)) ;
 
 MAP @obj (prn) IF (-1 (verb)) ;
 SETPARENT (prn @obj) TO (-1 (verb)) ;
@@ -114,7 +130,7 @@ SECTION
 SET NonNmCl = (*) - (NmCl) - (prn) ;
 LIST RelMark = ("אשׁר" conj) ;
 
-MAP @acl (ClauseRoot NmCl) IF (-1* RelMark BARRIER NonNmCl) ;
+MAP @acl (ClauseRoot NmCl) IF (-1* RelMark BARRIER CB) ;
 MAP @mark RelMark ;
 SETPARENT (subs @acl) TO (-1* (subs) - (NmCl)) ;
 SETPARENT RelMark + (NmCl) TO (1* @acl BARRIER NonNmCl) ;
@@ -126,8 +142,8 @@ LIST SubjAble = subs prps nmpr prde ;
 MAP @nsubj SubjAble + (Subj) ;
 SETPARENT @nsubj TO (-1* (verb Pred) BARRIER (*) - Joiner - ("<prn>") - ("את" prep));
 
-SETPARENT @cop TO (1* (subs PreC)) ;
-SETPARENT @nsubj TO (1* (ClauseRoot PreC) OR (subs PreC) BARRIER (CP)) ;
+SETPARENT @cop TO (1* (ClauseRoot PreC)) ;
+SETPARENT @nsubj TO (1* (ClauseRoot PreC) BARRIER CB) ;
 
 SECTION # conjunction
 
@@ -137,7 +153,7 @@ LIST CorC = (@conj) (@compound:smixut) ;
 SETPARENT ("בין" subs PP @conj) TO (-1* ("בין" subs PP) - @conj) ;
 SETPARENT (subs PP @conj) (NOT p (*)) TO (-1* (subs PP) - @conj - @compound:smixut) ;
 
-SETPARENT (conj NP) TO (1* (subs NP)) ;
+SETPARENT (conj NP) (NOT p (*)) TO (1* (subs NP)) ;
 MAP @conj (subs NP) IF (0 (subs) LINK c @cc - (CP)) ;
 SETPARENT (subs NP @conj) TO (-1* (subs NP) - @conj) ;
 
@@ -160,8 +176,10 @@ SETPARENT @obj TO (-1* (verb ClauseRoot)) ;
 SETPARENT @ccomp TO (-1* ("אמר" ClauseRoot)) ;
 SETPARENT @ccomp TO (-1* ("נתן" ClauseRoot)) ;
 
+LIST ClauseCon = @conj @parataxis ;
+MAP @parataxis (subs) + ClauseRoot + $$Domain IF (-1* ClauseRoot + $$Domain) (NOT c @nsubj) ; # TODO: also check for @csubj
 MAP @conj ClauseRoot + $$Domain IF (-1* ClauseRoot + $$Domain) ;
-SETPARENT ClauseRoot + @conj + $$Domain TO (-1* ClauseRoot + $$Domain - @conj - @acl - @nmod) ;
+SETPARENT ClauseRoot + ClauseCon + $$Domain TO (-1* ClauseRoot + $$Domain - @conj - @acl - @nmod) ;
 
 LIST OblIsh = Time Cmpl Loca ;
 MAP @obl Noun + OblIsh ;
@@ -184,5 +202,9 @@ SECTION
 
 SETPARENT @root TO (@0 (*)) ;
 SETPARENT ("׃" @punct) TO (-1* @root) ;
-SETPARENT Joiner TO (-1 (prep) OR (conj)) ;
-SETPARENT Joiner TO (1 @nsubj OR @advmod OR @compound:smixut) ;
+SETPARENT Joiner TO (-1* (prep) OR (conj) BARRIER (*) - BD) ;
+SETPARENT Joiner TO (1* @nsubj OR @advmod OR @compound:smixut BARRIER (*) - BD) ;
+
+AFTER-SECTIONS
+REMCOHORT (pb) ;
+REMCOHORT (cb) ;

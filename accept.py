@@ -3,8 +3,8 @@
 import argparse
 
 parser = argparse.ArgumentParser()
-parser.add_argument('sent', type=int)
 parser.add_argument('annotator', action='store')
+parser.add_argument('sent', type=int)
 args = parser.parse_args()
 
 with open('generated.conllu') as fin:

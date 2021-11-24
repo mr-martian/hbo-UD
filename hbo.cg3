@@ -56,6 +56,7 @@ LIST @discourse = @discourse ;
 LIST @vocative = @vocative ;
 LIST @iobj = @iobj ;
 LIST @appos = @appos ;
+LIST @dislocated = @dislocated ;
 LIST @dep = @dep ;       # Any remaining dependency
 
 SECTION # context-free mappings
@@ -94,7 +95,7 @@ SETPARENT @compound:smixut TO (-1* Noun) ;
 
 SETPARENT (art @det) TO (1 (subs) OR (adjv) or (prde)) ;
 MAP @det (prde) + $$AGen + $$ANum IF (-1 (art)) (-2 (subs det) + $$AGen + $$ANum) ;
-MAP @det (prde pl) IF (-1 (art)) (-1 (subs det pl)) ;
+MAP @det (prde pl) IF (-1 (art)) (-2 (subs det pl)) ;
 SETPARENT (prde @det) TO (-2 (subs)) ;
 
 SECTION # phrase-internal structure
@@ -180,16 +181,22 @@ LIST ObjAble = subs prn nmpr ;
 
 MAP @obj ObjAble + (Objc) ;
 MAP @ccomp (verb infc Pred) IF (NOT -1* @ccomp) ;
+MAP @conj (ClauseRoot Q) IF (-1* (ClauseRoot Q) BARRIER (N)) ;
 MAP @ccomp (ClauseRoot Q) IF (NOT -1* (ClauseRoot Q) BARRIER (N)) ;
+SETPARENT (ClauseRoot Q @conj) TO (-1* (ClauseRoot Q @ccomp)) ;
 MAP @root ClauseRoot IF (NOT -1* ClauseRoot) ;
 SETPARENT @obj TO (-1* (verb ClauseRoot)) ;
 
-SETPARENT @ccomp TO (-1* ("אמר" ClauseRoot)) ;
+SETPARENT (@ccomp Q) OR ("אמר" verb infc) TO (-1* (quot ClauseRoot)) ;
+#SETPARENT @ccomp TO (-1* ("אמר" ClauseRoot)) ;
 SETPARENT @ccomp TO (-1* ("נתן" ClauseRoot)) ;
 
 LIST ClauseCon = @conj @parataxis ;
-MAP @parataxis (subs) + ClauseRoot + $$Domain IF (-1* ClauseRoot + $$Domain) (NOT c @nsubj) ; # TODO: also check for @csubj
-MAP @conj ClauseRoot + $$Domain IF (-1* ClauseRoot + $$Domain) ;
+LIST NonQuote = N D ? ;
+MAP @conj (ClauseRoot Q) IF (-1* (ClauseRoot Q) BARRIER NonQuote) (c @cc) ;
+MAP @parataxis (ClauseRoot Q) IF (-1* (ClauseRoot Q) BARRIER NonQuote) ;
+MAP @conj ClauseRoot + $$NonQuote IF (-1* ClauseRoot + $$NonQuote) (c @cc) ;
+MAP @parataxis ClauseRoot + $$NonQuote IF (-1* ClauseRoot + $$NonQuote) ;
 SETPARENT ClauseRoot + ClauseCon + $$Domain TO (-1* ClauseRoot + $$Domain - @conj - @acl - @nmod) ;
 
 LIST OblIsh = Time Cmpl Loca ;
@@ -197,17 +204,21 @@ MAP @obl Noun + OblIsh ;
 
 SETPARENT @advmod + VerbInitial TO (-1* (verb ClauseRoot)) ;
 SETPARENT @advmod - VerbInitial TO (1* (verb ClauseRoot) BARRIER (*) - @punct) ;
+SETPARENT @advmod (NOT p (*)) TO (0* (verb ClauseRoot) BARRIER CB) ;
 
 SECTION
 
 MAP @vocative Noun + (Voct) ;
 SETPARENT @vocative TO (0* @root) ;
 
+MAP @dislocated Noun + (CPen) ;
+SETPARENT (@dislocated Frnt) TO (1* ClauseRoot) ;
+
 SECTION
 
 LIST VerbArgs = @nsubj @obj @obl ;
 
-SETPARENT VerbArgs + $$ClauseType (NOT p (*)) TO (0* (ClauseRoot) + $$ClauseType BARRIER (*) - @punct - $$ClauseType + (CP) + CB) ;
+SETPARENT VerbArgs (NOT p (*)) TO (0* (ClauseRoot) BARRIER CB) ;
 
 SECTION
 

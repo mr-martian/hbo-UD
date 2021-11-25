@@ -86,6 +86,12 @@ SUBSTITUTE ("prn") ("אתה") ("prn" prn p2 m sg) ;
 SUBSTITUTE ("prn") ("הוא") ("prn" prn p3 m sg) ;
 SUBSTITUTE ("prn") ("הם") ("prn" prn p3 m pl) ;
 
+SECTION # name lists
+
+MAP @conj (nmpr PrNP) IF (-1 @cc) (-2 (nmpr PrNP)) ;
+MAP @conj (nmpr PrNP) IF (-1 (nmpr PrNP)) (1* @cc BARRIER (*) - (nmpr PrNP) LINK 1 (nmpr PrNP)) ;
+SETPARENT (nmpr PrNP @conj) TO (-1* (nmpr PrNP) - @conj) ;
+
 SECTION # adjacent words
 
 LIST AGen = m f ;

@@ -57,6 +57,7 @@ LIST @vocative = @vocative ;
 LIST @iobj = @iobj ;
 LIST @appos = @appos ;
 LIST @dislocated = @dislocated ;
+LIST @xcomp = @xcomp ;
 LIST @dep = @dep ;       # Any remaining dependency
 
 SECTION # context-free mappings
@@ -179,13 +180,18 @@ LIST Domain = N D Q ? ;
 
 LIST ObjAble = subs prn nmpr ;
 
-MAP @obj ObjAble + (Objc) ;
+ADD (ProbablyObj) ObjAble + (Objc) - (ProbablyObj) ;
+
+SECTION
+
+MAP @xcomp (ProbablyObj) IF (-1* (ProbablyObj) BARRIER (verb ClauseRoot)) ;
+MAP @obj (ProbablyObj) IF (NOT -1* (ProbablyObj) BARRIER (verb ClauseRoot)) ;
 MAP @ccomp (verb infc Pred) IF (NOT -1* @ccomp) ;
 MAP @conj (ClauseRoot Q) IF (-1* (ClauseRoot Q) BARRIER (N)) ;
 MAP @ccomp (ClauseRoot Q) IF (NOT -1* (ClauseRoot Q) BARRIER (N)) ;
 SETPARENT (ClauseRoot Q @conj) TO (-1* (ClauseRoot Q @ccomp)) ;
 MAP @root ClauseRoot IF (NOT -1* ClauseRoot) ;
-SETPARENT @obj TO (-1* (verb ClauseRoot)) ;
+SETPARENT @obj OR @xcomp TO (-1* (verb ClauseRoot)) ;
 
 SETPARENT (@ccomp Q) OR ("אמר" verb infc) TO (-1* (quot ClauseRoot)) ;
 #SETPARENT @ccomp TO (-1* ("אמר" ClauseRoot)) ;

@@ -1,19 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
-
-def get_id(block):
-    ls = block.splitlines()
-    for ln in ls:
-        if ln.startswith('# sent_id'):
-            return ln.split()[-1]
-
-def load_conllu(fname):
-    with open(fname) as fin:
-        ret = {}
-        for i, block in enumerate(fin.read().strip().split('\n\n'), 1):
-            ret[get_id(block)] = (i, block)
-        return ret
+import utils
 
 def is_complete(block):
     for ln in block.splitlines():
@@ -26,13 +14,16 @@ def is_complete(block):
             return False
     return True
 
-check = load_conllu('checked.conllu')
-gen = load_conllu('generated.conllu')
+check = utils.load_conllu('checked.conllu', clean=True)
+gen = utils.load_conllu('generated.conllu')
+rej = utils.load_conllu_multi('rejected.conllu')
 
 with open('checkable.conllu', 'w') as fout:
     n = 0
     for k, (i, b) in gen.items():
         if k in check:
+            continue
+        if b in rej[k]:
             continue
         if not is_complete(b):
             continue

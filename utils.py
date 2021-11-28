@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+from collections import defaultdict
+
 def get_id(block):
     ls = block.splitlines()
     for ln in ls:
@@ -10,12 +12,19 @@ def clean_ref(block):
     ls = block.splitlines()
     return '\n'.join(ln for ln in ls if not ln.startswith('# checker'))
 
-def load_conllu(fname, clean=False):
+def iter_conllu(fname):
     with open(fname) as fin:
-        ret = {}
-        for i, block in enumerate(fin.read().strip().split('\n\n'), 1):
-            b = block
-            if clean:
-                b = clean_ref(b)
-            ret[get_id(block)] = (i, b)
-        return ret
+        for block in fin.read().strip().split('\n\n'):
+            yield get_id(block), block
+
+def load_conllu(fname, clean=False):
+    ret = {}
+    for i, (n, b) in enumerate(iter_conllu(fname), 1):
+        ret[n] = (i, clean_ref(b) if clean else b)
+    return ret
+
+def load_conllu_multi(fname):
+    ret = defaultdict(list)
+    for n, b in iter_conllu(fname):
+        ret[n].append(b)
+    return ret

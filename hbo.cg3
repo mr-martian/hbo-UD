@@ -62,6 +62,11 @@ LIST @dislocated = @dislocated ;
 LIST @xcomp = @xcomp ;
 LIST @dep = @dep ;       # Any remaining dependency
 
+BEFORE-SECTIONS
+
+LIST MislabeledAsNarrative = w14251 w14252 w14253 ;
+SUBSTITUTE (N) (Q) MislabeledAsNarrative ;
+
 SECTION # context-free mappings
 
 MAP @punct (punct) ;
@@ -104,8 +109,8 @@ SETPARENT (@nummod c) (NOT p (*)) TO (1* Noun) ;
 LIST DetAble = subs adjv prde prps nmpr ;
 SETPARENT (art @det) (NOT p (*)) TO (1 DetAble) ;
 MAP @det (prde) + $$AGen + $$ANum IF (-1 (art)) (-2 (subs det) + $$AGen + $$ANum) ;
-LIST PrnMaybeDet = (prde pl) ("היא" prps) ;
-MAP @det PrnMaybeDet + $$ANum IF (-1 (art)) (-2 (subs det) + $$ANum) ;
+LIST PrnMaybeDet = (prde pl) ("היא" prps) ("הוא" prps) ;
+MAP @det PrnMaybeDet + $$ANum IF (-1 (art)) (-2* (subs det) + $$ANum BARRIER (*) - Joiner) ;
 SETPARENT PrnMaybeDet + @det TO (-2 (subs)) ;
 
 LIST SmallQstQ = inrg prin ;
@@ -139,7 +144,7 @@ SETPARENT @nummod (c @det) (NOT p (*)) TO (-1* Noun BARRIER PB) ;
 LIST YesCaseAble = subs (verb infc) prn nmpr prps prde ;
 SET CaseAble = YesCaseAble - @nummod ;
 SETPARENT @case TO (1* CaseAble BARRIER BD) ;
-LIST CaseAbleAdv = "כן" "שׁם" "פה" "שׁם" ;
+LIST CaseAbleAdv = "כן" "שׁם" "פה" "שׁם" "הלאה" ;
 SETPARENT @case (NOT p (*)) TO (1* CaseAbleAdv + (advb) BARRIER (*) - Joiner) ;
 
 MAP @obj (prn) IF (-1 (verb)) ;
@@ -156,8 +161,11 @@ SETPARENT (prn @nmod:poss) TO (-1 (subs)) ;
 
 SETPARENT @cc TO (1* CaseAble BARRIER BD) ;
 
-LIST ApposToLast = w11294 w12610 w12711 w14590 w18761 ;
-SETPARENT CaseAble + ApposToLast TO (-1 (subs) OR (nmpr)) ;
+LIST Family = "בן" "בת" "אב" ;
+SETPARENT Family + (subs) (NOT p (*)) TO (-1 (nmpr a)) ;
+
+LIST ApposToLast = w11294 w12566 w12610 w12711 w13874 w14590 w14649 w18761 w18788 ;
+SETPARENT CaseAble + ApposToLast (NOT p (*)) TO (-1 (subs) OR (nmpr)) ;
 LIST ConjToAppos = w36714 ;
 SETPARENT CaseAble + ConjToAppos TO (-1* @appos) ;
 SETPARENT CaseAble - ApposToLast - ConjToAppos (NOT p (*))
@@ -237,12 +245,15 @@ SETPARENT (@ccomp Q) OR ("אמר" verb infc) TO (-1* (quot MaybeClauseRoot)) ;
 LIST CcompAble = "חלל" "נתן" "מהר" ;
 SETPARENT @ccomp TO (-1* CcompAble + MaybeClauseRoot) ;
 
+LIST XcompVerb = "ראה" "ירא" "נחם" "שׁחת" "קרא" "מלא" "לבשׁ" "שׁחת" "נגד" ;
+SETPARENT MaybeClauseRoot + $$Domain (c ("כי" conj @mark)) TO (-1* MaybeClauseRoot + $$Domain BARRIER Domain - $$Domain) ;
+MAP @xcomp MaybeClauseRoot IF (c ("כי" conj @mark)) (p XcompVerb) ;
+MAP @advcl MaybeClauseRoot IF (c ("כי" conj @mark)) (p (*)) ;
+
 LIST ClauseCon = @conj @parataxis @xcomp ;
 LIST NonQuote = N D ? ;
-MAP @xcomp (MaybeClauseRoot Q) IF (-1* (MaybeClauseRoot Q) BARRIER NonQuote) (c ("כי" conj @mark)) ;
 MAP (@conj ClauseRoot) (MaybeClauseRoot Q) IF (-1* (MaybeClauseRoot Q) BARRIER NonQuote) (c @cc) ;
 MAP (@parataxis ClauseRoot) (MaybeClauseRoot Q) IF (-1* (MaybeClauseRoot Q) BARRIER NonQuote) ;
-MAP @xcomp MaybeClauseRoot + $$NonQuote IF (-1* MaybeClauseRoot + $$NonQuote) (c ("כי" conj @mark)) ;
 MAP (@conj ClauseRoot) MaybeClauseRoot + $$NonQuote IF (-1* MaybeClauseRoot + $$NonQuote) (c @cc) ;
 MAP (@parataxis ClauseRoot) MaybeClauseRoot + $$NonQuote IF (-1* MaybeClauseRoot + $$NonQuote) ;
 
@@ -250,7 +261,8 @@ SETPARENT @obj (NOT p (*)) TO (0* (verb MaybeClauseRoot) BARRIER CB) ;
 SETPARENT (@obj w107001) TO (-1* (w106997)) ; # why is there a CB in this verse?
 SETPARENT @xcomp (NOT p (*)) TO (-1* (verb MaybeClauseRoot)) ;
 
-SETPARENT MaybeClauseRoot + ClauseCon + $$Domain (NOT p (*)) TO (-1* MaybeClauseRoot + $$Domain - @conj - @acl - @nmod - @xcomp - @appos) ;
+LIST DontConj = @conj @acl @nmod @xcomp @appos @advcl @nmod:poss ;
+SETPARENT MaybeClauseRoot + ClauseCon + $$Domain (NOT p (*)) TO (-1* MaybeClauseRoot + $$Domain - DontConj) ;
 
 LIST OblIsh = Time Cmpl Loca ;
 MAP @obl Noun + OblIsh ;

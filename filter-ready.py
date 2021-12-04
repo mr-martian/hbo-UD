@@ -18,16 +18,22 @@ check = utils.load_conllu('checked.conllu', clean=True)
 gen = utils.load_conllu('generated.conllu')
 rej = utils.load_conllu_multi('rejected.conllu')
 
-with open('checkable.conllu', 'w') as fout:
-    n = 0
-    for k, (i, b) in gen.items():
-        if k in check:
-            continue
-        if b in rej[k]:
-            continue
-        if not is_complete(b):
-            continue
-        fout.write(f'# sentence_index = {i}\n')
-        fout.write(b + '\n\n')
-        n += 1
-print(f'{n} sentences are fully connected')
+with open('checkable.conllu', 'w') as good:
+    with open('incomplete.conllu', 'w') as bad:
+        gc = 0
+        bc = 0
+        for k, (i, b) in gen.items():
+            if k in check:
+                continue
+            if b in rej[k]:
+                continue
+            if is_complete(b):
+                good.write(f'# sentence_index = {i}\n')
+                good.write(b + '\n\n')
+                gc += 1
+            else:
+                bad.write(f'# sentence_index = {i}\n')
+                bad.write(b + '\n\n')
+                bc += 1
+print(f'{gc} sentences are fully connected')
+print(f'{bc} sentences have gaps')

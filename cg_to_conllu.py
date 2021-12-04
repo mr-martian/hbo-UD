@@ -79,7 +79,7 @@ class Word:
             elif tg[0] == '@':
                 self.rel = tg[1:]
         if self.xpos == 'conj':
-            if self.lemma == 'ו':
+            if self.lemma == 'ו' or self.lemma == 'או':
                 self.upos = 'CCONJ'
             elif self.rel == 'mark':
                 self.upos = 'SCONJ'

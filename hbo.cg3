@@ -74,16 +74,19 @@ MAP @det Det ;
 MAP @case Pr ;
 MAP @nummod (card) OR (ordn) ;
 MAP @compound:smixut Noun IF (-1* Noun + (c) - @nummod BARRIER (*) - Det - Joiner - @nummod) ;
-MAP @mark ("כי" conj CP) ;
+LIST SCONJ = "כי" "פן" "אשׁר" "אם" "שׁ" ; # TODO: double check שׁ which only appears once
+MAP @mark SCONJ + (conj CP) ;
+MAP @mark ("ה" inrg) ;
 MAP @cc (conj) - (Rela) ;
 MAP @cop (vbcp) IF (0* (PreC) BARRIER CB) ;
 MAP @advmod (nega) ;
 MAP @advmod (advb) ;
+MAP @advmod ("למה" inrg) ;
 MAP @discourse (intj) ; # TODO: is there a better way to handle הנה?
 
 SECTION # helper labels
 
-LIST CanAddMaybeClauseRoot = PreC Pred ;
+LIST CanAddMaybeClauseRoot = PreC Pred PreO ;
 LIST CannotAddMaybeClauseRoot = @cop MaybeClauseRoot @nummod ;
 ADD MaybeClauseRoot CanAddMaybeClauseRoot - CannotAddMaybeClauseRoot ;
 
@@ -106,7 +109,7 @@ LIST ADet = det und ;
 SETPARENT @compound:smixut TO (-1* Noun) ;
 SETPARENT (@nummod c) (NOT p (*)) TO (1* Noun) ;
 
-LIST DetAble = subs adjv prde prps nmpr ;
+LIST DetAble = subs adjv prde prps nmpr ptca ;
 SETPARENT (art @det) (NOT p (*)) TO (1 DetAble) ;
 MAP @det (prde) + $$AGen + $$ANum IF (-1 (art)) (-2 (subs det) + $$AGen + $$ANum) ;
 LIST PrnMaybeDet = (prde pl) ("היא" prps) ("הוא" prps) ;
@@ -143,12 +146,14 @@ SETPARENT @nummod (c @det) (NOT p (*)) TO (-1* Noun BARRIER PB) ;
 
 LIST YesCaseAble = subs (verb infc) prn nmpr prps prde ;
 SET CaseAble = YesCaseAble - @nummod ;
-SETPARENT @case TO (1* CaseAble BARRIER BD) ;
+SETPARENT @case (NOT p (*)) TO (1* CaseAble BARRIER BD) ;
 LIST CaseAbleAdv = "כן" "שׁם" "פה" "שׁם" "הלאה" ;
 SETPARENT @case (NOT p (*)) TO (1* CaseAbleAdv + (advb) BARRIER (*) - Joiner) ;
 
+MAP @nsubj (prn PreS) ;
+MAP @obj (prn PreO) ;
 MAP @obj (prn) IF (-1 (verb)) ;
-SETPARENT (prn @obj) TO (-1 (verb)) ;
+SETPARENT (prn @obj) OR (prn @nsubj) TO (-1 (verb)) ;
 
 # TODO: this should probably be stricter
 MAP @conj (prn PP Cmpl) IF (c ("ל" prep)) (-2 (conj PP)) (-3 (prn PP) LINK c ("ל" prep)) ;
@@ -221,11 +226,14 @@ SETPARENT (conj CP) TO (1* MaybeClauseRoot) ;
 MAP @acl MaybeClauseRoot IF (c ("אשׁר" @mark)) ;
 SETPARENT @acl TO (-1* CB LINK -1* (subs) BARRIER BD) ;
 
+MAP @advmod (verb infa) IF (1 PB) (2 (verb)) ;
+SETPARENT (verb @advmod) (NOT p (*)) TO (2 (verb)) ;
+
 SECTION
 
 LIST Domain = N D Q ? ;
 
-LIST ObjAble = subs prn nmpr ;
+LIST ObjAble = subs prn nmpr prin prde ;
 
 ADD (ProbablyObj) ObjAble + (Objc) - (ProbablyObj) ;
 
@@ -235,17 +243,19 @@ MAP @xcomp (ProbablyObj) IF (-1* (ProbablyObj) BARRIER (verb MaybeClauseRoot)) ;
 MAP @obj (ProbablyObj) IF (NOT -1* (ProbablyObj) BARRIER (verb MaybeClauseRoot)) ;
 MAP @ccomp (verb infc Pred) IF (NOT -1* @ccomp) ;
 MAP (ClauseRoot @ccomp) (subs MaybeClauseRoot) IF (c (vbcp infc Pred)) (NOT -1* @ccomp) ;
-MAP @conj (MaybeClauseRoot Q) IF (-1* (MaybeClauseRoot Q) BARRIER (N)) ;
-MAP @ccomp (MaybeClauseRoot Q) IF (NOT -1* (MaybeClauseRoot Q) BARRIER (N)) ;
+MAP @conj (MaybeClauseRoot Q) IF (-1* (MaybeClauseRoot Q) - @acl BARRIER (N)) ;
+MAP @ccomp (MaybeClauseRoot Q) IF (NOT -1* (MaybeClauseRoot Q) - @acl BARRIER (N)) ;
 SETPARENT (MaybeClauseRoot Q @conj) (NOT p (*)) TO (-1* (MaybeClauseRoot Q @ccomp)) ;
 MAP @root MaybeClauseRoot IF (NOT -1* MaybeClauseRoot) ;
 
-SETPARENT (@ccomp Q) OR ("אמר" verb infc) TO (-1* (quot MaybeClauseRoot)) ;
+SETPARENT (@ccomp Q) OR ("אמר" verb infc) (NOT p (*)) TO (-1* (quot MaybeClauseRoot)) ;
 #SETPARENT @ccomp TO (-1* ("אמר" MaybeClauseRoot)) ;
 LIST CcompAble = "חלל" "נתן" "מהר" ;
-SETPARENT @ccomp TO (-1* CcompAble + MaybeClauseRoot) ;
+SETPARENT @ccomp (NOT p (*)) TO (-1* CcompAble + MaybeClauseRoot) ;
+LIST SpeakingVerb = quot "ברך" "צוה" ;
+SETPARENT ("אמר" infc @ccomp) (NOT p (*)) (c ("ל" prep)) TO (-1* SpeakingVerb) ;
 
-LIST XcompVerb = "ראה" "ירא" "נחם" "שׁחת" "קרא" "מלא" "לבשׁ" "שׁחת" "נגד" ;
+LIST XcompVerb = "ראה" "ירא" "נחם" "שׁחת" "קרא" "מלא" "לבשׁ" "שׁחת" "נגד" "ידע" ;
 SETPARENT MaybeClauseRoot + $$Domain (c ("כי" conj @mark)) TO (-1* MaybeClauseRoot + $$Domain BARRIER Domain - $$Domain) ;
 MAP @xcomp MaybeClauseRoot IF (c ("כי" conj @mark)) (p XcompVerb) ;
 MAP @advcl MaybeClauseRoot IF (c ("כי" conj @mark)) (p (*)) ;
@@ -286,15 +296,24 @@ SECTION
 
 LIST VerbArgs = @nsubj @obj @obl ;
 
+MAP @obl (subs Adju) ;
+MAP @obl (prn PP) IF (c @case - ("את")) ; # TODO: sometimes @nmod ?
+
 SETPARENT VerbArgs (NOT p (*)) TO (0* (MaybeClauseRoot) BARRIER CB) ;
+
+SETPARENT @mark (NOT p (*)) TO (1* (ClauseRoot) OR MaybeClauseRoot) ;
 
 SECTION
 
 SETPARENT @root TO (@0 (*)) ;
 SETPARENT ("׃" @punct) TO (-1* @root) ;
-SETPARENT Joiner (NOT p (*)) TO (-1* (prep) OR (conj) OR (prin @nsubj) OR @discourse BARRIER (*) - BD) ;
+SETPARENT Joiner (NOT p (*)) TO (-1* (prep) OR (conj) OR (prin @nsubj) OR @discourse OR @advmod BARRIER (*) - BD) ;
 SETPARENT Joiner (NOT p (*)) TO (1* @nsubj OR @advmod OR @compound:smixut OR @det OR @amod BARRIER (*) - BD) ;
-SETPARENT Joiner (NOT p (*)) TO (1* @mark BARRIER (*) - BD LINK p (*)) ;
+LIST PunctToParent = @mark @case ;
+SETPARENT Joiner (NOT p (*)) TO (1* PunctToParent BARRIER (*) - BD LINK p (*)) ;
+SETPARENT Joiner (NOT p (*)) TO (-1 @obj) ;
+
+SETPARENT @discourse (NOT p (*)) TO (1* (verb) BARRIER (*) - BD) ;
 
 AFTER-SECTIONS
 REMCOHORT (pb) ;

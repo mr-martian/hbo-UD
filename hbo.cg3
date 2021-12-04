@@ -120,11 +120,15 @@ MAP @nmod (subs) IF (p @nummod) ;
 
 SECTION # phrase-internal structure
 
+MAP @advmod (subs padv AdvP) IF (-1 BD) (1 BD) ;
+
 MAP @conj (adjv) IF (-1 (conj)) (-2 (adjv)) ;
 SETPARENT (adjv @conj) TO (-2 (adjv)) ;
 SETPARENT @cc (NOT p (*)) (-1 (adjv)) TO (1 (adjv)) ;
 
-MAP @amod (adjv) ; # TODO: adj as MaybeClauseRoot, or is that covered by PreC?
+ADD (ClauseRoot) (adjv AjCl) - (ClauseRoot) IF (NOT p (*)) ;
+
+MAP @amod (adjv) - (ClauseRoot) ; # TODO: adj as MaybeClauseRoot, or is that covered by PreC?
 LIST AdjAble = subs nmpr ;
 SETPARENT @amod + $$AGen + $$ANum + $$ADet
     TO (-1* AdjAble + $$AGen + $$ANum + $$ADet) ;
@@ -142,16 +146,18 @@ MAP @obj (prn) IF (-1 (verb)) ;
 SETPARENT (prn @obj) TO (-1 (verb)) ;
 
 # TODO: this should probably be stricter
+MAP @conj (prn PP Cmpl) IF (c ("ל" prep)) (-2 (conj PP)) (-3 (prn PP) LINK c ("ל" prep)) ;
 MAP @iobj (prn PP Cmpl) IF (0 (*) LINK c ("ל" prep)) ;
 SETPARENT (prn @iobj) TO (0* (verb) BARRIER CB) ;
+SETPARENT (prn @conj) (c ("ל" prep)) (NOT p (*)) TO (-1* (prn @iobj)) ;
 
 MAP @nmod:poss (prn) IF (-1 (subs)) ;
 SETPARENT (prn @nmod:poss) TO (-1 (subs)) ;
 
 SETPARENT @cc TO (1* CaseAble BARRIER BD) ;
 
-LIST ApposToLast = w11294 w14590 w18761 ;
-SETPARENT CaseAble + ApposToLast TO (-1 (subs)) ;
+LIST ApposToLast = w11294 w12610 w12711 w14590 w18761 ;
+SETPARENT CaseAble + ApposToLast TO (-1 (subs) OR (nmpr)) ;
 LIST ConjToAppos = w36714 ;
 SETPARENT CaseAble + ConjToAppos TO (-1* @appos) ;
 SETPARENT CaseAble - ApposToLast - ConjToAppos (NOT p (*))
@@ -204,6 +210,8 @@ SETPARENT (subs NP @conj) (NOT p (*)) TO (-1* (subs NP) - @conj - @compound:smix
 SECTION
 
 SETPARENT (conj CP) TO (1* MaybeClauseRoot) ;
+MAP @acl MaybeClauseRoot IF (c ("אשׁר" @mark)) ;
+SETPARENT @acl TO (-1* CB LINK -1* (subs) BARRIER BD) ;
 
 SECTION
 
@@ -218,6 +226,7 @@ SECTION
 MAP @xcomp (ProbablyObj) IF (-1* (ProbablyObj) BARRIER (verb MaybeClauseRoot)) ;
 MAP @obj (ProbablyObj) IF (NOT -1* (ProbablyObj) BARRIER (verb MaybeClauseRoot)) ;
 MAP @ccomp (verb infc Pred) IF (NOT -1* @ccomp) ;
+MAP (ClauseRoot @ccomp) (subs MaybeClauseRoot) IF (c (vbcp infc Pred)) (NOT -1* @ccomp) ;
 MAP @conj (MaybeClauseRoot Q) IF (-1* (MaybeClauseRoot Q) BARRIER (N)) ;
 MAP @ccomp (MaybeClauseRoot Q) IF (NOT -1* (MaybeClauseRoot Q) BARRIER (N)) ;
 SETPARENT (MaybeClauseRoot Q @conj) (NOT p (*)) TO (-1* (MaybeClauseRoot Q @ccomp)) ;
@@ -225,7 +234,8 @@ MAP @root MaybeClauseRoot IF (NOT -1* MaybeClauseRoot) ;
 
 SETPARENT (@ccomp Q) OR ("אמר" verb infc) TO (-1* (quot MaybeClauseRoot)) ;
 #SETPARENT @ccomp TO (-1* ("אמר" MaybeClauseRoot)) ;
-SETPARENT @ccomp TO (-1* ("נתן" MaybeClauseRoot)) ;
+LIST CcompAble = "חלל" "נתן" "מהר" ;
+SETPARENT @ccomp TO (-1* CcompAble + MaybeClauseRoot) ;
 
 LIST ClauseCon = @conj @parataxis @xcomp ;
 LIST NonQuote = N D ? ;
@@ -236,9 +246,11 @@ MAP @xcomp MaybeClauseRoot + $$NonQuote IF (-1* MaybeClauseRoot + $$NonQuote) (c
 MAP (@conj ClauseRoot) MaybeClauseRoot + $$NonQuote IF (-1* MaybeClauseRoot + $$NonQuote) (c @cc) ;
 MAP (@parataxis ClauseRoot) MaybeClauseRoot + $$NonQuote IF (-1* MaybeClauseRoot + $$NonQuote) ;
 
-SETPARENT @obj OR @xcomp (NOT p (*)) TO (-1* (verb MaybeClauseRoot)) ;
+SETPARENT @obj (NOT p (*)) TO (0* (verb MaybeClauseRoot) BARRIER CB) ;
+SETPARENT (@obj w107001) TO (-1* (w106997)) ; # why is there a CB in this verse?
+SETPARENT @xcomp (NOT p (*)) TO (-1* (verb MaybeClauseRoot)) ;
 
-SETPARENT MaybeClauseRoot + ClauseCon + $$Domain (NOT p (*)) TO (-1* MaybeClauseRoot + $$Domain - @conj - @acl - @nmod - @xcomp) ;
+SETPARENT MaybeClauseRoot + ClauseCon + $$Domain (NOT p (*)) TO (-1* MaybeClauseRoot + $$Domain - @conj - @acl - @nmod - @xcomp - @appos) ;
 
 LIST OblIsh = Time Cmpl Loca ;
 MAP @obl Noun + OblIsh ;
@@ -246,6 +258,9 @@ MAP @obl Noun + OblIsh ;
 SETPARENT @advmod + VerbInitial TO (-1* (verb MaybeClauseRoot)) ;
 SETPARENT @advmod - VerbInitial TO (1* (verb MaybeClauseRoot) BARRIER (*) - @punct) ;
 SETPARENT @advmod (NOT p (*)) TO (0* (verb MaybeClauseRoot) BARRIER CB) ;
+SETPARENT (@advmod AjCl) (NOT p (*)) TO (0* (adjv) BARRIER CB) ;
+
+SETPARENT @discourse TO (1* (ClauseRoot) BARRIER CB) ;
 
 SECTION
 
@@ -265,8 +280,9 @@ SECTION
 
 SETPARENT @root TO (@0 (*)) ;
 SETPARENT ("׃" @punct) TO (-1* @root) ;
-SETPARENT Joiner (NOT p (*)) TO (-1* (prep) OR (conj) OR (prin @nsubj) BARRIER (*) - BD) ;
+SETPARENT Joiner (NOT p (*)) TO (-1* (prep) OR (conj) OR (prin @nsubj) OR @discourse BARRIER (*) - BD) ;
 SETPARENT Joiner (NOT p (*)) TO (1* @nsubj OR @advmod OR @compound:smixut OR @det OR @amod BARRIER (*) - BD) ;
+SETPARENT Joiner (NOT p (*)) TO (1* @mark BARRIER (*) - BD LINK p (*)) ;
 
 AFTER-SECTIONS
 REMCOHORT (pb) ;

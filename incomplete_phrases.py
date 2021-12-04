@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+import sys
+
 def phrase_incomplete(phrase):
     if '@punct' in phrase[-1]:
         return phrase_incomplete(phrase[:-1])
@@ -44,9 +46,20 @@ def sentence_incomplete(sent):
             return r
     return False
 
+start = 0
+lim = -1
+if len(sys.argv) > 1:
+    start = int(sys.argv[1])
+    lim = start + 10
+
 with open('generated.cg3.txt') as fin:
     sents = fin.read().strip().split('\n\n')
+    n = 1
     for i, s in enumerate(sents, 1):
         r = sentence_incomplete(s)
         if r:
-            print(i, r)
+            n += 1
+            if n >= start:
+                print(f'{n}\t{i}\t{r}')
+            if n == lim:
+                break

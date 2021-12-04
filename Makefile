@@ -11,6 +11,7 @@ hbo.bin: hbo.cg3
 
 check: generated.conllu
 	./check.py $< checked.conllu
+	./clean_checked.py
 	./report.py
 
 checkable.conllu: generated.conllu checked.conllu

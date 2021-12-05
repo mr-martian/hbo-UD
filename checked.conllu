@@ -728,7 +728,7 @@
 11	_	ארץ	NOUN	subs	Number=Sing	9	obl	_	_
 12	־	־	PUNCT	punct	_	13	punct	_	_
 13	נֹ֖וד	נוד	PROPN	nmpr	Number=Sing	11	compound:smixut	_	_
-14	קִדְמַת	קדמה	NOUN	subs	Gender=Fem|Number=Sing	11	nmod	_	_
+14	קִדְמַת	קדמה	NOUN	subs	Gender=Fem|Number=Sing	11	appos	_	_
 15	־	־	PUNCT	punct	_	16	punct	_	_
 16	עֵֽדֶן	עדן	PROPN	nmpr	Number=Sing	14	compound:smixut	_	_
 17	׃	׃	PUNCT	punct	_	2	punct	_	_
@@ -843,12 +843,12 @@
 6	־	־	PUNCT	punct	_	7	punct	_	_
 7	שֵׁ֔ת	שׁת	PROPN	nmpr	Gender=Masc|Number=Sing	5	compound:smixut	_	_
 8	שְׁתֵּ֤ים	שׁנים	NUM	subs	Gender=Fem|Number=Dual	10	nummod	_	_
-9	עֶשְׂרֵה֙	עשׂרה	NUM	subs	Number=Sing	10	nummod	_	_
+9	עֶשְׂרֵה֙	עשׂרה	NUM	subs	Number=Sing	8	compound	_	_
 10	שָׁנָ֔ה	שׁנה	NOUN	subs	Gender=Fem|Number=Sing	0	root	_	_
 11-12	וּתְשַׁ֥ע	_	_	_	_	_	_	_	_
 11	_	ו	CCONJ	conj	_	14	cc	_	_
 12	_	תשׁע	NUM	subs	Number=Sing	14	nummod	_	_
-13	מֵאֹ֖ות	מאה	NUM	subs	Gender=Fem|Number=Plur	14	nummod	_	_
+13	מֵאֹ֖ות	מאה	NUM	subs	Gender=Fem|Number=Plur	12	compound	_	_
 14	שָׁנָ֑ה	שׁנה	NOUN	subs	Gender=Fem|Number=Sing	10	conj	_	_
 15-16	וַיָּמֹֽת	_	_	_	_	_	_	_	_
 15	_	ו	CCONJ	conj	_	16	cc	_	_
@@ -887,7 +887,7 @@
 9-10	וּתְשַׁ֥ע	_	_	_	_	_	_	_	_
 9	_	ו	CCONJ	conj	_	12	cc	_	_
 10	_	תשׁע	NUM	subs	Number=Sing	12	nummod	_	_
-11	מֵאֹ֖ות	מאה	NUM	subs	Gender=Fem|Number=Plur	12	nummod	_	_
+11	מֵאֹ֖ות	מאה	NUM	subs	Gender=Fem|Number=Plur	10	compound	_	_
 12	שָׁנָ֑ה	שׁנה	NOUN	subs	Gender=Fem|Number=Sing	8	conj	_	_
 13-14	וַיָּמֹֽת	_	_	_	_	_	_	_	_
 13	_	ו	CCONJ	conj	_	14	cc	_	_
@@ -926,7 +926,7 @@
 9-10	וּתְשַׁ֥ע	_	_	_	_	_	_	_	_
 9	_	ו	CCONJ	conj	_	12	cc	_	_
 10	_	תשׁע	NUM	subs	Number=Sing	12	nummod	_	_
-11	מֵאֹ֖ות	מאה	NUM	subs	Gender=Fem|Number=Plur	12	nummod	_	_
+11	מֵאֹ֖ות	מאה	NUM	subs	Gender=Fem|Number=Plur	10	compound	_	_
 12	שָׁנָ֑ה	שׁנה	NOUN	subs	Gender=Fem|Number=Sing	8	conj	_	_
 13-14	וַיָּמֹֽת	_	_	_	_	_	_	_	_
 13	_	ו	CCONJ	conj	_	14	cc	_	_
@@ -1217,7 +1217,7 @@
 # text = חֲמֵ֨שׁ עֶשְׂרֵ֤ה אַמָּה֙ מִלְמַ֔עְלָה גָּבְר֖וּ הַמָּ֑יִם וַיְכֻסּ֖וּ הֶהָרִֽים׃
 # checker = Daniel
 1	חֲמֵ֨שׁ	חמשׁ	NUM	subs	Number=Sing	3	nummod	_	_
-2	עֶשְׂרֵ֤ה	עשׂרה	NUM	subs	Number=Sing	3	nummod	_	_
+2	עֶשְׂרֵ֤ה	עשׂרה	NUM	subs	Number=Sing	1	compound	_	_
 3	אַמָּה֙	אמה	NOUN	subs	Gender=Fem|Number=Sing	7	obl	_	_
 4-6	מִלְמַ֔עְלָה	_	_	_	_	_	_	_	_
 4	_	מן	ADP	prep	_	6	case	_	_
@@ -1496,7 +1496,7 @@
 6	_	ה	DET	art	_	7	det	_	_
 7	_	מבול	NOUN	subs	Gender=Masc|Number=Sing	5	compound:smixut	_	_
 8	שְׁלֹ֤שׁ	שׁלשׁ	NUM	subs	Number=Sing	10	nummod	_	_
-9	מֵאֹות֙	מאה	NUM	subs	Gender=Fem|Number=Plur	10	nummod	_	_
+9	מֵאֹות֙	מאה	NUM	subs	Gender=Fem|Number=Plur	8	compound	_	_
 10	שָׁנָ֔ה	שׁנה	NOUN	subs	Gender=Fem|Number=Sing	2	obl	_	_
 11-12	וַֽחֲמִשִּׁ֖ים	_	_	_	_	_	_	_	_
 11	_	ו	CCONJ	conj	_	13	cc	_	_
@@ -1516,7 +1516,7 @@
 6	־	־	PUNCT	punct	_	7	punct	_	_
 7	נֹ֔חַ	נח	PROPN	nmpr	Gender=Masc|Number=Sing	5	compound:smixut	_	_
 8	תְּשַׁ֤ע	תשׁע	NUM	subs	Number=Sing	10	nummod	_	_
-9	מֵאֹות֙	מאה	NUM	subs	Gender=Fem|Number=Plur	10	nummod	_	_
+9	מֵאֹות֙	מאה	NUM	subs	Gender=Fem|Number=Plur	8	compound	_	_
 10	שָׁנָ֔ה	שׁנה	NOUN	subs	Gender=Fem|Number=Sing	2	obl	_	_
 11-12	וַחֲמִשִּׁ֖ים	_	_	_	_	_	_	_	_
 11	_	ו	CCONJ	conj	_	13	cc	_	_
@@ -1941,7 +1941,7 @@
 11	אַבְרָ֔ם	אברם	PROPN	nmpr	Gender=Masc|Number=Sing	8	obj	_	_
 12	אֶת	את	ADP	prep	_	14	case	_	_
 13	־	־	PUNCT	punct	_	12	punct	_	_
-14	נָחֹ֖ור	נחור	PROPN	nmpr	Gender=Masc|Number=Sing	11	appos	_	_
+14	נָחֹ֖ור	נחור	PROPN	nmpr	Gender=Masc|Number=Sing	11	conj	_	_
 15-16	וְאֶת	_	_	_	_	_	_	_	_
 15	_	ו	CCONJ	conj	_	18	cc	_	_
 16	_	את	ADP	prep	_	18	case	_	_
@@ -1964,7 +1964,7 @@
 9	אַבְרָ֔ם	אברם	PROPN	nmpr	Gender=Masc|Number=Sing	6	obj	_	_
 10	אֶת	את	ADP	prep	_	12	case	_	_
 11	־	־	PUNCT	punct	_	10	punct	_	_
-12	נָחֹ֖ור	נחור	PROPN	nmpr	Gender=Masc|Number=Sing	9	appos	_	_
+12	נָחֹ֖ור	נחור	PROPN	nmpr	Gender=Masc|Number=Sing	9	conj	_	_
 13-14	וְאֶת	_	_	_	_	_	_	_	_
 13	_	ו	CCONJ	conj	_	16	cc	_	_
 14	_	את	ADP	prep	_	16	case	_	_
@@ -2046,7 +2046,7 @@
 8-10	בַּכֶּ֖סֶף	_	_	_	_	_	_	_	_
 8	_	ב	ADP	prep	_	10	case	_	_
 9	_	ה	DET	art	_	10	det	_	_
-10	_	כסף	NOUN	subs	Gender=Masc|Number=Sing	7	nmod	_	_
+10	_	כסף	NOUN	subs	Gender=Masc|Number=Sing	7	conj	_	_
 11-14	וּבַזָּהָֽב	_	_	_	_	_	_	_	_
 11	_	ו	CCONJ	conj	_	14	cc	_	_
 12	_	ב	ADP	prep	_	14	case	_	_
@@ -2482,7 +2482,7 @@
 8	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3	7	nmod:poss	_	_
 9	אֲחֹ֣תִי	אחות	NOUN	subs	Gender=Fem|Number=Sing	2	ccomp	_	_
 10	_	prn	PRON	prn	Number=Sing|Person=1	9	nmod:poss	_	_
-11	הִ֑וא	היא	PRON	prps	Gender=Fem|Number=Sing|Person=3	10	nsubj	_	_
+11	הִ֑וא	היא	PRON	prps	Gender=Fem|Number=Sing|Person=3	9	nsubj	_	_
 12-13	וַיִּשְׁלַ֗ח	_	_	_	_	_	_	_	_
 12	_	ו	CCONJ	conj	_	13	cc	_	_
 13	_	שׁלח	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	2	conj	_	_
@@ -2618,10 +2618,10 @@
 13	_	ה	DET	art	_	14	det	_	_
 14	_	ילד	NOUN	subs	Gender=Masc|Number=Sing	10	obj	_	_
 15	תַּ֖חַת	תחת	NOUN	subs	Gender=Masc|Number=Sing	10	obl	_	_
-16	אַחַ֥ד	אחד	NUM	subs	Number=Sing	15	nummod	_	_
+16	אַחַ֥ד	אחד	NUM	subs	Number=Sing	18	nummod	_	_
 17-18	הַשִּׂיחִֽם	_	_	_	_	_	_	_	_
 17	_	ה	DET	art	_	18	det	_	_
-18	_	שׂיח	NOUN	subs	Gender=Masc|Number=Plur	16	compound:smixut	_	_
+18	_	שׂיח	NOUN	subs	Gender=Masc|Number=Plur	15	compound:smixut	_	_
 19	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sent_id = Masoretic-Genesis-21:19-hbo
@@ -4648,7 +4648,7 @@
 13	_	עם	ADP	prep	_	14	case	_	_
 14	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3	2	conj	_	_
 15	אַרְבַּ֥ע	ארבע	NUM	subs	Number=Sing	17	nummod	_	_
-16	מֵאֹ֖ות	מאה	NUM	subs	Gender=Fem|Number=Plur	17	nummod	_	_
+16	מֵאֹ֖ות	מאה	NUM	subs	Gender=Fem|Number=Plur	15	compound	_	_
 17	אִ֑ישׁ	אישׁ	NOUN	subs	Gender=Masc|Number=Sing	14	nsubj	_	_
 18-19	וַיַּ֣חַץ	_	_	_	_	_	_	_	_
 18	_	ו	CCONJ	conj	_	19	cc	_	_
@@ -4945,7 +4945,7 @@
 10-11	לְבֵֽית־אֵ֖ל	_	_	_	_	_	_	_	_
 10	_	ל	ADP	prep	_	11	case	_	_
 11	_	בית אל	PROPN	nmpr	Number=Sing	9	nmod	_	_
-12	תַּ֣חַת	תחת	NOUN	subs	Gender=Masc|Number=Sing	9	nmod	_	_
+12	תַּ֣חַת	תחת	NOUN	subs	Gender=Masc|Number=Sing	9	appos	_	_
 13-14	הָֽאַלֹּ֑ון	_	_	_	_	_	_	_	_
 13	_	ה	DET	art	_	14	det	_	_
 14	_	אלון	NOUN	subs	Gender=Masc|Number=Sing	12	compound:smixut	_	_
@@ -5581,7 +5581,7 @@
 12	_	בנימן	PROPN	nmpr	Number=Sing	13	obl	_	_
 13	נָתַן֙	נתן	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	4	conj	_	_
 14	שְׁלֹ֣שׁ	שׁלשׁ	NUM	subs	Number=Sing	16	nummod	_	_
-15	מֵאֹ֣ות	מאה	NUM	subs	Gender=Fem|Number=Plur	16	nummod	_	_
+15	מֵאֹ֣ות	מאה	NUM	subs	Gender=Fem|Number=Plur	14	compound	_	_
 16	כֶּ֔סֶף	כסף	NOUN	subs	Gender=Masc|Number=Sing	13	obj	_	_
 17-18	וְחָמֵ֖שׁ	_	_	_	_	_	_	_	_
 17	_	ו	CCONJ	conj	_	19	cc	_	_

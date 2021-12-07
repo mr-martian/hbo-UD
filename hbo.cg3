@@ -88,10 +88,10 @@ LIST @ccomp = @ccomp ;
 LIST @mark = @mark ;
 LIST @discourse = @discourse ;
 LIST @vocative = @vocative ;
-LIST @iobj = @iobj ;
 LIST @appos = @appos ;
 LIST @dislocated = @dislocated ;
 LIST @xcomp = @xcomp ;
+LIST @flat = @flat ;
 LIST @dep = @dep ;       # Any remaining dependency
 
 ########################################
@@ -106,6 +106,22 @@ BEFORE-SECTIONS
 
 LIST MislabeledAsNarrative = w14251 w14252 w14253 ;
 SUBSTITUTE (N) (Q) MislabeledAsNarrative ;
+
+####################
+# Retagging
+####################
+
+# Substantivized adjectives
+SUBSTITUTE (adjv) (subs retag:adjv) (c) ;
+SUBSTITUTE (adjv) (subs retag:adjv) (adjv a) (1 (prn)) ;
+# TODO: does this really apply to all gentillics?
+SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl pl) ;
+SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl) (-1* Noun + (c) BARRIER NonJoiner - Det) ;
+
+# Participles in smixut
+LIST Participle = ptca ptcp ;
+LIST NPish = NP PP ;
+SUBSTITUTE (verb) (subs retag:verb) Participle + NPish ;
 
 ####################
 # Consistent labels
@@ -141,10 +157,17 @@ SECTION
 ####################
 
 LIST BigNumber = "עשׂרה" "מאה" ;
-MAP @compound BigNumber + Number IF (-1* Number BARRIER NonJoiner) ;
-SETPARENT @compound + Number (NOT p (*)) TO (-1* Number BARRIER NonJoiner) ;
-MAP @nummod Number ;
-SETPARENT (@nummod) (NOT p (*)) TO (1* Noun - Number BARRIER NonJoiner - Det - Number) ;
+MAP @flat BigNumber + Number IF (-1* Number BARRIER NonJoiner) ;
+SETPARENT @flat + Number (NOT p (*)) TO (-1* Number BARRIER NonJoiner) ;
+MAP @conj Number IF (-1* @cc BARRIER NonJoiner LINK -1* Number BARRIER NonJoiner - @flat) ;
+SETPARENT @cc (NOT p (*)) TO (1 Number + @conj) ;
+SETPARENT Number + @conj (NOT p (*))
+    TO (-1* Number - @flat BARRIER NonJoiner - @cc - @flat) ;
+SETPARENT Number (NOT p (*))
+    TO (1* Noun - Number BARRIER NonJoiner - Det - Number) ;
+SETPARENT Number (NOT p (*))
+    TO (0* Noun - Number BARRIER NonJoiner - Det - Number) ;
+MAP @nummod Number IF (p Noun) ;
 
 ####################
 # Smixut
@@ -167,12 +190,15 @@ SETPARENT @det (NOT p (*)) TO (-1* Noun BARRIER NonJoiner - Det) ;
 # Adjectives
 ####################
 
-MAP @conj ADJ IF (-1 (conj)) (-2 ADJ) ;
-SETPARENT ADJ + @conj TO (-2 ADJ) ;
-SETPARENT @cc (NOT p (*)) (-1 ADJ) TO (1 ADJ) ;
+SETPARENT (nega) (NOT p (*)) TO (1* ADJ BARRIER NonJoiner) ;
+MAP @conj ADJ IF (-1* @cc BARRIER NonJoiner - (nega) LINK -1* ADJ) ;
+SETPARENT ADJ + @conj (NOT p (*)) TO (-1* ADJ BARRIER NonJoiner - (nega) - @cc) ;
+SETPARENT @cc (NOT p (*)) (-1 ADJ) TO (1* ADJ BARRIER NonJoiner - (nega)) ;
 
 SETPARENT ADJ + $$AGen + $$ANum + $$ADet (NOT p (*))
-    TO (-1* Noun + $$AGen + $$ANum + $$ADet BARRIER PB) ;
+    TO (-1* Noun + $$AGen + $$ANum + $$ADet BARRIER PB OR Pr) ;
+SETPARENT ADJ + $$ANum + $$ADet (NOT p (*))
+    TO (-1* Noun + $$ANum + $$ADet - AGen BARRIER PB OR Pr) ;
 MAP @amod ADJ IF (p Noun) ;
 
 ####################
@@ -180,15 +206,17 @@ MAP @amod ADJ IF (p Noun) ;
 ####################
 
 LIST CaseAbleAdv = "כן" "שׁם" "פה" "שׁם" "הלאה" ;
-SET CaseAble = Noun - Number OR PRON OR (verb infc) OR CaseAbleAdv + ADV ;
+SET CaseAble = Noun - @nummod - @flat OR PRON OR (verb infc) OR (verb infa) OR CaseAbleAdv + ADV OR (prin) OR (inrg);
 SET AfterPrep = Det OR @case OR @nummod OR Number + @compound ;
 SETPARENT @case (NOT p (*)) TO (1* CaseAble BARRIER NonJoiner - AfterPrep) ;
+SETPARENT @case (NOT p (*)) TO (1*A ADJ BARRIER NonJoiner - AfterPrep LINK NOT p (*)) ;
 
 ####################
 # NP pronoun suffix
 ####################
 
 MAP @nmod:poss (prn) IF (-1 Noun - (verb)) ;
+SETPARENT @nmod:poss (NOT p (*)) TO (-1 Noun) ;
 MAP @obj (prn) IF (-1 (verb ptca) OR (verb ptcp)) ;
 
 ####################
@@ -196,8 +224,8 @@ MAP @obj (prn) IF (-1 (verb ptca) OR (verb ptcp)) ;
 ####################
 
 LIST etNotAcc = w3165 ;
-ADD PPHead Noun OR PRON IF (NOT 0 PPHead) (c @case - ("את") OR etNotAcc) ;
-ADD NPHead Noun OR PRON IF (NOT 0 PPHead OR NPHead) ;
+ADD PPHead Noun OR PRON OR ADJ IF (NOT p (*)) (NOT 0 PPHead) (c @case - ("את") OR etNotAcc) ;
+ADD NPHead Noun OR PRON OR ADJ IF (NOT p (*)) (NOT 0 PPHead OR NPHead) ;
 
 ####################
 # NP/PP conjunctions
@@ -233,6 +261,22 @@ MAP @conj NPHead + HasConj IF (-1* NonAppos BARRIER BD) ;
 MAP @conj NPHead IF (-1* NonAppos BARRIER BD) (1* NPHead + HasConj BARRIER BD) ;
 SETPARENT NPHead + @conj (NOT p (*)) TO (-1* NonAppos - @conj BARRIER BD) ;
 
+LIST Family = "בן" "בת" "אב" ;
+SETPARENT Family + (subs) (NOT p (*)) TO (-1 (nmpr a)) ;
+
+LIST ApposToLast = w11294 w12566 w12610 w12711 w13874 w14590 w14649 w18761 w18788 ;
+SETPARENT CaseAble + ApposToLast (NOT p (*)) TO (-1 (subs) OR (nmpr)) ;
+LIST ConjToAppos = w36714 ;
+SETPARENT CaseAble + ConjToAppos TO (-1* @appos) ;
+SETPARENT CaseAble - ApposToLast - ConjToAppos (NOT p (*))
+     TO (-1* BD LINK 1*A CaseAble - @compound:smixut BARRIER BD LINK NOT p (*)) ;
+MAP @conj CaseAble IF (c @cc) (p CaseAble) ;
+MAP @nmod CaseAble IF (c @case - ("את")) (p CaseAble) ;
+MAP @appos CaseAble IF (p CaseAble) ;
+
+SETPARENT PPHead (NOT p (*)) TO (-1* NPHead BARRIER PB) ;
+MAP @nmod PPHead IF (p NPHead) ;
+
 ####################
 # Other labels
 ####################
@@ -245,12 +289,6 @@ LIST CanAddMaybeClauseRoot = PreC Pred PreO ;
 LIST CannotAddMaybeClauseRoot = @cop MaybeClauseRoot @nummod ;
 ADD MaybeClauseRoot CanAddMaybeClauseRoot - CannotAddMaybeClauseRoot ;
 
-SECTION # name lists
-
-MAP @conj (nmpr PrNP) IF (-1 @cc) (-2 (nmpr PrNP)) ;
-MAP @conj (nmpr PrNP) IF (-1 (nmpr PrNP)) (1* @cc BARRIER (*) - (nmpr PrNP) LINK 1 (nmpr PrNP)) ;
-SETPARENT (nmpr PrNP @conj) (NOT p (*)) TO (-1* (nmpr PrNP) - @conj) ;
-
 SECTION # adjacent words
 
 LIST SmallQstQ = inrg prin ;
@@ -259,54 +297,16 @@ MAP @nsubj SmallQstQ IF (-1 BD) (1* SmallQstPrn BARRIER NonJoiner LINK 1 BDsent)
 SETPARENT SmallQstQ + @nsubj TO (1* SmallQstPrn BARRIER NonJoiner) ;
 ADD MaybeClauseRoot SmallQstPrn - MaybeClauseRoot IF (c @nsubj) ;
 
-# TODO: shouldn't be @nummod in this case
-SETPARENT (subs) (-1 (prep)) TO (-2A @nummod LINK -2 BD) ;
-MAP @nmod (subs) IF (p @nummod) ;
-
 SECTION # phrase-internal structure
 
 MAP @advmod (subs padv AdvP) IF (-1 BD) (1 BD) ;
 
 ADD (ClauseRoot) (adjv AjCl) - (ClauseRoot) IF (NOT p (*)) ;
 
-SETPARENT @nummod (NOT p (*)) TO (0* Noun - @nummod BARRIER (*) - @nummod) ;
-SETPARENT @nummod (c @det) (NOT p (*)) TO (-1* Noun BARRIER PB) ;
-
 MAP @nsubj (prn PreS) ;
 MAP @obj (prn PreO) ;
 MAP @obj (prn) IF (-1 (verb)) ;
 SETPARENT (prn @obj) OR (prn @nsubj) TO (-1 (verb)) ;
-
-# TODO: this should probably be stricter
-MAP @conj (prn PP Cmpl) IF (c ("ל" prep)) (-2 (conj PP)) (-3 (prn PP) LINK c ("ל" prep)) ;
-MAP @iobj (prn PP Cmpl) IF (0 (*) LINK c ("ל" prep)) ;
-SETPARENT (prn @iobj) TO (0* (verb) BARRIER CB) ;
-SETPARENT (prn @conj) (c ("ל" prep)) (NOT p (*)) TO (-1* (prn @iobj)) ;
-
-MAP @nmod:poss (prn) IF (-1 (subs)) ;
-SETPARENT (prn @nmod:poss) TO (-1 (subs)) ;
-
-SETPARENT @cc TO (1* CaseAble BARRIER BD) ;
-
-LIST Family = "בן" "בת" "אב" ;
-SETPARENT Family + (subs) (NOT p (*)) TO (-1 (nmpr a)) ;
-
-LIST ApposToLast = w11294 w12566 w12610 w12711 w13874 w14590 w14649 w18761 w18788 ;
-SETPARENT CaseAble + ApposToLast (NOT p (*)) TO (-1 (subs) OR (nmpr)) ;
-LIST ConjToAppos = w36714 ;
-SETPARENT CaseAble + ConjToAppos TO (-1* @appos) ;
-SETPARENT CaseAble - ApposToLast - ConjToAppos (NOT p (*))
-     TO (-1* BD LINK 1*A CaseAble - @compound:smixut BARRIER BD LINK NOT p (*)) ;
-MAP @conj CaseAble IF (c @cc) (p CaseAble) ;
-MAP @nmod CaseAble IF (c @case - ("את")) (p CaseAble) ;
-MAP @nmod CaseAble + (ppre) IF (p CaseAble) ;
-MAP @appos CaseAble IF (p CaseAble) ;
-
-MAP @conj (subs) IF (c @cc) (-1* CaseAble BARRIER BD LINK NOT p (*)) ;
-MAP @nmod (subs) IF (c @case - ("את")) (-1* CaseAble BARRIER BD LINK NOT p (*)) ;
-MAP @appos (subs) IF (NOT c @case) (NOT c @cc) (-1* CaseAble BARRIER BD LINK NOT p (*)) ;
-LIST NounNoun = @nmod @conj @appos ;
-SETPARENT (subs) + NounNoun (NOT p (*)) TO (-1* CaseAble BARRIER BD LINK NOT p (*)) ;
 
 SECTION
 
@@ -315,16 +315,13 @@ MAP @obl Noun + (Adju a) ;
 SET NonNmCl = (*) - (NmCl) - (prn) ;
 
 MAP @acl (MaybeClauseRoot NmCl) IF (-1* RelMark BARRIER CB) ;
-MAP @mark RelMark ;
 SETPARENT (subs @acl) TO (-1* (subs) - (NmCl)) ;
-SETPARENT RelMark + (NmCl) TO (1* @acl BARRIER NonNmCl) ;
 
 SECTION
 
 LIST SubjAble = subs prps nmpr prde ;
 
 MAP @nsubj SubjAble + (Subj) ;
-SETPARENT @nsubj TO (-1* (verb Pred) BARRIER NonJoiner - ("<prn>") - ("את" prep));
 
 SETPARENT @cop TO (1* (MaybeClauseRoot PreC)) ;
 SETPARENT @nsubj TO (1* (MaybeClauseRoot PreC) BARRIER CB) ;
@@ -368,7 +365,6 @@ SETPARENT (MaybeClauseRoot Q @conj) (NOT p (*)) TO (-1* (MaybeClauseRoot Q @ccom
 MAP @root MaybeClauseRoot IF (NOT -1* MaybeClauseRoot) ;
 
 SETPARENT (@ccomp Q) OR ("אמר" verb infc) (NOT p (*)) TO (-1* (quot MaybeClauseRoot)) ;
-#SETPARENT @ccomp TO (-1* ("אמר" MaybeClauseRoot)) ;
 LIST CcompAble = "חלל" "נתן" "מהר" ;
 SETPARENT @ccomp (NOT p (*)) TO (-1* CcompAble + MaybeClauseRoot) ;
 LIST SpeakingVerb = quot "ברך" "צוה" ;
@@ -381,8 +377,6 @@ MAP @advcl MaybeClauseRoot IF (c ("כי" conj @mark)) (p (*)) ;
 
 LIST ClauseCon = @conj @parataxis @xcomp ;
 LIST NonQuote = N D ? ;
-MAP (@conj ClauseRoot) (MaybeClauseRoot Q) IF (-1* (MaybeClauseRoot Q) BARRIER NonQuote) (c @cc) ;
-MAP (@parataxis ClauseRoot) (MaybeClauseRoot Q) IF (-1* (MaybeClauseRoot Q) BARRIER NonQuote) ;
 MAP (@conj ClauseRoot) MaybeClauseRoot + $$NonQuote IF (-1* MaybeClauseRoot + $$NonQuote) (c @cc) ;
 MAP (@parataxis ClauseRoot) MaybeClauseRoot + $$NonQuote IF (-1* MaybeClauseRoot + $$NonQuote) ;
 
@@ -397,7 +391,6 @@ LIST OblIsh = Time Cmpl Loca ;
 MAP @obl Noun + OblIsh ;
 
 SETPARENT @advmod + VerbInitial TO (-1* (verb MaybeClauseRoot)) ;
-SETPARENT @advmod - VerbInitial TO (1* (verb MaybeClauseRoot) BARRIER (*) - @punct) ;
 SETPARENT @advmod (NOT p (*)) TO (0* (verb MaybeClauseRoot) BARRIER CB) ;
 SETPARENT (@advmod AjCl) (NOT p (*)) TO (0* (adjv) BARRIER CB) ;
 
@@ -426,13 +419,19 @@ SECTION
 
 SETPARENT @root TO (@0 (*)) ;
 SETPARENT ("׃" @punct) TO (-1* @root) ;
-SETPARENT Joiner (NOT p (*)) TO (-1* (prep) OR (conj) OR (prin @nsubj) OR @discourse OR @advmod BARRIER (*) - BD) ;
-SETPARENT Joiner (NOT p (*)) TO (1* @nsubj OR @advmod OR @compound:smixut OR @det OR @amod BARRIER (*) - BD) ;
-LIST PunctToParent = @mark @case ;
+LIST PunctToPrev = prep conj (prin @nsubj) @discourse @advmod ;
+LIST PunctToNext = @nsubj @advmod @compound:smixut @det @amod @flat @appos ;
+LIST PunctToParent = @mark @case @nummod @cc ;
+SETPARENT Joiner (NOT p (*)) TO (-1* PunctToPrev BARRIER (*) - BD) ;
+SETPARENT Joiner (NOT p (*)) TO (1* PunctToNext BARRIER (*) - BD) ;
 SETPARENT Joiner (NOT p (*)) TO (1* PunctToParent BARRIER (*) - BD LINK p (*)) ;
-SETPARENT Joiner (NOT p (*)) TO (-1 @obj) ;
+SETPARENT Joiner (NOT p (*)) TO (-1 @obj OR @nummod) ;
 
 SETPARENT @discourse (NOT p (*)) TO (1* (verb) BARRIER (*) - BD) ;
+SETPARENT @discourse (NOT p (*))
+    TO (1 (prn)) ;
+    # TO (1 (prn) LINK p (*)) ; # this one is probably more correct
+                                # but we need some other rules first
 
 AFTER-SECTIONS
 REMCOHORT (pb) ;

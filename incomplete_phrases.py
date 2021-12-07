@@ -22,7 +22,8 @@ def phrase_incomplete(phrase):
             external += 1
         elif h == s:
             selfhd += 1
-    if (selfhd + external) > 1:
+    #if (selfhd + external) > 1:
+    if selfhd > 1:
         return f'{minwd}-{maxwd}'
     return False
 

@@ -13,8 +13,6 @@
 - גם־הוא e.g. 84
 
 # Resolved - unimplemented
-- @obl vs @iobj
-  - per guidelines @obl
 - A B וC - B should get @conj
   - what about A וB C וD ?
     - all @conj (e.g. 674)
@@ -25,7 +23,8 @@
   - @appos if NOUN NOUN in same phrase
   - @parataxsis if adjacent clauses
 - attachment of particples 1005
-  - in smixut @acl
+  - in smixut retag to NOUN if in same phrase
+  - @acl if not
 - objects of particples (@compound or @obj?) e.g. 483
   - @obj
 - retokenize so we don't have words with spaces
@@ -40,3 +39,5 @@
   - no
 - numbers in smixut e.g. 190
   - @nummod and @compound over them
+- @obl vs @iobj
+  - per guidelines @obl

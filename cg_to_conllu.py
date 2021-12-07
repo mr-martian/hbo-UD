@@ -78,6 +78,8 @@ class Word:
                     self.head = ''
             elif tg[0] == '@':
                 self.rel = tg[1:]
+            elif tg.startswith('retag:'):
+                self.xpos = tg[6:]
             if tg in ['card', 'ordn']:
                 self.upos = 'NUM'
         if self.xpos == 'conj':

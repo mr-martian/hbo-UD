@@ -1,6 +1,5 @@
 # Unresolved
-- do we want to merge verses if textfabric sentence boundaries cross?
-- @ccomp vs @xcomp
+- @ccomp vs @xcomp vs @advcl
   - @xcomp for כי (e.g. 144)
 - why does Annotatrix object to @punct depending on SCONJ?
   - probably all the punctuation is a bit off from guidelines
@@ -11,6 +10,7 @@
 - where does @appos attach?
 - adonai elohim - @flat:name or @appos ? (e.g. 65)
 - גם־הוא e.g. 84
+- order of clause building - @det before NUM - 4023
 
 # Resolved - unimplemented
 - A B וC - B should get @conj

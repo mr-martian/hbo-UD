@@ -148,8 +148,8 @@ class Sentence:
                 w.surf = T.text(w.wid).rstrip(F.trailer_utf8.v(w.wid))
             self.all_words.append(w)
         self.text = T.text(ids).strip()
-        ws = min(*ids)
-        we = max(*ids)
+        ws = min(ids)
+        we = max(ids)
         book = T.bookName(ws)
         chs = F.chapter.v(L.u(ws, otype="chapter")[0])
         che = F.chapter.v(L.u(we, otype="chapter")[0])
@@ -169,6 +169,8 @@ class Sentence:
 
 if __name__ == '__main__':
     import sys
+    s = Sentence()
+    s.from_cg(sys.stdin)
     while True:
         s = Sentence()
         s.from_cg(sys.stdin)

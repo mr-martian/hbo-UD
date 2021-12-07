@@ -20,10 +20,18 @@ feats = ['sp', 'ls', 'vt', 'vs', 'typ', 'function', 'domain', 'gn', 'nametype', 
 
 prev_p = 0
 prev_c = 0
+prev_s = 0
+prev_v = 0
 
 for w in F.otype.s('word'):
     p = L.u(w, otype="phrase")[0]
     c = L.u(w, otype="clause")[0]
+    s = L.u(w, otype="sentence")[0]
+    v = L.u(w, otype="verse")[0]
+    if s != prev_s and v != prev_v:
+        print('^sb/sb<sb>$', end=' ')
+    prev_s = s
+    prev_v = v
     if c != prev_c:
         print('^cb/cb<cb>$', end=' ')
         prev_c = c
@@ -47,8 +55,8 @@ for w in F.otype.s('word'):
     for c in F.trailer_utf8.v(w):
         if c == ' ':
             lu += c
-        elif c in 'נפס':
-            pass # skip inter-sentential punctuation
+        #elif c in 'נפס':
+        #    pass # skip inter-sentential punctuation
         else:
             lu += f'^{c}/{c}<punct>$\n'
     print(lu, end='')

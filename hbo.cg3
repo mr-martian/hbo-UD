@@ -1,4 +1,4 @@
-DELIMITERS = "<׃>" ;
+DELIMITERS = "<sb>" ;
 
 ####################
 # Boundaries
@@ -6,8 +6,9 @@ DELIMITERS = "<׃>" ;
 
 LIST PB = pb ;
 LIST CB = cb ;
-LIST BD = pb cb ;
-LIST Sent = ("׃" punct) ;
+LIST SB = sb ;
+LIST BD = pb cb sb ;
+LIST Sent = ("׃" punct) ("נ" punct) ("פ" punct) ("ס" punct) ;
 SET BDsent = BD OR Sent ;
 
 ####################
@@ -418,7 +419,7 @@ SETPARENT @mark (NOT p (*)) TO (1* (ClauseRoot) OR MaybeClauseRoot) ;
 SECTION
 
 SETPARENT @root TO (@0 (*)) ;
-SETPARENT ("׃" @punct) TO (-1* @root) ;
+SETPARENT Sent TO (-1* @root) ;
 LIST PunctToPrev = prep conj (prin @nsubj) @discourse @advmod ;
 LIST PunctToNext = @nsubj @advmod @compound:smixut @det @amod @flat @appos ;
 LIST PunctToParent = @mark @case @nummod @cc ;
@@ -436,3 +437,4 @@ SETPARENT @discourse (NOT p (*))
 AFTER-SECTIONS
 REMCOHORT (pb) ;
 REMCOHORT (cb) ;
+REMCOHORT (sb) ;

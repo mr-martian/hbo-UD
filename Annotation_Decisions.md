@@ -11,6 +11,8 @@
 - adonai elohim - @flat:name or @appos ? (e.g. 65)
 - גם־הוא e.g. 84
 - order of clause building - @det before NUM - 4023
+- 70 double object weirdness
+- delete CB around relative clauses
 
 # Resolved - unimplemented
 - A B וC - B should get @conj

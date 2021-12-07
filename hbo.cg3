@@ -43,6 +43,7 @@ LIST Domain = N D Q ? ;
 
 LIST VavClause = Way0 WayX WIm0 WImX WQt0 WQtX WxI0 WXIm WxIX WxQ0 WXQt WxQX WxY0 WXYq WxYX WYq0 WYqX ;
 LIST VerbInitial = Way0 WayX ;
+LIST NonQuote = N D ? ;
 
 ####################
 # Helper labels
@@ -118,6 +119,7 @@ SUBSTITUTE (adjv) (subs retag:adjv) (adjv a) (1 (prn)) ;
 # TODO: does this really apply to all gentillics?
 SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl pl) ;
 SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl) (-1* Noun + (c) BARRIER NonJoiner - Det) ;
+SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl) (NEGATE 0* (subs) OR (nmpr) BARRIER PB) ;
 
 # Participles in smixut
 LIST Participle = ptca ptcp ;
@@ -157,7 +159,7 @@ SECTION
 # Numbers
 ####################
 
-LIST BigNumber = "עשׂרה" "מאה" ;
+LIST BigNumber = "עשׂרה" "מאה" "עשׂר" ;
 MAP @flat BigNumber + Number IF (-1* Number BARRIER NonJoiner) ;
 SETPARENT @flat + Number (NOT p (*)) TO (-1* Number BARRIER NonJoiner) ;
 MAP @conj Number IF (-1* @cc BARRIER NonJoiner LINK -1* Number BARRIER NonJoiner - @flat) ;
@@ -191,10 +193,14 @@ SETPARENT @det (NOT p (*)) TO (-1* Noun BARRIER NonJoiner - Det) ;
 # Adjectives
 ####################
 
+SET AdjNonBar = NonJoiner - (nega) ;
 SETPARENT (nega) (NOT p (*)) TO (1* ADJ BARRIER NonJoiner) ;
-MAP @conj ADJ IF (-1* @cc BARRIER NonJoiner - (nega) LINK -1* ADJ) ;
-SETPARENT ADJ + @conj (NOT p (*)) TO (-1* ADJ BARRIER NonJoiner - (nega) - @cc) ;
-SETPARENT @cc (NOT p (*)) (-1 ADJ) TO (1* ADJ BARRIER NonJoiner - (nega)) ;
+MAP @conj ADJ IF (-1* @cc BARRIER AdjNonBar LINK -1* ADJ BARRIER AdjNonBar) ;
+MAP @conj ADJ IF (-1* ADJ BARRIER AdjNonBar)
+                 (1* @cc BARRIER AdjNonBar LINK 1* ADJ BARRIER AdjNonBar) ;
+SETPARENT ADJ + @conj (NOT p (*))
+    TO (-1* ADJ - @conj BARRIER AdjNonBar - @cc) ;
+SETPARENT @cc (NOT p (*)) (-1* ADJ BARRIER NonJoiner) TO (1* ADJ BARRIER AdjNonBar) ;
 
 SETPARENT ADJ + $$AGen + $$ANum + $$ADet (NOT p (*))
     TO (-1* Noun + $$AGen + $$ANum + $$ADet BARRIER PB OR Pr) ;
@@ -292,6 +298,10 @@ ADD MaybeClauseRoot CanAddMaybeClauseRoot - CannotAddMaybeClauseRoot ;
 
 SECTION # adjacent words
 
+# TODO: should probably retag in this case, but to what?
+LIST DetIshAdv = "גם" "רק" focp  ;
+SETPARENT DetIshAdv + @advmod (NOT p (*)) TO (1* NPHead OR PPHead BARRIER PB) ;
+
 LIST SmallQstQ = inrg prin ;
 LIST SmallQstPrn = prde prn ;
 MAP @nsubj SmallQstQ IF (-1 BD) (1* SmallQstPrn BARRIER NonJoiner LINK 1 BDsent) ;
@@ -344,6 +354,8 @@ SECTION
 SETPARENT (conj CP) TO (1* MaybeClauseRoot) ;
 MAP @acl MaybeClauseRoot IF (c RelMark) ;
 SETPARENT @acl TO (-1* CB LINK -1* (subs) BARRIER BD) ;
+#LIST EXCB = excb ;
+#SUBSTITUTE (cb) (excb) (cb) (0* @acl BARRIER CB OR EXCB) ;
 
 MAP @advmod (verb infa) IF (1 PB) (2 (verb)) ;
 SETPARENT (verb @advmod) (NOT p (*)) TO (2 (verb)) ;
@@ -360,13 +372,16 @@ MAP @xcomp (ProbablyObj) IF (-1* (ProbablyObj) BARRIER (verb MaybeClauseRoot)) ;
 MAP @obj (ProbablyObj) IF (NOT -1* (ProbablyObj) BARRIER (verb MaybeClauseRoot)) ;
 MAP @ccomp (verb infc Pred) IF (NOT -1* @ccomp) ;
 MAP (ClauseRoot @ccomp) (subs MaybeClauseRoot) IF (c (vbcp infc Pred)) (NOT -1* @ccomp) ;
-MAP @conj (MaybeClauseRoot Q) IF (-1* (MaybeClauseRoot Q) - @acl BARRIER (N)) ;
-MAP @ccomp (MaybeClauseRoot Q) IF (NOT -1* (MaybeClauseRoot Q) - @acl BARRIER (N)) ;
-SETPARENT (MaybeClauseRoot Q @conj) (NOT p (*)) TO (-1* (MaybeClauseRoot Q @ccomp)) ;
+MAP @conj (MaybeClauseRoot Q) IF (c @cc) (-1* (MaybeClauseRoot Q) - @acl BARRIER (N)) ;
+MAP @parataxis (MaybeClauseRoot Q) IF (NEGATE c @cc) (-1* (MaybeClauseRoot Q) - @acl BARRIER (N)) ;
+MAP @ccomp (MaybeClauseRoot Q) IF (-1* MaybeClauseRoot + NonQuote) (NOT -1* (MaybeClauseRoot Q) - @acl BARRIER (N)) ;
+LIST CRconj = @ccomp @root @parataxis ;
+SETPARENT (MaybeClauseRoot Q @conj) (NOT p (*))
+    TO (-1* (MaybeClauseRoot Q) + CRconj) ;
 MAP @root MaybeClauseRoot IF (NOT -1* MaybeClauseRoot) ;
 
 SETPARENT (@ccomp Q) OR ("אמר" verb infc) (NOT p (*)) TO (-1* (quot MaybeClauseRoot)) ;
-LIST CcompAble = "חלל" "נתן" "מהר" ;
+LIST CcompAble = "חלל" "נתן" "מהר" "צוה" ;
 SETPARENT @ccomp (NOT p (*)) TO (-1* CcompAble + MaybeClauseRoot) ;
 LIST SpeakingVerb = quot "ברך" "צוה" ;
 SETPARENT ("אמר" infc @ccomp) (NOT p (*)) (c ("ל" prep)) TO (-1* SpeakingVerb) ;
@@ -377,7 +392,6 @@ MAP @xcomp MaybeClauseRoot IF (c ("כי" conj @mark)) (p XcompVerb) ;
 MAP @advcl MaybeClauseRoot IF (c ("כי" conj @mark)) (p (*)) ;
 
 LIST ClauseCon = @conj @parataxis @xcomp ;
-LIST NonQuote = N D ? ;
 MAP (@conj ClauseRoot) MaybeClauseRoot + $$NonQuote IF (-1* MaybeClauseRoot + $$NonQuote) (c @cc) ;
 MAP (@parataxis ClauseRoot) MaybeClauseRoot + $$NonQuote IF (-1* MaybeClauseRoot + $$NonQuote) ;
 
@@ -438,3 +452,4 @@ AFTER-SECTIONS
 REMCOHORT (pb) ;
 REMCOHORT (cb) ;
 REMCOHORT (sb) ;
+REMCOHORT (excb) ;

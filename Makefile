@@ -1,10 +1,10 @@
 all: generated.conllu checkable.conllu check
 
 generated.conllu: generated.cg3.txt cg_to_conllu.py
-	cat $< | ./cg_to_conllu.py | grep -v IPython | grep -v 'This is' | grep -v 'Api reference' | grep -v 'features found' > $@
+	cat $< | ./cg_to_conllu.py | tail -n +14 > $@
 
 generated.cg3.txt: hbo.bin to-CG.py
-	./to-CG.py | grep -v IPython | grep -v 'This is' | grep -v 'Api reference' | grep -v 'features found' | cg-conv -al | vislcg3 -t -g hbo.bin > $@
+	./to-CG.py | tail -n +14 | cg-conv -al | vislcg3 -t -g hbo.bin | tail -n +4 > $@
 
 hbo.bin: hbo.cg3
 	cg-comp $< $@

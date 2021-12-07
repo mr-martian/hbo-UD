@@ -14,7 +14,7 @@ args = parser.parse_args()
 
 if not args.g and not args.r:
     with open('generated.cg3.txt') as fin:
-        print(fin.read().strip().split('\n\n')[int(args.n)])
+        print(fin.read().strip().split('\n\n')[int(args.n)-1])
     if args.c:
         sys.exit(0)
 

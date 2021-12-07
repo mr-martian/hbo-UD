@@ -169,8 +169,6 @@ class Sentence:
 
 if __name__ == '__main__':
     import sys
-    s = Sentence()
-    s.from_cg(sys.stdin)
     while True:
         s = Sentence()
         s.from_cg(sys.stdin)

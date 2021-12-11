@@ -3,8 +3,9 @@
 # TODO LIST
 # - maybe retag (e.g.) שם, פה
 
-from tf.app import use
-A = use("bhsa", mod="etcbc/trees/tf,etcbc/bridging/tf", hoist=globals(), volume="Torah")
+import sys
+import utils
+utils.load_volume(sys.argv[1], globals())
 
 def surf(w):
     return T.text(w).strip(F.trailer_utf8.v(w)) or 'blah'
@@ -46,7 +47,7 @@ for w in F.otype.s('word'):
     for f in feats:
         lu += get(w, f)
     lu += phr_ft
-    lu += f'<w{w}>$'
+    lu += f'<w{w}><{T.bookName(w)}>$'
     prn = ''
     for f in ['prs_ps', 'prs_gn', 'prs_nu']:
         prn += get(w, f)

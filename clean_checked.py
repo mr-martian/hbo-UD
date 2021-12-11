@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 import utils
+import sys
+book = sys.argv[1]
 
 def clean_block(block):
     head = []
@@ -13,12 +15,12 @@ def clean_block(block):
             blk.append(ln)
     return '\n'.join(head + blk)
 
-gen = utils.load_conllu('generated.conllu')
-ref = utils.load_conllu('checked.conllu')
+gen = utils.load_conllu(f'{book}.parsed.conllu')
+ref = utils.load_conllu(f'{book}.checked.conllu')
 
 ls = []
 for k in ref:
     ls.append((gen[k][0], clean_block(ref[k][1])))
 ls.sort()
-with open('checked.conllu', 'w') as fout:
+with open(f'{book}.checked.conllu', 'w') as fout:
     fout.write('\n\n'.join(b[1] for b in ls) + '\n')

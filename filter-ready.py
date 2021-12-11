@@ -2,6 +2,7 @@
 
 import sys
 import utils
+book = sys.argv[1]
 
 def is_complete(block):
     for ln in block.splitlines():
@@ -14,18 +15,15 @@ def is_complete(block):
             return False
     return True
 
-check = utils.load_conllu('checked.conllu', clean=True)
-gen = utils.load_conllu('generated.conllu')
-rej = utils.load_conllu_multi('rejected.conllu')
+check = utils.load_conllu(f'{book}.checked.conllu', clean=True)
+gen = utils.load_conllu(f'{book}.parsed.conllu')
 
-with open('checkable.conllu', 'w') as good:
-    with open('incomplete.conllu', 'w') as bad:
+with open(f'{book}.checkable.conllu', 'w') as good:
+    with open(f'{book}.incomplete.conllu', 'w') as bad:
         gc = 0
         bc = 0
         for k, (i, b) in gen.items():
             if k in check:
-                continue
-            if b in rej[k]:
                 continue
             if is_complete(b):
                 good.write(f'# sentence_index = {i}\n')
@@ -35,5 +33,5 @@ with open('checkable.conllu', 'w') as good:
                 bad.write(f'# sentence_index = {i}\n')
                 bad.write(b + '\n\n')
                 bc += 1
-print(f'{gc} sentences are fully connected')
-print(f'{bc} sentences have gaps')
+print(f'{gc} sentences in {book} are fully connected')
+print(f'{bc} sentences in {book} have gaps')

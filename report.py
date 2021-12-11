@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
 from collections import defaultdict
+import sys
+book = sys.argv[1]
 
 total_sents = 0
 total_words = 0
@@ -10,7 +12,7 @@ pos = 0
 check_sent = 0
 check_word = 0
 by_pos = defaultdict(lambda: [0,0,0,0])
-with open('generated.conllu') as fin:
+with open(f'{book}.parsed.conllu') as fin:
     for line in fin:
         if '# sent_id' in line:
             total_sents += 1
@@ -34,7 +36,7 @@ with open('generated.conllu') as fin:
                 by_pos[ls[4]][3] += 1
 
 checkers = defaultdict(lambda: 0)
-with open('checked.conllu') as fin:
+with open(f'{book}.checked.conllu') as fin:
     for line in fin:
         if '# sent_id' in line:
             check_sent += 1

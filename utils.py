@@ -1,6 +1,16 @@
 #!/usr/bin/env python3
 
 from collections import defaultdict
+from tf.app import use
+import sys
+
+def load_volume(vol, hoist):
+    out = sys.stdout
+    sys.stdout = open('blah.txt', 'w')
+    v = vol.capitalize() + 'Book'
+    use("bhsa", mod="etcbc/trees/tf,etcbc/bridging/tf", hoist=hoist, volume=v)
+    sys.stdout.close()
+    sys.stdout = out
 
 def get_id(block):
     ls = block.splitlines()
@@ -15,6 +25,8 @@ def clean_ref(block):
 def iter_conllu(fname):
     with open(fname) as fin:
         for block in fin.read().strip().split('\n\n'):
+            if not block:
+                continue
             yield get_id(block), block
 
 def load_conllu(fname, clean=False):

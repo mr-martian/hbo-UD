@@ -1,18 +1,23 @@
-all: generated.conllu checkable.conllu check
+all: torah ruth-book
 
-generated.conllu: generated.cg3.txt cg_to_conllu.py
-	cat $< | ./cg_to_conllu.py | tail -n +14 > $@
+torah: genesis-book exodus-book leviticus-book numbers-book deuteronomy-book
 
-generated.cg3.txt: hbo.bin to-CG.py
-	./to-CG.py | tail -n +14 | cg-conv -al | vislcg3 -t -g hbo.bin | tail -n +4 > $@
+%.corpus.cg3.txt: to-CG.py
+	./to-CG.py $* | cg-conv -al > $@
+
+%.parsed.cg3.txt: %.corpus.cg3.txt hbo.bin
+	cat $< | vislcg3 -t -g hbo.bin | tail -n +4 > $@
+
+%.parsed.conllu: %.parsed.cg3.txt cg_to_conllu.py
+	cat $< | ./cg_to_conllu.py $* > $@
 
 hbo.bin: hbo.cg3
 	cg-comp $< $@
 
-check: generated.conllu
-	./check.py $< checked.conllu
-	./clean_checked.py
-	./report.py
+%-book: %.parsed.conllu %.checked.conllu
+	./check.py $^
+	./clean_checked.py $*
+	./filter-ready.py $*
 
-checkable.conllu: generated.conllu checked.conllu
-	./filter-ready.py
+%-report:
+	./report.py $*

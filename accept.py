@@ -4,12 +4,13 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument('annotator', action='store')
+parser.add_argument('book', action='store')
 parser.add_argument('sent', type=int)
 args = parser.parse_args()
 
-with open('generated.conllu') as fin:
+with open(f'{args.book}.parsed.conllu') as fin:
     block = fin.read().strip().split('\n\n')[args.sent-1]
-    with open('checked.conllu', 'a') as fout:
+    with open(f'{args.book}.checked.conllu', 'a') as fout:
         fout.write('\n')
         written = False
         for ln in block.splitlines():

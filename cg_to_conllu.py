@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
-from tf.app import use
-A = use("bhsa", mod="etcbc/trees/tf,etcbc/bridging/tf", hoist=globals(), volume="Torah")
+import sys
+import utils
+utils.load_volume(sys.argv[1], globals())
 
 POS_MAP = {
     'art': 'DET',
@@ -168,7 +169,6 @@ class Sentence:
         return ret + '\n'.join(w.to_conllu() for w in self.all_words) + '\n'
 
 if __name__ == '__main__':
-    import sys
     while True:
         s = Sentence()
         s.from_cg(sys.stdin)

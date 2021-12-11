@@ -20,7 +20,7 @@ LIST Pr = prep ;
 LIST Joiner = ("׀" punct) ("־" punct) ;
 SET NonJoiner = (*) - Joiner ;
 LIST Noun = subs nmpr (verb ptcp) (verb ptca) ;
-LIST RelMark = ("אשׁר" conj @mark) ("ה" art CP Rela) ;
+LIST RelMark = ("אשׁר" conj @mark) ("ה" conj CP Rela) ;
 LIST Number = card ordn ;
 LIST PRON = prde prps prn ;
 LIST ADJ = adjv ;
@@ -115,6 +115,7 @@ SUBSTITUTE (N) (Q) MislabeledAsNarrative ;
 
 # Substantivized adjectives
 SUBSTITUTE (adjv) (subs retag:adjv) (c) ;
+SUBSTITUTE (adjv) (subs retag:adjv) (a) (1 BD) (-1* Noun + (c) BARRIER NonJoiner - Det) ;
 SUBSTITUTE (adjv) (subs retag:adjv) (adjv a) (1 (prn)) ;
 # TODO: does this really apply to all gentillics?
 SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl pl) ;
@@ -126,15 +127,20 @@ LIST Participle = ptca ptcp ;
 LIST NPish = NP PP ;
 SUBSTITUTE (verb) (subs retag:verb) Participle + NPish ;
 
+# Adverbs tagged subs
+SUBSTITUTE (subs) (advb retag:subs) (padv) (-1 BD) (1 BD) ;
+
+# Determiner on clause participles
+SUBSTITUTE (art) (conj retag:art) (CP Rela) ;
+
 ####################
 # Consistent labels
 ####################
 
 MAP @punct (punct) ;
-MAP @mark Det + (CP Rela) ;
 MAP @det Det ;
 MAP @case Pr ;
-LIST SCONJ = "כי" "פן" "אשׁר" "אם" "שׁ" ; # TODO: double check שׁ which only appears once
+LIST SCONJ = "כי" "פן" "אשׁר" "אם" "שׁ" "ה" ; # TODO: double check שׁ which only appears once
 MAP @mark SCONJ + (conj CP) ;
 MAP @mark ("ה" inrg) ;
 MAP @cc (conj) - (Rela) ;
@@ -320,8 +326,6 @@ SETPARENT SmallQstQ + @nsubj TO (1* SmallQstPrn BARRIER NonJoiner) ;
 ADD MaybeClauseRoot SmallQstPrn - MaybeClauseRoot IF (c @nsubj) ;
 
 SECTION # phrase-internal structure
-
-MAP @advmod (subs padv AdvP) IF (-1 BD) (1 BD) ;
 
 ADD (ClauseRoot) (adjv AjCl) - (ClauseRoot) IF (NOT p (*)) ;
 

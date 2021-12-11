@@ -63,6 +63,7 @@ class Word:
         self.feats = []
         self.head = ''
         self.rel = ''
+        self.misc = []
     def from_cg(self, inp):
         self.lemma = inp.split('"')[1]
         parts = inp.split('"')[-1].split()
@@ -81,6 +82,8 @@ class Word:
             elif tg[0] == '@':
                 self.rel = tg[1:]
             elif tg.startswith('retag:'):
+                if self.xpos == 'conj' and tg == 'retag:art':
+                    self.upos = 'SCONJ'
                 self.xpos = tg[6:]
             if tg in ['card', 'ordn']:
                 self.upos = 'NUM'
@@ -100,7 +103,7 @@ class Word:
             self.head or '_',
             self.rel or '_',
             '_',
-            '_'
+            '|'.join(sorted(set(self.misc))) or '_'
         ]
         return '\t'.join(ls)
 
@@ -145,6 +148,8 @@ class Sentence:
             if w.wid == 0 or (in_group and F.trailer.v(w.wid)):
                 if w.xpos == 'punct':
                     w.surf = w.lemma
+                    if w.lemma == '־':
+                        w.misc.append('SpaceAfter=No')
                 else:
                     w.surf = '_'
                 in_group = False
@@ -153,10 +158,13 @@ class Sentence:
                 pos = w.pos + '-'
                 surf = getsurf(w)
                 w.surf = '_'
+                last_trail = F.trailer_utf8.v(w.wid)
                 for j in range(i+1, len(self.real_words)):
                     w2 = self.real_words[j]
                     w2.surf = '_'
                     surf += getsurf(w2)
+                    if w2.wid != 0:
+                        last_trail = F.trailer_utf8.v(w2.wid)
                     if w2.wid == 0 or F.trailer_utf8.v(w2.wid):
                         k = j
                         if j+1 < len(self.real_words) and self.real_words[j+1].wid == 0 and self.real_words[j+1].xpos != 'punct':
@@ -164,10 +172,16 @@ class Sentence:
                         nw = Word()
                         nw.pos = pos + self.real_words[k].pos
                         nw.surf = unicodedata.normalize('NFC', surf)
+                        if last_trail and last_trail[0] != ' ':
+                            nw.misc.append('SpaceAfter=No')
                         self.all_words.append(nw)
                         break
             elif not in_group and F.trailer.v(w.wid):
                 w.surf = getsurf(w)
+                if F.trailer_utf8.v(w.wid)[0] != ' ':
+                    w.misc.append('SpaceAfter=No')
+                    if ' ' not in F.trailer_utf8.v(w.wid) and i+1 < len(self.real_words):
+                        self.real_words[i+1].misc.append('SpaceAfter=No')
             self.all_words.append(w)
         self.text = unicodedata.normalize('NFC', T.text(ids).strip())
         ws = min(ids)

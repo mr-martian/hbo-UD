@@ -11,10 +11,9 @@ args = parser.parse_args()
 with open(f'{args.book}.parsed.conllu') as fin:
     block = fin.read().strip().split('\n\n')[args.sent-1]
     with open(f'{args.book}.checked.conllu', 'a') as fout:
-        fout.write('\n')
         written = False
         for ln in block.splitlines():
             if ln[0] != '#' and not written:
                 fout.write(f'# checker = {args.annotator}\n')
                 written = True
-            fout.write(ln + '\n')
+            fout.write(ln + '\n\n')

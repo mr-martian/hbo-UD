@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
+import unicodedata
 import utils
 utils.load_volume(sys.argv[1], globals())
 
@@ -142,13 +143,13 @@ class Sentence:
                             k += 1
                         nw = Word()
                         nw.pos = pos + self.real_words[k].pos
-                        nw.surf = surf.strip()
+                        nw.surf = unicodedata.normalize('NFC', surf.strip())
                         self.all_words.append(nw)
                         break
             elif not in_group and F.trailer.v(w.wid):
-                w.surf = T.text(w.wid).rstrip(F.trailer_utf8.v(w.wid))
+                w.surf = unicodedata.normalize('NFC', T.text(w.wid).rstrip(F.trailer_utf8.v(w.wid)))
             self.all_words.append(w)
-        self.text = T.text(ids).strip()
+        self.text = unicodedata.normalize('NFC', T.text(ids).strip())
         ws = min(ids)
         we = max(ids)
         book = T.bookName(ws)

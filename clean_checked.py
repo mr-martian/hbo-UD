@@ -23,4 +23,4 @@ for k in ref:
     ls.append((gen[k][0], clean_block(ref[k][1])))
 ls.sort()
 with open(f'{book}.checked.conllu', 'w') as fout:
-    fout.write('\n\n'.join(b[1] for b in ls) + '\n')
+    fout.write('\n\n'.join(b[1] for b in ls) + '\n\n')

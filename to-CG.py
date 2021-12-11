@@ -4,11 +4,12 @@
 # - maybe retag (e.g.) שם, פה
 
 import sys
+import unicodedata
 import utils
 utils.load_volume(sys.argv[1], globals())
 
 def surf(w):
-    return T.text(w).strip(F.trailer_utf8.v(w)) or 'blah'
+    return unicodedata.normalize('NFC', T.text(w).strip(F.trailer_utf8.v(w))) or 'blah'
 
 def get(w, f):
     v = F.__getattribute__(f).v(w)
@@ -43,7 +44,7 @@ for w in F.otype.s('word'):
     for f in feats:
         phr_ft += get(p, f)
         phr_ft += get(c, f)
-    lu = '^' + surf(w) + '/' + F.lex_utf8.v(w)
+    lu = '^' + surf(w) + '/' + unicodedata.normalize('NFC', F.lex_utf8.v(w))
     for f in feats:
         lu += get(w, f)
     lu += phr_ft

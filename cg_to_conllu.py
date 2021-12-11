@@ -111,43 +111,63 @@ class Sentence:
         self.real_words = []
         self.all_words = []
     def from_cg(self, stream):
+        surf = ''
         for line in stream:
             if not line.strip():
                 break
+            elif line[0] == '"':
+                surf = line.strip()[2:-2]
+                if surf == 'blah':
+                    surf = '_'
             elif line[0] == '\t':
                 w = Word()
                 w.from_cg(line.strip())
+                w.surf = surf
                 self.real_words.append(w)
     def process(self):
         in_group = False
         ids = []
+        def hasprn(wid):
+            return F.prs.v(wid) and F.prs.v(wid) not in ['absent', 'n/a']
+        def getsurf(w):
+            if w.wid == 0:
+                if w.upos == 'punct':
+                    return w.lemma
+                return ''
+            s = T.text(w.wid)
+            t = F.trailer_utf8.v(w.wid)
+            if t:
+                s = s[:-len(t)]
+            return unicodedata.normalize('NFC', s)
         for i, w in enumerate(self.real_words):
             if w.wid != 0:
                 ids.append(w.wid)
             if w.wid == 0 or (in_group and F.trailer.v(w.wid)):
                 if w.xpos == 'punct':
                     w.surf = w.lemma
+                else:
+                    w.surf = '_'
                 in_group = False
-            elif not in_group and not F.trailer.v(w.wid):
+            elif not in_group and (not F.trailer.v(w.wid) or hasprn(w.wid)):
                 in_group = True
                 pos = w.pos + '-'
-                surf = T.text(w.wid)
+                surf = getsurf(w)
+                w.surf = '_'
                 for j in range(i+1, len(self.real_words)):
                     w2 = self.real_words[j]
-                    surf += T.text(w2.wid)
-                    t = F.trailer_utf8.v(w2.wid)
-                    if t:
-                        surf = surf[:-len(t)]
+                    w2.surf = '_'
+                    surf += getsurf(w2)
+                    if w2.wid == 0 or F.trailer_utf8.v(w2.wid):
                         k = j
                         if j+1 < len(self.real_words) and self.real_words[j+1].wid == 0 and self.real_words[j+1].xpos != 'punct':
                             k += 1
                         nw = Word()
                         nw.pos = pos + self.real_words[k].pos
-                        nw.surf = unicodedata.normalize('NFC', surf.strip())
+                        nw.surf = unicodedata.normalize('NFC', surf)
                         self.all_words.append(nw)
                         break
             elif not in_group and F.trailer.v(w.wid):
-                w.surf = unicodedata.normalize('NFC', T.text(w.wid).rstrip(F.trailer_utf8.v(w.wid)))
+                w.surf = getsurf(w)
             self.all_words.append(w)
         self.text = unicodedata.normalize('NFC', T.text(ids).strip())
         ws = min(ids)

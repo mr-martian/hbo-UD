@@ -44,7 +44,10 @@ for w in F.otype.s('word'):
     for f in feats:
         phr_ft += get(p, f)
         phr_ft += get(c, f)
-    lu = '^' + surf(w) + '/' + unicodedata.normalize('NFC', F.lex_utf8.v(w))
+    srf = surf(w)
+    if srf != 'blah':
+        srf = srf[:len(F.g_lex_utf8.v(w))]
+    lu = '^' + srf + '/' + unicodedata.normalize('NFC', F.lex_utf8.v(w))
     for f in feats:
         lu += get(w, f)
     lu += phr_ft
@@ -53,7 +56,8 @@ for w in F.otype.s('word'):
     for f in ['prs_ps', 'prs_gn', 'prs_nu']:
         prn += get(w, f)
     if prn:
-        lu += f'^prn/prn<prn>{prn}{phr_ft}$'
+        srf = surf(w)[len(F.g_lex_utf8.v(w)):]
+        lu += f'^{srf}/prn<prn>{prn}{phr_ft}$'
     for c in F.trailer_utf8.v(w):
         if c == ' ':
             lu += c

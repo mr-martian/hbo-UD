@@ -70,6 +70,8 @@ class Word:
         self.xpos = parts[0]
         if self.xpos in POS_MAP:
             self.upos = POS_MAP[self.xpos]
+            if self.upos == 'VERB' and self.lemma == 'היה':
+                self.upos = 'AUX'
         for tg in parts[1:]:
             if tg in MORPH:
                 self.feats += MORPH[tg]
@@ -81,6 +83,8 @@ class Word:
                     self.head = ''
             elif tg[0] == '@':
                 self.rel = tg[1:]
+                if self.rel == 'advmod' and self.upos == 'VERB':
+                    self.upos = 'ADV'
             elif tg.startswith('retag:'):
                 if self.xpos == 'conj' and tg == 'retag:art':
                     self.upos = 'SCONJ'
@@ -140,7 +144,8 @@ class Sentence:
             s = T.text(w.wid)
             t = F.trailer_utf8.v(w.wid)
             if t:
-                s = s[:-len(t)]
+                #s = s[:-len(t)]
+                s = s.rstrip(t)
             return unicodedata.normalize('NFC', s)
         for i, w in enumerate(self.real_words):
             if w.wid != 0:

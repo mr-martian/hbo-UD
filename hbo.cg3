@@ -478,16 +478,6 @@ SECTION
 SETPARENT VerbArgs (NOT p (*)) TO (-1* CB LINK -1* @acl BARRIER CB LINK p (*)) ;
 
 SETPARENT @root TO (@0 (*)) ;
-SETPARENT Sent TO (-1* @root) ;
-LIST PunctToPrev = prep conj (prin @nsubj) @discourse @advmod ;
-LIST PunctToNext = @nsubj @advmod @compound:smixut @det @amod @flat @appos @acl ;
-LIST PunctToParent = @mark @case @nummod @cc ;
-LIST PunctTo2Parent = @nmod:poss ;
-SETPARENT Joiner (NOT p (*)) TO (-1* PunctToPrev BARRIER (*) - BD) ;
-SETPARENT Joiner (NOT p (*)) TO (1* PunctToNext BARRIER (*) - BD) ;
-SETPARENT Joiner (NOT p (*)) TO (1* PunctToParent BARRIER (*) - BD LINK p (*)) ;
-SETPARENT Joiner (NOT p (*)) TO (-1 @obj OR @nummod) ;
-SETPARENT Joiner (NOT p (*)) TO (-1 PunctTo2Parent LINK p (*) LINK p (*)) ;
 
 SETPARENT @vocative + (Q) (NOT p (*)) TO (0* MaybeClauseRoot + (Q)) ;
 SETPARENT @vocative (NOT p (*)) TO (-1* ClauseRoot) ;

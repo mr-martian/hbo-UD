@@ -8,8 +8,14 @@ torah: genesis-book exodus-book leviticus-book numbers-book deuteronomy-book
 %.parsed.cg3.txt: %.corpus.cg3.txt hbo.bin
 	cat $< | vislcg3 -t -g hbo.bin | tail -n +4 > $@
 
-%.parsed.conllu: %.parsed.cg3.txt cg_to_conllu.py
+%.cg3.conllu: %.parsed.cg3.txt cg_to_conllu.py
 	cat $< | ./cg_to_conllu.py $* > $@
+
+%.punct.conllu: %.cg3.conllu
+	cat $< | udapy -s -q ud.FixPunct > $@
+
+%.parsed.conllu: %.punct.conllu
+	./merge_punct.py $*
 
 hbo.bin: hbo.cg3
 	cg-comp $< $@

@@ -46,7 +46,7 @@ for w in F.otype.s('word'):
         phr_ft += get(c, f)
     srf = surf(w)
     if srf != 'blah':
-        srf = srf[:len(F.g_lex_utf8.v(w))]
+        srf = srf[:len(F.g_lex_utf8.v(w))] or 'blah'
     lu = '^' + srf + '/' + unicodedata.normalize('NFC', F.lex_utf8.v(w))
     for f in feats:
         lu += get(w, f)

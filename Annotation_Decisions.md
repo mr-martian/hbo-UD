@@ -5,11 +5,13 @@
   - probably all the punctuation is a bit off from guidelines
 - 226 is weird in the underlying corpus
 - is @advmod really the best way to handle infinitive absolute?
+  - while it's @advmod, they're retagged VERB→ADV
 - is it really main @ccomp לאמר @ccomp quote?
   - or should it be main @xcomp לאמר?
 - where does @appos attach?
 - adonai elohim - @flat:name or @appos ? (e.g. 65)
 - גם־הוא e.g. 84
+  - @advmod of a NOUN feels weird
 - order of clause building - @det before NUM - 4023
 - 70 double object weirdness
 - delete CB around relative clauses

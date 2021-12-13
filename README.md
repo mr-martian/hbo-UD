@@ -13,7 +13,7 @@ Manually-verified trees can be found in the files named `[book].checked.conllu`.
 | Leviticus | 57 / 820 (7%) | 793 / 21769 (4%) |
 | Numbers | 128 / 1179 (11%) | 1417 / 28888 (5%) |
 | Deuteronomy | 22 / 879 (3%) | 235 / 26155 (1%) |
-| Ruth | 30 / 85 (35%) | 682 / 2290 (30%) |
+| Ruth | 42 / 85 (49%) | 959 / 2290 (42%) |
 
 # License
 

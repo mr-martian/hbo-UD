@@ -128,7 +128,7 @@ LIST NPish = NP PP ;
 SUBSTITUTE (verb) (subs retag:verb) Participle + NPish ;
 
 # Adverbs tagged subs
-SUBSTITUTE (subs) (advb retag:subs) (padv) (-1 BD) (1 BD) ;
+SUBSTITUTE (subs) (advb retag:subs) (padv) (-1 BD) (1* BD BARRIER (*) - (punct)) ;
 
 # Determiner on clause participles
 SUBSTITUTE (art) (conj retag:art) (CP Rela) ;
@@ -139,10 +139,12 @@ SUBSTITUTE (art) (conj retag:art) (CP Rela) ;
 
 MAP @punct (punct) ;
 MAP @det Det ;
-MAP @case Pr ;
 LIST SCONJ = "כי" "פן" "אשׁר" "אם" "שׁ" "ה" ; # TODO: double check שׁ which only appears once
 MAP @mark SCONJ + (conj CP) ;
 MAP @mark ("ה" inrg) ;
+MAP @obj ("את") + Pr IF (1 RelMark) ;
+MAP @obl Pr IF (1 RelMark) ;
+MAP @case Pr ;
 MAP @cc (conj) - (Rela) ;
 MAP @advmod ADV ;
 MAP @advmod ("למה" inrg) ;
@@ -336,7 +338,7 @@ MAP @obl Noun + (Adju a) ;
 SET NonNmCl = (*) - (NmCl) - (prn) ;
 
 MAP @acl (MaybeClauseRoot NmCl) IF (-1* RelMark BARRIER CB) ;
-SETPARENT (subs @acl) TO (-1* Noun - (NmCl) - (verb)) ;
+SETPARENT (subs @acl) TO (-1* Noun - (NmCl) - (verb) OR Pr + @obj OR Pr + @obl) ;
 
 SECTION
 
@@ -344,8 +346,8 @@ LIST SubjAble = subs prps nmpr prde prn ;
 
 MAP @nsubj SubjAble + (Subj) ;
 
-SETPARENT @cop TO (1* (MaybeClauseRoot PreC)) ;
-SETPARENT @nsubj TO (1* (MaybeClauseRoot PreC) BARRIER CB) ;
+SETPARENT @cop (NOT p (*)) TO (1* (MaybeClauseRoot PreC)) ;
+SETPARENT @nsubj (NOT p (*)) TO (1* (MaybeClauseRoot PreC) BARRIER CB) ;
 
 SECTION # conjunction
 
@@ -361,15 +363,21 @@ SETPARENT (subs NP @conj) (NOT p (*)) TO (-1* (subs NP) - @conj - @compound:smix
 
 SECTION
 
-SETPARENT (conj CP) OR RelMark TO (1* MaybeClauseRoot) ;
+SETPARENT (conj CP) OR RelMark (NOT p (*)) TO (1* MaybeClauseRoot) ;
 MAP @acl MaybeClauseRoot IF (c RelMark) ;
-LIST AclAble = subs adjv ptcp ptca ;
-SETPARENT @acl TO (-1* CB LINK -1* AclAble BARRIER BD) ;
+LIST AclAble = subs adjv ptcp ptca nmpr ;
+LIST AclCompOk = (Exodus w3801) (Exodus w5417) ;
+LIST AclCompNotOk = (Genesis w12528) (Genesis w12613) (Ruth w712) ;
+SETPARENT @acl (NOT p (*)) TO (c @mark LINK -1 Pr) ;
+SETPARENT @acl + AclCompNotOk (NOT p (*))
+    TO (-1* CB LINK -1* AclAble - @compound:smixut BARRIER BD) ;
+SETPARENT @acl - AclCompNotOk (NOT p (*))
+    TO (-1* CB LINK -1* AclAble BARRIER BD) ;
 #LIST EXCB = excb ;
 #SUBSTITUTE (cb) (excb) (cb) (0* @acl BARRIER CB OR EXCB) ;
 
-MAP @advmod (verb infa) IF (1 PB) (2 (verb)) ;
-SETPARENT (verb @advmod) (NOT p (*)) TO (2 (verb)) ;
+MAP @advmod (verb infa) IF (1* PB BARRIER NonJoiner LINK 1 (verb)) ;
+SETPARENT (verb @advmod) (NOT p (*)) TO (1* PB BARRIER NonJoiner LINK 1 (verb)) ;
 
 SECTION
 
@@ -390,6 +398,10 @@ MAP @xcomp (ProbablyObj) IF (-1* (ProbablyObj) BARRIER (verb MaybeClauseRoot)) ;
 MAP @obj (ProbablyObj) IF (NOT -1* (ProbablyObj) BARRIER (verb MaybeClauseRoot)) ;
 
 ADD (PrepVerb) (verb) - (PrepVerb) IF (c @case) ;
+
+SETPARENT @obj + $$Domain
+    (NOT p (*)) (NEGATE -1* (verb) + $$Domain BARRIER Domain - $$Domain)
+    TO (1* MaybeClauseRoot + $$Domain) ;
 
 SECTION
 
@@ -447,6 +459,7 @@ MAP @obl Noun + OblIsh ;
 SETPARENT @advmod + VerbInitial (NOT p (*)) TO (-1* (verb MaybeClauseRoot)) ;
 SETPARENT @advmod (NOT p (*)) TO (0* (verb MaybeClauseRoot) BARRIER CB) ;
 SETPARENT (@advmod AjCl) (NOT p (*)) TO (0* (adjv) BARRIER CB) ;
+SETPARENT @advmod (NOT p (*)) TO (0*A MaybeClauseRoot BARRIER CB LINK c @cop) ;
 
 SETPARENT @discourse TO (1* (ClauseRoot) BARRIER CB) ;
 
@@ -458,10 +471,14 @@ SETPARENT (@dislocated Frnt) TO (1* MaybeClauseRoot) ;
 SECTION
 
 MAP @vocative Noun + (Voct) ;
+MAP @obl PPHead ;
+
 LIST VerbArgs = @nsubj @obj @obl @vocative ;
 
 MAP @obl (subs Adju) ;
 MAP @obl (prn PP) IF (c @case - ("את")) ; # TODO: sometimes @nmod ?
+
+SETPARENT Pr + @obj (NOT p (*)) TO (-1* (verb)) ;
 
 SETPARENT VerbArgs (NOT p (*)) TO (0* (MaybeClauseRoot) BARRIER CB) ;
 SETPARENT VerbArgs (NOT p (*)) TO (0* (verb) BARRIER CB) ;
@@ -483,6 +500,8 @@ SETPARENT @vocative + (Q) (NOT p (*)) TO (0* MaybeClauseRoot + (Q)) ;
 SETPARENT @vocative (NOT p (*)) TO (-1* ClauseRoot) ;
 SETPARENT @vocative (NOT p (*)) TO (0* @root) ;
 
+SETPARENT @discourse (NOT p (*))
+    TO (1* @nsubj BARRIER NonJoiner - BD LINK p (*)) ;
 SETPARENT @discourse (NOT p (*)) TO (1* (verb) BARRIER (*) - BD) ;
 SETPARENT @discourse (NOT p (*))
     TO (1 (prn)) ;

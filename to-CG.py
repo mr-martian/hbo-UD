@@ -31,6 +31,8 @@ for w in F.otype.s('word'):
     s = L.u(w, otype="sentence")[0]
     v = L.u(w, otype="verse")[0]
     if s != prev_s and v != prev_v:
+        print('^svb/svb<svb>$', end=' ')
+    elif s != prev_s:
         print('^sb/sb<sb>$', end=' ')
     prev_s = s
     prev_v = v

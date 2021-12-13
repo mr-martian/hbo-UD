@@ -20,7 +20,8 @@ POS_MAP = {
     'inrg': 'PART', # TODO?
     'adjv': 'ADJ',
     'punct': 'PUNCT',
-    'prn': 'PRON'
+    'prn': 'PRON',
+    'aux': 'AUX'
 }
 
 MORPH = {

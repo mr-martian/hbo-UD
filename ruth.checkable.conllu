@@ -107,7 +107,7 @@
 10	_	prn	PRON	prn	Number=Sing|Person=1	8	obl	_	_
 11-12	הַֽעֹֽוד	_	_	_	_	_	_	_	SpaceAfter=No
 11	_	ה	PART	inrg	_	18	mark	_	_
-12	_	עוד	ADV	subs	Gender=Masc|Number=Sing	2	advmod	_	_
+12	_	עוד	ADV	subs	Gender=Masc|Number=Sing	18	advmod	_	_
 13	־	־	PUNCT	punct	_	12	punct	_	SpaceAfter=No
 14-15	לִ֤י	_	_	_	_	_	_	_	_
 14	_	ל	ADP	prep	_	15	case	_	_
@@ -126,7 +126,7 @@
 24-25	לַאֲנָשִֽׁים	_	_	_	_	_	_	_	SpaceAfter=No
 24	_	ל	ADP	prep	_	25	case	_	_
 25	_	אישׁ	NOUN	subs	Gender=Masc|Number=Plur	18	conj	_	_
-26	׃	׃	PUNCT	punct	_	18	punct	_	_
+26	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sentence_index = 12
 # sent_id = Masoretic-Ruth-1:12-hbo
@@ -137,10 +137,10 @@
 3	_	prn	PRON	prn	Number=Sing|Person=1	2	nmod:poss	_	_
 4	לֵ֔כְןָ	הלך	VERB	verb	Gender=Fem|HebBinyan=PAAL|Mood=Imp|Number=Plur|Person=2|VerbForm=Fin	1	parataxis	_	_
 5	כִּ֥י	כי	SCONJ	conj	_	6	mark	_	_
-6	זָקַ֖נְתִּי	זקן	VERB	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	8	advcl	_	_
+6	זָקַ֖נְתִּי	זקן	VERB	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	12	advcl	_	_
 7-8	מִהְיֹ֣ות	_	_	_	_	_	_	_	_
 7	_	מן	ADP	prep	_	8	case	_	_
-8	_	היה	AUX	verb	HebBinyan=PAAL|VerbForm=Inf	4	advcl	_	_
+8	_	היה	AUX	verb	HebBinyan=PAAL|VerbForm=Inf	6	advcl	_	_
 9-10	לְאִ֑ישׁ	_	_	_	_	_	_	_	_
 9	_	ל	ADP	prep	_	10	case	_	_
 10	_	אישׁ	NOUN	subs	Gender=Masc|Number=Sing	8	obl	_	_
@@ -266,6 +266,33 @@
 36	_	אלהים	NOUN	subs	Gender=Masc|Number=Plur	31	conj	_	_
 37	_	prn	PRON	prn	Number=Sing|Person=1	36	nmod:poss	_	_
 38	׃	׃	PUNCT	punct	_	23	punct	_	_
+
+# sentence_index = 18
+# sent_id = Masoretic-Ruth-1:18-hbo
+# text = וַתֵּ֕רֶא כִּֽי־מִתְאַמֶּ֥צֶת הִ֖יא לָלֶ֣כֶת אִתָּ֑הּ וַתֶּחְדַּ֖ל לְדַבֵּ֥ר אֵלֶֽיהָ׃
+1-2	וַתֵּ֕רֶא	_	_	_	_	_	_	_	_
+1	_	ו	CCONJ	conj	_	2	cc	_	_
+2	_	ראה	VERB	verb	Gender=Fem|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
+3	כִּֽי	כי	SCONJ	conj	_	5	mark	_	SpaceAfter=No
+4	־	־	PUNCT	punct	_	3	punct	_	SpaceAfter=No
+5	מִתְאַמֶּ֥צֶת	אמץ	VERB	verb	Gender=Fem|HebBinyan=HITPAEL|Number=Sing|VerbForm=Part	2	xcomp	_	_
+6	הִ֖יא	היא	PRON	prps	Gender=Fem|Number=Sing|Person=3	5	nsubj	_	_
+7-8	לָלֶ֣כֶת	_	_	_	_	_	_	_	_
+7	_	ל	ADP	prep	_	8	case	_	_
+8	_	הלך	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	5	advcl	_	_
+9-10	אִתָּ֑הּ	_	_	_	_	_	_	_	_
+9	_	את	ADP	prep	_	10	case	_	_
+10	_	prn	PRON	prn	Gender=Fem|Number=Sing|Person=3	8	obj	_	_
+11-12	וַתֶּחְדַּ֖ל	_	_	_	_	_	_	_	_
+11	_	ו	CCONJ	conj	_	12	cc	_	_
+12	_	חדל	VERB	verb	Gender=Fem|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	2	conj	_	_
+13-14	לְדַבֵּ֥ר	_	_	_	_	_	_	_	_
+13	_	ל	ADP	prep	_	14	case	_	_
+14	_	דבר	VERB	verb	HebBinyan=PIEL|VerbForm=Inf	12	advcl	_	_
+15-16	אֵלֶֽיהָ	_	_	_	_	_	_	_	SpaceAfter=No
+15	_	אל	ADP	prep	_	16	case	_	_
+16	_	prn	PRON	prn	Gender=Fem|Number=Sing|Person=3	14	obl	_	_
+17	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sentence_index = 20
 # sent_id = Masoretic-Ruth-1:20-hbo
@@ -791,7 +818,7 @@
 21	_	אישׁ	NOUN	subs	Gender=Masc|Number=Sing	18	obl	_	_
 22	עַ֥ד	עד	ADP	prep	_	23	case	_	_
 23-24	כַּלֹּתֹ֖ו	_	_	_	_	_	_	_	_
-23	_	כלה	VERB	verb	HebBinyan=PIEL|VerbForm=Inf	18	xcomp	_	_
+23	_	כלה	VERB	verb	HebBinyan=PIEL|VerbForm=Inf	18	advcl	_	_
 24	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3	23	nsubj	_	_
 25-26	לֶאֱכֹ֥ל	_	_	_	_	_	_	_	_
 25	_	ל	ADP	prep	_	26	case	_	_
@@ -846,6 +873,28 @@
 30	־	־	PUNCT	punct	_	29	punct	_	SpaceAfter=No
 31	עָשִֽׁיר	עשׁיר	ADJ	adjv	Gender=Masc|Number=Sing	19	conj	_	SpaceAfter=No
 32	׃	׃	PUNCT	punct	_	2	punct	_	_
+
+# sentence_index = 57
+# sent_id = Masoretic-Ruth-3:12-hbo
+# text = וְעַתָּה֙ כִּ֣י אָמְנָ֔ם כִּ֥י גֹאֵ֖ל אָנֹ֑כִי וְגַ֛ם יֵ֥שׁ גֹּאֵ֖ל קָרֹ֥וב מִמֶּֽנִּי׃
+1-2	וְעַתָּה֙	_	_	_	_	_	_	_	_
+1	_	ו	CCONJ	conj	_	6	cc	_	_
+2	_	עתה	ADV	advb	_	12	advmod	_	_
+3	כִּ֣י	כי	SCONJ	conj	_	6	mark	_	_
+4	אָמְנָ֔ם	אמנם	ADV	advb	_	12	advmod	_	_
+5	כִּ֥י	כי	SCONJ	conj	_	6	mark	_	_
+6	גֹאֵ֖ל	גאל	NOUN	verb	Gender=Masc|HebBinyan=PAAL|Number=Sing|VerbForm=Part	12	advcl	_	_
+7	אָנֹ֑כִי	אנכי	PRON	prps	Number=Sing|Person=1	6	nsubj	_	_
+8-9	וְגַ֛ם	_	_	_	_	_	_	_	_
+8	_	ו	CCONJ	conj	_	12	cc	_	_
+9	_	גם	ADV	advb	_	12	advmod	_	_
+10	יֵ֥שׁ	ישׁ	AUX	subs	Number=Sing	11	cop	_	_
+11	גֹּאֵ֖ל	גאל	NOUN	verb	Gender=Masc|HebBinyan=PAAL|Number=Sing|VerbForm=Part	6	dislocated	_	_
+12	קָרֹ֥וב	קרוב	ADJ	adjv	Gender=Masc|Number=Sing	0	root	_	_
+13-14	מִמֶּֽנִּי	_	_	_	_	_	_	_	SpaceAfter=No
+13	_	מן	ADP	prep	_	14	case	_	_
+14	_	prn	PRON	prn	Number=Sing|Person=1	12	obl	_	_
+15	׃	׃	PUNCT	punct	_	12	punct	_	_
 
 # sentence_index = 58
 # sent_id = Masoretic-Ruth-3:13-hbo
@@ -1182,7 +1231,7 @@
 27	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2	26	nmod:poss	_	_
 28-29	כְּרָחֵ֤ל	_	_	_	_	_	_	_	SpaceAfter=No
 28	_	כ	ADP	prep	_	29	case	_	_
-29	_	רחל	PROPN	nmpr	Gender=Fem|Number=Sing	21	obl	_	_
+29	_	רחל	PROPN	nmpr	Gender=Fem|Number=Sing	16	obl	_	_
 30	׀	׀	PUNCT	punct	_	33	punct	_	_
 31-33	וּכְלֵאָה֙	_	_	_	_	_	_	_	_
 31	_	ו	CCONJ	conj	_	33	cc	_	_
@@ -1239,7 +1288,7 @@
 15	־	־	PUNCT	punct	_	14	punct	_	SpaceAfter=No
 16-17	הַזֶּ֗רַע	_	_	_	_	_	_	_	_
 16	_	ה	DET	art	_	17	det	_	_
-17	_	זרע	NOUN	subs	Gender=Masc|Number=Sing	7	obl	_	_
+17	_	זרע	NOUN	subs	Gender=Masc|Number=Sing	2	obl	_	_
 18	אֲשֶׁ֨ר	אשׁר	SCONJ	conj	_	19	mark	_	_
 19	יִתֵּ֤ן	נתן	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	17	acl	_	_
 20	יְהוָה֙	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	19	nsubj	_	_

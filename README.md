@@ -8,7 +8,7 @@ Manually-verified trees can be found in the files named `[book].checked.conllu`.
 
 | Book | Sentences | Tokens |
 |---|---|---|
-| Genesis | 320 / 1494 (21%) | 5865 / 36764 (16%) |
+| Genesis | 420 / 1494 (28%) | 8080 / 36764 (22%) |
 | Exodus | 77 / 1151 (7%) | 1298 / 29878 (4%) |
 | Leviticus | 57 / 820 (7%) | 793 / 21769 (4%) |
 | Numbers | 128 / 1179 (11%) | 1417 / 28888 (5%) |

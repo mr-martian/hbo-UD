@@ -101,7 +101,7 @@ LIST @dep = @dep ;       # Any remaining dependency
 # Special-case words
 ####################
 
-LIST etNotAcc = (Genesis w2946) (Genesis w3165) (Genesis w3529) (Genesis w3560) (Genesis w3693) (Genesis w4172) (Genesis w4221) (Genesis w13880) ;
+LIST etNotAcc = NonAcc (Genesis w2857) (Genesis w2946) (Genesis w3165) (Genesis w3529) (Genesis w3560) (Genesis w3693) (Genesis w4172) (Genesis w4221) (Genesis w13880) ;
 
 ########################################
 # INDIVIDUAL WORDS
@@ -146,6 +146,13 @@ SUBSTITUTE (subs) (prep retag:subs) ("אחר" subs ppre) ;
 
 # yesh and ein
 SUBSTITUTE (subs) (aux retag:subs) (nmcp) ;
+
+####################
+# Helper labels
+####################
+
+ADD (NonAcc) ("את" prep Cmpl) + $$ClauseType - (NonAcc)
+    IF (0* ("את" prep Objc) + $$ClauseType BARRIER SB) ;
 
 ####################
 # Consistent labels
@@ -252,7 +259,7 @@ MAP @amod ADJ IF (p Noun) ;
 # Prepositions
 ####################
 
-LIST CaseAbleAdv = "כן" "שׁם" "פה" "שׁם" "הלאה" ;
+LIST CaseAbleAdv = "כן" "שׁם" "פה" "שׁם" "הלאה" "הנה" ;
 LIST NumberLabel = @nummod @conj @flat ;
 SET ProbablyNumber = Number + NumberLabel ;
 SET CaseAble = Noun - ProbablyNumber OR PRON OR (verb infc) OR (verb infa) OR CaseAbleAdv + ADV OR (prin) OR (inrg);
@@ -413,7 +420,11 @@ SETPARENT (subs NP @conj) (NOT p (*)) TO (-1* (subs NP) - @conj - @compound:smix
 SECTION
 
 SETPARENT (conj CP) (NOT p (*)) TO (1 PB LINK 1 @cop LINK p (*)) ;
-SETPARENT (conj CP) OR RelMark (NOT p (*)) TO (1* ClauseRoot OR MaybeClauseRoot) ;
+SET CorR = (conj CP) OR RelMark ;
+SET CorM = ClauseRoot OR MaybeClauseRoot ;
+LIST ConjTypes = CPen NmCl MSyn ;
+SETPARENT CorR + ConjTypes (NOT p (*)) TO (1* CorM) ;
+SETPARENT CorR + $$ClauseType (NOT p (*)) TO (1* CorM + $$ClauseType) ;
 MAP @acl MaybeClauseRoot IF (c RelMark) ;
 LIST AclAble = subs adjv ptcp ptca nmpr ;
 LIST AclCompOk = (Exodus w3801) (Exodus w5417) ;
@@ -444,14 +455,19 @@ MAP @acl (verb) + Ptc IF (p Noun) ;
 
 SECTION
 
-MAP @xcomp (ProbablyObj) IF (-1* (ProbablyObj) OR @obj BARRIER (verb MaybeClauseRoot)) ;
-MAP @obj (ProbablyObj) IF (NOT -1* (ProbablyObj) OR @obj BARRIER (verb MaybeClauseRoot)) ;
+LIST ObjIsh = @obj ProbablyObj ;
+MAP @xcomp (ProbablyObj) + $$ClauseType IF (-1* ObjIsh + $$ClauseType BARRIER SB) ;
+MAP @obj (ProbablyObj) + $$ClauseType IF (NEGATE -1* ObjIsh + $$ClauseType BARRIER SB) ;
 
 ADD (PrepVerb) (verb) - (PrepVerb) IF (c @case) ;
 
-SETPARENT @obj + $$Domain
-    (NOT p (*)) (NEGATE -1* (verb) + $$Domain BARRIER Domain - $$Domain)
-    TO (1* MaybeClauseRoot + $$Domain) ;
+LIST XorO = (@xcomp ProbablyObj) @obj ;
+#SETPARENT XorO + $$Domain + $$ClauseType
+#    (NOT p (*))
+#    TO (0* MaybeClauseRoot + $$Domain + $$ClauseType BARRIER SB) ;
+SETPARENT XorO + $$ClauseType (NOT p (*))
+    TO (0* MaybeClauseRoot + $$ClauseType BARRIER SB) ;
+SETPARENT @obj + $$ClauseType (NOT p (*)) TO (1* MaybeClauseRoot + $$ClauseType BARRIER SB) ;
 
 ADD (MaybeClauseRoot ClauseRoot) (*) - ClauseRoot IF (c @nsubj) ;
 
@@ -485,7 +501,7 @@ SETPARENT ("אמר" infc @ccomp) (NOT p (*)) (c ("ל" prep)) TO (-1* SpeakingVer
 
 LIST XcompVerb = "ראה" "ירא" "נחם" "שׁחת" "קרא" "מלא" "לבשׁ" "שׁחת" "נגד" "ידע" "מהר" "פקד" "יכל" ;
 LIST AdvclAble = ("כי" conj @mark) ("אם" conj @mark) ;
-LIST ActuallyCcomp = (w351 Genesis) ;
+LIST ActuallyCcomp = (w351 Genesis) (Genesis w7129) ;
 SETPARENT MaybeClauseRoot + $$Domain (c AdvclAble) (NOT p (*))
     TO (-1* MaybeClauseRoot + $$Domain BARRIER Domain - $$Domain) ;
 SETPARENT (verb infc) + $$Domain (NEGATE c @cc) (NOT p (*))
@@ -523,7 +539,8 @@ SETPARENT @discourse TO (1* (ClauseRoot) BARRIER CB) ;
 SECTION
 
 MAP @dislocated SubjAble + (CPen) ;
-SETPARENT (@dislocated Frnt) TO (1* MaybeClauseRoot) ;
+SETPARENT (@dislocated Frnt) (NOT p (*)) TO (-1* @mark BARRIER (*) - BD LINK p (*)) ;
+SETPARENT (@dislocated Frnt) (NOT p (*)) TO (1* MaybeClauseRoot - @advcl) ;
 
 SECTION
 

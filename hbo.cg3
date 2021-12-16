@@ -175,9 +175,16 @@ MAP @discourse (intj) ; # TODO: is there a better way to handle הנה?
 # Pronoun suffixes
 ####################
 
+SUBSTITUTE ("prn") ("אני") ("prn" prn p1 sg) ;
+SUBSTITUTE ("prn") ("אנחנו") ("prn" prn p1 pl) ;
 SUBSTITUTE ("prn") ("אתה") ("prn" prn p2 m sg) ;
+SUBSTITUTE ("prn") ("את") ("prn" prn p2 f sg) ;
+SUBSTITUTE ("prn") ("אתם") ("prn" prn p2 m pl) ;
+SUBSTITUTE ("prn") ("אתן") ("prn" prn p2 f pl) ;
 SUBSTITUTE ("prn") ("הוא") ("prn" prn p3 m sg) ;
+SUBSTITUTE ("prn") ("היא") ("prn" prn p3 f sg) ;
 SUBSTITUTE ("prn") ("הם") ("prn" prn p3 m pl) ;
+SUBSTITUTE ("prn") ("הן") ("prn" prn p3 f pl) ;
 
 ########################################
 # PHRASES

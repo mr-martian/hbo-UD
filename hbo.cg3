@@ -477,13 +477,23 @@ SETPARENT (PrepVerb) (NOT p (*)) (c @case - ("ל"))
     TO (0* MaybeClauseRoot - (PrepVerb) BARRIER SB) ;
 MAP @advcl (PrepVerb) IF (p (*)) ;
 
-MAP @ccomp ("אמר" verb infc) ;
-MAP @advcl (MaybeClauseRoot Q) IF (c @mark) (1* (MaybeClauseRoot Q) BARRIER NonQuote LINK NEGATE c @mark) ;
-MAP (ClauseRoot @ccomp) (subs MaybeClauseRoot) IF (c (vbcp infc Pred)) (NOT -1* @ccomp) ;
-MAP @conj (MaybeClauseRoot Q) IF (c @cc) (-1* (MaybeClauseRoot Q) - @acl - @advcl BARRIER (N)) ;
-MAP @parataxis (MaybeClauseRoot Q) - (infc) IF (NEGATE c @cc) (NEGATE c @mark) (-1* (MaybeClauseRoot Q) - @acl - @advcl BARRIER (N)) ;
-MAP @ccomp (MaybeClauseRoot Q) IF (NEGATE c @mark) (-1* MaybeClauseRoot + NonQuote) (NOT -1* (MaybeClauseRoot Q) - @acl BARRIER (N)) ;
-LIST CRconj = @ccomp @root @parataxis ;
+MAP @advcl ("אמר" verb infc) ;
+LIST SpeakingVerb = quot "ברך" "צוה" ;
+SETPARENT ("אמר" infc @advcl) (NOT p (*)) (c ("ל" prep)) TO (-1* SpeakingVerb) ;
+
+MAP @advcl (MaybeClauseRoot Q)
+    IF (c @mark) (1* (MaybeClauseRoot Q) BARRIER NonQuote LINK NEGATE c @mark) ;
+MAP (ClauseRoot @ccomp) (subs MaybeClauseRoot)
+    IF (c (vbcp infc Pred)) (NOT -1* @ccomp) ;
+MAP @conj (MaybeClauseRoot Q)
+    IF (c @cc) (-1* (MaybeClauseRoot Q) - @acl - @advcl BARRIER (N)) ;
+MAP @parataxis (MaybeClauseRoot Q) - (infc)
+    IF (NEGATE c @cc) (NEGATE c @mark)
+       (-1* (MaybeClauseRoot Q) - @acl - @advcl BARRIER (N)) ;
+MAP @ccomp (MaybeClauseRoot Q)
+    IF (NEGATE c @mark) (-1* MaybeClauseRoot + NonQuote)
+       (NOT -1* (MaybeClauseRoot Q) - @acl BARRIER (N)) ;
+LIST CRconj = @ccomp @root @parataxis ("אמר" verb infc @advcl) ;
 SETPARENT (MaybeClauseRoot Q @conj) (NOT p (*))
     TO (-1* (MaybeClauseRoot Q) + CRconj) ;
 
@@ -491,13 +501,12 @@ MAP @root MaybeClauseRoot IF (NOT -1* MaybeClauseRoot - @advcl) ;
 
 LIST PostAdvcl = (w948 Ruth) (w1301 Ruth) ;
 SETPARENT @advcl + PostAdvcl (NOT p (*)) TO (-1* MaybeClauseRoot) ;
-SETPARENT @advcl (NOT p (*)) TO (1* MaybeClauseRoot) ;
+SETPARENT @advcl + $$Domain (NOT p (*)) TO (1* MaybeClauseRoot + $$Domain) ;
+SETPARENT @advcl + $$Domain (NOT p (*)) TO (-1* MaybeClauseRoot + $$Domain) ;
 
-SETPARENT (@ccomp Q) OR ("אמר" verb infc) (NOT p (*)) TO (-1* (quot MaybeClauseRoot)) ;
+SETPARENT (@ccomp Q) (NOT p (*)) TO (-1* (quot MaybeClauseRoot)) ;
 LIST CcompAble = "חלל" "נתן" "מהר" "צוה" "שׁמע" ;
 SETPARENT @ccomp (NOT p (*)) TO (-1* CcompAble + MaybeClauseRoot) ;
-LIST SpeakingVerb = quot "ברך" "צוה" ;
-SETPARENT ("אמר" infc @ccomp) (NOT p (*)) (c ("ל" prep)) TO (-1* SpeakingVerb) ;
 
 LIST XcompVerb = "ראה" "ירא" "נחם" "שׁחת" "קרא" "מלא" "לבשׁ" "שׁחת" "נגד" "ידע" "מהר" "פקד" "יכל" ;
 LIST AdvclAble = ("כי" conj @mark) ("אם" conj @mark) ;

@@ -561,6 +561,7 @@ MAP @obl (prn PP) IF (c @case - ("את")) ; # TODO: sometimes @nmod ?
 
 MAP @xcomp (NPHead adjv) ;
 
+SETPARENT Pr + VerbArgs (NOT p (*)) TO (-1* (verb)) ;
 SETPARENT Pr + @obj (NOT p (*)) TO (-1* (verb)) ;
 
 SETPARENT VerbArgs (NOT p (*)) TO (0* (MaybeClauseRoot) BARRIER CB) ;
@@ -570,6 +571,9 @@ MAP @acl (verb infc) IF (p (subs)) ;
 
 SETPARENT VerbArgs (NOT p (*))
     TO (c @acl LINK 1* CB LINK 1* MaybeClauseRoot BARRIER CB OR SB) ;
+
+SETPARENT VerbArgs + $$ClauseType (NOT p (*))
+    TO (0* MaybeClauseRoot + $$ClauseType BARRIER SB) ;
 
 SETPARENT @mark (NOT p (*)) TO (1* (ClauseRoot) OR MaybeClauseRoot) ;
 

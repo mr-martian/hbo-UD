@@ -60,6 +60,9 @@ LIST ClauseRoot = ClauseRoot ; # is root of clause
 LIST FullClauseRoot = FullClauseRoot ; # is root of non-relative clause
 LIST TopClauseRoot = TopClauseRoot ; # is root of non-quoted clause
 
+LIST Lemma = ".*"r ;
+LIST Lemma2 = ".*"r ;
+
 ####################
 # Universal Dependencies
 ####################
@@ -205,6 +208,8 @@ MAP (NPHead @obj) (prn) IF (-1 Pr + ("את") - etNotAcc) ;
 SETPARENT (prn @obj) OR (prn @nsubj) (NOT p (*)) TO (-1 (verb) OR (aux)) ;
 MAP @nmod:poss (prn) IF (-1 Noun - (verb) - Number) ;
 SETPARENT @nmod:poss (NOT p (*)) TO (-1 Noun) ;
+MAP @nmod (prn) IF (-1 Number) ;
+SETPARENT (prn @nmod) (NOT p (*)) TO (-1 Number) ;
 
 ####################
 # Numbers
@@ -224,11 +229,18 @@ SETPARENT Number (NOT p (*))
     TO (1* Noun - Number BARRIER NonJoiner - Det - Number - @cc) ;
 SETPARENT Number (NOT p (*))
     TO (0* Noun - Number BARRIER NonJoiner - Det - Number - @cc) ;
-MAP @nummod Number IF (p Noun OR (prn)) ;
+MAP @nummod Number IF (p Noun OR (prn)) (NEGATE c @nmod) ;
 
 ####################
 # Smixut
 ####################
+
+# conjunction within smixut
+# (kinda weird, but arg structure doesn't make sense otherwise)
+MAP @conj $$Lemma + (subs) IF (-1* NonJoiner LINK 0 @cc LINK -1* NonJoiner - (prn) LINK 0 $$Lemma + (subs)) ;
+SETPARENT @conj + $$Lemma + (subs) (NOT p (*))
+    TO (-1* NonJoiner LINK 0 @cc LINK -1* NonJoiner - (prn) LINK 0 $$Lemma + (subs)) ;
+SETPARENT @cc (NOT p (*)) TO (1 (subs @conj)) ;
 
 MAP @compound:smixut Noun IF (-1* Noun + (c) - Number BARRIER NonJoiner - Det - @nummod - @flat) ;
 SETPARENT @compound:smixut (NOT p (*)) TO (-1* Noun) ;
@@ -266,7 +278,7 @@ MAP @amod ADJ IF (p Noun) ;
 # Prepositions
 ####################
 
-LIST CaseAbleAdv = "כן" "שׁם" "פה" "שׁם" "הלאה" "הנה" ;
+LIST CaseAbleAdv = "כן" "שׁם" "פה" "שׁם" "הלאה" "הנה" "עתה" ;
 LIST NumberLabel = @nummod @conj @flat ;
 SET ProbablyNumber = Number + NumberLabel ;
 SET CaseAble = Noun - ProbablyNumber OR PRON OR (verb infc) OR (verb infa) OR CaseAbleAdv + ADV OR (prin) OR (inrg);
@@ -341,13 +353,15 @@ SETPARENT NPHead + @conj (NOT p (*)) TO (-1* NonAppos - @conj BARRIER BD) ;
 LIST Family = "בן" "בת" "אב" "כלה" "אשׁה";
 SETPARENT Family + (subs) (NOT p (*)) TO (-1 (nmpr a)) ;
 
-LIST ApposToLastGen = w1966 w11294 w12466 w12610 w12711 w13874 w14590 w14649 w18761 w18788 ;
+LIST ApposToLastGen = w1966 w11294 w12466 w12610 w12711 w13874 w14590 w14649 w18761 w18788 w19072 ;
 LIST ApposToLastRut = w19 w93 ;
 SET ApposToLast = ApposToLastGen + (Genesis) OR ApposToLastRut + (Ruth) ;
 SETPARENT CaseAble + ApposToLast (NOT p (*)) TO (-1 (subs) OR (nmpr) OR (prn)) ;
 SETPARENT CaseAble - ApposToLast - ConjToAppos (NOT p (*))
      TO (-1* BD LINK 1*A CaseAble - @compound:smixut BARRIER BD LINK NOT p (*)) ;
 MAP @conj CaseAble IF (c @cc) (p CaseAble) ;
+#MAP KEEPORDER @appos CaseAble + $$Lemma IF (c @cc + $$Lemma2) (p CaseAble +
+MAP KEEPORDER @appos CaseAble IF (c @case + $$Lemma) (p CaseAble LINK c @case + $$Lemma) ;
 MAP @nmod CaseAble IF (c @case - ("את")) (p CaseAble) ;
 MAP @appos CaseAble IF (p CaseAble) ;
 
@@ -508,8 +522,9 @@ MAP @root MaybeClauseRoot IF (NOT -1* MaybeClauseRoot - @advcl) ;
 
 LIST PostAdvcl = (w948 Ruth) (w1301 Ruth) ;
 SETPARENT @advcl + PostAdvcl (NOT p (*)) TO (-1* MaybeClauseRoot) ;
-SETPARENT @advcl + $$Domain (NOT p (*)) TO (1* MaybeClauseRoot + $$Domain) ;
-SETPARENT @advcl + $$Domain (NOT p (*)) TO (-1* MaybeClauseRoot + $$Domain) ;
+SETPARENT @advcl + $$Domain (NOT p (*)) TO (1* MaybeClauseRoot + $$Domain BARRIER SB) ;
+SETPARENT @advcl + $$Domain (NOT p (*)) TO (-1* MaybeClauseRoot + $$Domain BARRIER SB) ;
+SETPARENT @advcl + $$Domain (NOT p (*)) (NEGATE 0* MaybeClauseRoot BARRIER SB) TO (1* MaybeClauseRoot + $$Domain) ;
 
 SETPARENT (@ccomp Q) (NOT p (*)) TO (-1* (quot MaybeClauseRoot)) ;
 LIST CcompAble = "חלל" "נתן" "מהר" "צוה" "שׁמע" ;

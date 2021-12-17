@@ -13,7 +13,7 @@
 - order of clause building - @det before NUM - 4023
 - 70 double object weirdness
 - delete CB around relative clauses
-- should G139 actually have @ccomp rather than @xcomp? also G191
+- should G139 actually have @ccomp rather than @xcomp? also G191, G926
 
 # Resolved - unimplemented
 - A B וC - B should get @conj

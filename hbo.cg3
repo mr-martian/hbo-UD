@@ -304,9 +304,9 @@ ADD REPEAT HasConj NPHead OR PPHead IF (NOT 0 HasConj) (c @cc) ;
 # Apposition
 ####################
 
-MAP @appos NPHead - HasConj - (nmpr) IF (-1* NPHead OR PPHead BARRIER BD) ;
+MAP REPEAT @appos NPHead - HasConj - (nmpr) IF (-1* NPHead OR PPHead BARRIER BD) ;
 LIST Titles = "בכר" ;
-MAP @appos NPHead - HasConj + (nmpr) IF (-1* NPHead + Titles BARRIER BD OR NPHead OR PPHead) ;
+MAP REPEAT @appos NPHead - HasConj + (nmpr) IF (-1* NPHead + Titles BARRIER BD OR NPHead OR PPHead) ;
 
 ####################
 # VP
@@ -371,6 +371,9 @@ MAP @appos CaseAble IF (p CaseAble) ;
 
 SETPARENT PPHead (NOT p (*)) TO (-1* NPHead BARRIER PB) ;
 MAP @nmod PPHead IF (p NPHead) ;
+
+LIST NorP = NPHead PPHead ;
+SETPARENT NPHead + @appos (NOT p (*)) TO (-1* NorP - @appos BARRIER BD) ;
 
 ####################
 # Other labels

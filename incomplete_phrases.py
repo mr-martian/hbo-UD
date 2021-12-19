@@ -1,11 +1,7 @@
 #!/usr/bin/env python3
 
-import sys
-
 def phrase_incomplete(phrase):
-    if '@punct' in phrase[-1]:
-        return phrase_incomplete(phrase[:-1])
-    elif len(phrase) == 1:
+    if len(phrase) == 1:
         return False
     ls = []
     for w in phrase:
@@ -27,12 +23,12 @@ def phrase_incomplete(phrase):
         return f'{minwd}-{maxwd}'
     return False
 
-def sentence_incomplete(sent):
+def sentence_incomplete(sent, bd):
     ls = []
     cur = []
     for ln in sent.splitlines():
         if ln[0] == ';':
-            if cur:
+            if cur and bd in ln:
                 ls.append(cur[:])
                 cur = []
         elif ln[0] == '\t':
@@ -42,25 +38,27 @@ def sentence_incomplete(sent):
     if cur:
         ls.append(cur)
     for p in ls:
-        r = phrase_incomplete(p)
+        r = phrase_incomplete([l for l in p if '@punct' not in l])
         if r:
             return r
     return False
 
-start = 0
-lim = -1
-if len(sys.argv) > 1:
-    start = int(sys.argv[1])
-    lim = start + 10
+import argparse
 
-with open('generated.cg3.txt') as fin:
+parser = argparse.ArgumentParser()
+parser.add_argument('book', action='store')
+parser.add_argument('-s', '--start', action='store', type=int, default=1)
+parser.add_argument('-l', '--level', choices=['pb', 'cb', 'sb'], default='pb')
+args = parser.parse_args()
+
+with open(f'{args.book}.parsed.cg3.txt') as fin:
     sents = fin.read().strip().split('\n\n')
-    n = 1
+    n = 0
     for i, s in enumerate(sents, 1):
-        r = sentence_incomplete(s)
+        r = sentence_incomplete(s, args.level)
         if r:
             n += 1
-            if n >= start:
-                print(f'{n}\t{i}\t{r}')
-            if n == lim:
+            if n == args.start + 10:
                 break
+            if n >= args.start:
+                print(f'{n}\t{i}\t{r}')

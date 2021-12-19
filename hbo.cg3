@@ -278,7 +278,7 @@ MAP @amod ADJ IF (p Noun) ;
 # Prepositions
 ####################
 
-LIST CaseAbleAdv = "כן" "שׁם" "פה" "שׁם" "הלאה" "הנה" "עתה" ;
+LIST CaseAbleAdv = "כן" "שׁם" "פה" "שׁם" "הלאה" "הנה" "עתה" "אז" ;
 LIST NumberLabel = @nummod @conj @flat ;
 SET ProbablyNumber = Number + NumberLabel ;
 SET CaseAble = Noun - ProbablyNumber OR PRON OR (verb infc) OR (verb infa) OR CaseAbleAdv + ADV OR (prin) OR (inrg);
@@ -312,8 +312,8 @@ MAP @appos NPHead - HasConj + (nmpr) IF (-1* NPHead + Titles BARRIER BD OR NPHea
 # VP
 ####################
 
-MAP @acl (verb infc VP) IF (-1 (subs ppre)) ;
-SETPARENT (verb infc VP @acl) (NOT p (*)) TO (-1 (subs ppre)) ;
+MAP @acl (verb infc VP) IF (-1 (subs c)) ;
+SETPARENT (verb infc VP @acl) (NOT p (*)) TO (-1 (subs c)) ;
 ADD PPHead (subs ppre VP) - PPHead IF (c @acl) ;
 
 SETPARENT @cc (NOT p (*)) (-1 (infa)) TO (1 (infa)) ;
@@ -321,8 +321,12 @@ MAP @conj (infa) IF (c @cc) ;
 SETPARENT (infa) (NOT p (*)) (c @cc) TO (-2 (infa)) ;
 MAP @advcl (infa AdvP) IF (NOT 1 BD) ;
 
-MAP @xcomp (verb infc) IF (-1* ("יסף" verb) BARRIER (*) - BD) ;
-SETPARENT (@xcomp infc) (NOT p (*)) TO (-1* ("יסף" verb) BARRIER (*) - BD) ;
+LIST XcompInf = "יסף" "יכל" ;
+MAP @xcomp (verb infc InfC) IF (-1* XcompInf + (verb) BARRIER SB) ;
+SETPARENT (@xcomp infc InfC) (NOT p (*)) TO (-1* XcompInf + (verb) BARRIER SB) ;
+#SET XCIbar = (*) - BD - ("ל" prep) ;
+#MAP @xcomp (verb infc) IF (-1* XcompInf + (verb) BARRIER XCIbar) ;
+#SETPARENT (@xcomp infc) (NOT p (*)) TO (-1* XcompInf + (verb) BARRIER XCIbar) ;
 
 MAP @cop (vbcp) IF (1* (ptca) OR (ptcp) BARRIER (*) - BD) ;
 SETPARENT @cop (NOT p (*)) TO (1* (ptca) OR (ptcp) BARRIER (*) - BD) ;
@@ -530,7 +534,8 @@ SETPARENT (@ccomp Q) (NOT p (*)) TO (-1* (quot MaybeClauseRoot)) ;
 LIST CcompAble = "חלל" "נתן" "מהר" "צוה" "שׁמע" ;
 SETPARENT @ccomp (NOT p (*)) TO (-1* CcompAble + MaybeClauseRoot) ;
 
-LIST XcompVerb = "ראה" "ירא" "נחם" "שׁחת" "קרא" "מלא" "לבשׁ" "שׁחת" "נגד" "ידע" "מהר" "פקד" "יכל" ;
+LIST XcompVerb = "ירא" "נחם" "שׁחת" "קרא" "מלא" "לבשׁ" "שׁחת" "נגד" "ידע" "מהר" "פקד" "יכל" ;
+LIST CcompVerb = "ראה" ;
 LIST AdvclAble = ("כי" conj @mark) ("אם" conj @mark) ;
 LIST ActuallyCcomp = (w351 Genesis) (Genesis w7129) ;
 SETPARENT MaybeClauseRoot + $$Domain (c AdvclAble) (NOT p (*))
@@ -539,6 +544,8 @@ SETPARENT (verb infc) + $$Domain (NEGATE c @cc) (NOT p (*))
     TO (-1* MaybeClauseRoot + $$Domain BARRIER Domain - $$Domain) ;
 MAP @ccomp ActuallyCcomp ;
 MAP @xcomp MaybeClauseRoot IF (c AdvclAble) (p XcompVerb) ;
+MAP @xcomp MaybeClauseRoot IF (c AdvclAble) (p CcompVerb LINK c @obj) ;
+MAP @ccomp MaybeClauseRoot IF (c AdvclAble) (p CcompVerb) ;
 MAP @advcl MaybeClauseRoot IF (c AdvclAble) (p (*)) ;
 MAP @xcomp (PrepVerb) IF (p XcompVerb) ;
 MAP @advcl (PrepVerb) IF (p (*)) ;
@@ -554,7 +561,7 @@ SETPARENT @obj (NOT p (*)) TO (0* (verb MaybeClauseRoot) BARRIER CB) ;
 SETPARENT (@obj w107001) TO (-1* (w106997)) ; # why is there a CB in this verse?
 SETPARENT @xcomp (NOT p (*)) TO (-1* (verb MaybeClauseRoot)) ;
 
-LIST DontConj = @conj @acl @nmod @xcomp @appos @advcl @nmod:poss ;
+LIST DontConj = @conj @acl @nmod @xcomp @appos @advcl @nmod:poss (@ccomp N) ;
 SETPARENT MaybeClauseRoot + ClauseCon + $$Domain (NOT p (*)) TO (-1* MaybeClauseRoot + $$Domain - DontConj) ;
 
 LIST OblIsh = Time Cmpl Loca Modi Adju ;
@@ -611,11 +618,14 @@ SETPARENT @vocative (NOT p (*)) TO (0* @root) ;
 
 SETPARENT @discourse (NOT p (*))
     TO (1* @nsubj BARRIER NonJoiner - BD LINK p (*)) ;
-SETPARENT @discourse (NOT p (*)) TO (1* (verb) BARRIER (*) - BD) ;
+SETPARENT @discourse (NOT p (*)) TO (1* (verb) BARRIER (*) - PB - CB) ;
 SETPARENT @discourse (NOT p (*))
     TO (1 (prn)) ;
     # TO (1 (prn) LINK p (*)) ; # this one is probably more correct
                                 # but we need some other rules first
+
+SETPARENT @discourse + ("נא") (NOT p (*))
+    TO (-1* (verb impv) BARRIER SB) ;
 
 SETPARENT @cc (NOT p (*)) TO (1* @discourse BARRIER NonJoiner - BD LINK p (*)) ;
 

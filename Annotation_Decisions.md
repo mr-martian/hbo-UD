@@ -14,6 +14,8 @@
 - 70 double object weirdness
 - delete CB around relative clauses
 - should G139 actually have @ccomp rather than @xcomp? also G191, G926
+- should @parataxis to NP in geneologies actually be @dislocated?
+  - also @appos → @list ?
 
 # Resolved - unimplemented
 - A B וC - B should get @conj

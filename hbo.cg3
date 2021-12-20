@@ -119,6 +119,9 @@ BEFORE-SECTIONS
 LIST MislabeledAsNarrative = w1404 w1405 w1423 w1424 w14251 w14252 w14253 ;
 SUBSTITUTE (N) (Q) MislabeledAsNarrative ;
 
+LIST UnknownShouldBeNarrative = (Genesis w2137) ;
+SUBSTITUTE (?) (N) UnknownShouldBeNarrative ;
+
 ####################
 # Retagging
 ####################
@@ -328,8 +331,8 @@ SETPARENT (@xcomp infc InfC) (NOT p (*)) TO (-1* XcompInf + (verb) BARRIER SB) ;
 #MAP @xcomp (verb infc) IF (-1* XcompInf + (verb) BARRIER XCIbar) ;
 #SETPARENT (@xcomp infc) (NOT p (*)) TO (-1* XcompInf + (verb) BARRIER XCIbar) ;
 
-MAP @cop (vbcp) IF (1* (ptca) OR (ptcp) BARRIER (*) - BD) ;
-SETPARENT @cop (NOT p (*)) TO (1* (ptca) OR (ptcp) BARRIER (*) - BD) ;
+MAP @cop (vbcp) OR (aux) IF (1* (ptca) OR (ptcp) OR (infc) BARRIER (*) - BD - ("ל" prep)) ;
+SETPARENT @cop (NOT p (*)) TO (1* (ptca) OR (ptcp) OR (infc) BARRIER (*) - BD - ("ל" prep)) ;
 
 ####################
 # Connect NPs
@@ -449,7 +452,7 @@ SECTION
 
 SETPARENT (conj CP) (NOT p (*)) TO (1 PB LINK 1 @cop LINK p (*)) ;
 SET CorR = (conj CP) OR RelMark ;
-SET CorM = ClauseRoot OR MaybeClauseRoot ;
+SET CorM = ClauseRoot OR MaybeClauseRoot OR (nmcp) - @cop ;
 LIST ConjTypes = CPen NmCl MSyn ;
 SETPARENT CorR + ConjTypes (NOT p (*)) TO (1* CorM) ;
 SETPARENT CorR + $$ClauseType (NOT p (*)) TO (1* CorM + $$ClauseType) ;
@@ -564,6 +567,9 @@ SETPARENT @obj (NOT p (*)) TO (0* (verb MaybeClauseRoot) BARRIER CB) ;
 SETPARENT (@obj w107001) TO (-1* (w106997)) ; # why is there a CB in this verse?
 SETPARENT @xcomp (NOT p (*)) TO (-1* (verb MaybeClauseRoot)) ;
 
+LIST ConjToAdvcl = (Genesis w774) ;
+SETPARENT ConjToAdvcl (NOT p (*)) TO (-1* MaybeClauseRoot + @advcl) ;
+
 LIST DontConj = @conj @acl @nmod @xcomp @appos @advcl @nmod:poss (@ccomp N) ;
 SETPARENT MaybeClauseRoot + ClauseCon + $$Domain (NOT p (*)) TO (-1* MaybeClauseRoot + $$Domain - DontConj) ;
 
@@ -595,6 +601,8 @@ MAP @xcomp (NPHead adjv) ;
 
 SETPARENT Pr + VerbArgs (NOT p (*)) TO (-1* (verb)) ;
 SETPARENT Pr + @obj (NOT p (*)) TO (-1* (verb)) ;
+
+SETPARENT @nsubj (NOT p (*)) TO (0* @cop BARRIER CB LINK p (*)) ;
 
 SETPARENT VerbArgs (NOT p (*)) TO (0* (MaybeClauseRoot) BARRIER CB) ;
 SETPARENT VerbArgs (NOT p (*)) TO (0* (verb) BARRIER CB) ;

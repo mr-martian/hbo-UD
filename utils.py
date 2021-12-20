@@ -40,3 +40,12 @@ def load_conllu_multi(fname):
     for n, b in iter_conllu(fname):
         ret[n].append(b)
     return ret
+
+def get_chapter(sid):
+    def single(s):
+        return int(s.split('-')[-1])
+    p = sid.split(':')
+    if len(p) == 2:
+        return [single(p[0])]
+    else:
+        return [single(p[0]), single(p[1])]

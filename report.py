@@ -1,8 +1,18 @@
 #!/usr/bin/env python3
 
 from collections import defaultdict
+import math
 import sys
 book = sys.argv[1]
+
+def get_chapter(sid):
+    def single(s):
+        return int(s.split('-')[-1])
+    p = sid.split(':')
+    if len(p) == 2:
+        return [single(p[0])]
+    else:
+        return [single(p[0]), single(p[1])]
 
 total_sents = 0
 total_words = 0
@@ -12,10 +22,13 @@ pos = 0
 check_sent = 0
 check_word = 0
 by_pos = defaultdict(lambda: [0,0,0,0])
+chapters = defaultdict(lambda: [0,0])
 with open(f'{book}.parsed.conllu') as fin:
     for line in fin:
         if '# sent_id' in line:
             total_sents += 1
+            for c in get_chapter(line):
+                chapters[c][0] += 1
         elif '\t' in line:
             ls = line.split('\t')
             if '-' in ls[0]:
@@ -40,6 +53,8 @@ with open(f'{book}.checked.conllu') as fin:
     for line in fin:
         if '# sent_id' in line:
             check_sent += 1
+            for c in get_chapter(line):
+                chapters[c][1] += 1
         elif '# checker =' in line:
             for n in line.split('=')[1].split(','):
                 checkers[n.strip()] += 1
@@ -93,3 +108,17 @@ print('\nAnnotators:')
 for name, count in checkers.items():
     print(f'    {name}: {count} sentences')
 
+chapter_dist = []
+for i in range(11):
+    chapter_dist.append([])
+for ch in sorted(chapters.keys()):
+    tot, ct = chapters[ch]
+    if tot == ct:
+        chapter_dist[10].append(ch)
+    else:
+        n = math.floor(10.0 * ct / tot)
+        chapter_dist[n].append(ch)
+print('\nChapters')
+print('    Complete:', ' '.join(map(str, chapter_dist[10])))
+for n in reversed(range(10)):
+    print(f'    >={n}0%:', ' '.join(map(str, chapter_dist[n])))

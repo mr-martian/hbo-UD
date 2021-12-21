@@ -21,7 +21,8 @@ POS_MAP = {
     'adjv': 'ADJ',
     'punct': 'PUNCT',
     'prn': 'PRON',
-    'aux': 'AUX'
+    'aux': 'AUX',
+    'SCONJ': 'SCONJ'
 }
 
 MORPH = {
@@ -78,6 +79,9 @@ class Word:
                 self.feats += MORPH[tg]
             elif tg[0] == 'w':
                 self.wid = int(tg[1:])
+                if self.xpos == 'SCONJ':
+                    self.wid = [self.wid-1, self.wid]
+                    self.xpos = 'verb'
             elif tg[0] == '#':
                 self.pos, self.head = tg[1:].split('->')
                 if self.head == self.pos:
@@ -97,7 +101,7 @@ class Word:
                 self.upos = 'CCONJ'
             elif self.rel == 'mark':
                 self.upos = 'SCONJ'
-        if self.upos == 'ADP':
+        if self.upos in ['ADP', 'SCONJ']:
             self.feats = []
         elif self.upos == 'VERB' and self.lemma in ['ישׁ', 'אין']:
             self.feats = []
@@ -140,22 +144,35 @@ class Sentence:
         in_group = False
         ids = []
         def hasprn(wid):
-            return F.prs.v(wid) and F.prs.v(wid) not in ['absent', 'n/a']
+            return isinstance(wid, int) and F.prs.v(wid) and F.prs.v(wid) not in ['absent', 'n/a']
+        def tail(w):
+            if isinstance(w.wid, int):
+                return F.trailer_utf8.v(w.wid)
+            else:
+                return F.trailer_utf8.v(w.wid[-1])
         def getsurf(w):
             if w.wid == 0:
                 if w.upos == 'punct':
                     return w.lemma
                 return ''
-            s = T.text(w.wid)
-            t = F.trailer_utf8.v(w.wid)
+            s, t = '', ''
+            if isinstance(w.wid, int):
+                s = T.text(w.wid)
+                t = F.trailer_utf8.v(w.wid)
+            else:
+                s = T.text(w.wid)
+                t = F.trailer_utf8.v(w.wid[-1])
             if t:
                 #s = s[:-len(t)]
                 s = s.rstrip(t)
             return unicodedata.normalize('NFC', s)
         for i, w in enumerate(self.real_words):
             if w.wid != 0:
-                ids.append(w.wid)
-            if w.wid == 0 or (in_group and F.trailer.v(w.wid)):
+                if isinstance(w.wid, list):
+                    ids += w.wid
+                else:
+                    ids.append(w.wid)
+            if w.wid == 0 or (in_group and tail(w)):
                 if w.xpos == 'punct':
                     w.surf = w.lemma
                     if w.lemma == '־':
@@ -163,19 +180,19 @@ class Sentence:
                 else:
                     w.surf = '_'
                 in_group = False
-            elif not in_group and (not F.trailer.v(w.wid) or hasprn(w.wid)):
+            elif not in_group and (not tail(w) or hasprn(w.wid)):
                 in_group = True
                 pos = w.pos + '-'
                 surf = getsurf(w)
                 w.surf = '_'
-                last_trail = F.trailer_utf8.v(w.wid)
+                last_trail = tail(w)
                 for j in range(i+1, len(self.real_words)):
                     w2 = self.real_words[j]
                     w2.surf = '_'
                     surf += getsurf(w2)
                     if w2.wid != 0:
-                        last_trail = F.trailer_utf8.v(w2.wid)
-                    if w2.wid == 0 or F.trailer_utf8.v(w2.wid):
+                        last_trail = tail(w2)
+                    if w2.wid == 0 or tail(w2):
                         k = j
                         if j+1 < len(self.real_words) and self.real_words[j+1].wid == 0 and self.real_words[j+1].xpos != 'punct':
                             k += 1
@@ -186,11 +203,11 @@ class Sentence:
                             nw.misc.append('SpaceAfter=No')
                         self.all_words.append(nw)
                         break
-            elif not in_group and F.trailer.v(w.wid):
+            elif not in_group and tail(w):
                 w.surf = getsurf(w)
-                if F.trailer_utf8.v(w.wid)[0] != ' ':
+                if tail(w)[0] != ' ':
                     w.misc.append('SpaceAfter=No')
-                    if ' ' not in F.trailer_utf8.v(w.wid) and i+1 < len(self.real_words):
+                    if ' ' not in tail(w) and i+1 < len(self.real_words):
                         self.real_words[i+1].misc.append('SpaceAfter=No')
             self.all_words.append(w)
         self.text = unicodedata.normalize('NFC', T.text(ids).strip())

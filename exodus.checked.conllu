@@ -63,10 +63,8 @@
 4	אֶל	אל	ADP	prep	_	6	case	_	SpaceAfter=No
 5	־	־	PUNCT	punct	_	4	punct	_	SpaceAfter=No
 6	מֹשֶׁ֥ה	משׁה	PROPN	nmpr	Gender=Masc|Number=Sing	2	obl	_	_
-7-8	לֵּאמֹֽר	_	_	_	_	_	_	_	SpaceAfter=No
-7	_	ל	ADP	prep	_	8	case	_	_
-8	_	אמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	ccomp	_	_
-9	׃	׃	PUNCT	punct	_	2	punct	_	_
+7	לֵּאמֹֽר	לאמר	SCONJ	verb	_	2	ccomp	_	SpaceAfter=No
+8	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sent_id = Masoretic-Exodus-6:25-hbo
 # text = וְאֶלְעָזָ֨ר בֶּֽן־אַהֲרֹ֜ן לָקַֽח־לֹ֨ו מִבְּנֹ֤ות פּֽוּטִיאֵל֙ לֹ֣ו לְאִשָּׁ֔ה וַתֵּ֥לֶד לֹ֖ו אֶת־פִּֽינְחָ֑ס אֵ֗לֶּה רָאשֵׁ֛י אֲבֹ֥ות הַלְוִיִּ֖ם לְמִשְׁפְּחֹתָֽם׃
@@ -144,27 +142,25 @@
 4	אֶל	אל	ADP	prep	_	6	case	_	SpaceAfter=No
 5	־	־	PUNCT	punct	_	4	punct	_	SpaceAfter=No
 6	מֹשֶׁ֥ה	משׁה	PROPN	nmpr	Gender=Masc|Number=Sing	2	obl	_	_
-7-8	לֵּאמֹ֖ר	_	_	_	_	_	_	_	_
-7	_	ל	ADP	prep	_	8	case	_	_
-8	_	אמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	10	mark	_	_
-9	אֲנִ֣י	אני	PRON	prps	Number=Sing|Person=1	10	nsubj	_	_
-10	יְהוָ֑ה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	2	ccomp	_	_
-11	דַּבֵּ֗ר	דבר	VERB	verb	Gender=Masc|HebBinyan=PIEL|Mood=Imp|Number=Sing|Person=2|VerbForm=Fin	10	parataxis	_	_
-12	אֶל	אל	ADP	prep	_	14	case	_	SpaceAfter=No
-13	־	־	PUNCT	punct	_	12	punct	_	SpaceAfter=No
-14	פַּרְעֹה֙	פרעה	NOUN	subs	Gender=Masc|Number=Sing	11	obl	_	_
-15	מֶ֣לֶךְ	מלך	NOUN	subs	Gender=Masc|Number=Sing	14	appos	_	_
-16	מִצְרַ֔יִם	מצרים	PROPN	nmpr	Number=Sing	15	compound:smixut	_	_
-17	אֵ֛ת	את	ADP	prep	_	18	case	_	_
-18	כָּל	כל	NOUN	subs	Gender=Masc|Number=Sing	11	obj	_	SpaceAfter=No
-19	־	־	PUNCT	punct	_	22	punct	_	SpaceAfter=No
-20	אֲשֶׁ֥ר	אשׁר	SCONJ	conj	_	22	mark	_	_
-21	אֲנִ֖י	אני	PRON	prps	Number=Sing|Person=1	22	nsubj	_	_
-22	דֹּבֵ֥ר	דבר	VERB	verb	Gender=Masc|HebBinyan=PAAL|Number=Sing|VerbForm=Part	18	acl	_	_
-23-24	אֵלֶֽיךָ	_	_	_	_	_	_	_	SpaceAfter=No
-23	_	אל	ADP	prep	_	24	case	_	_
-24	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2	22	obl	_	_
-25	׃	׃	PUNCT	punct	_	2	punct	_	_
+7	לֵּאמֹ֖ר	לאמר	SCONJ	verb	_	9	mark	_	_
+8	אֲנִ֣י	אני	PRON	prps	Number=Sing|Person=1	9	nsubj	_	_
+9	יְהוָ֑ה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	2	ccomp	_	_
+10	דַּבֵּ֗ר	דבר	VERB	verb	Gender=Masc|HebBinyan=PIEL|Mood=Imp|Number=Sing|Person=2|VerbForm=Fin	9	parataxis	_	_
+11	אֶל	אל	ADP	prep	_	13	case	_	SpaceAfter=No
+12	־	־	PUNCT	punct	_	11	punct	_	SpaceAfter=No
+13	פַּרְעֹה֙	פרעה	NOUN	subs	Gender=Masc|Number=Sing	10	obl	_	_
+14	מֶ֣לֶךְ	מלך	NOUN	subs	Gender=Masc|Number=Sing	13	appos	_	_
+15	מִצְרַ֔יִם	מצרים	PROPN	nmpr	Number=Sing	14	compound:smixut	_	_
+16	אֵ֛ת	את	ADP	prep	_	17	case	_	_
+17	כָּל	כל	NOUN	subs	Gender=Masc|Number=Sing	10	obj	_	SpaceAfter=No
+18	־	־	PUNCT	punct	_	21	punct	_	SpaceAfter=No
+19	אֲשֶׁ֥ר	אשׁר	SCONJ	conj	_	21	mark	_	_
+20	אֲנִ֖י	אני	PRON	prps	Number=Sing|Person=1	21	nsubj	_	_
+21	דֹּבֵ֥ר	דבר	VERB	verb	Gender=Masc|HebBinyan=PAAL|Number=Sing|VerbForm=Part	17	acl	_	_
+22-23	אֵלֶֽיךָ	_	_	_	_	_	_	_	SpaceAfter=No
+22	_	אל	ADP	prep	_	23	case	_	_
+23	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2	21	obl	_	_
+24	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sent_id = Masoretic-Exodus-7:3-hbo
 # text = וַאֲנִ֥י אַקְשֶׁ֖ה אֶת־לֵ֣ב פַּרְעֹ֑ה וְהִרְבֵּיתִ֧י אֶת־אֹתֹתַ֛י וְאֶת־מֹופְתַ֖י בְּאֶ֥רֶץ מִצְרָֽיִם׃
@@ -213,10 +209,8 @@
 8	_	אל	ADP	prep	_	10	case	_	_
 9	־	־	PUNCT	punct	_	8	punct	_	SpaceAfter=No
 10	אַהֲרֹ֖ן	אהרן	PROPN	nmpr	Gender=Masc|Number=Sing	6	conj	_	_
-11-12	לֵאמֹֽר	_	_	_	_	_	_	_	SpaceAfter=No
-11	_	ל	ADP	prep	_	12	case	_	_
-12	_	אמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	ccomp	_	_
-13	׃	׃	PUNCT	punct	_	2	punct	_	_
+11	לֵאמֹֽר	לאמר	SCONJ	verb	_	2	ccomp	_	SpaceAfter=No
+12	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sent_id = Masoretic-Exodus-7:28-hbo
 # text = וְשָׁרַ֣ץ הַיְאֹר֮ צְפַרְדְּעִים֒ וְעָלוּ֙ וּבָ֣אוּ בְּבֵיתֶ֔ךָ וּבַחֲדַ֥ר מִשְׁכָּבְךָ֖ וְעַל־מִטָּתֶ֑ךָ וּבְבֵ֤ית עֲבָדֶ֨יךָ֙ וּבְעַמֶּ֔ךָ וּבְתַנּוּרֶ֖יךָ וּבְמִשְׁאֲרֹותֶֽיךָ׃
@@ -1135,10 +1129,8 @@
 11	_	ב	ADP	prep	_	12	case	_	_
 12	_	ארץ	NOUN	subs	Number=Sing	2	obl	_	_
 13	מִצְרַ֖יִם	מצרים	PROPN	nmpr	Number=Sing	12	compound:smixut	_	_
-14-15	לֵאמֹֽר	_	_	_	_	_	_	_	SpaceAfter=No
-14	_	ל	ADP	prep	_	15	case	_	_
-15	_	אמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	ccomp	_	_
-16	׃	׃	PUNCT	punct	_	2	punct	_	_
+14	לֵאמֹֽר	לאמר	SCONJ	verb	_	2	ccomp	_	SpaceAfter=No
+15	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sent_id = Masoretic-Exodus-12:2-hbo
 # text = הַחֹ֧דֶשׁ הַזֶּ֛ה לָכֶ֖ם רֹ֣אשׁ חֳדָשִׁ֑ים רִאשֹׁ֥ון הוּא֙ לָכֶ֔ם לְחָדְשֵׁ֖י הַשָּׁנָֽה׃
@@ -1190,10 +1182,8 @@
 4	אֶל	אל	ADP	prep	_	6	case	_	SpaceAfter=No
 5	־	־	PUNCT	punct	_	4	punct	_	SpaceAfter=No
 6	מֹשֶׁ֥ה	משׁה	PROPN	nmpr	Gender=Masc|Number=Sing	2	obl	_	_
-7-8	לֵּאמֹֽר	_	_	_	_	_	_	_	SpaceAfter=No
-7	_	ל	ADP	prep	_	8	case	_	_
-8	_	אמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	ccomp	_	_
-9	׃	׃	PUNCT	punct	_	2	punct	_	_
+7	לֵּאמֹֽר	לאמר	SCONJ	verb	_	2	ccomp	_	SpaceAfter=No
+8	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sent_id = Masoretic-Exodus-14:1-hbo
 # text = וַיְדַבֵּ֥ר יְהֹוָ֖ה אֶל־מֹשֶׁ֥ה לֵּאמֹֽר׃
@@ -1205,10 +1195,8 @@
 4	אֶל	אל	ADP	prep	_	6	case	_	SpaceAfter=No
 5	־	־	PUNCT	punct	_	4	punct	_	SpaceAfter=No
 6	מֹשֶׁ֥ה	משׁה	PROPN	nmpr	Gender=Masc|Number=Sing	2	obl	_	_
-7-8	לֵּאמֹֽר	_	_	_	_	_	_	_	SpaceAfter=No
-7	_	ל	ADP	prep	_	8	case	_	_
-8	_	אמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	ccomp	_	_
-9	׃	׃	PUNCT	punct	_	2	punct	_	_
+7	לֵּאמֹֽר	לאמר	SCONJ	verb	_	2	ccomp	_	SpaceAfter=No
+8	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sent_id = Masoretic-Exodus-14:14-hbo
 # text = יְהוָ֖ה יִלָּחֵ֣ם לָכֶ֑ם וְאַתֶּ֖ם תַּחֲרִישֽׁוּן׃ פ
@@ -1307,10 +1295,8 @@
 4	אֶל	אל	ADP	prep	_	6	case	_	SpaceAfter=No
 5	־	־	PUNCT	punct	_	4	punct	_	SpaceAfter=No
 6	מֹשֶׁ֥ה	משׁה	PROPN	nmpr	Gender=Masc|Number=Sing	2	obl	_	_
-7-8	לֵּאמֹֽר	_	_	_	_	_	_	_	SpaceAfter=No
-7	_	ל	ADP	prep	_	8	case	_	_
-8	_	אמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	ccomp	_	_
-9	׃	׃	PUNCT	punct	_	2	punct	_	_
+7	לֵּאמֹֽר	לאמר	SCONJ	verb	_	2	ccomp	_	SpaceAfter=No
+8	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sent_id = Masoretic-Exodus-16:36-hbo
 # text = וְהָעֹ֕מֶר עֲשִׂרִ֥ית הָאֵיפָ֖ה הֽוּא׃ פ
@@ -1563,10 +1549,8 @@
 4	אֶל	אל	ADP	prep	_	6	case	_	SpaceAfter=No
 5	־	־	PUNCT	punct	_	4	punct	_	SpaceAfter=No
 6	מֹשֶׁ֥ה	משׁה	PROPN	nmpr	Gender=Masc|Number=Sing	2	obl	_	_
-7-8	לֵּאמֹֽר	_	_	_	_	_	_	_	SpaceAfter=No
-7	_	ל	ADP	prep	_	8	case	_	_
-8	_	אמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	ccomp	_	_
-9	׃	׃	PUNCT	punct	_	2	punct	_	_
+7	לֵּאמֹֽר	לאמר	SCONJ	verb	_	2	ccomp	_	SpaceAfter=No
+8	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sent_id = Masoretic-Exodus-25:38-hbo
 # text = וּמַלְקָחֶ֥יהָ וּמַחְתֹּתֶ֖יהָ זָהָ֥ב טָהֹֽור׃
@@ -1593,10 +1577,8 @@
 4	אֶל	אל	ADP	prep	_	6	case	_	SpaceAfter=No
 5	־	־	PUNCT	punct	_	4	punct	_	SpaceAfter=No
 6	מֹשֶׁ֥ה	משׁה	PROPN	nmpr	Gender=Masc|Number=Sing	2	obl	_	_
-7-8	לֵּאמֹֽר	_	_	_	_	_	_	_	SpaceAfter=No
-7	_	ל	ADP	prep	_	8	case	_	_
-8	_	אמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	ccomp	_	_
-9	׃	׃	PUNCT	punct	_	2	punct	_	_
+7	לֵּאמֹֽר	לאמר	SCONJ	verb	_	2	ccomp	_	SpaceAfter=No
+8	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sent_id = Masoretic-Exodus-30:17-hbo
 # text = וַיְדַבֵּ֥ר יְהוָ֖ה אֶל־מֹשֶׁ֥ה לֵּאמֹֽר׃
@@ -1608,10 +1590,8 @@
 4	אֶל	אל	ADP	prep	_	6	case	_	SpaceAfter=No
 5	־	־	PUNCT	punct	_	4	punct	_	SpaceAfter=No
 6	מֹשֶׁ֥ה	משׁה	PROPN	nmpr	Gender=Masc|Number=Sing	2	obl	_	_
-7-8	לֵּאמֹֽר	_	_	_	_	_	_	_	SpaceAfter=No
-7	_	ל	ADP	prep	_	8	case	_	_
-8	_	אמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	ccomp	_	_
-9	׃	׃	PUNCT	punct	_	2	punct	_	_
+7	לֵּאמֹֽר	לאמר	SCONJ	verb	_	2	ccomp	_	SpaceAfter=No
+8	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sent_id = Masoretic-Exodus-30:22-hbo
 # text = וַיְדַבֵּ֥ר יְהוָ֖ה אֶל־מֹשֶׁ֥ה לֵּאמֹֽר׃
@@ -1623,10 +1603,8 @@
 4	אֶל	אל	ADP	prep	_	6	case	_	SpaceAfter=No
 5	־	־	PUNCT	punct	_	4	punct	_	SpaceAfter=No
 6	מֹשֶׁ֥ה	משׁה	PROPN	nmpr	Gender=Masc|Number=Sing	2	obl	_	_
-7-8	לֵּאמֹֽר	_	_	_	_	_	_	_	SpaceAfter=No
-7	_	ל	ADP	prep	_	8	case	_	_
-8	_	אמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	ccomp	_	_
-9	׃	׃	PUNCT	punct	_	2	punct	_	_
+7	לֵּאמֹֽר	לאמר	SCONJ	verb	_	2	ccomp	_	SpaceAfter=No
+8	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sent_id = Masoretic-Exodus-31:1-hbo
 # text = וַיְדַבֵּ֥ר יְהוָ֖ה אֶל־מֹשֶׁ֥ה לֵּאמֹֽר׃
@@ -1638,10 +1616,8 @@
 4	אֶל	אל	ADP	prep	_	6	case	_	SpaceAfter=No
 5	־	־	PUNCT	punct	_	4	punct	_	SpaceAfter=No
 6	מֹשֶׁ֥ה	משׁה	PROPN	nmpr	Gender=Masc|Number=Sing	2	obl	_	_
-7-8	לֵּאמֹֽר	_	_	_	_	_	_	_	SpaceAfter=No
-7	_	ל	ADP	prep	_	8	case	_	_
-8	_	אמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	ccomp	_	_
-9	׃	׃	PUNCT	punct	_	2	punct	_	_
+7	לֵּאמֹֽר	לאמר	SCONJ	verb	_	2	ccomp	_	SpaceAfter=No
+8	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sent_id = Masoretic-Exodus-31:12-hbo
 # text = וַיֹּ֥אמֶר יְהוָ֖ה אֶל־מֹשֶׁ֥ה לֵּאמֹֽר׃
@@ -1653,10 +1629,8 @@
 4	אֶל	אל	ADP	prep	_	6	case	_	SpaceAfter=No
 5	־	־	PUNCT	punct	_	4	punct	_	SpaceAfter=No
 6	מֹשֶׁ֥ה	משׁה	PROPN	nmpr	Gender=Masc|Number=Sing	2	obl	_	_
-7-8	לֵּאמֹֽר	_	_	_	_	_	_	_	SpaceAfter=No
-7	_	ל	ADP	prep	_	8	case	_	_
-8	_	אמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	ccomp	_	_
-9	׃	׃	PUNCT	punct	_	2	punct	_	_
+7	לֵּאמֹֽר	לאמר	SCONJ	verb	_	2	ccomp	_	SpaceAfter=No
+8	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sent_id = Masoretic-Exodus-32:17-hbo
 # text = וַיִּשְׁמַ֧ע יְהֹושֻׁ֛עַ אֶת־קֹ֥ול הָעָ֖ם בְּרֵעֹ֑ו וַיֹּ֨אמֶר֙ אֶל־מֹשֶׁ֔ה קֹ֥ול מִלְחָמָ֖ה בַּֽמַּחֲנֶה׃
@@ -1781,10 +1755,8 @@
 4	אֶל	אל	ADP	prep	_	6	case	_	SpaceAfter=No
 5	־	־	PUNCT	punct	_	4	punct	_	SpaceAfter=No
 6	מֹשֶׁ֥ה	משׁה	PROPN	nmpr	Gender=Masc|Number=Sing	2	obl	_	_
-7-8	לֵּאמֹֽר	_	_	_	_	_	_	_	SpaceAfter=No
-7	_	ל	ADP	prep	_	8	case	_	_
-8	_	אמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	ccomp	_	_
-9	׃	׃	PUNCT	punct	_	2	punct	_	_
+7	לֵּאמֹֽר	לאמר	SCONJ	verb	_	2	ccomp	_	SpaceAfter=No
+8	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sent_id = Masoretic-Exodus-40:18-hbo
 # text = וַיָּ֨קֶם מֹשֶׁ֜ה אֶת־הַמִּשְׁכָּ֗ן וַיִּתֵּן֙ אֶת־אֲדָנָ֔יו וַיָּ֨שֶׂם֙ אֶת־קְרָשָׁ֔יו וַיִּתֵּ֖ן אֶת־בְּרִיחָ֑יו וַיָּ֖קֶם אֶת־עַמּוּדָֽיו׃

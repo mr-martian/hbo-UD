@@ -126,6 +126,9 @@ SUBSTITUTE (?) (N) UnknownShouldBeNarrative ;
 # Retagging
 ####################
 
+# quotation
+MERGECOHORTS ("<le'emor>" "$2$1"v SCONJ *) ("(אמר)"r verb infc) WITH (-1 ("(ל)"r prep)) ;
+
 # Substantivized adjectives
 SUBSTITUTE (adjv) (subs retag:adjv) (c) ;
 SUBSTITUTE (adjv) (subs retag:adjv) (a) (1 BD) (-1* Noun + (c) BARRIER NonJoiner - Det) ;
@@ -394,7 +397,7 @@ MAP @cop (vbcp) OR (aux nmcp) IF (0* (PreC) BARRIER CB) ;
 SECTION # helper labels
 
 LIST CanAddMaybeClauseRoot = PreC Pred PreO ;
-LIST CannotAddMaybeClauseRoot = @cop MaybeClauseRoot @nummod ;
+LIST CannotAddMaybeClauseRoot = @cop MaybeClauseRoot @nummod SCONJ ;
 ADD MaybeClauseRoot CanAddMaybeClauseRoot - CannotAddMaybeClauseRoot ;
 
 SECTION # adjacent words
@@ -479,6 +482,9 @@ SETPARENT @acl - AclCompNotOk (NOT p (*))
 MAP @advmod (verb infa) IF (1* PB BARRIER NonJoiner LINK 1 (verb)) ;
 SETPARENT (verb @advmod) (NOT p (*)) TO (1* PB BARRIER NonJoiner LINK 1 (verb)) ;
 
+MAP @ccomp (SCONJ verb) IF (NEGATE 1* MaybeClauseRoot) ;
+MAP @mark (SCONJ verb) ;
+
 SECTION
 
 LIST ObjAble = subs prn nmpr prin prde ;
@@ -489,7 +495,7 @@ SECTION
 
 LIST Ptc = ptcp ptca infc ;
 
-SETPARENT (verb) + Ptc (NOT p (*)) TO (-1* Noun - @compound:smixut BARRIER NonJoiner - BD - @det - @compound:smixut) ;
+SETPARENT (verb) + Ptc - (SCONJ) (NOT p (*)) TO (-1* Noun - @compound:smixut BARRIER NonJoiner - BD - @det - @compound:smixut) ;
 MAP @acl (verb) + Ptc IF (p Noun) ;
 
 SECTION
@@ -516,10 +522,7 @@ SETPARENT (PrepVerb) (NOT p (*)) (c @case - ("ל"))
     TO (0* MaybeClauseRoot - (PrepVerb) BARRIER SB) ;
 MAP @advcl (PrepVerb) IF (p (*)) ;
 
-MAP @ccomp ("אמר" verb infc) IF (NEGATE 1* MaybeClauseRoot) ;
-MAP @mark ("אמר" verb infc) ;
 LIST SpeakingVerb = quot "ברך" "צוה" ;
-#SETPARENT ("אמר" infc @advcl) (NOT p (*)) (c ("ל" prep)) TO (-1* SpeakingVerb) ;
 
 MAP @advcl (MaybeClauseRoot Q)
     IF (c @mark) (1* (MaybeClauseRoot Q) BARRIER NonQuote LINK NEGATE c @mark) ;
@@ -533,7 +536,7 @@ MAP @parataxis (MaybeClauseRoot Q) - (infc)
 MAP @ccomp (MaybeClauseRoot Q)
     IF (NEGATE c @mark) (-1* MaybeClauseRoot + NonQuote)
        (NOT -1* (MaybeClauseRoot Q) - @acl BARRIER (N)) ;
-LIST CRconj = @ccomp @root @parataxis ("אמר" verb infc @advcl) ;
+LIST CRconj = @ccomp @root @parataxis ;
 SETPARENT (MaybeClauseRoot Q @conj) (NOT p (*))
     TO (-1* (MaybeClauseRoot Q) + CRconj) ;
 
@@ -549,7 +552,7 @@ SETPARENT (@ccomp Q) (NOT p (*)) TO (-1* (quot MaybeClauseRoot) - @mark) ;
 LIST CcompAble = "חלל" "נתן" "מהר" "צוה" "שׁמע" ;
 SETPARENT @ccomp (NOT p (*)) TO (-1* CcompAble + MaybeClauseRoot) ;
 
-SETPARENT ("אמר" verb @mark) (NOT p (*)) TO (1* @ccomp) ;
+SETPARENT (SCONJ @mark) (NOT p (*)) TO (1* @ccomp) ;
 
 LIST XcompVerb = "ירא" "נחם" "שׁחת" "קרא" "מלא" "לבשׁ" "שׁחת" "נגד" "ידע" "מהר" "פקד" "יכל" ;
 LIST CcompVerb = "ראה" ;

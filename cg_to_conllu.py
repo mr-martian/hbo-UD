@@ -16,7 +16,7 @@ POS_MAP = {
     'prde': 'PRON',
     'prin': 'PRON',
     'intj': 'INTJ',
-    'nega': 'ADV', # TODO?
+    'nega': 'ADV',
     'inrg': 'PART', # TODO?
     'adjv': 'ADJ',
     'punct': 'PUNCT',
@@ -52,6 +52,13 @@ MORPH = {
 #    'poel': '???' # po'el
     'pual': ['HebBinyan=PUAL'],
     'qal': ['HebBinyan=PAAL'],
+    'nega': ['Polarity=Neg'],
+    'prn': ['PronType=Prs'],
+    'prps': ['PronType=Prs'],
+    'prde': ['PronType=Dem'],
+    'prin': ['PronType=Int'],
+    'card': ['NumType=Card'],
+    'ord': ['NumType=Ord']
 }
 
 def norm(s):
@@ -97,7 +104,7 @@ class Word:
             self.upos = POS_MAP[self.xpos]
             if self.upos == 'VERB' and self.lemma == 'היה':
                 self.upos = 'AUX'
-        for tg in parts[1:]:
+        for tg in parts:
             if tg in MORPH:
                 self.feats += MORPH[tg]
             elif tg[0] == 'w':
@@ -126,8 +133,10 @@ class Word:
                 self.upos = 'CCONJ'
             elif self.rel == 'mark':
                 self.upos = 'SCONJ'
-        if self.upos in ['ADP', 'SCONJ', 'ADV']:
+        if self.upos in ['ADP', 'SCONJ']:
             self.feats = []
+        elif self.upos == 'ADV':
+            self.feats = [x for x in self.feats if 'Polarity' in x]
         elif self.upos == 'VERB' and self.lemma in ['ישׁ', 'אין']:
             self.feats = []
         self.get_info()

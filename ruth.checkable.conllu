@@ -145,15 +145,15 @@
 9	_	ל	ADP	prep	_	10	case	_	_
 10	_	אישׁ	NOUN	subs	Gender=Masc|Number=Sing	8	obl	_	_
 11	כִּ֤י	כי	SCONJ	conj	_	12	mark	_	_
-12	אָמַ֨רְתִּי֙	אמר	VERB	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	16	advcl	_	_
-13	יֶשׁ	ישׁ	AUX	subs	Number=Sing	16	cop	_	SpaceAfter=No
-14	־	־	PUNCT	punct	_	13	punct	_	SpaceAfter=No
+12	אָמַ֨רְתִּי֙	אמר	VERB	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	13	advcl	_	_
+13	יֶשׁ	ישׁ	VERB	subs	Number=Sing	4	parataxis	_	SpaceAfter=No
+14	־	־	PUNCT	punct	_	16	punct	_	SpaceAfter=No
 15-16	לִ֣י	_	_	_	_	_	_	_	_
 15	_	ל	ADP	prep	_	16	case	_	_
-16	_	אני	PRON	prn	Number=Sing|Person=1	4	parataxis	_	_
-17	תִקְוָ֔ה	תקוה	NOUN	subs	Gender=Fem|Number=Sing	16	nsubj	_	_
+16	_	אני	PRON	prn	Number=Sing|Person=1	13	obl	_	_
+17	תִקְוָ֔ה	תקוה	NOUN	subs	Gender=Fem|Number=Sing	13	nsubj	_	_
 18	גַּ֣ם	גם	ADV	advb	_	19	advmod	_	_
-19	הָיִ֤יתִי	היה	AUX	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	16	parataxis	_	_
+19	הָיִ֤יתִי	היה	AUX	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	13	parataxis	_	_
 20-21	הַלַּ֨יְלָה֙	_	_	_	_	_	_	_	_
 20	_	ה	DET	art	_	21	det	_	_
 21	_	לילה	NOUN	subs	Gender=Masc|Number=Sing	19	obl	_	_
@@ -879,22 +879,22 @@
 # text = וְעַתָּה֙ כִּ֣י אָמְנָ֔ם כִּ֥י גֹאֵ֖ל אָנֹ֑כִי וְגַ֛ם יֵ֥שׁ גֹּאֵ֖ל קָרֹ֥וב מִמֶּֽנִּי׃
 1-2	וְעַתָּה֙	_	_	_	_	_	_	_	_
 1	_	ו	CCONJ	conj	_	6	cc	_	_
-2	_	עתה	ADV	advb	_	12	advmod	_	_
+2	_	עתה	ADV	advb	_	10	advmod	_	_
 3	כִּ֣י	כי	SCONJ	conj	_	6	mark	_	_
-4	אָמְנָ֔ם	אמנם	ADV	advb	_	12	advmod	_	_
+4	אָמְנָ֔ם	אמנם	ADV	advb	_	10	advmod	_	_
 5	כִּ֥י	כי	SCONJ	conj	_	6	mark	_	_
-6	גֹאֵ֖ל	גאל	NOUN	verb	Gender=Masc|HebBinyan=PAAL|Number=Sing|VerbForm=Part	12	advcl	_	_
+6	גֹאֵ֖ל	גאל	NOUN	verb	Gender=Masc|HebBinyan=PAAL|Number=Sing|VerbForm=Part	10	advcl	_	_
 7	אָנֹ֑כִי	אנכי	PRON	prps	Number=Sing|Person=1	6	nsubj	_	_
 8-9	וְגַ֛ם	_	_	_	_	_	_	_	_
-8	_	ו	CCONJ	conj	_	12	cc	_	_
-9	_	גם	ADV	advb	_	12	advmod	_	_
-10	יֵ֥שׁ	ישׁ	AUX	subs	Number=Sing	11	cop	_	_
-11	גֹּאֵ֖ל	גאל	NOUN	verb	Gender=Masc|HebBinyan=PAAL|Number=Sing|VerbForm=Part	6	dislocated	_	_
-12	קָרֹ֥וב	קרוב	ADJ	adjv	Gender=Masc|Number=Sing	0	root	_	_
+8	_	ו	CCONJ	conj	_	10	cc	_	_
+9	_	גם	ADV	advb	_	10	advmod	_	_
+10	יֵ֥שׁ	ישׁ	VERB	subs	Number=Sing	0	root	_	_
+11	גֹּאֵ֖ל	גאל	NOUN	verb	Gender=Masc|HebBinyan=PAAL|Number=Sing|VerbForm=Part	10	xcomp	_	_
+12	קָרֹ֥וב	קרוב	ADJ	adjv	Gender=Masc|Number=Sing	10	parataxis	_	_
 13-14	מִמֶּֽנִּי	_	_	_	_	_	_	_	SpaceAfter=No
 13	_	מן	ADP	prep	_	14	case	_	_
 14	_	אני	PRON	prn	Number=Sing|Person=1	12	obl	_	_
-15	׃	׃	PUNCT	punct	_	12	punct	_	_
+15	׃	׃	PUNCT	punct	_	10	punct	_	_
 
 # sentence_index = 58
 # sent_id = Masoretic-Ruth-3:13-hbo

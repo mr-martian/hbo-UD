@@ -151,7 +151,7 @@ SUBSTITUTE (subs) (advb retag:subs) ("אחר" subs ppre AdvP) (1 BD) ;
 SUBSTITUTE (subs) (prep retag:subs) ("אחר" subs ppre) ;
 
 # yesh and ein
-SUBSTITUTE (subs) (aux retag:subs) (nmcp) ;
+SUBSTITUTE (subs) (verb retag:subs MaybeClauseRoot ClauseRoot) (nmcp) ;
 
 ####################
 # Helper labels
@@ -208,7 +208,7 @@ MAP @nsubj (prn) + NsubjPrn ;
 MAP @obj (prn) + ObjPrn ;
 MAP @obj (prn) IF (-1 (verb)) ;
 MAP (NPHead @obj) (prn) IF (-1 Pr + ("את") - etNotAcc) ;
-SETPARENT (prn @obj) OR (prn @nsubj) (NOT p (*)) TO (-1 (verb) OR (aux)) ;
+SETPARENT (prn @obj) OR (prn @nsubj) (NOT p (*)) TO (-1 (verb)) ;
 MAP @nmod:poss (prn) IF (-1 Noun - (verb) - Number) ;
 SETPARENT @nmod:poss (NOT p (*)) TO (-1 Noun) ;
 MAP @nmod (prn) IF (-1 Number) ;
@@ -331,8 +331,12 @@ SETPARENT (@xcomp infc InfC) (NOT p (*)) TO (-1* XcompInf + (verb) BARRIER SB) ;
 #MAP @xcomp (verb infc) IF (-1* XcompInf + (verb) BARRIER XCIbar) ;
 #SETPARENT (@xcomp infc) (NOT p (*)) TO (-1* XcompInf + (verb) BARRIER XCIbar) ;
 
-MAP @cop (vbcp) OR (aux) IF (1* (ptca) OR (ptcp) OR (infc) BARRIER (*) - BD - ("ל" prep)) ;
+MAP @cop (vbcp) IF (1* (ptca) OR (ptcp) OR (infc) BARRIER (*) - BD - ("ל" prep)) ;
 SETPARENT @cop (NOT p (*)) TO (1* (ptca) OR (ptcp) OR (infc) BARRIER (*) - BD - ("ל" prep)) ;
+
+MAP @advcl (infc) IF (-1 ("ל" prep) LINK -1* (verb nmcp) BARRIER SB) ;
+MAP @xcomp (ptca) OR (ptcp) IF (-1* (verb nmcp) BARRIER SB) ;
+SETPARENT @advcl OR @xcomp (NOT p (*)) TO (-1* (verb nmcp) BARRIER SB) ;
 
 ####################
 # Connect NPs
@@ -414,6 +418,7 @@ ADD (ClauseRoot) (adjv AjCl) - (ClauseRoot) IF (NOT p (*)) ;
 SECTION
 
 MAP @obl Noun + (Adju a) ;
+MAP @obl PPHead + (PreC) IF (-1* (nmcp) BARRIER SB) ;
 
 SET NonNmCl = (*) - (NmCl) - (prn) ;
 
@@ -430,9 +435,12 @@ MAP @nsubj SubjAble + (Subj) ;
 MAP @nsubj SubjAble + (InjP) IF (1* (ptca) OR (ptcp) BARRIER NonJoiner - PB) ;
 
 SETPARENT @cop + $$ClauseType (NOT p (*)) TO (1* (MaybeClauseRoot PreC) + $$ClauseType BARRIER SB) ;
+SETPARENT @nsubj + $$ClauseType (NOT p (*)) TO (0* (nmcp) + $$ClauseType BARRIER SB) ;
 SETPARENT @nsubj (NOT p (*)) TO (1* (MaybeClauseRoot PreC) BARRIER CB) ;
 
 LIST VerbArgs = @nsubj @obj @obl @vocative (@xcomp adjv) (@advcl infa) @advmod ;
+SETPARENT VerbArgs + $$ClauseType - Pr (NOT p (*))
+    TO (0* ClauseRoot + $$ClauseType BARRIER SB) ;
 SETPARENT VerbArgs + $$ClauseType - Pr (NOT p (*))
     TO (0* MaybeClauseRoot + $$ClauseType BARRIER SB) ;
 
@@ -567,10 +575,10 @@ SETPARENT @obj (NOT p (*)) TO (0* (verb MaybeClauseRoot) BARRIER CB) ;
 SETPARENT (@obj w107001) TO (-1* (w106997)) ; # why is there a CB in this verse?
 SETPARENT @xcomp (NOT p (*)) TO (-1* (verb MaybeClauseRoot)) ;
 
-LIST ConjToAdvcl = (Genesis w774) ;
+LIST ConjToAdvcl = (Genesis w772) ;
 SETPARENT ConjToAdvcl (NOT p (*)) TO (-1* MaybeClauseRoot + @advcl) ;
 
-LIST DontConj = @conj @acl @nmod @xcomp @appos @advcl @nmod:poss (@ccomp N) ;
+LIST DontConj = @conj @acl @nmod @xcomp @appos @advcl @nmod:poss (@ccomp N) @obl ;
 SETPARENT MaybeClauseRoot + ClauseCon + $$Domain (NOT p (*)) TO (-1* MaybeClauseRoot + $$Domain - DontConj) ;
 
 LIST OblIsh = Time Cmpl Loca Modi Adju ;

@@ -147,11 +147,11 @@ class Word:
             self.lemma or '_',
             self.upos or '_',
             self.xpos or '_',
-            '|'.join(sorted(self.feats)) or '_',
+            '|'.join(sorted(self.feats, key=lambda x: x.lower())) or '_',
             self.head or '_',
             self.rel or '_',
             '_',
-            '|'.join(sorted(set(self.misc))) or '_'
+            '|'.join(sorted(set(self.misc), key=lambda x: x.lower())) or '_'
         ]
         return '\t'.join(ls)
 

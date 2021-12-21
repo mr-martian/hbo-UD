@@ -527,7 +527,7 @@
 19	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	18	nmod:poss	_	_
 20	לֹ֥א	לא	ADV	nega	Polarity=Neg	21	advmod	_	_
 21	נִשְׁאַ֖ר	שׁאר	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=NIFAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	2	parataxis	_	_
-22	אֶחָֽד	אחד	NUM	subs	NumType=Card|Number=Sing	21	nsubj	_	SpaceAfter=No
+22	אֶחָֽד	אחד	NUM	subs	Number=Sing|NumType=Card	21	nsubj	_	SpaceAfter=No
 23	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sent_id = Masoretic-Exodus-8:28-hbo
@@ -626,7 +626,7 @@
 23	לֹא	לא	ADV	nega	Polarity=Neg	25	advmod	_	SpaceAfter=No
 24	־	־	PUNCT	punct	_	23	punct	_	SpaceAfter=No
 25	מֵ֥ת	מות	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	2	conj	_	_
-26	אֶחָֽד	אחד	NUM	subs	NumType=Card|Number=Sing	25	nsubj	_	SpaceAfter=No
+26	אֶחָֽד	אחד	NUM	subs	Number=Sing|NumType=Card	25	nsubj	_	SpaceAfter=No
 27	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sent_id = Masoretic-Exodus-9:23-hbo
@@ -989,7 +989,7 @@
 19	־	־	PUNCT	punct	_	20	punct	_	SpaceAfter=No
 20	אֶ֥רֶץ	ארץ	NOUN	subs	Number=Sing	18	compound:smixut	_	_
 21	מִצְרַ֖יִם	מצרים	PROPN	nmpr	Number=Sing	20	compound:smixut	_	_
-22	שְׁלֹ֥שֶׁת	שׁלשׁ	NUM	subs	Gender=Fem|NumType=Card|Number=Sing	23	nummod	_	_
+22	שְׁלֹ֥שֶׁת	שׁלשׁ	NUM	subs	Gender=Fem|Number=Sing|NumType=Card	23	nummod	_	_
 23	יָמִֽים	יום	NOUN	subs	Gender=Masc|Number=Plur	13	obl	_	SpaceAfter=No
 24	׃	׃	PUNCT	punct	_	2	punct	_	_
 
@@ -1400,7 +1400,7 @@
 # sent_id = Masoretic-Exodus-20:9-hbo
 # text = שֵׁ֤֣שֶׁת יָמִ֣ים֙ תַּֽעֲבֹ֔ד֮ וְעָשִׂ֖֣יתָ כָּל־מְלַאכְתֶּֽךָ֒׃
 # checker = Daniel
-1	שֵׁ֤֣שֶׁת	שׁשׁ	NUM	subs	Gender=Fem|NumType=Card|Number=Sing	2	nummod	_	_
+1	שֵׁ֤֣שֶׁת	שׁשׁ	NUM	subs	Gender=Fem|Number=Sing|NumType=Card	2	nummod	_	_
 2	יָמִ֣ים֙	יום	NOUN	subs	Gender=Masc|Number=Plur	3	obl	_	_
 3	תַּֽעֲבֹ֔ד֮	עבד	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	0	root	_	_
 4-5	וְעָשִׂ֖֣יתָ	_	_	_	_	_	_	_	_
@@ -1530,11 +1530,11 @@
 17	_	ב	ADP	prep	_	19	case	_	_
 18	_	ה	DET	art	_	19	det	_	_
 19	_	הר	NOUN	subs	Gender=Masc|Number=Sing	2	conj	_	_
-20	אַרְבָּעִ֣ים	ארבע	NUM	subs	Gender=Masc|NumType=Card|Number=Plur	21	nummod	_	_
+20	אַרְבָּעִ֣ים	ארבע	NUM	subs	Gender=Masc|Number=Plur|NumType=Card	21	nummod	_	_
 21	יֹ֔ום	יום	NOUN	subs	Gender=Masc|Number=Sing	19	obl	_	_
 22-23	וְאַרְבָּעִ֖ים	_	_	_	_	_	_	_	_
 22	_	ו	CCONJ	conj	_	24	cc	_	_
-23	_	ארבע	NUM	subs	Gender=Masc|NumType=Card|Number=Plur	24	nummod	_	_
+23	_	ארבע	NUM	subs	Gender=Masc|Number=Plur|NumType=Card	24	nummod	_	_
 24	לָֽיְלָה	לילה	NOUN	subs	Gender=Masc|Number=Sing	21	conj	_	SpaceAfter=No
 25	׃	׃	PUNCT	punct	_	2	punct	_	_
 26	פ	פ	PUNCT	punct	_	2	punct	_	_
@@ -1717,7 +1717,7 @@
 1-2	וַֽיַּעֲשׂ֗וּ	_	_	_	_	_	_	_	_
 1	_	ו	CCONJ	conj	_	2	cc	_	_
 2	_	עשׂה	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
-3	שְׁתֵּי֙	שׁנים	NUM	subs	Gender=Fem|NumType=Card|Number=Dual	4	nummod	_	_
+3	שְׁתֵּי֙	שׁנים	NUM	subs	Gender=Fem|Number=Dual|NumType=Card	4	nummod	_	_
 4	טַבְּעֹ֣ת	טבעת	NOUN	subs	Gender=Fem|Number=Plur	2	obj	_	_
 5	זָהָ֔ב	זהב	NOUN	subs	Gender=Masc|Number=Sing	4	compound:smixut	_	_
 6-7	וַיָּשִׂ֕ימוּ	_	_	_	_	_	_	_	_
@@ -1725,7 +1725,7 @@
 7	_	שׂים	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin	2	conj	_	_
 8	עַל	על	ADP	prep	_	11	case	_	SpaceAfter=No
 9	־	־	PUNCT	punct	_	8	punct	_	SpaceAfter=No
-10	שְׁנֵ֖י	שׁנים	NUM	subs	NumType=Card|Number=Dual	11	nummod	_	_
+10	שְׁנֵ֖י	שׁנים	NUM	subs	Number=Dual|NumType=Card	11	nummod	_	_
 11	קְצֹ֣ות	קצה	NOUN	subs	Gender=Fem|Number=Plur	7	obl	_	_
 12-13	הַחֹ֑שֶׁן	_	_	_	_	_	_	_	_
 12	_	ה	DET	art	_	13	det	_	_

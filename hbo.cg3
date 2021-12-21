@@ -516,9 +516,10 @@ SETPARENT (PrepVerb) (NOT p (*)) (c @case - ("ל"))
     TO (0* MaybeClauseRoot - (PrepVerb) BARRIER SB) ;
 MAP @advcl (PrepVerb) IF (p (*)) ;
 
-MAP @advcl ("אמר" verb infc) ;
+MAP @ccomp ("אמר" verb infc) IF (NEGATE 1* MaybeClauseRoot) ;
+MAP @mark ("אמר" verb infc) ;
 LIST SpeakingVerb = quot "ברך" "צוה" ;
-SETPARENT ("אמר" infc @advcl) (NOT p (*)) (c ("ל" prep)) TO (-1* SpeakingVerb) ;
+#SETPARENT ("אמר" infc @advcl) (NOT p (*)) (c ("ל" prep)) TO (-1* SpeakingVerb) ;
 
 MAP @advcl (MaybeClauseRoot Q)
     IF (c @mark) (1* (MaybeClauseRoot Q) BARRIER NonQuote LINK NEGATE c @mark) ;
@@ -544,9 +545,11 @@ SETPARENT @advcl + $$Domain (NOT p (*)) TO (1* MaybeClauseRoot + $$Domain BARRIE
 SETPARENT @advcl + $$Domain (NOT p (*)) TO (-1* MaybeClauseRoot + $$Domain BARRIER SB) ;
 SETPARENT @advcl + $$Domain (NOT p (*)) (NEGATE 0* MaybeClauseRoot BARRIER SB) TO (1* MaybeClauseRoot + $$Domain) ;
 
-SETPARENT (@ccomp Q) (NOT p (*)) TO (-1* (quot MaybeClauseRoot)) ;
+SETPARENT (@ccomp Q) (NOT p (*)) TO (-1* (quot MaybeClauseRoot) - @mark) ;
 LIST CcompAble = "חלל" "נתן" "מהר" "צוה" "שׁמע" ;
 SETPARENT @ccomp (NOT p (*)) TO (-1* CcompAble + MaybeClauseRoot) ;
+
+SETPARENT ("אמר" verb @mark) (NOT p (*)) TO (1* @ccomp) ;
 
 LIST XcompVerb = "ירא" "נחם" "שׁחת" "קרא" "מלא" "לבשׁ" "שׁחת" "נגד" "ידע" "מהר" "פקד" "יכל" ;
 LIST CcompVerb = "ראה" ;
@@ -578,7 +581,7 @@ SETPARENT @xcomp (NOT p (*)) TO (-1* (verb MaybeClauseRoot)) ;
 LIST ConjToAdvcl = (Genesis w772) ;
 SETPARENT ConjToAdvcl (NOT p (*)) TO (-1* MaybeClauseRoot + @advcl) ;
 
-LIST DontConj = @conj @acl @nmod @xcomp @appos @advcl @nmod:poss (@ccomp N) @obl ;
+LIST DontConj = @conj @acl @nmod @xcomp @appos @advcl @nmod:poss (@ccomp N) @obl @mark ;
 SETPARENT MaybeClauseRoot + ClauseCon + $$Domain (NOT p (*)) TO (-1* MaybeClauseRoot + $$Domain - DontConj) ;
 
 LIST OblIsh = Time Cmpl Loca Modi Adju ;
@@ -590,6 +593,9 @@ SETPARENT (@advmod AjCl) (NOT p (*)) TO (0* (adjv) BARRIER CB) ;
 SETPARENT @advmod (NOT p (*)) TO (0*A MaybeClauseRoot BARRIER CB LINK c @cop) ;
 
 SETPARENT @discourse TO (1* (ClauseRoot) BARRIER CB) ;
+
+SETPARENT (@ccomp Q) (NEGATE c (verb @mark) LINK -1* SpeakingVerb BARRIER SB)
+    TO (c (verb @mark) LINK -1* MaybeClauseRoot BARRIER SB) ;
 
 SECTION
 

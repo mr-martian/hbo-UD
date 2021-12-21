@@ -54,9 +54,14 @@ MORPH = {
     'qal': ['HebBinyan=PAAL'],
 }
 
+def norm(s):
+    return unicodedata.normalize('NFC', s)
+
 class Word:
     def __init__(self):
         self.wid = 0
+
+        # conllu collumns
         self.pos = ''
         self.surf = ''
         self.lemma = ''
@@ -66,6 +71,24 @@ class Word:
         self.head = ''
         self.rel = ''
         self.misc = []
+
+        # helper data, filled by self.get_info()
+        self.text = ''
+        self.tail = ''
+        self.is_end = True
+    def get_info(self):
+        last_wid = self.wid
+        if isinstance(self.wid, list):
+            last_wid = self.wid[-1]
+        if last_wid != 0:
+            self.text = norm(T.text(self.wid))
+            self.tail = norm(F.trailer_utf8.v(last_wid))
+            if self.tail:
+                self.text = self.text.rstrip(self.tail)
+            if (F.prs.v(last_wid) and F.prs.v(last_wid) not in ['absent', 'n/a']):
+                self.is_end = False
+        if self.xpos not in ['punct', 'prn'] and not self.tail:
+            self.is_end = False
     def from_cg(self, inp):
         self.lemma = inp.split('"')[1]
         parts = inp.split('"')[-1].split()
@@ -90,6 +113,8 @@ class Word:
                 self.rel = tg[1:]
                 if self.rel == 'advmod' and self.upos == 'VERB':
                     self.upos = 'ADV'
+                elif self.rel == 'mark' and self.upos == 'ADP':
+                    self.upos = 'SCONJ'
             elif tg.startswith('retag:'):
                 if self.xpos == 'conj' and tg == 'retag:art':
                     self.upos = 'SCONJ'
@@ -101,10 +126,11 @@ class Word:
                 self.upos = 'CCONJ'
             elif self.rel == 'mark':
                 self.upos = 'SCONJ'
-        if self.upos in ['ADP', 'SCONJ']:
+        if self.upos in ['ADP', 'SCONJ', 'ADV']:
             self.feats = []
         elif self.upos == 'VERB' and self.lemma in ['ישׁ', 'אין']:
             self.feats = []
+        self.get_info()
     def to_conllu(self):
         ls = [
             self.pos,
@@ -140,77 +166,47 @@ class Sentence:
                 w.from_cg(line.strip())
                 w.surf = surf
                 self.real_words.append(w)
-    def process(self):
-        in_group = False
-        ids = []
-        def hasprn(wid):
-            return isinstance(wid, int) and F.prs.v(wid) and F.prs.v(wid) not in ['absent', 'n/a']
-        def tail(w):
-            if isinstance(w.wid, int):
-                return F.trailer_utf8.v(w.wid)
-            else:
-                return F.trailer_utf8.v(w.wid[-1])
-        def getsurf(w):
-            if w.wid == 0:
-                if w.upos == 'punct':
-                    return w.lemma
-                return ''
-            s, t = '', ''
-            if isinstance(w.wid, int):
-                s = T.text(w.wid)
-                t = F.trailer_utf8.v(w.wid)
-            else:
-                s = T.text(w.wid)
-                t = F.trailer_utf8.v(w.wid[-1])
-            if t:
-                #s = s[:-len(t)]
-                s = s.rstrip(t)
-            return unicodedata.normalize('NFC', s)
-        for i, w in enumerate(self.real_words):
-            if w.wid != 0:
-                if isinstance(w.wid, list):
-                    ids += w.wid
-                else:
-                    ids.append(w.wid)
-            if w.wid == 0 or (in_group and tail(w)):
-                if w.xpos == 'punct':
-                    w.surf = w.lemma
-                    if w.lemma == '־':
-                        w.misc.append('SpaceAfter=No')
-                else:
+    def get_ids(self):
+        ret = []
+        for w in self.real_words:
+            if isinstance(w.wid, list):
+                ret += w.wid
+            elif w.wid != 0:
+                ret.append(w.wid)
+        return ret
+    def add_compounds(self):
+        gps = []
+        cur = []
+        for w in self.real_words:
+            cur.append(w)
+            if w.is_end:
+                gps.append(cur)
+                cur = []
+        for i, g in enumerate(gps):
+            if len(g) > 1:
+                surf = ''.join(w.text for w in g)
+                tail = ''.join(w.tail for w in g)
+                nw = Word()
+                nw.surf = surf
+                nw.pos = g[0].pos + '-' + g[-1].pos
+                if not tail or tail[0] != ' ':
+                    nw.misc.append('SpaceAfter=No')
+                self.all_words.append(nw)
+                self.all_words += g
+                for w in g:
                     w.surf = '_'
-                in_group = False
-            elif not in_group and (not tail(w) or hasprn(w.wid)):
-                in_group = True
-                pos = w.pos + '-'
-                surf = getsurf(w)
-                w.surf = '_'
-                last_trail = tail(w)
-                for j in range(i+1, len(self.real_words)):
-                    w2 = self.real_words[j]
-                    w2.surf = '_'
-                    surf += getsurf(w2)
-                    if w2.wid != 0:
-                        last_trail = tail(w2)
-                    if w2.wid == 0 or tail(w2):
-                        k = j
-                        if j+1 < len(self.real_words) and self.real_words[j+1].wid == 0 and self.real_words[j+1].xpos != 'punct':
-                            k += 1
-                        nw = Word()
-                        nw.pos = pos + self.real_words[k].pos
-                        nw.surf = unicodedata.normalize('NFC', surf)
-                        if last_trail and last_trail[0] != ' ':
-                            nw.misc.append('SpaceAfter=No')
-                        self.all_words.append(nw)
-                        break
-            elif not in_group and tail(w):
-                w.surf = getsurf(w)
-                if tail(w)[0] != ' ':
+            else:
+                w = g[0]
+                w.surf = w.lemma if w.xpos == 'punct' else w.text
+                if w.xpos == 'punct' and w.lemma == '־':
                     w.misc.append('SpaceAfter=No')
-                    if ' ' not in tail(w) and i+1 < len(self.real_words):
-                        self.real_words[i+1].misc.append('SpaceAfter=No')
-            self.all_words.append(w)
-        self.text = unicodedata.normalize('NFC', T.text(ids).strip())
+                elif w.tail and w.tail[0] != ' ':
+                    w.misc.append('SpaceAfter=No')
+                self.all_words.append(w)
+    def process(self):
+        self.add_compounds()
+        ids = self.get_ids()
+        self.text = norm(T.text(ids).strip())
         ws = min(ids)
         we = max(ids)
         book = T.bookName(ws)

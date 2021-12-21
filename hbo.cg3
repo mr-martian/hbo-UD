@@ -144,7 +144,7 @@ LIST NPish = NP PP ;
 SUBSTITUTE (verb) (subs retag:verb) Participle + NPish ;
 
 # Adverbs tagged subs
-SUBSTITUTE (subs) (advb retag:subs) (padv) (-1 BD) (1* BD BARRIER (*) - (punct)) ;
+SUBSTITUTE (subs) (advb retag:subs) (padv) - (NP) (-1 BD) (1* BD BARRIER (*) - (punct)) ;
 
 # Determiner on clause participles
 SUBSTITUTE (art) (conj retag:art) (CP Rela) ;
@@ -662,6 +662,9 @@ AFTER-SECTIONS
 UNMAP @nsubj IF (NOT p (*)) ;
 MAP @dislocated SubjAble + (Subj) ;
 SETPARENT @dislocated (NOT p (*)) TO (-1* ClauseRoot) ;
+
+#UNMAP @case IF (p (verb)) ;
+#MAP @mark Pr IF (p (verb)) ;
 
 REMCOHORT (pb) ;
 REMCOHORT (cb) ;

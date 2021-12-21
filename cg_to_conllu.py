@@ -99,6 +99,8 @@ class Word:
                 self.upos = 'SCONJ'
         if self.upos == 'ADP':
             self.feats = []
+        elif self.upos == 'VERB' and self.lemma in ['ישׁ', 'אין']:
+            self.feats = []
     def to_conllu(self):
         ls = [
             self.pos,

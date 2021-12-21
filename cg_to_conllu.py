@@ -97,6 +97,8 @@ class Word:
                 self.upos = 'CCONJ'
             elif self.rel == 'mark':
                 self.upos = 'SCONJ'
+        if self.upos == 'ADP':
+            self.feats = []
     def to_conllu(self):
         ls = [
             self.pos,

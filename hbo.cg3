@@ -123,6 +123,21 @@ LIST UnknownShouldBeNarrative = (Genesis w2137) ;
 SUBSTITUTE (?) (N) UnknownShouldBeNarrative ;
 
 ####################
+# MWE names
+####################
+
+SUBSTITUTE (nmpr a) (subs c m retag:nmpr) ("בית" wp1) ;
+SUBSTITUTE (nmpr a) (subs c m retag:nmpr) ("בן" wp1) ;
+SUBSTITUTE (nmpr) (subs retag:nmpr m) ("אל" wp2) ;
+SUBSTITUTE (nmpr) (subs retag:nmpr) ("לחם" wp2) ;
+SUBSTITUTE (nmpr) (subs retag:nmpr) ("צדק" wp2) ;
+SUBSTITUTE ("מלכי" nmpr) ("מלך" subs c retag:nmpr) (wp1 Genesis w6557) ;
+SUBSTITUTE ("עמי" nmpr) ("עם" subs retag:nmpr has_prn) ("עמי" wp2) ;
+SUBSTITUTE ("אוני" nmpr) ("און" subs retag:nmpr has_prn) ("אוני" wp2) ;
+ADDCOHORT ("<prn>" "אני" prn p1 sg) AFTER ("עם" subs retag:nmpr) ;
+ADDCOHORT ("<prn>" "אני" prn p1 sg) AFTER ("און" subs retag:nmpr) ;
+
+####################
 # Retagging
 ####################
 

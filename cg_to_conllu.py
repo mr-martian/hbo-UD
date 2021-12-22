@@ -67,6 +67,7 @@ def norm(s):
 class Word:
     def __init__(self):
         self.wid = 0
+        self.seg = 0
 
         # conllu collumns
         self.pos = ''
@@ -90,8 +91,16 @@ class Word:
         if last_wid != 0:
             self.text = norm(T.text(self.wid))
             self.tail = norm(F.trailer_utf8.v(last_wid))
+            if last_wid == 15747 and T.bookName(last_wid) == 'Genesis':
+                self.tail = ' '
             if self.tail:
                 self.text = self.text.rstrip(self.tail)
+            if ' ' in self.surf or '־' in self.surf:
+                if self.seg == 1:
+                    self.tail = ' ' if ' ' in self.text else '־'
+                    self.wid = 0
+                self.text = self.text.replace('־', ' ').split()[self.seg-1]
+                self.surf = self.text
             if (F.prs.v(last_wid) and F.prs.v(last_wid) not in ['absent', 'n/a']):
                 self.is_end = False
         if self.xpos not in ['punct', 'prn'] and not self.tail:
@@ -107,6 +116,8 @@ class Word:
         for tg in parts:
             if tg in MORPH:
                 self.feats += MORPH[tg]
+            elif tg.startswith('wp'):
+                self.seg = int(tg[2:])
             elif tg[0] == 'w':
                 self.wid = int(tg[1:])
                 if self.xpos == 'SCONJ':
@@ -126,6 +137,10 @@ class Word:
                 if self.xpos == 'conj' and tg == 'retag:art':
                     self.upos = 'SCONJ'
                 self.xpos = tg[6:]
+                if self.xpos == 'nmpr' and 'subs' in parts:
+                    self.upos = 'NOUN'
+            elif tg == 'has_prn':
+                self.is_end = False
             if tg in ['card', 'ordn']:
                 self.upos = 'NUM'
         if self.xpos == 'conj':
@@ -147,7 +162,7 @@ class Word:
             self.lemma or '_',
             self.upos or '_',
             self.xpos or '_',
-            '|'.join(sorted(self.feats, key=lambda x: x.lower())) or '_',
+            '|'.join(sorted(set(self.feats), key=lambda x: x.lower())) or '_',
             self.head or '_',
             self.rel or '_',
             '_',
@@ -172,8 +187,8 @@ class Sentence:
                     surf = '_'
             elif line[0] == '\t':
                 w = Word()
-                w.from_cg(line.strip())
                 w.surf = surf
+                w.from_cg(line.strip())
                 self.real_words.append(w)
     def get_ids(self):
         ret = []
@@ -182,7 +197,7 @@ class Sentence:
                 ret += w.wid
             elif w.wid != 0:
                 ret.append(w.wid)
-        return ret
+        return sorted(set(ret))
     def add_compounds(self):
         gps = []
         cur = []

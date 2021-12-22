@@ -49,11 +49,20 @@ for w in F.otype.s('word'):
     srf = surf(w)
     if srf != 'blah':
         srf = srf[:len(F.g_lex_utf8.v(w))] or 'blah'
-    lu = '^' + srf + '/' + unicodedata.normalize('NFC', F.lex_utf8.v(w))
+    lem = unicodedata.normalize('NFC', F.lex_utf8.v(w))
+    tags = ''
     for f in feats:
-        lu += get(w, f)
-    lu += phr_ft
-    lu += f'<w{w}><{T.bookName(w)}>$'
+        tags += get(w, f)
+    tags += phr_ft
+    tags += f'<w{w}><{T.bookName(w)}>'
+    lu = ''
+    if ' ' in lem:
+        for i, l in enumerate(lem.split()):
+            lu += f'^{srf}/{l}{tags}<wp{i+1}>$'
+            if '־' in srf and i == 0:
+                lu += '^־/־<punct>$'
+    else:
+        lu = f'^{srf}/{lem}{tags}$'
     prn = ''
     for f in ['prs_ps', 'prs_gn', 'prs_nu']:
         prn += get(w, f)

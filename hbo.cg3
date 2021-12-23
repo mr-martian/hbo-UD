@@ -105,7 +105,7 @@ LIST @dep = @dep ;       # Any remaining dependency
 # Special-case words
 ####################
 
-LIST etNotAcc = NonAcc (Genesis w2857) (Genesis w2946) (Genesis w3165) (Genesis w3529) (Genesis w3560) (Genesis w3693) (Genesis w4172) (Genesis w4221) (Genesis w13880) ;
+LIST etNotAcc = NonAcc (Genesis w2857) (Genesis w2946) (Genesis w3165) (Genesis w3529) (Genesis w3560) (Genesis w3693) (Genesis w4172) (Genesis w4221) (Genesis w13880) (Ruth w897) (Ruth w901) ;
 
 ########################################
 # INDIVIDUAL WORDS
@@ -345,9 +345,21 @@ MAP @conj (infa) IF (c @cc) ;
 SETPARENT (infa) (NOT p (*)) (c @cc) TO (-2 (infa)) ;
 MAP @advcl (infa AdvP) IF (NOT 1 BD) ;
 
-LIST XcompInf = "יסף" "יכל" ;
-MAP @xcomp (verb infc InfC) IF (-1* XcompInf + (verb) BARRIER SB) ;
-SETPARENT (@xcomp infc InfC) (NOT p (*)) TO (-1* XcompInf + (verb) BARRIER SB) ;
+LIST Inf = (infc InfC) PrepVerb ;
+
+SETPARENT @cc (NOT p (*)) (-1* Inf BARRIER NonJoiner - BD)
+    TO (1* Pr BARRIER NonJoiner - BD LINK p Inf) ;
+MAP @conj Inf IF (c @cc LINK -1* Inf BARRIER SB OR MaybeClauseRoot - Inf) ;
+SETPARENT Inf + @conj (NOT p (*))
+    TO (c @cc LINK -1* Inf - @conj BARRIER SB OR MaybeClauseRoot - Inf) ;
+
+LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" ;
+MAP @xcomp (NPHead PreC) IF (0* (vbcp infc InfC) BARRIER CB LINK -1* XcompInf + (verb) BARRIER SB OR @mark) ;
+SETCHILD @xcomp + (NPHead PreC) TO (0* (vbcp infc InfC) BARRIER CB) ;
+MAP @cop (vbcp) IF (p (PreC)) ;
+
+MAP @xcomp (verb infc InfC) IF (-1* XcompInf + (verb) BARRIER SB OR @mark) ;
+SETPARENT (@xcomp InfC) (NOT p (*)) TO (-1* XcompInf + (verb) BARRIER SB) ;
 #SET XCIbar = (*) - BD - ("ל" prep) ;
 #MAP @xcomp (verb infc) IF (-1* XcompInf + (verb) BARRIER XCIbar) ;
 #SETPARENT (@xcomp infc) (NOT p (*)) TO (-1* XcompInf + (verb) BARRIER XCIbar) ;
@@ -453,7 +465,7 @@ SET NonNmCl = (*) - (NmCl) - (prn) ;
 MAP @acl (MaybeClauseRoot NmCl) IF (-1* RelMark BARRIER CB) ;
 LIST AclChain = (Genesis w603) ;
 SETPARENT @acl + AclChain (NOT p (*)) TO (-1* @acl LINK p (*)) ;
-SETPARENT (subs @acl) - AclChain (NOT p (*)) TO (-1* Noun - (NmCl) - (verb) OR Pr + @obj OR Pr + @obl) ;
+SETPARENT (subs @acl) - AclChain (NOT p (*)) TO (-1* Noun - (verb) OR Pr + @obj OR Pr + @obl) ;
 
 SECTION
 
@@ -541,7 +553,8 @@ MAP @obj (ProbablyObj) + $$ClauseType - ClauseRoot IF (NEGATE -1* ObjIsh + $$Cla
 SETPARENT (Objc) + @conj + $$ClauseType (NOT p (*))
     TO (-1* @obj + $$ClauseType BARRIER SB) ;
 
-ADD (PrepVerb) (verb) - (PrepVerb) IF (c @case) ;
+LIST OrphanPrepVerb = (Genesis w18716) ;
+ADD (PrepVerb) (verb) - (PrepVerb) - OrphanPrepVerb IF (c @case) ;
 
 LIST XorO = (@xcomp ProbablyObj) @obj ;
 #SETPARENT XorO + $$Domain + $$ClauseType
@@ -555,8 +568,10 @@ ADD (MaybeClauseRoot ClauseRoot) (*) - ClauseRoot IF (c @nsubj) ;
 
 SECTION
 
-SETPARENT (PrepVerb) (NOT p (*)) (c @case - ("ל"))
-    TO (0* MaybeClauseRoot - (PrepVerb) BARRIER SB) ;
+LIST PrepVerbChain = (Genesis w13720) (Genesis w16269) ;
+
+SETPARENT (PrepVerb) (NOT p (*)) (c @case)
+    TO (0* MaybeClauseRoot - (PrepVerb) OR PrepVerbChain BARRIER SB) ;
 MAP @advcl (PrepVerb) IF (p (*)) ;
 
 LIST SpeakingVerb = quot "ברך" "צוה" ;
@@ -573,6 +588,8 @@ MAP @parataxis (MaybeClauseRoot Q) - (infc)
 MAP @ccomp (MaybeClauseRoot Q)
     IF (NEGATE c @mark) (-1* MaybeClauseRoot + NonQuote)
        (NOT -1* (MaybeClauseRoot Q) - @acl BARRIER (N)) ;
+SETPARENT (PrepVerb @conj) + $$Domain (NOT p (*))
+    TO (c @cc LINK -1* (PrepVerb) + $$Domain BARRIER SB) ;
 LIST CRconj = @ccomp @root @parataxis ;
 SETPARENT (MaybeClauseRoot Q @conj) (NOT p (*))
     TO (-1* (MaybeClauseRoot Q) + CRconj) ;
@@ -591,15 +608,19 @@ SETPARENT @ccomp (NOT p (*)) TO (-1* CcompAble + MaybeClauseRoot) ;
 
 SETPARENT (SCONJ @mark) (NOT p (*)) TO (1* @ccomp) ;
 
-LIST XcompVerb = "ירא" "נחם" "שׁחת" "קרא" "מלא" "לבשׁ" "שׁחת" "נגד" "ידע" "מהר" "פקד" "יכל" ;
-LIST CcompVerb = "ראה" ;
+LIST XcompVerb = "נחם" "שׁחת" "קרא" "מלא" "לבשׁ" "שׁחת" "נגד" "ידע" "מהר" "פקד" "יכל" "חדל" "אמץ" "כלה" ;
+LIST CcompVerb = "ראה" "ירא" ;
 LIST AdvclAble = ("כי" conj @mark) ("אם" conj @mark) ;
-LIST ActuallyCcomp = (w351 Genesis) (Genesis w7129) ;
+LIST AdvclMarkVerb = "קרא" ;
+LIST ActuallyCcomp = (w351 Genesis) (Genesis w7129) (Ruth w1243) ;
+LIST ActuallyAdvcl = (Genesis w26044) ;
 SETPARENT MaybeClauseRoot + $$Domain (c AdvclAble) (NOT p (*))
     TO (-1* MaybeClauseRoot + $$Domain BARRIER Domain - $$Domain) ;
 SETPARENT (verb infc) + $$Domain (NEGATE c @cc) (NOT p (*))
     TO (-1* MaybeClauseRoot + $$Domain BARRIER Domain - $$Domain) ;
 MAP @ccomp ActuallyCcomp ;
+MAP @advcl ActuallyAdvcl ;
+MAP @advcl MaybeClauseRoot IF (c AdvclAble) (p AdvclMarkVerb) ;
 MAP @xcomp MaybeClauseRoot IF (c AdvclAble) (p XcompVerb) ;
 MAP @xcomp MaybeClauseRoot IF (c AdvclAble) (p CcompVerb LINK c @obj) ;
 MAP @ccomp MaybeClauseRoot IF (c AdvclAble) (p CcompVerb) ;
@@ -658,6 +679,7 @@ SETPARENT Pr + @obj (NOT p (*)) TO (-1* (verb)) ;
 
 SETPARENT @nsubj (NOT p (*)) TO (0* @cop BARRIER CB LINK p (*)) ;
 
+SETPARENT VerbArgs (NOT p (*)) TO (0* @cop BARRIER CB LINK p (*)) ;
 SETPARENT VerbArgs (NOT p (*)) TO (0* (MaybeClauseRoot) BARRIER CB) ;
 SETPARENT VerbArgs (NOT p (*)) TO (0* (verb) BARRIER CB) ;
 SETPARENT (verb infc) (NOT p (*)) TO (-1* (subs c) BARRIER NonJoiner - BD) ;
@@ -695,6 +717,8 @@ SETPARENT @discourse + ("נא") (NOT p (*))
 SETPARENT @orphan (NOT p (*)) TO (0* ClauseRoot BARRIER CB) ;
 
 SETPARENT @cc (NOT p (*)) TO (1* @discourse BARRIER NonJoiner - BD LINK p (*)) ;
+
+SETPARENT @discourse (NOT p (*)) TO (0* MaybeClauseRoot BARRIER CB) ;
 
 AFTER-SECTIONS
 

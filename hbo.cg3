@@ -138,8 +138,6 @@ SUBSTITUTE ("אוני" nmpr) ("און" subs retag:nmpr has_prn) ("אוני" wp2)
 ADDCOHORT ("<prn>" "אני" prn p1 sg) AFTER ("עם" subs retag:nmpr) ;
 ADDCOHORT ("<prn>" "אני" prn p1 sg) AFTER ("און" subs retag:nmpr) ;
 
-#ADDCOHORT ("<pb>" "pb" pb) AFTER (Genesis w290) ;
-
 ####################
 # Retagging
 ####################
@@ -393,7 +391,7 @@ SETPARENT PPHead + @conj (NOT p (*))
     TO (-1* PPHead - @conj BARRIER BD OR NonAppos) ;
 
 SECTION
-LIST ApposOverride = (w93 Ruth) (w189 Genesis) ;
+LIST ApposOverride = (w93 Ruth) (w189 Genesis) (Genesis w14323) ;
 LIST ConjToAppos = w36714 (w7950 Exodus) (w95 Ruth) (w215 Genesis) (w313 Genesis) (Genesis w303) ;
 LIST ConjToSmixut = (Genesis w734) ;
 MAP @appos ApposOverride;
@@ -405,6 +403,7 @@ SETPARENT NPHead + @conj (NOT p (*)) TO (-1* NonAppos - @conj BARRIER BD) ;
 
 # TODO: any better way to do this?
 SETPARENT (w189 Genesis) (NOT p (*)) TO (-1* (w185)) ;
+SETPARENT (Genesis w14323) (NOT p (*)) TO (-1* (prn)) ;
 
 LIST Family = "בן" "בת" "אב" "כלה" "אשׁה";
 SETPARENT Family + (subs) (NOT p (*)) TO (-1 (nmpr a)) ;
@@ -439,9 +438,16 @@ MAP @cop (vbcp) OR (aux nmcp) IF (0* (PreC) BARRIER CB) ;
 
 SECTION # helper labels
 
-LIST CanAddMaybeClauseRoot = PreC Pred PreO ;
-LIST CannotAddMaybeClauseRoot = @cop MaybeClauseRoot @nummod SCONJ ;
-ADD MaybeClauseRoot CanAddMaybeClauseRoot - CannotAddMaybeClauseRoot ;
+LIST MCR = MaybeClauseRoot ;
+TEMPLATE MCRp = (NOT 0 MCR LINK NEGATE 0* MCR BARRIER CB) ;
+
+ADD MCR (Pred) - (vbcp) - MCR ;
+LIST PredIsh = PreC PrcS PrAd PreO PreS PtcO ;
+ADD MCR PredIsh IF (T:MCRp) ;
+LIST ExstIsh = ExsS Exst ;
+ADD MCR PredIsh IF (T:MCRp) ;
+LIST CopIsh = (Pred vbcp) NCop NCoS ;
+ADD MCR CopIsh IF (T:MCRp) ;
 
 SECTION # adjacent words
 
@@ -558,6 +564,8 @@ SECTION
 LIST ObjIsh = @obj ProbablyObj ;
 MAP @obj (ProbablyObj Ptcp) IF (NEGATE -1* ObjIsh + (Ptcp) BARRIER CB) ;
 MAP @xcomp (ProbablyObj) + $$ClauseType - ClauseRoot IF (-1* ObjIsh + $$ClauseType BARRIER SB) ;
+LIST XcompOverride = (Genesis w17124) ;
+MAP @xcomp XcompOverride ;
 MAP @obj (ProbablyObj) + $$ClauseType - ClauseRoot IF (NEGATE -1* ObjIsh + $$ClauseType BARRIER SB) ;
 SETPARENT (Objc) + @conj + $$ClauseType (NOT p (*))
     TO (-1* @obj + $$ClauseType BARRIER SB) ;

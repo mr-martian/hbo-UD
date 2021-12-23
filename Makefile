@@ -27,3 +27,6 @@ hbo.bin: hbo.cg3
 
 %-report:
 	./report.py $*
+
+export:
+	./export.py genesis 1 5 > UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-test.conllu

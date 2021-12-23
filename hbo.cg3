@@ -117,7 +117,7 @@ BEFORE-SECTIONS
 # Corrections
 ####################
 
-LIST MislabeledAsNarrative = w1404 w1405 w1423 w1424 w14251 w14252 w14253 ;
+LIST MislabeledAsNarrative = w1404 w1405 w1423 w1424 w14251 w14252 w14253 (Ruth s5672) (Ruth s5673) ;
 SUBSTITUTE (N) (Q) MislabeledAsNarrative ;
 
 LIST UnknownShouldBeNarrative = (Genesis w2137) ;
@@ -298,6 +298,10 @@ SETPARENT ADJ + $$ANum + $$ADet (NOT p (*))
     TO (-1* Noun + $$ANum + $$ADet - AGen BARRIER PB OR Pr) ;
 MAP @amod ADJ IF (p Noun) ;
 
+LIST BetterHeads = Pred Subj Objc PreC PreO ;
+UNMAP @advmod IF (NOT 0 (MSyn)) (NEGATE 0* BetterHeads BARRIER SB) ;
+ADD (MaybeClauseRoot ClauseRoot) (advb AdvP) - (ClauseRoot) ;
+
 ####################
 # Prepositions
 ####################
@@ -345,6 +349,9 @@ MAP @conj (infa) IF (c @cc) ;
 SETPARENT (infa) (NOT p (*)) (c @cc) TO (-2 (infa)) ;
 MAP @advcl (infa AdvP) IF (NOT 1 BD) ;
 
+MAP @obl ("בלת" subs) ;
+SETPARENT ("בלת" @obl) (NOT p (*)) TO (1* (infc) BARRIER NonJoiner) ;
+
 LIST Inf = (infc InfC) PrepVerb ;
 
 SETPARENT @cc (NOT p (*)) (-1* Inf BARRIER NonJoiner - BD)
@@ -364,11 +371,11 @@ SETPARENT (@xcomp InfC) (NOT p (*)) TO (-1* XcompInf + (verb) BARRIER SB) ;
 #MAP @xcomp (verb infc) IF (-1* XcompInf + (verb) BARRIER XCIbar) ;
 #SETPARENT (@xcomp infc) (NOT p (*)) TO (-1* XcompInf + (verb) BARRIER XCIbar) ;
 
-MAP @cop (vbcp) IF (1* (ptca) OR (ptcp) OR (infc) BARRIER (*) - BD - ("ל" prep)) ;
-SETPARENT @cop (NOT p (*)) TO (1* (ptca) OR (ptcp) OR (infc) BARRIER (*) - BD - ("ל" prep)) ;
+MAP @cop (vbcp) IF (1* Participle OR (infc) BARRIER (*) - BD - ("ל" prep)) ;
+SETPARENT @cop (NOT p (*)) TO (1* Participle OR (infc) BARRIER (*) - BD - ("ל" prep)) ;
 
 MAP @advcl (infc) IF (-1 ("ל" prep) LINK -1* (verb nmcp) BARRIER SB) ;
-MAP @xcomp (ptca) OR (ptcp) IF (-1* (verb nmcp) BARRIER SB) ;
+MAP @xcomp Participle - (Subj) IF (-1* (verb nmcp) BARRIER SB) ;
 SETPARENT @advcl OR @xcomp (NOT p (*)) TO (-1* (verb nmcp) BARRIER SB) ;
 
 ####################
@@ -453,6 +460,9 @@ ADD MaybeClauseRoot SmallQstPrn - MaybeClauseRoot IF (c @nsubj) ;
 SECTION # phrase-internal structure
 
 ADD (ClauseRoot) (adjv AjCl) - (ClauseRoot) IF (NOT p (*)) ;
+LIST AdjNonAcl = (Genesis w23609) ;
+MAP @acl (ClauseRoot AjCl) - AdjNonAcl
+    IF (-1* CB BARRIER SB OR @mark LINK -1* NPHead BARRIER BD) ;
 
 SECTION
 
@@ -474,7 +484,7 @@ LIST SubjAble = subs prps nmpr prde prn prin ;
 LIST ExtraSubj = (Ruth w25) ;
 MAP @dislocated ExtraSubj + (Subj) ;
 MAP @nsubj SubjAble + (Subj) ;
-MAP @nsubj SubjAble + (InjP) IF (1* (ptca) OR (ptcp) BARRIER NonJoiner - PB) ;
+MAP @nsubj SubjAble + (InjP) IF (1* Participle BARRIER NonJoiner - PB) ;
 
 SETPARENT @cop + $$ClauseType (NOT p (*)) TO (1* (MaybeClauseRoot PreC) + $$ClauseType BARRIER SB) ;
 SETPARENT @nsubj + $$ClauseType (NOT p (*)) TO (0* (nmcp) + $$ClauseType BARRIER SB) ;
@@ -506,7 +516,6 @@ SETPARENT (conj CP) (NOT p (*)) TO (1 PB LINK 1 @cop LINK p (*)) ;
 SET CorR = (conj CP) OR RelMark ;
 SET CorM = ClauseRoot OR MaybeClauseRoot OR (nmcp) - @cop ;
 LIST ConjTypes = CPen NmCl MSyn ;
-SETPARENT CorR + ConjTypes (NOT p (*)) TO (1* CorM) ;
 SETPARENT CorR + $$ClauseType (NOT p (*)) TO (1* CorM + $$ClauseType) ;
 MAP @acl MaybeClauseRoot IF (c RelMark) ;
 LIST AclAble = subs adjv ptcp ptca nmpr ;
@@ -554,7 +563,7 @@ SETPARENT (Objc) + @conj + $$ClauseType (NOT p (*))
     TO (-1* @obj + $$ClauseType BARRIER SB) ;
 
 LIST OrphanPrepVerb = (Genesis w18716) ;
-ADD (PrepVerb) (verb) - (PrepVerb) - OrphanPrepVerb IF (c @case) ;
+ADD (PrepVerb) (verb) - (PrepVerb) - OrphanPrepVerb IF (c @case OR ("בלת" @obl)) ;
 
 LIST XorO = (@xcomp ProbablyObj) @obj ;
 #SETPARENT XorO + $$Domain + $$ClauseType
@@ -570,16 +579,27 @@ SECTION
 
 LIST PrepVerbChain = (Genesis w13720) (Genesis w16269) ;
 
-SETPARENT (PrepVerb) (NOT p (*)) (c @case)
+SETPARENT (PrepVerb) (NOT p (*))
     TO (0* MaybeClauseRoot - (PrepVerb) OR PrepVerbChain BARRIER SB) ;
 MAP @advcl (PrepVerb) IF (p (*)) ;
 
 LIST SpeakingVerb = quot "ברך" "צוה" ;
 
+LIST AdvclOverride = (Ruth w1187) ;
+MAP @advcl AdvclOverride ;
+
+SETPARENT @mark (NOT p (*)) (NEGATE 0* BetterHeads BARRIER CB)
+    TO (1* (PPHead Cmpl NmCl) BARRIER CB) ;
+MAP @acl NPHead OR PPHead if (c RelMark) ;
+ADD (MaybeClauseRoot ClauseRoot) NPHead OR PPHead IF (c @mark) ;
+SETPARENT CorR + ConjTypes + @mark (NOT p (*)) TO (1* CorM) ;
+
 MAP @advcl (MaybeClauseRoot Q)
     IF (c @mark) (1* (MaybeClauseRoot Q) BARRIER NonQuote LINK NEGATE c @mark) ;
 MAP (ClauseRoot @ccomp) (subs MaybeClauseRoot)
     IF (c (vbcp infc Pred)) (NOT -1* @ccomp) ;
+SET MSynIsh = CorR + @cc OR @advmod ;
+SETPARENT MSynIsh + ConjTypes (NOT p (*)) TO (1* CorM - @advcl) ;
 MAP @conj (MaybeClauseRoot Q)
     IF (c @cc) (-1* (MaybeClauseRoot Q) - @acl - @advcl BARRIER (N)) ;
 MAP @parataxis (MaybeClauseRoot Q) - (infc)
@@ -590,6 +610,8 @@ MAP @ccomp (MaybeClauseRoot Q)
        (NOT -1* (MaybeClauseRoot Q) - @acl BARRIER (N)) ;
 SETPARENT (PrepVerb @conj) + $$Domain (NOT p (*))
     TO (c @cc LINK -1* (PrepVerb) + $$Domain BARRIER SB) ;
+LIST AdvclConj = (Ruth w1164) ;
+SETPARENT (MaybeClauseRoot @conj) + AdvclConj (NOT p (*)) TO (-1* MaybeClauseRoot) ;
 LIST CRconj = @ccomp @root @parataxis ;
 SETPARENT (MaybeClauseRoot Q @conj) (NOT p (*))
     TO (-1* (MaybeClauseRoot Q) + CRconj) ;
@@ -600,7 +622,7 @@ LIST PostAdvcl = (w948 Ruth) (w1301 Ruth) ;
 SETPARENT @advcl + PostAdvcl (NOT p (*)) TO (-1* MaybeClauseRoot) ;
 SETPARENT @advcl + $$Domain (NOT p (*)) TO (1* MaybeClauseRoot + $$Domain BARRIER SB) ;
 SETPARENT @advcl + $$Domain (NOT p (*)) TO (-1* MaybeClauseRoot + $$Domain BARRIER SB) ;
-SETPARENT @advcl + $$Domain (NOT p (*)) (NEGATE 0* MaybeClauseRoot BARRIER SB) TO (1* MaybeClauseRoot + $$Domain) ;
+SETPARENT @advcl + $$Domain (NOT p (*)) (NEGATE 0* MaybeClauseRoot BARRIER SB) TO (1* MaybeClauseRoot + $$Domain - @advcl) ;
 
 SETPARENT (@ccomp Q) (NOT p (*)) TO (-1* (quot MaybeClauseRoot) - @mark) ;
 LIST CcompAble = "חלל" "נתן" "מהר" "צוה" "שׁמע" ;
@@ -699,7 +721,8 @@ SECTION
 
 SETPARENT @root TO (@0 (*)) ;
 
-SETPARENT @vocative + (Q) (NOT p (*)) TO (0* MaybeClauseRoot + (Q)) ;
+SETPARENT @vocative + (Q) (NOT p (*)) TO (0* MaybeClauseRoot + (Q) BARRIER SB) ;
+SETPARENT @vocative + $$Domain (NOT p (*)) TO (0* MaybeClauseRoot + $$Domain) ;
 SETPARENT @vocative (NOT p (*)) TO (-1* ClauseRoot) ;
 SETPARENT @vocative (NOT p (*)) TO (0* @root) ;
 
@@ -719,6 +742,8 @@ SETPARENT @orphan (NOT p (*)) TO (0* ClauseRoot BARRIER CB) ;
 SETPARENT @cc (NOT p (*)) TO (1* @discourse BARRIER NonJoiner - BD LINK p (*)) ;
 
 SETPARENT @discourse (NOT p (*)) TO (0* MaybeClauseRoot BARRIER CB) ;
+
+SETPARENT (Ruth w552) (NOT p (*)) TO (-1* (Ruth w548)) ;
 
 AFTER-SECTIONS
 

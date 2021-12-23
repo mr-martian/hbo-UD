@@ -42,7 +42,7 @@ for w in F.otype.s('word'):
     if p != prev_p:
         print('^pb/pb<pb>$', end=' ')
         prev_p = p
-    phr_ft = ''
+    phr_ft = f'<ph{p}><c{c}><s{s}><{T.bookName(w)}>'
     for f in feats:
         phr_ft += get(p, f)
         phr_ft += get(c, f)
@@ -54,7 +54,7 @@ for w in F.otype.s('word'):
     for f in feats:
         tags += get(w, f)
     tags += phr_ft
-    tags += f'<w{w}><{T.bookName(w)}>'
+    tags += f'<w{w}>'
     lu = ''
     if ' ' in lem:
         for i, l in enumerate(lem.split()):

@@ -196,7 +196,9 @@ MAP @obj ("את") + Pr IF (1 RelMark) ;
 MAP @obl Pr IF (1 RelMark) ;
 MAP @case Pr ;
 MAP @cc (conj) - (Rela) ;
-MAP @advmod ADV ;
+MAP @advmod ADV - (ClausePhraseRoot) ;
+MAP @advmod ADV + (MSyn) ;
+MAP @advmod ADV IF (0* NonJoiner - BD BARRIER BD) ;
 MAP @advmod ("למה" inrg) ;
 MAP @discourse (intj) ; # TODO: is there a better way to handle הנה?
 
@@ -395,7 +397,7 @@ SETPARENT (Genesis w14323) (NOT p (*)) TO (-1* (prn)) ;
 LIST Family = "בן" "בת" "אב" "כלה" "אשׁה";
 SETPARENT Family + (subs) (NOT p (*)) TO (-1 (nmpr a)) ;
 
-LIST ApposToLastGen = w265 w297 w307 w640 w648 w734 w1966 w11294 w12466 w12610 w12711 w13874 w14590 w14649 w18761 w18788 w19072 ;
+LIST ApposToLastGen = w265 w297 w307 w640 w648 w734 w1129 w1966 w11294 w12466 w12610 w12711 w13874 w14590 w14649 w18761 w18788 w19072 ;
 LIST ApposToLastRut = w19 w50 w93 ;
 SET ApposToLast = ApposToLastGen + (Genesis) OR ApposToLastRut + (Ruth) ;
 LIST ApposAble = subs nmpr prn ;
@@ -428,7 +430,7 @@ SETPARENT (conj PP) (NOT p (*)) TO (1* (subs PP)) ;
 MAP @conj (subs PP) - (PreC) - MaybeClauseRoot IF (0 (subs) LINK c @cc) (NOT c @cop) ;
 LIST CorC = (@conj) (@compound:smixut) ;
 SETPARENT ("בין" subs PP @conj) TO (-1* ("בין" subs PP) - @conj) ;
-SETPARENT (subs PPHead @conj) - ClauseRoot (NOT p (*)) TO (-1* (subs PP) - @conj - @compound:smixut) ;
+SETPARENT (subs PPHead @conj) - MaybeClauseRoot (NOT p (*)) TO (-1* (subs PP) - @conj - @compound:smixut) ;
 
 SETPARENT (conj NP) (NOT p (*)) TO (1* (subs NP)) ;
 MAP @conj (subs NP) IF (0 (subs) LINK c @cc - (CP)) ;
@@ -703,7 +705,7 @@ MAP (@parataxis ClauseRoot) MaybeClauseRoot + $$NonQuote - (PrepVerb) IF (-1* Ma
 LIST ConjToAdvcl = (Genesis w772) ;
 SETPARENT ConjToAdvcl (NOT p (*)) TO (-1* MaybeClauseRoot + @advcl) ;
 
-LIST DontConj = @conj @acl @nmod @xcomp @appos @advcl @nmod:poss (@ccomp N) @obl @mark ;
+LIST DontConj = @conj @acl @nmod @xcomp @appos @advcl @nmod:poss (@ccomp N) @obl @mark HasConj ;
 SETPARENT MaybeClauseRoot + ClauseCon + $$Domain (NOT p (*)) TO (-1* MaybeClauseRoot + $$Domain - DontConj) ;
 
 MAP @obl Noun + OblIsh ;
@@ -751,6 +753,7 @@ SECTION
 
 SETPARENT MCR + (Q) (NOT p (*)) (c (SCONJ)) TO (-1* SpeakingVerb BARRIER PlainC + (N) - (SCONJ)) ;
 SETPARENT MaybeClauseRoot + (Q) (NOT p (*)) (c (SCONJ)) TO (-1* PlainC + (N)) ;
+SETPARENT MCR + (Q) - (HasConj) (NOT p (*)) TO (-1* PlainC) ;
 SETPARENT MaybeClauseRoot + (Q) (NOT p (*)) TO (-1* SpeakingVerb OR MaybeClauseRoot - @conj OR @root) ;
 SETPARENT (SCONJ @ccomp) (NOT p (*)) TO (-1* SpeakingVerb) ;
 SETPARENT MaybeClauseRoot - @acl (NOT p (*)) TO (-1* @root) ;

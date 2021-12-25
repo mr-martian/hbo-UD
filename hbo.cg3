@@ -172,6 +172,10 @@ SUBSTITUTE (subs) (prep retag:subs) ("אחר" subs ppre) ;
 # yesh and ein
 SUBSTITUTE (subs) (verb retag:subs MaybeClauseRoot ClauseRoot) (nmcp) ;
 
+# interrogative adverbs
+LIST ItgAdv = "מתי" "איפה" ;
+SUBSTITUTE (inrg) (advb retag:inrg) ItgAdv ;
+
 ####################
 # Helper labels
 ####################

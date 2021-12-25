@@ -2,8 +2,12 @@ all: torah ruth-book
 
 torah: genesis-book exodus-book leviticus-book numbers-book deuteronomy-book
 
-%.corpus.cg3.txt: to-CG.py
-	./to-CG.py $* | cg-conv -al > $@
+current: genesis-book ruth-book
+background: exodus-book leviticus-book numbers-book deuteronomy-book
+finished:
+
+%.corpus.cg3.txt: to-CG.py find_clause_root.py
+	./to-CG.py $* | apertium-cleanstream -n | ./find_clause_root.py | cg-conv -al > $@
 
 %.parsed.cg3.txt: %.corpus.cg3.txt hbo.bin
 	cat $< | vislcg3 -t -g hbo.bin | tail -n +4 > $@

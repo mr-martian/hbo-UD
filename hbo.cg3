@@ -38,7 +38,7 @@ LIST ClauseType = AjCl CPen Defc Ellp InfA InfC MSyn NmCl Ptcp Reop Unkn Voct Wa
 LIST AGen = m f ;
 LIST ANum = sg du pl ;
 LIST ADet = det und ;
-LIST Domain = N D Q ? ;
+LIST Domain = N D Q ? QQ ;
 
 # Subsets
 
@@ -122,6 +122,14 @@ SUBSTITUTE (N) (Q) MislabeledAsNarrative ;
 
 LIST UnknownShouldBeNarrative = (Genesis w2137) ;
 SUBSTITUTE (?) (N) UnknownShouldBeNarrative ;
+
+####################
+# Nested Quotations
+####################
+
+LIST DoubleQuoteGen = s80831 s80836 s81424 s81428 s81443 s81543 s81737 s81766 s81785 s81809 s81829 s81933 s81999 s82001 s82028 s82037 s82159 s82295 s82315 s82367 s82380 s82382 s82410 s82412 s82413 s82446 s82450 s82599 s82626 s82629 s82776 s82946 s83252 s83255 s83285 s83303 s83318 s83319 s83327 s83431 s83432 s83449 s83459 s83470 s83474 s83479 s83480 s83482 s83510 s83626 s83628 s83906 s83919 s84071 s84283 s84313 s84382 s84435 s84464 s84492 s84537 s84545 s84551 s84555 s84628 s84638 s84673 s84681 s84708 s84709 s84719 s84722 s84765 s84804 s84805 s84828 s84934 s84941 s84943 s85134 s85229 s85230 s85261 s85262 ;
+SET DoubleQuote = (Genesis) + DoubleQuoteGen ;
+SUBSTITUTE (Q) (QQ) DoubleQuote ;
 
 ####################
 # MWE names
@@ -338,7 +346,7 @@ ADD REPEAT HasConj NPHead OR PPHead IF (NOT 0 HasConj) (c @cc) ;
 ####################
 
 LIST NPIsh = NP PPrP PP PrNP PreO ;
-SETPARENT @advmod + NPIsh TO (1* NPHead OR PPHead BARRIER PB) ;
+SETPARENT @advmod + NPIsh (NOT p (*)) TO (1* NPHead OR PPHead BARRIER PB) ;
 
 ####################
 # Apposition
@@ -484,7 +492,7 @@ ADD (HasRel) MCR - (HasRel) IF (c @mark + (Rela) OR RelMark) ;
 SECTION
 
 LIST PreMark = (Genesis w11906) (Genesis w16927) (Genesis w17650) (Genesis w28321) (Ruth w1212) (Ruth w1206) ;
-LIST PostMark = (Ruth w948) (Ruth w1301) ;
+LIST PostMark = (Genesis w1035) (Ruth w948) (Ruth w1301) ;
 LIST NestMark = (Genesis w13723) (Genesis w16271) (Genesis prn c32626) (Genesis w21741) (Genesis w25551) (Ruth w122) (Ruth w127) (Ruth w1181) ;
 LIST MarkToAcl = (Genesis w1848) (Genesis w19068) (Genesis w26087) (Ruth w714) ;
 
@@ -527,10 +535,11 @@ LIST AdvclMarkVerb = "קרא" ;
 LIST PrAdvcl = "עד" ;
 
 LIST AdvclAble = ("כי" conj @mark) ("אם" conj @mark) ;
-LIST ActuallyCcomp = (w351 Genesis) (Genesis w7129) (Ruth w1243) ;
+LIST ActuallyCcomp = (w351 Genesis) (Genesis w1037) (Genesis w7129) (Ruth w1243) ;
 LIST ActuallyAdvcl = (Genesis w16459) (Genesis w26044) ;
 
-SETPARENT (SCONJ @mark) (NOT p (*)) TO (1* (FullClauseRoot Q)) ;
+SETPARENT (SCONJ @mark) (NOT p (*))
+    TO (1* (FullClauseRoot Q) OR (FullClauseRoot QQ)) ;
 
 SETPARENT MaybeClauseRoot + $$Domain (c AdvclAble) (NOT p (*))
     TO (-1* PlainC + $$Domain BARRIER Domain - $$Domain) ;
@@ -549,6 +558,8 @@ MAP @advcl (PrepVerb) IF (p (*)) ;
 
 LIST OrphanInfc = (Genesis w18716) ;
 MAP @advcl MCR + (HasMark) - OrphanInfc IF (p MCR) ;
+
+SETPARENT @ccomp (NOT p (*)) TO (0* CcompVerb BARRIER SB) ;
 
 ADD FullClauseRoot MCR - (HasMark) - (HasRel) - @acl - FullClauseRoot ;
 
@@ -597,6 +608,12 @@ LIST SubjAble = subs prps nmpr prde prn prin ;
 
 LIST ExtraSubj = (Ruth w25) ;
 MAP @nsubj SubjAble + (Subj) ;
+SETPARENT @nsubj + (NmCl ClausePhraseRoot) (NOT p (*))
+    TO (1* MCR + (HasRel) BARRIER MCR) ;
+
+LIST CsubjOverride = (Genesis w1006) ;
+MAP @csubj CsubjOverride ;
+SETPARENT @csubj (NOT p (*)) TO (0* MCR BARRIER SB) ;
 
 LIST VerbArgs = @nsubj @obj @obl @vocative (@xcomp adjv) (@advcl infa) (@advcl infc) @advmod ;
 SETPARENT VerbArgs + $$ClauseType - Pr (NOT p (*))
@@ -611,7 +628,7 @@ SET CorR = (conj CP) OR RelMark ;
 SET CorM = ClauseRoot OR MaybeClauseRoot OR (nmcp) - @cop ;
 LIST ConjTypes = CPen NmCl MSyn ;
 SETPARENT CorR + $$ClauseType (NOT p (*)) TO (1* CorM + $$ClauseType) ;
-MAP @acl MaybeClauseRoot IF (c RelMark) ;
+MAP @acl MaybeClauseRoot IF (c RelMark) (NEGATE c (@nsubj NmCl)) ;
 LIST AclAble = subs adjv ptcp ptca nmpr ;
 LIST AclCompOk = (Exodus w3801) (Exodus w5417) ;
 LIST AclCompNotOk = (Genesis w12528) (Genesis w12613) (Ruth w712) ;
@@ -673,7 +690,7 @@ MAP @advcl (MaybeClauseRoot Q)
 MAP (ClauseRoot @ccomp) (subs MaybeClauseRoot)
     IF (c (vbcp infc Pred)) (NOT -1* @ccomp) ;
 SET MSynIsh = CorR + @cc OR @advmod ;
-SETPARENT MSynIsh + ConjTypes (NOT p (*)) TO (1* CorM - @advcl) ;
+SETPARENT MSynIsh + ConjTypes (NOT p (*)) TO (1* CorM - @advcl - @acl) ;
 MAP @conj (MaybeClauseRoot Q)
     IF (c @cc) (-1* (MaybeClauseRoot Q) - @acl - @advcl BARRIER (N)) ;
 MAP @parataxis (MaybeClauseRoot Q) - (infc)
@@ -703,9 +720,11 @@ MAP (@conj ClauseRoot) MaybeClauseRoot + $$NonQuote IF (-1* MaybeClauseRoot + $$
 MAP (@parataxis ClauseRoot) MaybeClauseRoot + $$NonQuote - (PrepVerb) IF (-1* MaybeClauseRoot + $$NonQuote) ;
 
 LIST ConjToAdvcl = (Genesis w772) ;
+LIST ConjToAcl = (Genesis w845) ;
 SETPARENT ConjToAdvcl (NOT p (*)) TO (-1* MaybeClauseRoot + @advcl) ;
+SETPARENT ConjToAcl (NOT p (*)) TO (-1* @acl) ;
 
-LIST DontConj = @conj @acl @nmod @xcomp @appos @advcl @nmod:poss (@ccomp N) @obl @mark HasConj ;
+LIST DontConj = @conj @acl @nmod @xcomp @appos @advcl @nmod:poss (@ccomp N) @obl @mark HasConj @csubj ;
 SETPARENT MaybeClauseRoot + ClauseCon + $$Domain (NOT p (*)) TO (-1* MaybeClauseRoot + $$Domain - DontConj) ;
 
 MAP @obl Noun + OblIsh ;
@@ -753,13 +772,14 @@ SECTION
 
 SETPARENT MCR + (Q) (NOT p (*)) (c (SCONJ)) TO (-1* SpeakingVerb BARRIER PlainC + (N) - (SCONJ)) ;
 SETPARENT MaybeClauseRoot + (Q) (NOT p (*)) (c (SCONJ)) TO (-1* PlainC + (N)) ;
-SETPARENT MCR + (Q) - (HasConj) (NOT p (*)) TO (-1* PlainC) ;
+SETPARENT MCR + (Q) - (HasConj) (NOT p (*)) TO (-1* PlainC - (QQ)) ;
 SETPARENT MaybeClauseRoot + (Q) (NOT p (*)) TO (-1* SpeakingVerb OR MaybeClauseRoot - @conj OR @root) ;
 SETPARENT (SCONJ @ccomp) (NOT p (*)) TO (-1* SpeakingVerb) ;
 SETPARENT MaybeClauseRoot - @acl (NOT p (*)) TO (-1* @root) ;
 MAP @conj MaybeClauseRoot IF (c @cc) (p @root) ;
 MAP @ccomp MaybeClauseRoot + (Q) IF (p SpeakingVerb) ;
 MAP @ccomp MCR + (Q) IF (p (N)) (c (SCONJ)) ;
+MAP @ccomp MCR + (QQ) IF (p (Q)) ;
 MAP @parataxis MaybeClauseRoot IF (p MaybeClauseRoot) (NEGATE c @cc) ;
 
 AFTER-SECTIONS

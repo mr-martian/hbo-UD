@@ -32,6 +32,9 @@ hbo.bin: hbo.cg3
 %-report:
 	./report.py $*
 
+%-filter: %-book
+	cat $*.checkable.conllu | udapy -s util.Filter delete_tree_if_node='node.deprel in ["cop", "parataxis", "acl"] or node.is_nonprojective()' > $*.filter.conllu
+
 export:
 	./export.py genesis 1 2 5 > UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-test.conllu
 

@@ -98,6 +98,7 @@ LIST @appos = @appos ;
 LIST @dislocated = @dislocated ;
 LIST @xcomp = @xcomp ;
 LIST @flat = @flat ;
+LIST @flat:name = @flat:name ;
 LIST @orphan = @orphan ;
 LIST @dep = @dep ;       # Any remaining dependency
 
@@ -105,7 +106,7 @@ LIST @dep = @dep ;       # Any remaining dependency
 # Special-case words
 ####################
 
-LIST etNotAcc = NonAcc (Genesis w2857) (Genesis w2946) (Genesis w3165) (Genesis w3529) (Genesis w3560) (Genesis w3693) (Genesis w4172) (Genesis w4221) (Genesis w13880) (Ruth w897) (Ruth w901) ;
+LIST etNotAcc = NonAcc (Genesis w2857) (Genesis w2946) (Genesis w3165) (Genesis w3529) (Genesis w3560) (Genesis w3693) (Genesis w4172) (Genesis w4221) (Genesis w13880) (Ruth w897) (Ruth w901) (Genesis w25257) ;
 
 ########################################
 # INDIVIDUAL WORDS
@@ -117,7 +118,7 @@ BEFORE-SECTIONS
 # Corrections
 ####################
 
-LIST MislabeledAsNarrative = w1404 w1405 w1423 w1424 w14251 w14252 w14253 (Genesis s80885) (Ruth s5672) (Ruth s5673) ;
+LIST MislabeledAsNarrative = w1404 w1405 w1423 w1424 w14251 w14252 w14253 (Genesis s80885) (Ruth s5672) (Ruth s5673) (Genesis s83562) ;
 SUBSTITUTE (N) (Q) MislabeledAsNarrative ;
 
 LIST UnknownShouldBeNarrative = (Genesis w2137) ;
@@ -145,6 +146,9 @@ SUBSTITUTE ("עמי" nmpr) ("עם" subs retag:nmpr has_prn) ("עמי" wp2) ;
 SUBSTITUTE ("אוני" nmpr) ("און" subs retag:nmpr has_prn) ("אוני" wp2) ;
 ADDCOHORT ("<prn>" "אני" prn p1 sg) AFTER ("עם" subs retag:nmpr) ;
 ADDCOHORT ("<prn>" "אני" prn p1 sg) AFTER ("און" subs retag:nmpr) ;
+
+MAP @flat:name (nmpr wp2) IF (-1* (nmpr wp1) BARRIER NonJoiner) ;
+SETPARENT @flat:name TO (-1* (nmpr wp1)) ;
 
 ####################
 # Retagging
@@ -496,7 +500,7 @@ SECTION
 
 LIST PreMark = (Genesis w1774) (Genesis w6030) (Genesis w6036) (Genesis w11906) (Genesis w16927) (Genesis w17650) (Genesis w28321) (Ruth w1212) (Ruth w1206) ;
 LIST PostMark = (Genesis w1035) (Genesis w1231) (Ruth w948) (Ruth w1301) ;
-LIST NestMark = (Genesis w13723) (Genesis w16271) (Genesis prn c32626) (Genesis w21741) (Genesis w25551) (Ruth w122) (Ruth w127) (Ruth w1181) ;
+LIST NestMark = (Genesis w2760) (Genesis w13723) (Genesis w16271) (Genesis prn c32626) (Genesis w21741) (Genesis w25551) (Ruth w122) (Ruth w127) (Ruth w1181) ;
 LIST MarkToAcl = (Genesis w1848) (Genesis w19068) (Genesis w26087) (Ruth w714) ;
 
 SETPARENT (HasMark HasConj) (NOT p (*))
@@ -533,13 +537,13 @@ SETPARENT (HasMark) (NOT p (*))
     TO (0* PlainC BARRIER MCR - (HasMark) - (HasRel) OR SB OR ("ה" inrg)) ;
 
 LIST CcompVerb = "ראה" "ירא" "ידע" "נחם" ;
-LIST XcompVerb = "נחם" "שׁחת" "קרא" "מלא" "לבשׁ" "שׁחת" "נגד" "מהר" "יכל" "חדל" "אמץ" "כלה" ;
+LIST XcompVerb = "שׁחת" "קרא" "מלא" "לבשׁ" "שׁחת" "נגד" "מהר" "יכל" "חדל" "אמץ" "כלה" ;
 LIST AdvclMarkVerb = "קרא" ;
 LIST PrAdvcl = "עד" ;
 
 LIST AdvclAble = ("כי" conj @mark) ("אם" conj @mark) ;
 LIST ActuallyCcomp = (w351 Genesis) (Genesis w1037) (Genesis w7129) (Ruth w1243) ;
-LIST ActuallyAdvcl = (Genesis w16459) (Genesis w26044) ;
+LIST ActuallyAdvcl = (Genesis w16459) (Genesis w26044) (Genesis w28625) ;
 
 SETPARENT (SCONJ @mark) (NOT p (*))
     TO (1* (FullClauseRoot Q) OR (FullClauseRoot QQ)) ;
@@ -686,9 +690,9 @@ LIST AdvclOverride = (Ruth w1187) ;
 MAP @advcl AdvclOverride ;
 
 ADD (MaybeClauseRoot ClauseRoot) NPHead OR PPHead IF (c @mark) ;
-SETPARENT CorR + ConjTypes + @mark (NOT p (*)) TO (1* CorM) ;
+SETPARENT CorR + ConjTypes + @mark (NOT p (*)) TO (1* CorM - @acl) ;
 
-MAP @advcl (MaybeClauseRoot Q)
+MAP @advcl (MaybeClauseRoot Q HasMark)
     IF (c @mark - (inrg ques) - (SCONJ)) (1* (MaybeClauseRoot Q) BARRIER NonQuote LINK NEGATE c @mark) ;
 MAP (ClauseRoot @ccomp) (subs MaybeClauseRoot)
     IF (c (vbcp infc Pred)) (NOT -1* @ccomp) ;

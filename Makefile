@@ -26,7 +26,6 @@ hbo.bin: hbo.cg3
 
 %-book: %.parsed.conllu %.checked.conllu
 	./check.py $^
-	./clean_checked.py $*
 	./filter-ready.py $*
 
 %-report:
@@ -36,6 +35,6 @@ hbo.bin: hbo.cg3
 	cat $*.checkable.conllu | udapy -s util.Filter delete_tree_if_node='node.deprel in ["cop", "parataxis", "xcomp", "appos"] or node.is_nonprojective()' > $*.filter.conllu
 
 export:
-	./export.py genesis 1 2 5 > UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-test.conllu
+	./export.py genesis 1 2 3 4 5 > UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-test.conllu
 
 .PRECIOUS: %.parsed.cg3.txt

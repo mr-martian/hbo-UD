@@ -15,23 +15,29 @@ def is_complete(block):
             return False
     return True
 
-check = utils.load_conllu(f'{book}.checked.conllu', clean=True)
-gen = utils.load_conllu(f'{book}.parsed.conllu')
+check = utils.load_conllu(f'{book}.checked.conllu')
 
-with open(f'{book}.checkable.conllu', 'w') as good:
-    with open(f'{book}.incomplete.conllu', 'w') as bad:
-        gc = 0
-        bc = 0
-        for k, (i, b) in gen.items():
-            if k in check:
-                continue
-            if is_complete(b):
-                good.write(f'# sentence_index = {i}\n')
-                good.write(b + '\n\n')
-                gc += 1
-            else:
-                bad.write(f'# sentence_index = {i}\n')
-                bad.write(b + '\n\n')
-                bc += 1
-print(f'{gc} sentences in {book} are fully connected')
-print(f'{bc} sentences in {book} have gaps')
+good = []
+bad = []
+checked = []
+
+for i, (n, b) in enumerate(utils.iter_conllu(f'{book}.parsed.conllu'), 1):
+    if n in check:
+        checked.append(check[n][1])
+    elif is_complete(b):
+        good.append(f'# sentence_index = {i}\n' + b)
+    else:
+        bad.append(f'# sentence_index = {i}\n' + b)
+
+def maybe_replace(fname, ls):
+    text = '\n\n'.join(ls) + ('\n\n' if ls else '')
+    with open(fname) as fin:
+        if text != fin.read():
+            with open(fname, 'w') as fout:
+                fout.write(text)
+
+maybe_replace(f'{book}.checked.conllu', checked)
+maybe_replace(f'{book}.checkable.conllu', good)
+maybe_replace(f'{book}.incomplete.conllu', bad)
+
+print(f'{book}: accepted: {len(checked)} checkable: {len(good)} incomplete: {len(bad)}')

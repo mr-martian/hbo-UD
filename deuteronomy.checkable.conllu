@@ -111,7 +111,7 @@
 31	׃	׃	PUNCT	punct	_	33	punct	_	_
 32	אַחֲרֵ֣י	אחר	ADP	subs	_	33	case	_	_
 33-34	הַכֹּתֹ֗ו	_	_	_	_	_	_	_	_
-33	_	נכה	VERB	verb	HebBinyan=HIFIL|VerbForm=Inf	16	advcl	_	_
+33	_	נכה	VERB	verb	HebBinyan=HIFIL|VerbForm=Inf	25	xcomp	_	_
 34	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	33	nsubj	_	_
 35	אֵ֚ת	את	ADP	prep	_	36	case	_	_
 36	סִיחֹן֙	סיחון	PROPN	nmpr	Gender=Masc|Number=Sing	33	obj	_	_
@@ -167,8 +167,8 @@
 15-16	הַזֹּ֖את	_	_	_	_	_	_	_	_
 15	_	ה	DET	art	_	16	det	_	_
 16	_	זאת	PRON	prde	Gender=Fem|Number=Sing|PronType=Dem	14	det	_	_
-17	לֵאמֹֽר	לאמר	SCONJ	verb	_	8	xcomp	_	SpaceAfter=No
-18	׃	׃	PUNCT	punct	_	8	punct	_	_
+17	לֵאמֹֽר	לאמר	SCONJ	verb	_	8	ccomp	_	SpaceAfter=No
+18	׃	׃	PUNCT	punct	_	17	punct	_	_
 
 # sentence_index = 5
 # sent_id = Masoretic-Deuteronomy-1:6-hbo
@@ -185,7 +185,7 @@
 7	_	ב	ADP	prep	_	8	case	_	_
 8	_	חרב	PROPN	nmpr	Number=Sing	4	obl	_	_
 9	לֵאמֹ֑ר	לאמר	SCONJ	verb	_	10	mark	_	_
-10	רַב	רב	ADJ	adjv	Gender=Masc|Number=Sing	4	ccomp	_	SpaceAfter=No
+10	רַב	רב	ADJ	adjv	Gender=Masc|Number=Sing	4	parataxis	_	SpaceAfter=No
 11	־	־	PUNCT	punct	_	13	punct	_	SpaceAfter=No
 12-13	לָכֶ֥ם	_	_	_	_	_	_	_	_
 12	_	ל	ADP	prep	_	13	case	_	_
@@ -1696,7 +1696,7 @@
 6	צַ֣ו	צוה	VERB	verb	Gender=Masc|HebBinyan=PIEL|Mood=Imp|Number=Sing|Person=2|VerbForm=Fin	0	root	_	_
 7	לֵאמֹר֒	לאמר	SCONJ	verb	_	9	mark	_	_
 8	אַתֶּ֣ם	אתם	PRON	prps	Gender=Masc|Number=Plur|Person=2|PronType=Prs	9	nsubj	_	_
-9	עֹֽבְרִ֗ים	עבר	VERB	verb	Gender=Masc|HebBinyan=PAAL|Number=Plur|VerbForm=Part	6	ccomp	_	_
+9	עֹֽבְרִ֗ים	עבר	VERB	verb	Gender=Masc|HebBinyan=PAAL|Number=Plur|VerbForm=Part	6	parataxis	_	_
 10-11	בִּגְבוּל֙	_	_	_	_	_	_	_	_
 10	_	ב	ADP	prep	_	11	case	_	_
 11	_	גבול	NOUN	subs	Gender=Masc|Number=Sing	9	obl	_	_
@@ -4250,7 +4250,7 @@
 15	_	אני	PRON	prn	Number=Sing|Person=1|PronType=Prs	14	nmod:poss	_	_
 16-17	לַעֲשֹׂ֣ות	_	_	_	_	_	_	_	_
 16	_	ל	ADP	prep	_	17	case	_	_
-17	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	3	advcl	_	_
+17	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	11	xcomp	_	_
 18	כֵּ֔ן	כן	ADV	advb	_	17	advmod	_	_
 19-20	בְּקֶ֣רֶב	_	_	_	_	_	_	_	_
 19	_	ב	ADP	prep	_	20	case	_	_
@@ -4619,7 +4619,7 @@
 12	_	אתם	PRON	prn	Gender=Masc|Number=Plur|Person=2|PronType=Prs	10	obj	_	_
 13-14	לַעֲשֹׂ֔ות	_	_	_	_	_	_	_	_
 13	_	ל	ADP	prep	_	14	case	_	_
-14	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	advcl	_	_
+14	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	10	xcomp	_	_
 15	עֲשֶׂ֖רֶת	עשׂרה	NUM	subs	Gender=Fem|Number=Sing|NumType=Card	17	nummod	_	_
 16-17	הַדְּבָרִ֑ים	_	_	_	_	_	_	_	_
 16	_	ה	DET	art	_	17	det	_	_
@@ -4653,7 +4653,7 @@
 10	_	היא	PRON	prps	Gender=Fem|Number=Sing|Person=3|PronType=Prs	8	det	_	_
 11-12	לְלַמֵּ֣ד	_	_	_	_	_	_	_	_
 11	_	ל	ADP	prep	_	12	case	_	_
-12	_	למד	VERB	verb	HebBinyan=PIEL|VerbForm=Inf	4	advcl	_	_
+12	_	למד	VERB	verb	HebBinyan=PIEL|VerbForm=Inf	4	xcomp	_	_
 13-14	אֶתְכֶ֔ם	_	_	_	_	_	_	_	_
 13	_	את	ADP	prep	_	14	case	_	_
 14	_	אתם	PRON	prn	Gender=Masc|Number=Plur|Person=2|PronType=Prs	12	obj	_	_
@@ -4663,7 +4663,7 @@
 17	_	משׁפט	NOUN	subs	Gender=Masc|Number=Plur	15	conj	_	_
 18-20	לַעֲשֹׂתְכֶ֣ם	_	_	_	_	_	_	_	_
 18	_	ל	ADP	prep	_	19	case	_	_
-19	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	4	advcl	_	_
+19	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	4	xcomp	_	_
 20	_	אתם	PRON	prn	Gender=Masc|Number=Plur|Person=2|PronType=Prs	19	nsubj	_	_
 21-22	אֹתָ֔ם	_	_	_	_	_	_	_	_
 21	_	את	ADP	prep	_	22	case	_	_
@@ -4736,7 +4736,7 @@
 11	־	־	PUNCT	punct	_	12	punct	_	SpaceAfter=No
 12	סָ֑מֶל	סמל	NOUN	subs	Gender=Masc|Number=Sing	10	compound:smixut	_	_
 13	תַּבְנִ֥ית	תבנית	NOUN	subs	Gender=Fem|Number=Sing	8	appos	_	_
-14	זָכָ֖ר	זכר	ADJ	adjv	Gender=Masc|Number=Sing	12	amod	_	_
+14	זָכָ֖ר	זכר	ADJ	adjv	Gender=Masc|Number=Sing	13	compound:smixut	_	_
 15	אֹ֥ו	או	CCONJ	conj	_	16	cc	_	_
 16	נְקֵבָֽה	נקבה	NOUN	subs	Gender=Fem|Number=Sing	8	conj	_	SpaceAfter=No
 17	׃	׃	PUNCT	punct	_	18	punct	_	_
@@ -4897,7 +4897,7 @@
 19	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	21	obl	_	_
 20-21	לְעַ֥ם	_	_	_	_	_	_	_	_
 20	_	ל	ADP	prep	_	21	case	_	_
-21	_	עם	NOUN	subs	Gender=Masc|Number=Sing	4	ccomp	_	_
+21	_	עם	NOUN	subs	Gender=Masc|Number=Sing	25	advcl	_	_
 22	נַחֲלָ֖ה	נחלה	NOUN	subs	Gender=Fem|Number=Sing	21	compound:smixut	_	_
 23-25	כַּיֹּ֥ום	_	_	_	_	_	_	_	_
 23	_	כ	ADP	prep	_	25	case	_	_
@@ -4929,15 +4929,15 @@
 12	_	שׁבע	VERB	verb	Gender=Masc|HebBinyan=NIFAL|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	3	conj	_	_
 13-14	לְבִלְתִּ֤י	_	_	_	_	_	_	_	_
 13	_	ל	ADP	prep	_	14	case	_	_
-14	_	בלת	NOUN	subs	Number=Sing	3	obl	_	_
+14	_	בלת	NOUN	subs	Number=Sing	15	obl	_	_
 15-16	עָבְרִי֙	_	_	_	_	_	_	_	_
-15	_	עבר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	14	acl	_	_
+15	_	עבר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	12	advcl	_	_
 16	_	אני	PRON	prn	Number=Sing|Person=1|PronType=Prs	15	nsubj	_	_
 17	אֶת	את	ADP	prep	_	20	case	_	SpaceAfter=No
 18	־	־	PUNCT	punct	_	17	punct	_	SpaceAfter=No
 19-20	הַיַּרְדֵּ֔ן	_	_	_	_	_	_	_	_
 19	_	ה	DET	art	_	20	det	_	_
-20	_	ירדן	PROPN	nmpr	Number=Sing	25	obj	_	_
+20	_	ירדן	PROPN	nmpr	Number=Sing	15	obj	_	_
 21-23	וּלְבִלְתִּי	_	_	_	_	_	_	_	SpaceAfter=No
 21	_	ו	CCONJ	conj	_	25	cc	_	_
 22	_	ל	ADP	prep	_	23	case	_	_
@@ -4962,7 +4962,7 @@
 37	_	ל	ADP	prep	_	38	case	_	_
 38	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	36	obl	_	_
 39	נַחֲלָֽה	נחלה	NOUN	subs	Gender=Fem|Number=Sing	36	obj	_	SpaceAfter=No
-40	׃	׃	PUNCT	punct	_	14	punct	_	_
+40	׃	׃	PUNCT	punct	_	3	punct	_	_
 
 # sentence_index = 124
 # sent_id = Masoretic-Deuteronomy-4:22-hbo
@@ -6461,7 +6461,7 @@
 33	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	32	nmod:poss	_	_
 34-35	לַעֲשֹׂ֖ות	_	_	_	_	_	_	_	_
 34	_	ל	ADP	prep	_	35	case	_	_
-35	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	29	advcl	_	_
+35	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	29	xcomp	_	_
 36	אֶת	את	ADP	prep	_	38	case	_	SpaceAfter=No
 37	־	־	PUNCT	punct	_	36	punct	_	SpaceAfter=No
 38	יֹ֥ום	יום	NOUN	subs	Gender=Masc|Number=Sing	35	obj	_	_
@@ -7146,13 +7146,13 @@
 14	_	אתם	PRON	prn	Gender=Masc|Number=Plur|Person=2|PronType=Prs	13	nmod:poss	_	_
 15-16	לְלַמֵּ֣ד	_	_	_	_	_	_	_	_
 15	_	ל	ADP	prep	_	16	case	_	_
-16	_	למד	VERB	verb	HebBinyan=PIEL|VerbForm=Inf	4	advcl	_	_
+16	_	למד	VERB	verb	HebBinyan=PIEL|VerbForm=Inf	11	xcomp	_	_
 17-18	אֶתְכֶ֑ם	_	_	_	_	_	_	_	_
 17	_	את	ADP	prep	_	18	case	_	_
 18	_	אתם	PRON	prn	Gender=Masc|Number=Plur|Person=2|PronType=Prs	16	obj	_	_
 19-20	לַעֲשֹׂ֣ות	_	_	_	_	_	_	_	_
 19	_	ל	ADP	prep	_	20	case	_	_
-20	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	4	advcl	_	_
+20	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	11	xcomp	_	_
 21-23	בָּאָ֔רֶץ	_	_	_	_	_	_	_	_
 21	_	ב	ADP	prep	_	23	case	_	_
 22	_	ה	DET	art	_	23	det	_	_
@@ -7898,7 +7898,7 @@
 4	יְהוָ֗ה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	2	nsubj	_	_
 5-6	לַעֲשֹׂות֙	_	_	_	_	_	_	_	_
 5	_	ל	ADP	prep	_	6	case	_	_
-6	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	advcl	_	_
+6	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	xcomp	_	_
 7	אֶת	את	ADP	prep	_	9	case	_	SpaceAfter=No
 8	־	־	PUNCT	punct	_	7	punct	_	SpaceAfter=No
 9	כָּל	כל	NOUN	subs	Gender=Masc|Number=Sing	6	obj	_	SpaceAfter=No
@@ -7911,7 +7911,7 @@
 14	_	אלה	PRON	prde	Number=Plur|PronType=Dem	12	det	_	_
 15-16	לְיִרְאָ֖ה	_	_	_	_	_	_	_	_
 15	_	ל	ADP	prep	_	16	case	_	_
-16	_	ירא	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	advcl	_	_
+16	_	ירא	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	xcomp	_	_
 17	אֶת	את	ADP	prep	_	19	case	_	SpaceAfter=No
 18	־	־	PUNCT	punct	_	17	punct	_	SpaceAfter=No
 19	יְהוָ֣ה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	16	obj	_	_
@@ -8235,7 +8235,7 @@
 19	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	21	obl	_	_
 20-21	לְעַ֣ם	_	_	_	_	_	_	_	_
 20	_	ל	ADP	prep	_	21	case	_	_
-21	_	עם	NOUN	subs	Gender=Masc|Number=Sing	11	ccomp	_	_
+21	_	עם	NOUN	subs	Gender=Masc|Number=Sing	11	advcl	_	_
 22	סְגֻלָּ֔ה	סגלה	NOUN	subs	Gender=Fem|Number=Sing	21	compound:smixut	_	_
 23-24	מִכֹּל֙	_	_	_	_	_	_	_	_
 23	_	מן	ADP	prep	_	24	case	_	_
@@ -8284,7 +8284,7 @@
 20	אַתֶּ֥ם	אתם	PRON	prps	Gender=Masc|Number=Plur|Person=2|PronType=Prs	22	nsubj	_	_
 21-22	הַמְעַ֖ט	_	_	_	_	_	_	_	_
 21	_	ה	DET	art	_	22	det	_	_
-22	_	מעט	NOUN	subs	Gender=Masc|Number=Sing	15	parataxis	_	_
+22	_	מעט	NOUN	subs	Gender=Masc|Number=Sing	15	ccomp	_	_
 23-24	מִכָּל	_	_	_	_	_	_	_	SpaceAfter=No
 23	_	מן	ADP	prep	_	24	case	_	_
 24	_	כל	NOUN	subs	Gender=Masc|Number=Sing	22	obl	_	_
@@ -8462,7 +8462,7 @@
 22	_	יום	NOUN	subs	Gender=Masc|Number=Sing	19	obl	_	_
 23-25	לַעֲשֹׂותָֽם	_	_	_	_	_	_	_	SpaceAfter=No
 23	_	ל	ADP	prep	_	24	case	_	_
-24	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	advcl	_	_
+24	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	19	xcomp	_	_
 25	_	הם	PRON	prn	Gender=Masc|Number=Plur|Person=3|PronType=Prs	24	obj	_	_
 26	׃	׃	PUNCT	punct	_	2	punct	_	_
 27	פ	פ	PUNCT	punct	_	2	punct	_	_
@@ -9030,7 +9030,7 @@
 11	תִּשְׁמְר֣וּן	שׁמר	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=2|VerbForm=Fin	0	root	_	_
 12-13	לַעֲשֹׂ֑ות	_	_	_	_	_	_	_	_
 12	_	ל	ADP	prep	_	13	case	_	_
-13	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	11	advcl	_	_
+13	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	7	xcomp	_	_
 14	לְמַ֨עַן	למען	ADP	prep	_	11	case	_	_
 15	תִּֽחְי֜וּן	חיה	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=2|VerbForm=Fin	11	parataxis	_	_
 16-17	וּרְבִיתֶ֗ם	_	_	_	_	_	_	_	_
@@ -9403,10 +9403,10 @@
 11	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	10	nmod:poss	_	_
 12-13	לְבִלְתִּ֨י	_	_	_	_	_	_	_	_
 12	_	ל	ADP	prep	_	13	case	_	_
-13	_	בלת	NOUN	subs	Number=Sing	25	obl	_	_
-14	שְׁמֹ֤ר	שׁמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	13	acl	_	_
+13	_	בלת	NOUN	subs	Number=Sing	14	obl	_	_
+14	שְׁמֹ֤ר	שׁמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	1	advcl	_	_
 15-16	מִצְוֹתָיו֙	_	_	_	_	_	_	_	_
-15	_	מצוה	NOUN	subs	Gender=Fem|Number=Plur	1	obj	_	_
+15	_	מצוה	NOUN	subs	Gender=Fem|Number=Plur	14	obj	_	_
 16	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	15	nmod:poss	_	_
 17-19	וּמִשְׁפָּטָ֣יו	_	_	_	_	_	_	_	_
 17	_	ו	CCONJ	conj	_	18	cc	_	_
@@ -9424,7 +9424,7 @@
 27-28	הַיֹּֽום	_	_	_	_	_	_	_	SpaceAfter=No
 27	_	ה	DET	art	_	28	det	_	_
 28	_	יום	NOUN	subs	Gender=Masc|Number=Sing	25	obl	_	_
-29	׃	׃	PUNCT	punct	_	15	punct	_	_
+29	׃	׃	PUNCT	punct	_	30	punct	_	_
 30	פֶּן	פן	SCONJ	conj	_	32	mark	_	SpaceAfter=No
 31	־	־	PUNCT	punct	_	30	punct	_	SpaceAfter=No
 32	תֹּאכַ֖ל	אכל	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	1	advcl	_	_
@@ -9439,7 +9439,7 @@
 39-40	וְיָשָֽׁבְתָּ	_	_	_	_	_	_	_	SpaceAfter=No
 39	_	ו	CCONJ	conj	_	40	cc	_	_
 40	_	ישׁב	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	1	conj	_	_
-41	׃	׃	PUNCT	punct	_	40	punct	_	_
+41	׃	׃	PUNCT	punct	_	1	punct	_	_
 
 # sentence_index = 234
 # sent_id = Masoretic-Deuteronomy-8:13-hbo
@@ -9820,7 +9820,7 @@
 21	_	צדקה	NOUN	subs	Gender=Fem|Number=Sing	23	obl	_	_
 22	_	אני	PRON	prn	Number=Sing|Person=1|PronType=Prs	21	nmod:poss	_	_
 23-24	הֱבִיאַ֣נִי	_	_	_	_	_	_	_	_
-23	_	בוא	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	3	ccomp	_	_
+23	_	בוא	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	3	parataxis	_	_
 24	_	אני	PRON	prn	Number=Sing|Person=1|PronType=Prs	23	obj	_	_
 25	יְהוָ֔ה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	23	nsubj	_	_
 26-27	לָרֶ֖שֶׁת	_	_	_	_	_	_	_	_
@@ -11452,7 +11452,7 @@
 70	_	יום	NOUN	subs	Gender=Masc|Number=Sing	67	obl	_	_
 71-72	לְטֹ֖וב	_	_	_	_	_	_	_	_
 71	_	ל	ADP	prep	_	72	case	_	_
-72	_	טוב	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	67	advcl	_	_
+72	_	טוב	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	67	xcomp	_	_
 73-74	לָֽךְ	_	_	_	_	_	_	_	SpaceAfter=No
 73	_	ל	ADP	prep	_	74	case	_	_
 74	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	72	obl	_	_
@@ -12259,7 +12259,7 @@
 17	_	יום	NOUN	subs	Gender=Masc|Number=Sing	13	obl	_	_
 18-19	לְאַהֲבָ֞ה	_	_	_	_	_	_	_	_
 18	_	ל	ADP	prep	_	19	case	_	_
-19	_	אהב	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	13	advcl	_	_
+19	_	אהב	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	13	xcomp	_	_
 20	אֶת	את	ADP	prep	_	22	case	_	SpaceAfter=No
 21	־	־	PUNCT	punct	_	20	punct	_	SpaceAfter=No
 22	יְהוָ֤ה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	19	obj	_	_
@@ -12622,11 +12622,11 @@
 18	_	אתם	PRON	prn	Gender=Masc|Number=Plur|Person=2|PronType=Prs	16	obj	_	_
 19-21	לַעֲשֹׂתָ֑הּ	_	_	_	_	_	_	_	_
 19	_	ל	ADP	prep	_	20	case	_	_
-20	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	16	advcl	_	_
+20	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	16	xcomp	_	_
 21	_	היא	PRON	prn	Gender=Fem|Number=Sing|Person=3|PronType=Prs	20	obj	_	_
 22-23	לְאַהֲבָ֞ה	_	_	_	_	_	_	_	_
 22	_	ל	ADP	prep	_	23	case	_	_
-23	_	אהב	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	20	advcl	_	_
+23	_	אהב	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	16	xcomp	_	_
 24	אֶת	את	ADP	prep	_	26	case	_	SpaceAfter=No
 25	־	־	PUNCT	punct	_	24	punct	_	SpaceAfter=No
 26	יְהוָ֧ה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	23	obj	_	_
@@ -12635,7 +12635,7 @@
 28	_	אתם	PRON	prn	Gender=Masc|Number=Plur|Person=2|PronType=Prs	27	nmod:poss	_	_
 29-30	לָלֶ֥כֶת	_	_	_	_	_	_	_	_
 29	_	ל	ADP	prep	_	30	case	_	_
-30	_	הלך	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	23	advcl	_	_
+30	_	הלך	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	16	xcomp	_	_
 31-32	בְּכָל	_	_	_	_	_	_	_	SpaceAfter=No
 31	_	ב	ADP	prep	_	32	case	_	_
 32	_	כל	NOUN	subs	Gender=Masc|Number=Sing	30	obl	_	_
@@ -12736,7 +12736,7 @@
 34-35	הָֽאַחֲרֹ֔ון	_	_	_	_	_	_	_	_
 34	_	ה	DET	art	_	35	det	_	_
 35	_	אחרון	ADJ	adjv	Gender=Masc|Number=Sing	33	amod	_	_
-36	יִהְיֶ֖ה	היה	AUX	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	33	cop	_	_
+36	יִהְיֶ֖ה	היה	AUX	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	27	cop	_	_
 37-38	גְּבֻלְכֶֽם	_	_	_	_	_	_	_	SpaceAfter=No
 37	_	גבול	NOUN	subs	Gender=Masc|Number=Sing	19	nsubj	_	_
 38	_	אתם	PRON	prn	Gender=Masc|Number=Plur|Person=2|PronType=Prs	37	nmod:poss	_	_
@@ -12866,7 +12866,7 @@
 58	_	יום	NOUN	subs	Gender=Masc|Number=Sing	54	obl	_	_
 59-60	לָלֶ֗כֶת	_	_	_	_	_	_	_	_
 59	_	ל	ADP	prep	_	60	case	_	_
-60	_	הלך	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	47	advcl	_	_
+60	_	הלך	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	54	xcomp	_	_
 61	אַחֲרֵ֛י	אחר	ADP	subs	_	62	case	_	_
 62	אֱלֹהִ֥ים	אלהים	NOUN	subs	Gender=Masc|Number=Plur	60	obl	_	_
 63	אֲחֵרִ֖ים	אחר	ADJ	adjv	Gender=Masc|Number=Plur	62	amod	_	_
@@ -14033,11 +14033,11 @@
 2	חֲזַ֗ק	חזק	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Imp|Number=Sing|Person=2|VerbForm=Fin	0	root	_	_
 3-4	לְבִלְתִּי֙	_	_	_	_	_	_	_	_
 3	_	ל	ADP	prep	_	4	case	_	_
-4	_	בלת	NOUN	subs	Number=Sing	2	obl	_	_
-5	אֲכֹ֣ל	אכל	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	4	acl	_	_
+4	_	בלת	NOUN	subs	Number=Sing	5	obl	_	_
+5	אֲכֹ֣ל	אכל	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	advcl	_	_
 6-7	הַדָּ֔ם	_	_	_	_	_	_	_	_
 6	_	ה	DET	art	_	7	det	_	_
-7	_	דם	NOUN	subs	Gender=Masc|Number=Sing	2	obj	_	_
+7	_	דם	NOUN	subs	Gender=Masc|Number=Sing	5	obj	_	_
 8	כִּ֥י	כי	SCONJ	conj	_	13	mark	_	_
 9-10	הַדָּ֖ם	_	_	_	_	_	_	_	_
 9	_	ה	DET	art	_	10	det	_	_
@@ -14059,7 +14059,7 @@
 22-23	הַבָּשָֽׂר	_	_	_	_	_	_	_	SpaceAfter=No
 22	_	ה	DET	art	_	23	det	_	_
 23	_	בשׂר	NOUN	subs	Gender=Masc|Number=Sing	17	obl	_	_
-24	׃	׃	PUNCT	punct	_	13	punct	_	_
+24	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sentence_index = 335
 # sent_id = Masoretic-Deuteronomy-12:24-hbo
@@ -14363,7 +14363,7 @@
 13	תִשְׁמְר֖וּ	שׁמר	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=2|VerbForm=Fin	0	root	_	_
 14-15	לַעֲשֹׂ֑ות	_	_	_	_	_	_	_	_
 14	_	ל	ADP	prep	_	15	case	_	_
-15	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	13	advcl	_	_
+15	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	8	xcomp	_	_
 16	לֹא	לא	ADV	nega	Polarity=Neg	18	advmod	_	SpaceAfter=No
 17	־	־	PUNCT	punct	_	16	punct	_	SpaceAfter=No
 18	תֹסֵ֣ף	יסף	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	13	parataxis	_	_
@@ -14425,7 +14425,7 @@
 11	_	אל	ADP	prep	_	12	case	_	_
 12	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	10	obl	_	_
 13	לֵאמֹ֑ר	לאמר	SCONJ	verb	_	14	mark	_	_
-14	נֵֽלְכָ֞ה	הלך	VERB	verb	Aspect=Imp|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=1|VerbForm=Fin	10	ccomp	_	_
+14	נֵֽלְכָ֞ה	הלך	VERB	verb	Aspect=Imp|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=1|VerbForm=Fin	10	parataxis	_	_
 15	אַחֲרֵ֨י	אחר	ADP	subs	_	16	case	_	_
 16	אֱלֹהִ֧ים	אלהים	NOUN	subs	Gender=Masc|Number=Plur	14	obl	_	_
 17	אֲחֵרִ֛ים	אחר	ADJ	adjv	Gender=Masc|Number=Plur	16	amod	_	_
@@ -14613,7 +14613,7 @@
 49	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	48	nmod:poss	_	_
 50-51	לָלֶ֣כֶת	_	_	_	_	_	_	_	_
 50	_	ל	ADP	prep	_	51	case	_	_
-51	_	הלך	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	45	advcl	_	_
+51	_	הלך	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	45	xcomp	_	_
 52-53	בָּ֑הּ	_	_	_	_	_	_	_	_
 52	_	ב	ADP	prep	_	53	case	_	_
 53	_	היא	PRON	prn	Gender=Fem|Number=Sing|Person=3|PronType=Prs	51	obl	_	_
@@ -15172,7 +15172,7 @@
 21	_	יום	NOUN	subs	Gender=Masc|Number=Sing	18	obl	_	_
 22-23	לַעֲשֹׂות֙	_	_	_	_	_	_	_	_
 22	_	ל	ADP	prep	_	23	case	_	_
-23	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	18	advcl	_	_
+23	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	18	xcomp	_	_
 24-25	הַיָּשָׁ֔ר	_	_	_	_	_	_	_	_
 24	_	ה	SCONJ	art	_	25	mark	_	_
 25	_	ישׁר	ADJ	adjv	Gender=Masc|Number=Sing	21	acl	_	_
@@ -15241,7 +15241,7 @@
 17	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	19	obl	_	_
 18-19	לְעַ֣ם	_	_	_	_	_	_	_	_
 18	_	ל	ADP	prep	_	19	case	_	_
-19	_	עם	NOUN	subs	Gender=Masc|Number=Sing	12	ccomp	_	_
+19	_	עם	NOUN	subs	Gender=Masc|Number=Sing	12	advcl	_	_
 20	סְגֻלָּ֔ה	סגלה	NOUN	subs	Gender=Fem|Number=Sing	19	compound:smixut	_	_
 21-22	מִכֹּל֙	_	_	_	_	_	_	_	_
 21	_	מן	ADP	prep	_	22	case	_	_
@@ -16388,72 +16388,6 @@
 21	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	19	obl	_	_
 22	׃	׃	PUNCT	punct	_	13	punct	_	_
 
-# sentence_index = 391
-# sent_id = Masoretic-Deuteronomy-15:9-hbo
-# text = הִשָּׁ֣מֶר לְךָ֡ פֶּן־יִהְיֶ֣ה דָבָר֩ עִם־לְבָבְךָ֨ בְלִיַּ֜עַל לֵאמֹ֗ר קָֽרְבָ֣ה שְׁנַֽת־הַשֶּׁבַע֮ שְׁנַ֣ת הַשְּׁמִטָּה֒ וְרָעָ֣ה עֵֽינְךָ֗ בְּאָחִ֨יךָ֙ הָֽאֶבְיֹ֔ון וְלֹ֥א תִתֵּ֖ן לֹ֑ו וְקָרָ֤א עָלֶ֨יךָ֙ אֶל־יְהוָ֔ה וְהָיָ֥ה בְךָ֖ חֵֽטְא׃
-1	הִשָּׁ֣מֶר	שׁמר	VERB	verb	Gender=Masc|HebBinyan=NIFAL|Mood=Imp|Number=Sing|Person=2|VerbForm=Fin	0	root	_	_
-2-3	לְךָ֡	_	_	_	_	_	_	_	_
-2	_	ל	ADP	prep	_	3	case	_	_
-3	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	1	obl	_	_
-4	פֶּן	פן	SCONJ	conj	_	10	mark	_	SpaceAfter=No
-5	־	־	PUNCT	punct	_	4	punct	_	SpaceAfter=No
-6	יִהְיֶ֣ה	היה	AUX	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	10	cop	_	_
-7	דָבָר֩	דבר	NOUN	subs	Gender=Masc|Number=Sing	10	nsubj	_	_
-8	עִם	עם	ADP	prep	_	10	case	_	SpaceAfter=No
-9	־	־	PUNCT	punct	_	8	punct	_	SpaceAfter=No
-10-11	לְבָבְךָ֨	_	_	_	_	_	_	_	_
-10	_	לבב	NOUN	subs	Gender=Masc|Number=Sing	1	advcl	_	_
-11	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	10	nmod:poss	_	_
-12	בְלִיַּ֜עַל	בליעל	NOUN	subs	Gender=Masc|Number=Sing	10	dislocated	_	_
-13	לֵאמֹ֗ר	לאמר	SCONJ	verb	_	14	mark	_	_
-14	קָֽרְבָ֣ה	קרב	VERB	verb	Aspect=Perf|Gender=Fem|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	7	ccomp	_	_
-15	שְׁנַֽת	שׁנה	NOUN	subs	Gender=Fem|Number=Sing	14	nsubj	_	SpaceAfter=No
-16	־	־	PUNCT	punct	_	19	punct	_	SpaceAfter=No
-17-18	הַשֶּׁבַע֮	_	_	_	_	_	_	_	_
-17	_	ה	DET	art	_	18	det	_	_
-18	_	שׁבע	NUM	subs	Number=Sing|NumType=Card	19	nummod	_	_
-19	שְׁנַ֣ת	שׁנה	NOUN	subs	Gender=Fem|Number=Sing	15	compound:smixut	_	_
-20-21	הַשְּׁמִטָּה֒	_	_	_	_	_	_	_	_
-20	_	ה	DET	art	_	21	det	_	_
-21	_	שׁמטה	NOUN	subs	Gender=Fem|Number=Sing	19	compound:smixut	_	_
-22-23	וְרָעָ֣ה	_	_	_	_	_	_	_	_
-22	_	ו	CCONJ	conj	_	23	cc	_	_
-23	_	רעע	VERB	verb	Aspect=Perf|Gender=Fem|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	14	conj	_	_
-24-25	עֵֽינְךָ֗	_	_	_	_	_	_	_	_
-24	_	עין	NOUN	subs	Gender=Fem|Number=Sing	23	nsubj	_	_
-25	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	24	nmod:poss	_	_
-26-28	בְּאָחִ֨יךָ֙	_	_	_	_	_	_	_	_
-26	_	ב	ADP	prep	_	27	case	_	_
-27	_	אח	NOUN	subs	Gender=Masc|Number=Sing	23	obl	_	_
-28	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	27	nmod:poss	_	_
-29-30	הָֽאֶבְיֹ֔ון	_	_	_	_	_	_	_	_
-29	_	ה	DET	art	_	30	det	_	_
-30	_	אביון	ADJ	adjv	Gender=Masc|Number=Sing	27	amod	_	_
-31-32	וְלֹ֥א	_	_	_	_	_	_	_	_
-31	_	ו	CCONJ	conj	_	33	cc	_	_
-32	_	לא	ADV	nega	Polarity=Neg	33	advmod	_	_
-33	תִתֵּ֖ן	נתן	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	14	conj	_	_
-34-35	לֹ֑ו	_	_	_	_	_	_	_	_
-34	_	ל	ADP	prep	_	35	case	_	_
-35	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	33	obl	_	_
-36-37	וְקָרָ֤א	_	_	_	_	_	_	_	_
-36	_	ו	CCONJ	conj	_	37	cc	_	_
-37	_	קרא	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	14	conj	_	_
-38-39	עָלֶ֨יךָ֙	_	_	_	_	_	_	_	_
-38	_	על	ADP	prep	_	39	case	_	_
-39	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	37	obl	_	_
-40	אֶל	אל	ADP	prep	_	42	case	_	SpaceAfter=No
-41	־	־	PUNCT	punct	_	40	punct	_	SpaceAfter=No
-42	יְהוָ֔ה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	37	obl	_	_
-43-44	וְהָיָ֥ה	_	_	_	_	_	_	_	_
-43	_	ו	CCONJ	conj	_	46	cc	_	_
-44	_	היה	AUX	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	46	cop	_	_
-45-46	בְךָ֖	_	_	_	_	_	_	_	_
-45	_	ב	ADP	prep	_	46	case	_	_
-46	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	14	conj	_	_
-47	חֵֽטְא	חטא	NOUN	subs	Gender=Masc|Number=Sing	46	nsubj	_	SpaceAfter=No
-48	׃	׃	PUNCT	punct	_	1	punct	_	_
-
 # sentence_index = 392
 # sent_id = Masoretic-Deuteronomy-15:10-hbo
 # text = נָתֹ֤ון תִּתֵּן֙ לֹ֔ו וְלֹא־יֵרַ֥ע לְבָבְךָ֖ בְּתִתְּךָ֣ לֹ֑ו כִּ֞י בִּגְלַ֣ל׀ הַדָּבָ֣ר הַזֶּ֗ה יְבָרֶכְךָ֙ יְהוָ֣ה אֱלֹהֶ֔יךָ בְּכָֽל־מַעֲשֶׂ֔ךָ וּבְכֹ֖ל מִשְׁלַ֥ח יָדֶֽךָ׃
@@ -16535,7 +16469,7 @@
 15	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	14	obj	_	_
 16	לֵאמֹ֔ר	לאמר	SCONJ	verb	_	18	mark	_	_
 17	פָּ֠תֹחַ	פתח	ADV	verb	_	18	advmod	_	_
-18	תִּפְתַּ֨ח	פתח	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	14	ccomp	_	_
+18	תִּפְתַּ֨ח	פתח	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	14	parataxis	_	_
 19	אֶת	את	ADP	prep	_	21	case	_	SpaceAfter=No
 20	־	־	PUNCT	punct	_	19	punct	_	SpaceAfter=No
 21-22	יָדְךָ֜	_	_	_	_	_	_	_	_
@@ -17764,7 +17698,7 @@
 19	_	ו	CCONJ	conj	_	20	cc	_	_
 20	_	סלף	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PIEL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	6	conj	_	_
 21	דִּבְרֵ֥י	דבר	NOUN	subs	Gender=Masc|Number=Plur	20	obj	_	_
-22	צַדִּיקִֽם	צדיק	ADJ	adjv	Gender=Masc|Number=Plur	21	amod	_	SpaceAfter=No
+22	צַדִּיקִֽם	צדיק	ADJ	adjv	Gender=Masc|Number=Plur	21	compound:smixut	_	SpaceAfter=No
 23	׃	׃	PUNCT	punct	_	3	punct	_	_
 
 # sentence_index = 424
@@ -18359,13 +18293,13 @@
 8	_	זדון	NOUN	subs	Gender=Masc|Number=Sing	6	obl	_	_
 9-10	לְבִלְתִּ֨י	_	_	_	_	_	_	_	_
 9	_	ל	ADP	prep	_	10	case	_	_
-10	_	בלת	NOUN	subs	Number=Sing	19	obl	_	_
-11	שְׁמֹ֤עַ	שׁמע	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	10	acl	_	_
+10	_	בלת	NOUN	subs	Number=Sing	11	obl	_	_
+11	שְׁמֹ֤עַ	שׁמע	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	32	advcl	_	_
 12	אֶל	אל	ADP	prep	_	15	case	_	SpaceAfter=No
 13	־	־	PUNCT	punct	_	12	punct	_	SpaceAfter=No
 14-15	הַכֹּהֵן֙	_	_	_	_	_	_	_	_
 14	_	ה	DET	art	_	15	det	_	_
-15	_	כהן	NOUN	subs	Gender=Masc|Number=Sing	19	obl	_	_
+15	_	כהן	NOUN	subs	Gender=Masc|Number=Sing	11	obl	_	_
 16-17	הָעֹמֵ֞ד	_	_	_	_	_	_	_	_
 16	_	ה	SCONJ	art	_	17	mark	_	_
 17	_	עמד	VERB	verb	Gender=Masc|HebBinyan=PAAL|Number=Sing|VerbForm=Part	15	acl	_	_
@@ -18713,30 +18647,30 @@
 41	_	ל	ADP	prep	_	42	case	_	_
 42	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	17	xcomp	_	_
 43	_	הם	PRON	prn	Gender=Masc|Number=Plur|Person=3|PronType=Prs	42	obj	_	_
-44	׃	׃	PUNCT	punct	_	46	punct	_	_
+44	׃	׃	PUNCT	punct	_	47	punct	_	_
 45-46	לְבִלְתִּ֤י	_	_	_	_	_	_	_	_
 45	_	ל	ADP	prep	_	46	case	_	_
-46	_	בלת	NOUN	subs	Number=Sing	42	obl	_	_
-47	רוּם	רום	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	46	acl	_	SpaceAfter=No
+46	_	בלת	NOUN	subs	Number=Sing	47	obl	_	_
+47	רוּם	רום	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	17	xcomp	_	SpaceAfter=No
 48	־	־	PUNCT	punct	_	49	punct	_	SpaceAfter=No
 49-50	לְבָבֹו֙	_	_	_	_	_	_	_	_
-49	_	לבב	NOUN	subs	Gender=Masc|Number=Sing	42	nsubj	_	_
+49	_	לבב	NOUN	subs	Gender=Masc|Number=Sing	47	nsubj	_	_
 50	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	49	nmod:poss	_	_
 51-53	מֵֽאֶחָ֔יו	_	_	_	_	_	_	_	_
 51	_	מן	ADP	prep	_	52	case	_	_
-52	_	אח	NOUN	subs	Gender=Masc|Number=Plur	42	obl	_	_
+52	_	אח	NOUN	subs	Gender=Masc|Number=Plur	47	obl	_	_
 53	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	52	nmod:poss	_	_
 54-56	וּלְבִלְתִּ֛י	_	_	_	_	_	_	_	_
-54	_	ו	CCONJ	conj	_	4	cc	_	_
+54	_	ו	CCONJ	conj	_	57	cc	_	_
 55	_	ל	ADP	prep	_	56	case	_	_
-56	_	בלת	NOUN	subs	Number=Sing	42	obl	_	_
-57	ס֥וּר	סור	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	56	acl	_	_
+56	_	בלת	NOUN	subs	Number=Sing	57	obl	_	_
+57	ס֥וּר	סור	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	47	conj	_	_
 58	מִן	מן	ADP	prep	_	61	case	_	SpaceAfter=No
 59	־	־	PUNCT	punct	_	58	punct	_	SpaceAfter=No
 60-61	הַמִּצְוָ֖ה	_	_	_	_	_	_	_	_
 60	_	ה	DET	art	_	61	det	_	_
-61	_	מצוה	NOUN	subs	Gender=Fem|Number=Sing	42	obl	_	_
-62	יָמִ֣ין	ימין	NOUN	subs	Gender=Fem|Number=Sing	42	obl	_	_
+61	_	מצוה	NOUN	subs	Gender=Fem|Number=Sing	57	obl	_	_
+62	יָמִ֣ין	ימין	NOUN	subs	Gender=Fem|Number=Sing	57	obl	_	_
 63-64	וּשְׂמֹ֑אול	_	_	_	_	_	_	_	_
 63	_	ו	CCONJ	conj	_	64	cc	_	_
 64	_	שׂמאל	NOUN	subs	Gender=Masc|Number=Sing	62	conj	_	_
@@ -19434,7 +19368,7 @@
 17	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	16	obj	_	_
 18-19	לְדַבֵּ֔ר	_	_	_	_	_	_	_	_
 18	_	ל	ADP	prep	_	19	case	_	_
-19	_	דבר	VERB	verb	HebBinyan=PIEL|VerbForm=Inf	28	advcl	_	_
+19	_	דבר	VERB	verb	HebBinyan=PIEL|VerbForm=Inf	16	xcomp	_	_
 20-21	וַאֲשֶׁ֣ר	_	_	_	_	_	_	_	_
 20	_	ו	CCONJ	conj	_	22	cc	_	_
 21	_	אשׁר	SCONJ	conj	_	22	mark	_	_
@@ -19811,7 +19745,7 @@
 7	לֵאמֹ֑ר	לאמר	SCONJ	verb	_	10	mark	_	_
 8	שָׁלֹ֥שׁ	שׁלשׁ	NUM	subs	Number=Sing|NumType=Card	9	nummod	_	_
 9	עָרִ֖ים	עיר	NOUN	subs	Gender=Fem|Number=Plur	10	obj	_	_
-10	תַּבְדִּ֥יל	בדל	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	5	ccomp	_	_
+10	תַּבְדִּ֥יל	בדל	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	5	parataxis	_	_
 11-12	לָֽךְ	_	_	_	_	_	_	_	SpaceAfter=No
 11	_	ל	ADP	prep	_	12	case	_	_
 12	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	10	obl	_	_
@@ -19897,7 +19831,7 @@
 20	_	יום	NOUN	subs	Gender=Masc|Number=Sing	17	obl	_	_
 21-22	לְאַהֲבָ֞ה	_	_	_	_	_	_	_	_
 21	_	ל	ADP	prep	_	22	case	_	_
-22	_	אהב	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	17	advcl	_	_
+22	_	אהב	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	17	xcomp	_	_
 23	אֶת	את	ADP	prep	_	25	case	_	SpaceAfter=No
 24	־	־	PUNCT	punct	_	23	punct	_	SpaceAfter=No
 25	יְהוָ֧ה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	22	obj	_	_
@@ -20544,7 +20478,7 @@
 7	_	ה	DET	art	_	8	det	_	_
 8	_	עם	NOUN	subs	Gender=Masc|Number=Sing	2	obl	_	_
 9	לֵאמֹר֒	לאמר	SCONJ	verb	_	10	mark	_	_
-10	מִֽי	מי	PRON	prin	PronType=Int	2	ccomp	_	SpaceAfter=No
+10	מִֽי	מי	PRON	prin	PronType=Int	2	parataxis	_	SpaceAfter=No
 11	־	־	PUNCT	punct	_	13	punct	_	SpaceAfter=No
 12-13	הָאִ֞ישׁ	_	_	_	_	_	_	_	_
 12	_	ה	DET	art	_	13	det	_	_
@@ -21227,7 +21161,7 @@
 15	סְבִיבֹ֥ת	סביב	NOUN	subs	Gender=Fem|Number=Plur	13	acl	_	_
 16-17	הֶחָלָֽל	_	_	_	_	_	_	_	SpaceAfter=No
 16	_	ה	DET	art	_	17	det	_	_
-17	_	חלל	ADJ	adjv	Gender=Masc|Number=Sing	15	appos	_	_
+17	_	חלל	ADJ	adjv	Gender=Masc|Number=Sing	15	compound:smixut	_	_
 18	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sentence_index = 509
@@ -22627,48 +22561,6 @@
 23	_	שׂנא	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	2	conj	_	_
 24	_	היא	PRON	prn	Gender=Fem|Number=Sing|Person=3|PronType=Prs	23	obj	_	_
 25	׃	׃	PUNCT	punct	_	2	punct	_	_
-
-# sentence_index = 546
-# sent_id = Masoretic-Deuteronomy-22:17-hbo
-# text = וְהִנֵּה־ה֡וּא שָׂם֩ עֲלִילֹ֨ת דְּבָרִ֜ים לֵאמֹ֗ר לֹֽא־מָצָ֤אתִי לְבִתְּךָ֙ בְּתוּלִ֔ים וְאֵ֖לֶּה בְּתוּלֵ֣י בִתִּ֑י וּפָֽרְשׂוּ֙ הַשִּׂמְלָ֔ה לִפְנֵ֖י זִקְנֵ֥י הָעִֽיר׃
-1-2	וְהִנֵּה	_	_	_	_	_	_	_	SpaceAfter=No
-1	_	ו	CCONJ	conj	_	5	cc	_	_
-2	_	הנה	INTJ	intj	_	5	discourse	_	_
-3	־	־	PUNCT	punct	_	2	punct	_	SpaceAfter=No
-4	ה֡וּא	הוא	PRON	prps	Gender=Masc|Number=Sing|Person=3|PronType=Prs	5	nsubj	_	_
-5	שָׂם֩	שׂים	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	0	root	_	_
-6	עֲלִילֹ֨ת	עלילה	NOUN	subs	Gender=Fem|Number=Plur	5	obj	_	_
-7	דְּבָרִ֜ים	דבר	NOUN	subs	Gender=Masc|Number=Plur	6	compound:smixut	_	_
-8	לֵאמֹ֗ר	לאמר	SCONJ	verb	_	11	mark	_	_
-9	לֹֽא	לא	ADV	nega	Polarity=Neg	11	advmod	_	SpaceAfter=No
-10	־	־	PUNCT	punct	_	9	punct	_	SpaceAfter=No
-11	מָצָ֤אתִי	מצא	VERB	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	7	ccomp	_	_
-12-14	לְבִתְּךָ֙	_	_	_	_	_	_	_	_
-12	_	ל	ADP	prep	_	13	case	_	_
-13	_	בת	NOUN	subs	Gender=Fem|Number=Sing	11	obl	_	_
-14	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	13	nmod:poss	_	_
-15	בְּתוּלִ֔ים	בתולים	NOUN	subs	Gender=Fem|Number=Plur	11	obj	_	_
-16-17	וְאֵ֖לֶּה	_	_	_	_	_	_	_	_
-16	_	ו	CCONJ	conj	_	18	cc	_	_
-17	_	אלה	PRON	prde	Number=Plur|PronType=Dem	18	nsubj	_	_
-18	בְּתוּלֵ֣י	בתולים	NOUN	subs	Gender=Fem|Number=Plur	11	conj	_	_
-19-20	בִתִּ֑י	_	_	_	_	_	_	_	_
-19	_	בת	NOUN	subs	Gender=Fem|Number=Sing	18	compound:smixut	_	_
-20	_	אני	PRON	prn	Number=Sing|Person=1|PronType=Prs	19	nmod:poss	_	_
-21-22	וּפָֽרְשׂוּ֙	_	_	_	_	_	_	_	_
-21	_	ו	CCONJ	conj	_	22	cc	_	_
-22	_	פרשׂ	VERB	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|VerbForm=Fin	11	conj	_	_
-23-24	הַשִּׂמְלָ֔ה	_	_	_	_	_	_	_	_
-23	_	ה	DET	art	_	24	det	_	_
-24	_	שׂמלה	NOUN	subs	Gender=Fem|Number=Sing	22	obj	_	_
-25-26	לִפְנֵ֖י	_	_	_	_	_	_	_	_
-25	_	ל	ADP	prep	_	26	case	_	_
-26	_	פנה	NOUN	subs	Gender=Masc|Number=Plur	22	obl	_	_
-27	זִקְנֵ֥י	זקן	NOUN	adjv	Gender=Masc|Number=Plur	26	compound:smixut	_	_
-28-29	הָעִֽיר	_	_	_	_	_	_	_	SpaceAfter=No
-28	_	ה	DET	art	_	29	det	_	_
-29	_	עיר	NOUN	subs	Gender=Fem|Number=Sing	27	compound:smixut	_	_
-30	׃	׃	PUNCT	punct	_	5	punct	_	_
 
 # sentence_index = 547
 # sent_id = Masoretic-Deuteronomy-22:18-hbo
@@ -24155,10 +24047,10 @@
 11	_	היא	PRON	prn	Gender=Fem|Number=Sing|Person=3|PronType=Prs	10	obj	_	_
 12-13	לָשׁ֨וּב	_	_	_	_	_	_	_	_
 12	_	ל	ADP	prep	_	13	case	_	_
-13	_	שׁוב	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	22	advcl	_	_
+13	_	שׁוב	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	3	advcl	_	_
 14-16	לְקַחְתָּ֜הּ	_	_	_	_	_	_	_	_
 14	_	ל	ADP	prep	_	15	case	_	_
-15	_	לקח	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	22	advcl	_	_
+15	_	לקח	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	3	advcl	_	_
 16	_	היא	PRON	prn	Gender=Fem|Number=Sing|Person=3|PronType=Prs	15	obj	_	_
 17-18	לִהְיֹ֧ות	_	_	_	_	_	_	_	_
 17	_	ל	ADP	prep	_	18	case	_	_
@@ -24168,13 +24060,13 @@
 20	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	22	obl	_	_
 21-22	לְאִשָּׁ֗ה	_	_	_	_	_	_	_	_
 21	_	ל	ADP	prep	_	22	case	_	_
-22	_	אשׁה	NOUN	subs	Gender=Fem|Number=Sing	3	ccomp	_	_
+22	_	אשׁה	NOUN	subs	Gender=Fem|Number=Sing	3	advcl	_	_
 23	אַחֲרֵי֙	אחר	ADP	subs	_	18	obl	_	_
 24	אֲשֶׁ֣ר	אשׁר	SCONJ	conj	_	25	mark	_	_
 25	הֻטַּמָּ֔אָה	טמא	VERB	verb	Aspect=Perf|Gender=Fem|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	23	acl	_	_
 26	כִּֽי	כי	SCONJ	conj	_	28	mark	_	SpaceAfter=No
 27	־	־	PUNCT	punct	_	26	punct	_	SpaceAfter=No
-28	תֹועֵבָ֥ה	תועבה	NOUN	subs	Gender=Fem|Number=Sing	22	advcl	_	_
+28	תֹועֵבָ֥ה	תועבה	NOUN	subs	Gender=Fem|Number=Sing	3	xcomp	_	_
 29	הִ֖וא	היא	PRON	prps	Gender=Fem|Number=Sing|Person=3|PronType=Prs	28	nsubj	_	_
 30-31	לִפְנֵ֣י	_	_	_	_	_	_	_	_
 30	_	ל	ADP	prep	_	31	case	_	_
@@ -24183,7 +24075,7 @@
 33-34	וְלֹ֤א	_	_	_	_	_	_	_	_
 33	_	ו	CCONJ	conj	_	35	cc	_	_
 34	_	לא	ADV	nega	Polarity=Neg	35	advmod	_	_
-35	תַחֲטִיא֙	חטא	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	22	conj	_	_
+35	תַחֲטִיא֙	חטא	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	3	conj	_	_
 36	אֶת	את	ADP	prep	_	39	case	_	SpaceAfter=No
 37	־	־	PUNCT	punct	_	36	punct	_	SpaceAfter=No
 38-39	הָאָ֔רֶץ	_	_	_	_	_	_	_	_
@@ -24362,7 +24254,7 @@
 28	תִּשְׁמְר֥וּ	שׁמר	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=2|VerbForm=Fin	1	parataxis	_	_
 29-30	לַעֲשֹֽׂות	_	_	_	_	_	_	_	SpaceAfter=No
 29	_	ל	ADP	prep	_	30	case	_	_
-30	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	28	advcl	_	_
+30	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	26	xcomp	_	_
 31	׃	׃	PUNCT	punct	_	1	punct	_	_
 32	ס	ס	PUNCT	punct	_	1	punct	_	_
 
@@ -24683,7 +24575,7 @@
 21	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	20	obj	_	_
 22-23	לַעֲשֹׂ֔ות	_	_	_	_	_	_	_	_
 22	_	ל	ADP	prep	_	23	case	_	_
-23	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	20	advcl	_	_
+23	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	20	xcomp	_	_
 24	אֶת	את	ADP	prep	_	27	case	_	SpaceAfter=No
 25	־	־	PUNCT	punct	_	24	punct	_	SpaceAfter=No
 26-27	הַדָּבָ֖ר	_	_	_	_	_	_	_	_
@@ -24734,7 +24626,7 @@
 26	_	ל	ADP	prep	_	28	case	_	_
 27	_	ה	DET	art	_	28	det	_	_
 28	_	אלמנה	NOUN	subs	Gender=Fem|Number=Sing	21	conj	_	_
-29	יִהְיֶ֑ה	היה	AUX	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	28	cop	_	_
+29	יִהְיֶ֑ה	היה	AUX	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	21	cop	_	_
 30	לְמַ֤עַן	למען	ADP	prep	_	2	case	_	_
 31-32	יְבָרֶכְךָ֙	_	_	_	_	_	_	_	_
 31	_	ברך	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PIEL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	21	parataxis	_	_
@@ -24778,7 +24670,7 @@
 16	_	ל	ADP	prep	_	18	case	_	_
 17	_	ה	DET	art	_	18	det	_	_
 18	_	אלמנה	NOUN	subs	Gender=Fem|Number=Sing	11	conj	_	_
-19	יִהְיֶֽה	היה	AUX	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	18	cop	_	SpaceAfter=No
+19	יִהְיֶֽה	היה	AUX	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	11	cop	_	SpaceAfter=No
 20	׃	׃	PUNCT	punct	_	2	punct	_	_
 21	ס	ס	PUNCT	punct	_	2	punct	_	_
 
@@ -24808,7 +24700,7 @@
 16	_	ל	ADP	prep	_	18	case	_	_
 17	_	ה	DET	art	_	18	det	_	_
 18	_	אלמנה	NOUN	subs	Gender=Fem|Number=Sing	11	conj	_	_
-19	יִהְיֶֽה	היה	AUX	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	18	cop	_	SpaceAfter=No
+19	יִהְיֶֽה	היה	AUX	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	11	cop	_	SpaceAfter=No
 20	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sentence_index = 605
@@ -24834,7 +24726,7 @@
 15	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	14	obj	_	_
 16-17	לַעֲשֹׂ֔ות	_	_	_	_	_	_	_	_
 16	_	ל	ADP	prep	_	17	case	_	_
-17	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	14	advcl	_	_
+17	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	14	xcomp	_	_
 18	אֶת	את	ADP	prep	_	21	case	_	SpaceAfter=No
 19	־	־	PUNCT	punct	_	18	punct	_	SpaceAfter=No
 20-21	הַדָּבָ֖ר	_	_	_	_	_	_	_	_
@@ -25616,7 +25508,7 @@
 24	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	23	nmod:poss	_	_
 25	כִּי	כי	SCONJ	conj	_	27	mark	_	SpaceAfter=No
 26	־	־	PUNCT	punct	_	25	punct	_	SpaceAfter=No
-27	בָ֨אתִי֙	בוא	VERB	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	18	xcomp	_	_
+27	בָ֨אתִי֙	בוא	VERB	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	18	ccomp	_	_
 28	אֶל	אל	ADP	prep	_	31	case	_	SpaceAfter=No
 29	־	־	PUNCT	punct	_	28	punct	_	SpaceAfter=No
 30-31	הָאָ֔רֶץ	_	_	_	_	_	_	_	_
@@ -26205,7 +26097,7 @@
 9	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	8	obj	_	_
 10-11	לַעֲשֹׂ֛ות	_	_	_	_	_	_	_	_
 10	_	ל	ADP	prep	_	11	case	_	_
-11	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	8	advcl	_	_
+11	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	8	xcomp	_	_
 12	אֶת	את	ADP	prep	_	15	case	_	SpaceAfter=No
 13	־	־	PUNCT	punct	_	12	punct	_	SpaceAfter=No
 14-15	הַחֻקִּ֥ים	_	_	_	_	_	_	_	_
@@ -26265,11 +26157,11 @@
 10	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	12	obl	_	_
 11-12	לֵֽאלֹהִ֜ים	_	_	_	_	_	_	_	_
 11	_	ל	ADP	prep	_	12	case	_	_
-12	_	אלהים	NOUN	subs	Gender=Masc|Number=Plur	4	ccomp	_	_
+12	_	אלהים	NOUN	subs	Gender=Masc|Number=Plur	4	advcl	_	_
 13-15	וְלָלֶ֣כֶת	_	_	_	_	_	_	_	_
 13	_	ו	CCONJ	conj	_	15	cc	_	_
 14	_	ל	ADP	prep	_	15	case	_	_
-15	_	הלך	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	12	advcl	_	_
+15	_	הלך	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	12	conj	_	_
 16-18	בִּדְרָכָ֗יו	_	_	_	_	_	_	_	_
 16	_	ב	ADP	prep	_	17	case	_	_
 17	_	דרך	NOUN	subs	Gender=Masc|Number=Plur	15	obl	_	_
@@ -26277,7 +26169,7 @@
 19-21	וְלִשְׁמֹ֨ר	_	_	_	_	_	_	_	_
 19	_	ו	CCONJ	conj	_	21	cc	_	_
 20	_	ל	ADP	prep	_	21	case	_	_
-21	_	שׁמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	12	advcl	_	_
+21	_	שׁמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	12	conj	_	_
 22-23	חֻקָּ֧יו	_	_	_	_	_	_	_	_
 22	_	חק	NOUN	subs	Gender=Masc|Number=Plur	21	obj	_	_
 23	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	22	nmod:poss	_	_
@@ -26292,7 +26184,7 @@
 30-32	וְלִשְׁמֹ֥עַ	_	_	_	_	_	_	_	_
 30	_	ו	CCONJ	conj	_	32	cc	_	_
 31	_	ל	ADP	prep	_	32	case	_	_
-32	_	שׁמע	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	12	advcl	_	_
+32	_	שׁמע	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	12	conj	_	_
 33-35	בְּקֹלֹֽו	_	_	_	_	_	_	_	SpaceAfter=No
 33	_	ב	ADP	prep	_	34	case	_	_
 34	_	קול	NOUN	subs	Gender=Masc|Number=Sing	32	obl	_	_
@@ -26319,7 +26211,7 @@
 10	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	12	obl	_	_
 11-12	לְעַ֣ם	_	_	_	_	_	_	_	_
 11	_	ל	ADP	prep	_	12	case	_	_
-12	_	עם	NOUN	subs	Gender=Masc|Number=Sing	3	ccomp	_	_
+12	_	עם	NOUN	subs	Gender=Masc|Number=Sing	3	advcl	_	_
 13	סְגֻלָּ֔ה	סגלה	NOUN	subs	Gender=Fem|Number=Sing	12	compound:smixut	_	_
 14-15	כַּאֲשֶׁ֖ר	_	_	_	_	_	_	_	_
 14	_	כ	ADP	prep	_	8	obl	_	_
@@ -26332,7 +26224,7 @@
 20-22	וְלִשְׁמֹ֖ר	_	_	_	_	_	_	_	_
 20	_	ו	CCONJ	conj	_	22	cc	_	_
 21	_	ל	ADP	prep	_	22	case	_	_
-22	_	שׁמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	12	advcl	_	_
+22	_	שׁמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	12	conj	_	_
 23	כָּל	כל	NOUN	subs	Gender=Masc|Number=Sing	22	obj	_	SpaceAfter=No
 24	־	־	PUNCT	punct	_	25	punct	_	SpaceAfter=No
 25-26	מִצְוֹתָֽיו	_	_	_	_	_	_	_	SpaceAfter=No
@@ -26342,7 +26234,7 @@
 28-31	וּֽלְתִתְּךָ֣	_	_	_	_	_	_	_	_
 28	_	ו	CCONJ	conj	_	30	cc	_	_
 29	_	ל	ADP	prep	_	30	case	_	_
-30	_	נתן	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	41	advcl	_	_
+30	_	נתן	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	12	conj	_	_
 31	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	30	obj	_	_
 32	עֶלְיֹ֗ון	עליון	ADJ	adjv	Gender=Masc|Number=Sing	30	xcomp	_	_
 33	עַ֤ל	על	ADP	prep	_	34	case	_	_
@@ -26355,7 +26247,7 @@
 39	עָשָׂ֔ה	עשׂה	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	37	acl	_	_
 40-41	לִתְהִלָּ֖ה	_	_	_	_	_	_	_	_
 40	_	ל	ADP	prep	_	41	case	_	_
-41	_	תהלה	NOUN	subs	Gender=Fem|Number=Sing	12	obl	_	_
+41	_	תהלה	NOUN	subs	Gender=Fem|Number=Sing	3	obl	_	_
 42-44	וּלְשֵׁ֣ם	_	_	_	_	_	_	_	_
 42	_	ו	CCONJ	conj	_	44	cc	_	_
 43	_	ל	ADP	prep	_	44	case	_	_
@@ -26369,7 +26261,7 @@
 49	_	ל	ADP	prep	_	50	case	_	_
 50	_	היה	AUX	verb	HebBinyan=PAAL|VerbForm=Inf	52	cop	_	_
 51	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	50	nsubj	_	_
-52	עַם	עם	NOUN	subs	Gender=Masc|Number=Sing	41	conj	_	SpaceAfter=No
+52	עַם	עם	NOUN	subs	Gender=Masc|Number=Sing	41	advcl	_	SpaceAfter=No
 53	־	־	PUNCT	punct	_	54	punct	_	SpaceAfter=No
 54	קָדֹ֛שׁ	קדושׁ	ADJ	adjv	Gender=Masc|Number=Sing	52	amod	_	_
 55-56	לַיהוָ֥ה	_	_	_	_	_	_	_	_
@@ -27682,7 +27574,7 @@
 36	_	יום	NOUN	subs	Gender=Masc|Number=Sing	33	obl	_	_
 37-38	לִשְׁמֹ֥ר	_	_	_	_	_	_	_	_
 37	_	ל	ADP	prep	_	38	case	_	_
-38	_	שׁמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	33	advcl	_	_
+38	_	שׁמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	33	xcomp	_	_
 39-41	וְלַעֲשֹֽׂות	_	_	_	_	_	_	_	SpaceAfter=No
 39	_	ו	CCONJ	conj	_	41	cc	_	_
 40	_	ל	ADP	prep	_	41	case	_	_
@@ -27718,13 +27610,13 @@
 18	_	שׂמאל	NOUN	subs	Gender=Masc|Number=Sing	16	conj	_	_
 19-20	לָלֶ֗כֶת	_	_	_	_	_	_	_	_
 19	_	ל	ADP	prep	_	20	case	_	_
-20	_	הלך	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	3	advcl	_	_
+20	_	הלך	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	11	xcomp	_	_
 21	אַחֲרֵ֛י	אחר	ADP	subs	_	22	case	_	_
 22	אֱלֹהִ֥ים	אלהים	NOUN	subs	Gender=Masc|Number=Plur	20	obl	_	_
 23	אֲחֵרִ֖ים	אחר	ADJ	adjv	Gender=Masc|Number=Plur	22	amod	_	_
 24-26	לְעָבְדָֽם	_	_	_	_	_	_	_	SpaceAfter=No
 24	_	ל	ADP	prep	_	25	case	_	_
-25	_	עבד	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	3	advcl	_	_
+25	_	עבד	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	11	xcomp	_	_
 26	_	הם	PRON	prn	Gender=Masc|Number=Plur|Person=3|PronType=Prs	25	obj	_	_
 27	׃	׃	PUNCT	punct	_	3	punct	_	_
 28	ס	ס	PUNCT	punct	_	3	punct	_	_
@@ -29751,7 +29643,7 @@
 11	מֹשֶׁ֗ה	משׁה	PROPN	nmpr	Gender=Masc|Number=Sing	7	obj	_	_
 12-13	לִכְרֹ֛ת	_	_	_	_	_	_	_	_
 12	_	ל	ADP	prep	_	13	case	_	_
-13	_	כרת	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	23	advcl	_	_
+13	_	כרת	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	7	xcomp	_	_
 14	אֶת	את	ADP	prep	_	16	case	_	SpaceAfter=No
 15	־	־	PUNCT	punct	_	14	punct	_	SpaceAfter=No
 16	בְּנֵ֥י	בן	NOUN	subs	Gender=Masc|Number=Plur	13	obl	_	_
@@ -30448,7 +30340,7 @@
 21	־	־	PUNCT	punct	_	20	punct	_	SpaceAfter=No
 22-23	לִּ֔י	_	_	_	_	_	_	_	_
 22	_	ל	ADP	prep	_	23	case	_	_
-23	_	אני	PRON	prn	Number=Sing|Person=1|PronType=Prs	14	ccomp	_	_
+23	_	אני	PRON	prn	Number=Sing|Person=1|PronType=Prs	14	parataxis	_	_
 24	כִּ֛י	כי	SCONJ	conj	_	29	mark	_	_
 25-26	בִּשְׁרִר֥וּת	_	_	_	_	_	_	_	_
 25	_	ב	ADP	prep	_	26	case	_	_
@@ -31431,7 +31323,7 @@
 27	הִ֑וא	היא	PRON	prps	Gender=Fem|Number=Sing|Person=3|PronType=Prs	26	nsubj	_	_
 28	לֵאמֹ֗ר	לאמר	SCONJ	verb	_	30	mark	_	_
 29	מִ֣י	מי	PRON	prin	PronType=Int	30	nsubj	_	_
-30	יַעֲלֶה	עלה	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	8	ccomp	_	SpaceAfter=No
+30	יַעֲלֶה	עלה	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	8	parataxis	_	SpaceAfter=No
 31	־	־	PUNCT	punct	_	33	punct	_	SpaceAfter=No
 32-33	לָּ֤נוּ	_	_	_	_	_	_	_	_
 32	_	ל	ADP	prep	_	33	case	_	_
@@ -31585,7 +31477,7 @@
 33	_	יום	NOUN	subs	Gender=Masc|Number=Sing	30	obl	_	_
 34-35	לְאַהֲבָ֞ה	_	_	_	_	_	_	_	_
 34	_	ל	ADP	prep	_	35	case	_	_
-35	_	אהב	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	advcl	_	_
+35	_	אהב	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	30	xcomp	_	_
 36	אֶת	את	ADP	prep	_	38	case	_	SpaceAfter=No
 37	־	־	PUNCT	punct	_	36	punct	_	SpaceAfter=No
 38	יְהוָ֤ה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	35	obj	_	_
@@ -31594,7 +31486,7 @@
 40	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	39	nmod:poss	_	_
 41-42	לָלֶ֣כֶת	_	_	_	_	_	_	_	_
 41	_	ל	ADP	prep	_	42	case	_	_
-42	_	הלך	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	advcl	_	_
+42	_	הלך	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	30	xcomp	_	_
 43-45	בִּדְרָכָ֔יו	_	_	_	_	_	_	_	_
 43	_	ב	ADP	prep	_	44	case	_	_
 44	_	דרך	NOUN	subs	Gender=Masc|Number=Plur	42	obl	_	_
@@ -31687,10 +31579,10 @@
 5	_	יום	NOUN	subs	Gender=Masc|Number=Sing	1	obl	_	_
 6	כִּ֥י	כי	SCONJ	conj	_	8	mark	_	_
 7	אָבֹ֖ד	אבד	ADV	verb	_	8	advmod	_	_
-8	תֹּאבֵד֑וּן	אבד	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=2|VerbForm=Fin	1	xcomp	_	_
+8	תֹּאבֵד֑וּן	אבד	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=2|VerbForm=Fin	1	ccomp	_	_
 9	לֹא	לא	ADV	nega	Polarity=Neg	11	advmod	_	SpaceAfter=No
 10	־	־	PUNCT	punct	_	9	punct	_	SpaceAfter=No
-11	תַאֲרִיכֻ֤ן	ארך	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=HIFIL|Mood=Ind|Number=Plur|Person=2|VerbForm=Fin	1	parataxis	_	_
+11	תַאֲרִיכֻ֤ן	ארך	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=HIFIL|Mood=Ind|Number=Plur|Person=2|VerbForm=Fin	8	parataxis	_	_
 12	יָמִים֙	יום	NOUN	subs	Gender=Masc|Number=Plur	11	obj	_	_
 13	עַל	על	ADP	prep	_	16	case	_	SpaceAfter=No
 14	־	־	PUNCT	punct	_	13	punct	_	SpaceAfter=No
@@ -32634,7 +32526,7 @@
 49	_	קרב	NOUN	subs	Gender=Masc|Number=Sing	45	obl	_	_
 50	_	אני	PRON	prn	Number=Sing|Person=1|PronType=Prs	49	nmod:poss	_	_
 51-52	מְצָא֖וּנִי	_	_	_	_	_	_	_	_
-51	_	מצא	VERB	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|VerbForm=Fin	34	ccomp	_	_
+51	_	מצא	VERB	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|VerbForm=Fin	34	parataxis	_	_
 52	_	אני	PRON	prn	Number=Sing|Person=1|PronType=Prs	51	obj	_	_
 53-54	הָרָעֹ֥ות	_	_	_	_	_	_	_	_
 53	_	ה	DET	art	_	54	det	_	_
@@ -33430,7 +33322,7 @@
 # text = בְּהַנְחֵ֤ל עֶלְיֹון֙ גֹּויִ֔ם בְּהַפְרִידֹ֖ו בְּנֵ֣י אָדָ֑ם יַצֵּב֙ גְּבֻלֹ֣ת עַמִּ֔ים לְמִסְפַּ֖ר בְּנֵ֥י יִשְׂרָאֵֽל׃
 1-2	בְּהַנְחֵ֤ל	_	_	_	_	_	_	_	_
 1	_	ב	ADP	prep	_	2	case	_	_
-2	_	נחל	VERB	verb	HebBinyan=HIFIL|VerbForm=Inf	6	advcl	_	_
+2	_	נחל	VERB	verb	HebBinyan=HIFIL|VerbForm=Inf	10	advcl	_	_
 3	עֶלְיֹון֙	עליון	ADJ	adjv	Gender=Masc|Number=Sing	2	nsubj	_	_
 4	גֹּויִ֔ם	גוי	NOUN	subs	Gender=Masc|Number=Plur	2	obj	_	_
 5-7	בְּהַפְרִידֹ֖ו	_	_	_	_	_	_	_	_
@@ -34209,7 +34101,7 @@
 11-12	מִדַּ֤ם	_	_	_	_	_	_	_	_
 11	_	מן	ADP	prep	_	12	case	_	_
 12	_	דם	NOUN	subs	Gender=Masc|Number=Sing	9	obl	_	_
-13	חָלָל֙	חלל	ADJ	adjv	Gender=Masc|Number=Sing	12	amod	_	_
+13	חָלָל֙	חלל	ADJ	adjv	Gender=Masc|Number=Sing	12	compound:smixut	_	_
 14-15	וְשִׁבְיָ֔ה	_	_	_	_	_	_	_	_
 14	_	ו	CCONJ	conj	_	15	cc	_	_
 15	_	שׁביה	NOUN	subs	Gender=Fem|Number=Sing	12	conj	_	_
@@ -34359,10 +34251,10 @@
 26	_	אתם	PRON	prn	Gender=Masc|Number=Plur|Person=2|PronType=Prs	25	nmod:poss	_	_
 27-28	לִשְׁמֹ֣ר	_	_	_	_	_	_	_	_
 27	_	ל	ADP	prep	_	28	case	_	_
-28	_	שׁמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	21	advcl	_	_
+28	_	שׁמר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	21	xcomp	_	_
 29-30	לַעֲשֹׂ֔ות	_	_	_	_	_	_	_	_
 29	_	ל	ADP	prep	_	30	case	_	_
-30	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	28	advcl	_	_
+30	_	עשׂה	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	21	xcomp	_	_
 31	אֶת	את	ADP	prep	_	33	case	_	SpaceAfter=No
 32	־	־	PUNCT	punct	_	31	punct	_	SpaceAfter=No
 33	כָּל	כל	NOUN	subs	Gender=Masc|Number=Sing	30	obj	_	SpaceAfter=No

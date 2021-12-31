@@ -863,6 +863,8 @@ SETPARENT @dislocated (NOT p (*)) TO (-1* ClauseRoot - HasMark) ;
 #UNMAP @case IF (p (verb)) ;
 #MAP @mark Pr IF (p (verb)) ;
 
+SETPARENT @nsubj OR @case (p @cop) TO (p @cop LINK p (*)) ;
+
 REMCOHORT (pb) ;
 REMCOHORT (cb) ;
 REMCOHORT (sb) ;

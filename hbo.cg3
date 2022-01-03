@@ -107,7 +107,7 @@ LIST SpeakingVerb = quot "ברך" "צוה" "נגד" "דבר" "ענה" ;
 # Apposition and NP conjunction
 LIST FamilyOrTitleSkip = (Genesis w14663) ;
 
-LIST ApposToLastGen = w265 w297 w307 w640 w648 w734 w1129 w1257 w1338 w1966 w5450 w7733 w11294 w12466 w12610 w12711 w13874 w14590 w14649 w18761 w18788 w19072 ;
+LIST ApposToLastGen = w265 w297 w307 w640 w648 w734 w1129 w1257 w1338 w1966 w2993 w3000 w5450 w7733 w11294 w12466 w12610 w12711 w13874 w14590 w14649 w18761 w18788 w19072 ;
 LIST ApposToLastRut = w19 w50 w93 ;
 SET ApposToLast = ApposToLastGen + (Genesis) OR ApposToLastRut + (Ruth) ;
 
@@ -115,7 +115,12 @@ LIST ApposOverride = (w93 Ruth) (w189 Genesis) (Genesis w14323) ;
 LIST ConjToAppos = w36714 (w7950 Exodus) (w95 Ruth) (w215 Genesis) (w313 Genesis) (Genesis w303) (Genesis w5424) ;
 LIST ConjToSmixut = (Genesis w734) ;
 
+# prn doesn't have w###, so use preceding prep
+LIST PrnNmodToSublist = (Genesis w2960) (Genesis w3165) (Genesis w3871) (Genesis w3921) (Genesis w4172) ;
+
 # @acl and @advcl
+LIST NonAclOverride = (Genesis w2676) ;
+     
 LIST MarkOverride = (Genesis w1508) (Genesis w1561) (Genesis w2064) (Genesis w2072) (Genesis w14455) (Genesis w15341) (Ruth w319) ;
 LIST NonMarkOverride = (Genesis w1243) (Genesis w11173) ;
 LIST NonRelOverride = (Genesis w2676) ;
@@ -333,11 +338,12 @@ SETPARENT Number + @conj (NOT p (*))
     TO (-1* Number - @flat BARRIER NonJoiner - @cc - @flat) ;
 SETPARENT Number + (c) (NOT p (*)) TO (1* Noun - Number BARRIER NonJoiner - Det) ;
 SETPARENT Number (NOT p (*)) TO (-1 Noun - Number) ;
+LIST NumberedOverride = (Genesis w3094) ;
 SETPARENT Number (NOT p (*))
-    TO (1* Noun - Number BARRIER NonJoiner - Det - Number - @cc) ;
+    TO (1* Noun - Number OR NumberedOverride BARRIER NonJoiner - Det - Number - @cc) ;
 SETPARENT Number (NOT p (*))
     TO (0* Noun - Number BARRIER NonJoiner - Det - Number - @cc) ;
-MAP @nummod Number IF (p Noun OR (prn)) (NEGATE c @nmod) ;
+MAP @nummod Number IF (p Noun OR (prn) OR NumberedOverride) (NEGATE c @nmod) ;
 
 ####################
 # Smixut
@@ -345,7 +351,7 @@ MAP @nummod Number IF (p Noun OR (prn)) (NEGATE c @nmod) ;
 
 # conjunction within smixut
 # (kinda weird, but arg structure doesn't make sense otherwise)
-MAP @conj $$Lemma + (subs) IF (-1* NonJoiner LINK 0 @cc LINK -1* NonJoiner - (prn) LINK 0 $$Lemma + (subs)) ;
+MAP @conj $$Lemma + (subs) IF (-1* NonJoiner LINK 0 @cc LINK -1* NonJoiner - (prn) LINK 0 $$Lemma + (subs)) (NEGATE 1* PrnNmodToSublist BARRIER BD) ;
 SETPARENT @conj + $$Lemma + (subs) (NOT p (*))
     TO (-1* NonJoiner LINK 0 @cc LINK -1* NonJoiner - (prn) LINK 0 $$Lemma + (subs)) ;
 SETPARENT @cc (NOT p (*)) TO (1 (subs @conj)) ;
@@ -399,10 +405,19 @@ SETPARENT @case (NOT p (*)) TO (1* CaseAble BARRIER NonJoiner - AfterPrep) ;
 SETPARENT @case (NOT p (*)) TO (1*A ADJ BARRIER NonJoiner - AfterPrep LINK NOT p (*)) ;
 
 ####################
+# Weird List Behavior
+####################
+
+MAP (@nmod prn_sub) (prn) IF (c PrnNmodToSublist) ;
+SETPARENT (@nmod prn_sub) (NOT p (*))
+    TO (-1* BD LINK 1* @cc LINK 1 Noun) ;
+ADD (conjhead) (*) - (conjhead) IF (c (@nmod prn_sub)) ;
+
+####################
 # Label NP heads
 ####################
 
-ADD PPHead Noun OR PRON OR ADJ IF (NOT p (*)) (NOT 0 PPHead) (c @case - ("את") OR etNotAcc) ;
+ADD PPHead Noun OR PRON OR ADJ OR ADV IF (NOT p (*)) (NOT 0 PPHead) (c @case - ("את") OR etNotAcc) ;
 ADD NPHead Noun OR PRON OR ADJ IF (NOT p (*)) (NOT 0 PPHead OR NPHead) ;
 
 ####################
@@ -464,7 +479,7 @@ SETPARENT CaseAble + ConjToAppos TO (-1* @appos) ;
 SETPARENT CaseAble + ConjToSmixut TO (-1* @compound:smixut) ;
 MAP @conj NPHead + HasConj IF (-1* NonAppos BARRIER BD) ;
 MAP @conj NPHead IF (-1* NonAppos BARRIER BD) (1* NPHead + HasConj BARRIER BD) ;
-SETPARENT NPHead + @conj (NOT p (*)) TO (-1* NonAppos - @conj BARRIER BD) ;
+SETPARENT NPHead + @conj (NOT p (*)) TO (-1* (conjhead) OR NonAppos - @conj BARRIER BD) ;
 
 # TODO: any better way to do this?
 SETPARENT (w189 Genesis) (NOT p (*)) TO (-1* (w185)) ;
@@ -720,7 +735,7 @@ SET CorR = (conj CP) OR RelMark ;
 SET CorM = CR OR (nmcp) - @cop ;
 LIST ConjTypes = CPen NmCl MSyn ;
 SETPARENT CorR + $$ClauseType (NOT p (*)) TO (1* CorM + $$ClauseType) ;
-MAP @acl CR IF (c RelMark) (NEGATE c (@nsubj NmCl)) ;
+MAP @acl CR - NonAclOverride IF (c RelMark) (NEGATE c (@nsubj NmCl)) ;
 LIST AclAble = subs adjv ptcp ptca nmpr ;
 LIST AclCompOk = (Exodus w3801) (Exodus w5417) ;
 LIST AclCompNotOk = (Genesis w1179) (Genesis w12528) (Genesis w12613) (Ruth w712) ;

@@ -37,5 +37,6 @@ hbo.bin: hbo.cg3
 
 export:
 	./export.py genesis 1 2 3 4 5 6 > UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-test.conllu
+	./export.py ruth 1 2 3 4 >> UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-test.conllu
 
 .PRECIOUS: %.parsed.cg3.txt

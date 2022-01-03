@@ -131,7 +131,9 @@ class Word:
                 self.rel = tg[1:]
                 if self.rel == 'advmod' and self.upos == 'VERB':
                     self.upos = 'ADV'
-                elif self.rel == 'mark' and self.upos == 'ADP':
+                elif self.rel == 'mark' and self.xpos == 'prep':
+                    self.upos = 'SCONJ'
+                elif self.rel == 'fixed' and self.xpos == 'conj':
                     self.upos = 'SCONJ'
             elif tg.startswith('retag:'):
                 if self.xpos == 'conj' and tg == 'retag:art':

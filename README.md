@@ -6,14 +6,14 @@ This is an in-progress conversion of the Old Testament in Hebrew using data from
 
 Manually-verified trees can be found in the files named `[book].checked.conllu`. The statistics are roughly the following, though I will probably forget to update this table, so run `make [book]-report` for up-to-date numbers.
 
-| Book | Sentences | Tokens |
+| Book | Sentences | Words |
 |---|---|---|
-| Genesis | 603 / 1494 (40%) | 12470 / 36764 (34%) |
+| Genesis | 969 / 1494 (65%) | 21594 / 36764 (59%) |
 | Exodus | 77 / 1151 (7%) | 1298 / 29878 (4%) |
 | Leviticus | 57 / 820 (7%) | 793 / 21769 (4%) |
 | Numbers | 128 / 1179 (11%) | 1417 / 28888 (5%) |
 | Deuteronomy | 22 / 879 (3%) | 235 / 26155 (1%) |
-| Ruth | 42 / 85 (49%) | 959 / 2290 (42%) |
+| Ruth | 85 / 85 (100%) | 2294 / 2294 (100%) |
 
 # License
 

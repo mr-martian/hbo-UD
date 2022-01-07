@@ -284,6 +284,10 @@ ADD (NonAcc) ("את" prep Cmpl) + $$ClauseType - (NonAcc)
     IF (0* ("את" prep Objc) + $$ClauseType BARRIER SB) ;
 ADD PPHead PPHeadOverride - PPHead ;
 
+LIST VoctNonCROverride = (Genesis s81570) (Genesis s81725) (Genesis s85145) (Genesis s82809) ;
+SUBSTITUTE (ClausePhraseRoot) (WhyAreVocativesTheirOwnClause) VoctNonCROverride ;
+SUBSTITUTE (ClausePhraseRoot) (WhyAreVocativesTheirOwnClause) (Voct) IF (0* (ClausePhraseRoot) - (Voct) BARRIER SB) ;
+
 ####################
 # Consistent labels
 ####################
@@ -300,7 +304,7 @@ MAP @advmod ADV - (ClausePhraseRoot) - PPHead ;
 MAP @advmod ADV + (MSyn) ;
 MAP @advmod ADV - PPHead IF (0* NonJoiner - BD BARRIER BD) ;
 MAP @advmod ("למה" inrg) ;
-MAP @discourse (intj) ; # TODO: is there a better way to handle הנה?
+MAP @discourse (intj) - (ClausePhraseRoot) ; # TODO: is there a better way to handle הנה?
 
 ####################
 # Pronoun suffixes
@@ -327,13 +331,13 @@ SECTION
 # Pronoun suffixes
 ####################
 
-LIST NsubjPrn = ExsS ModS NCoS PrcS PreS ;
+LIST NsubjPrn = ExsS ModS NCoS PrcS PreS (InjP IntS ClausePhraseRoot) ;
 LIST ObjPrn = PreO PtcO ;
 MAP @nsubj (prn) + NsubjPrn ;
 MAP @obj (prn) + ObjPrn ;
 MAP @obj (prn) IF (-1 (verb)) ;
 MAP (NPHead @obj) (prn Objc) IF (-1 Pr + ("את") - etNotAcc) ;
-SETPARENT (prn @obj) OR (prn @nsubj) (NOT p (*)) TO (-1 (verb)) ;
+SETPARENT (prn @obj) OR (prn @nsubj) (NOT p (*)) TO (-1 (verb) OR (intj ClausePhraseRoot)) ;
 MAP @nmod:poss (prn) IF (-1 Noun - (verb) - Number) ;
 SETPARENT @nmod:poss (NOT p (*)) TO (-1 Noun) ;
 MAP @nmod (prn) IF (-1 Number) ;
@@ -372,7 +376,7 @@ SETPARENT @conj + $$Lemma + (subs) (NOT p (*))
 SETPARENT @cc (NOT p (*)) TO (1 (subs @conj)) ;
 
 MAP @compound:smixut Noun OR ADJ IF (-1* Noun + (c) - Number BARRIER NonJoiner - Det - @nummod - @flat) ;
-SETPARENT @compound:smixut (NOT p (*)) TO (-1* Noun) ;
+SETPARENT @compound:smixut (NOT p (*)) TO (-1* Noun - @nummod - @flat) ;
 
 ####################
 # Determiners
@@ -383,6 +387,8 @@ SETPARENT Det (NOT p (*)) TO (1 DetAble) ;
 LIST PrnMaybeDet = prde (prps p3) ;
 MAP @det PrnMaybeDet IF (-1 Det LINK -1* Noun BARRIER NonJoiner) ;
 SETPARENT @det (NOT p (*)) TO (-1* Noun BARRIER NonJoiner - Det) ;
+MAP @det PrnMaybeDet IF (-1* Number BARRIER NonJoiner) ;
+SETPARENT @det + PrnMaybeDet (NOT p (*)) TO (-1* Number BARRIER NonJoiner) ;
 
 ####################
 # Adjectives
@@ -726,7 +732,7 @@ MAP @obl Noun + (Adju a) - CR ;
 MAP @obl PPHead + (PreC) IF (-1* (nmcp) BARRIER SB) ;
 MAP @obl Noun + OblIsh - CR ;
 
-MAP @vocative Noun + (Voct) ;
+MAP @vocative Noun + (Voct) - CR ;
 
 ####################
 # Attach verb arguments
@@ -908,4 +914,4 @@ REMCOHORT (pb) ;
 REMCOHORT (cb) ;
 REMCOHORT (sb) ;
 REMCOHORT (svb) ;
-REMCOHORT (excb) ;
+#REMCOHORT (excb) ;

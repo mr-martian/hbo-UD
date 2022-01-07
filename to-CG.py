@@ -11,12 +11,12 @@ utils.load_volume(sys.argv[1], globals())
 def surf(w):
     return unicodedata.normalize('NFC', T.text(w).strip(F.trailer_utf8.v(w))) or 'blah'
 
-def get(w, f):
+def get(w, f, p=''):
     v = F.__getattribute__(f).v(w)
     if not v or v in ['NA', 'unknown', 'none']:
         return ''
     else:
-        return f'<{v}>'
+        return f'<{p}{v}>'
 
 feats = ['sp', 'ls', 'vt', 'vs', 'typ', 'function', 'domain', 'gn', 'nametype', 'nu', 'ps', 'st', 'det']
 
@@ -46,6 +46,7 @@ for w in F.otype.s('word'):
     for f in feats:
         phr_ft += get(p, f)
         phr_ft += get(c, f)
+    phr_ft += get(c, 'rela', 'rela:')
     srf = surf(w)
     if srf != 'blah':
         srf = srf[:len(F.g_lex_utf8.v(w))] or 'blah'

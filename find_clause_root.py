@@ -3,7 +3,7 @@
 import sys
 from collections import defaultdict
 
-ORDER = [#'Voct',
+ORDER = ['Voct',
          'Time', 'Nega', 'Modi', 'Loca', 'Adju', 'Cmpl', 'Objc', 'Subj', '@cop', 'IntS', 'ModS', 'PrcS', 'PrAd', 'PreO', 'PreS', 'PtcO', 'PreC', '@ein', 'NCop', 'NCoS', 'Exst', 'ExsS', 'Pred']
 
 MAP = [('vbcp', '@cop'), ('nmcp', '@ein')]

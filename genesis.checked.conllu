@@ -31851,3 +31851,46 @@
 20	_	מצרים	PROPN	nmpr	Number=Sing	15	obl	_	_
 21	׃	׃	PUNCT	punct	_	2	punct	_	_
 
+# sent_id = Masoretic-Genesis-50:15-hbo
+# text = וַיִּרְא֤וּ אֲחֵֽי־יֹוסֵף֙ כִּי־מֵ֣ת אֲבִיהֶ֔ם וַיֹּ֣אמְר֔וּ ל֥וּ יִשְׂטְמֵ֖נוּ יֹוסֵ֑ף וְהָשֵׁ֤ב יָשִׁיב֙ לָ֔נוּ אֵ֚ת כָּל־הָ֣רָעָ֔ה אֲשֶׁ֥ר גָּמַ֖לְנוּ אֹתֹֽו׃
+# checker = Daniel
+1-2	וַיִּרְא֤וּ	_	_	_	_	_	_	_	_
+1	_	ו	CCONJ	conj	_	2	cc	_	_
+2	_	ראה	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin	0	root	_	_
+3	אֲחֵֽי	אח	NOUN	subs	Gender=Masc|Number=Plur	2	nsubj	_	SpaceAfter=No
+4	־	־	PUNCT	punct	_	5	punct	_	SpaceAfter=No
+5	יֹוסֵף֙	יוסף	PROPN	nmpr	Gender=Masc|Number=Sing	3	compound:smixut	_	_
+6	כִּי	כי	SCONJ	conj	_	8	mark	_	SpaceAfter=No
+7	־	־	PUNCT	punct	_	6	punct	_	SpaceAfter=No
+8	מֵ֣ת	מות	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	2	ccomp	_	_
+9-10	אֲבִיהֶ֔ם	_	_	_	_	_	_	_	_
+9	_	אב	NOUN	subs	Gender=Masc|Number=Sing	8	nsubj	_	_
+10	_	הם	PRON	prn	Gender=Masc|Number=Plur|Person=3|PronType=Prs	9	nmod:poss	_	_
+11-12	וַיֹּ֣אמְר֔וּ	_	_	_	_	_	_	_	_
+11	_	ו	CCONJ	conj	_	12	cc	_	_
+12	_	אמר	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin	2	conj	_	_
+13	ל֥וּ	לו	SCONJ	conj	_	14	mark	_	_
+14-15	יִשְׂטְמֵ֖נוּ	_	_	_	_	_	_	_	_
+14	_	שׂטם	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	12	ccomp	_	_
+15	_	אנחנו	PRON	prn	Number=Plur|Person=1|PronType=Prs	14	obj	_	_
+16	יֹוסֵ֑ף	יוסף	PROPN	nmpr	Gender=Masc|Number=Sing	14	nsubj	_	_
+17-18	וְהָשֵׁ֤ב	_	_	_	_	_	_	_	_
+17	_	ו	CCONJ	conj	_	19	cc	_	_
+18	_	שׁוב	ADV	verb	_	19	advmod	_	_
+19	יָשִׁיב֙	שׁוב	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	14	conj	_	_
+20-21	לָ֔נוּ	_	_	_	_	_	_	_	_
+20	_	ל	ADP	prep	_	21	case	_	_
+21	_	אנחנו	PRON	prn	Number=Plur|Person=1|PronType=Prs	19	obl	_	_
+22	אֵ֚ת	את	ADP	prep	_	23	case	_	_
+23	כָּל	כל	NOUN	subs	Gender=Masc|Number=Sing	19	obj	_	SpaceAfter=No
+24	־	־	PUNCT	punct	_	26	punct	_	SpaceAfter=No
+25-26	הָ֣רָעָ֔ה	_	_	_	_	_	_	_	_
+25	_	ה	DET	art	_	26	det	_	_
+26	_	רעה	NOUN	subs	Gender=Fem|Number=Sing	23	compound:smixut	_	_
+27	אֲשֶׁ֥ר	אשׁר	SCONJ	conj	_	28	mark	_	_
+28	גָּמַ֖לְנוּ	גמל	VERB	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=1|VerbForm=Fin	26	acl	_	_
+29-30	אֹתֹֽו	_	_	_	_	_	_	_	SpaceAfter=No
+29	_	את	ADP	prep	_	30	case	_	_
+30	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	28	obj	_	_
+31	׃	׃	PUNCT	punct	_	2	punct	_	_
+

@@ -26,7 +26,8 @@ LIST Number = card ordn ;
 LIST PRON = prde prps prn ;
 LIST ADJ = adjv ;
 LIST ADV = advb nega ;
-LIST SCONJ = "כי" "פן" "אשׁר" "אם" "שׁ" "ה" "לולא" (conj retag:prep) ;
+LIST SCONJ = "כי" "פן" "אשׁר" "אם" "שׁ" "ה" "לולא" "לו" (conj retag:prep) ;
+LIST NonMarkingSCONJ = "לו" ;
 
 ####################
 # Subcategories
@@ -264,9 +265,6 @@ SUBSTITUTE (subs) (verb retag:subs ClauseRoot) (nmcp) ;
 # interrogative adverbs
 LIST ItgAdv = "מתי" "איפה" "איך" "אן" "מדוע" ;
 SUBSTITUTE (inrg) (advb retag:inrg) ItgAdv ;
-
-# interjections
-SUBSTITUTE (conj) (intj retag:conj) ("לו") ;
 
 ####################
 # MWE conjunctions
@@ -604,7 +602,7 @@ SECTION # clause con
 ADD HasConj CR - HasConj IF (c @cc) ;
 ADD HasMark CR - HasMark + (infc) IF (c @case) ;
 ADD HasMark CR + (PrepVerb) - HasMark ;
-ADD HasMark CR - HasMark - NonMarkOverride IF (c @mark - (inrg ques) - QMark - (Rela) - RelMark) ;
+ADD HasMark CR - HasMark - NonMarkOverride IF (c @mark - (inrg ques) - QMark - (Rela) - RelMark - NonMarkingSCONJ) ;
 ADD HasMark CR + MarkOverride - HasMark ;
 ADD HasRel CR - HasRel - NonRelOverride IF (c @mark + (Rela) OR RelMark) ;
 

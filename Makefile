@@ -32,8 +32,8 @@ hbo.bin: hbo.cg3
 	./report.py $*
 
 %-filter: %-book
-#	cat $*.checkable.conllu | udapy -s util.Filter delete_tree_if_node='node.deprel in ["cop", "parataxis", "xcomp", "appos"] or node.is_nonprojective()' > $*.filter.conllu
-	cat $*.checkable.conllu | udapy -s util.Filter keep_tree_if_node='node.deprel in ["appos", "nmod"]' > $*.filter.conllu
+	cat $*.checkable.conllu | udapy -s util.Filter delete_tree_if_node='node.deprel in ["cop", "parataxis", "xcomp", "appos"] or node.is_nonprojective()' > $*.filter.conllu
+#	cat $*.checkable.conllu | udapy -s util.Filter keep_tree_if_node='node.deprel in ["appos", "nmod"]' > $*.filter.conllu
 
 export:
 	./export.py genesis 1 2 3 4 5 6 > UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-test.conllu

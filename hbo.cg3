@@ -258,6 +258,8 @@ SUBSTITUTE (art) (conj retag:art) (CP Rela) ;
 # Prepositions tagged as nouns
 SUBSTITUTE (subs) (advb retag:subs) ("אחר" subs ppre AdvP) (1 BD) ;
 SUBSTITUTE (subs) (prep retag:subs) ("אחר" subs ppre) ;
+LIST SubsOverride = (Genesis w20500) (Ruth w1233) ;
+SUBSTITUTE (subs) (prep retag:subs) (ppre CP Conj) IF (NOT 0 SubsOverride) ;
 
 # yesh and ein
 SUBSTITUTE (subs) (verb retag:subs ClauseRoot) (nmcp) ;
@@ -599,12 +601,12 @@ ADD (PrepVerb) (*) - (PrepVerb) IF (c @cop LINK c @case) ;
 
 SECTION # clause con
 
+ADD HasRel CR - HasRel - NonRelOverride IF (c @mark + (Rela) OR RelMark) ;
 ADD HasConj CR - HasConj IF (c @cc) ;
 ADD HasMark CR - HasMark + (infc) IF (c @case) ;
 ADD HasMark CR + (PrepVerb) - HasMark ;
-ADD HasMark CR - HasMark - NonMarkOverride IF (c @mark - (inrg ques) - QMark - (Rela) - RelMark - NonMarkingSCONJ) ;
+ADD HasMark CR - HasMark - HasRel - NonMarkOverride IF (c @mark - (inrg ques) - QMark - (Rela) - RelMark - NonMarkingSCONJ) ;
 ADD HasMark CR + MarkOverride - HasMark ;
-ADD HasRel CR - HasRel - NonRelOverride IF (c @mark + (Rela) OR RelMark) ;
 
 SECTION
 
@@ -647,7 +649,7 @@ SETPARENT QMark (NOT p (*))
     TO (1* (FullClauseRoot Q) OR (FullClauseRoot QQ)) ;
 
 SET SpecialMark = MarkToAcl OR NestMark OR PreMark OR PostMark ;
-SETPARENT CR + $$Domain - SpecialMark (c AdvclAble) (NOT p (*))
+SETPARENT CR + $$Domain - SpecialMark - HasRel (c AdvclAble) (NOT p (*))
     TO (-1* PlainC + $$Domain BARRIER Domain - $$Domain) ;
 SETPARENT (verb infc) + $$Domain - QMark (NEGATE c @cc) (NOT p (*))
     TO (-1* CR + $$Domain BARRIER Domain - $$Domain) ;
@@ -729,6 +731,8 @@ MAP @obj (ProbablyObj) + $$ClauseType - CR IF (NEGATE -1* ObjIsh + $$ClauseType 
 MAP @obl Noun + (Adju a) - CR ;
 MAP @obl PPHead + (PreC) IF (-1* (nmcp) BARRIER SB) ;
 MAP @obl Noun + OblIsh - CR ;
+
+MAP @obl (PreC) - CR ;
 
 MAP @vocative Noun + (Voct) - CR ;
 
@@ -896,6 +900,8 @@ MAP @ccomp CR + (Q) IF (p SpeakingVerb - (Q)) ;
 MAP @ccomp CR + (Q) IF (p (N)) ;
 MAP @ccomp CR + (QQ) IF (p (Q)) ;
 MAP @parataxis CR IF (p CR) (NEGATE c @cc) ;
+
+SETPARENT @obl + (N) (NOT p (*)) TO (-1* QMark BARRIER CB LINK p (*)) ;
 
 AFTER-SECTIONS
 

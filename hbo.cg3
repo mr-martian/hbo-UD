@@ -99,7 +99,7 @@ LIST AdvclMarkVerb = "קרא" ;
 LIST PrAdvcl = "עד" ;
 LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "קרב" "יאל" "לאה" "צוה" "נתן" ;
 
-LIST SpeakingVerb = quot "ברך" "צוה" "נגד" "דבר" "ענה" ;
+LIST SpeakingVerb = quot "ברך" "צוה" "נגד" "דבר" "ענה" "שׁמע" ;
 
 ####################
 # Special-case words
@@ -110,7 +110,7 @@ LIST PPHeadOverride = (Ruth w575) (Ruth w580) ;
 # Apposition and NP conjunction
 LIST FamilyOrTitleSkip = (Genesis w14663) ;
 
-LIST ApposToLastGen = w265 w297 w307 w640 w648 w734 w1129 w1257 w1338 w1966 w2993 w3000 w5450 w7733 w11294 w12466 w12610 w12711 w13874 w14590 w14649 w18761 w18788 w19072 w3308 w3314 w3331 w5402 w4106 w4185 ;
+LIST ApposToLastGen = w265 w297 w307 w640 w648 w734 w1129 w1257 w1338 w1966 w2993 w3000 w5450 w7733 w11294 w12466 w12610 w12711 w13874 w14590 w14649 w18761 w18788 w19072 w3308 w3314 w3331 w5402 w4106 w4185 w6817 w6820 w2672 ;
 LIST ApposToLastRut = w19 w50 w93 w1528 ;
 SET ApposToLast = ApposToLastGen + (Genesis) OR ApposToLastRut + (Ruth) ;
 
@@ -118,7 +118,7 @@ LIST ApposOverAcl = (Genesis w3325) ;
 
 LIST ApposOverride = (w93 Ruth) (w189 Genesis) (Genesis w14323) (Genesis w4544) ;
 LIST ConjToAppos = w36714 (w7950 Exodus) (w95 Ruth) (w215 Genesis) (w313 Genesis) (Genesis w303) (Genesis w5424) ;
-LIST ConjToSmixut = (Genesis w734) ;
+LIST ConjToSmixut = (Genesis w734) (Genesis w6582) (Genesis w6628) ;
 
 # prn doesn't have w###, so use preceding prep
 LIST PrnNmodToSublist = (Genesis w2960) (Genesis w3165) (Genesis w3871) (Genesis w3921) (Genesis w4172) (Genesis w3298) ;
@@ -130,8 +130,8 @@ LIST MarkOverride = (Genesis w1508) (Genesis w1561) (Genesis w2064) (Genesis w20
 LIST NonMarkOverride = (Genesis w1243) (Genesis w11173) ;
 LIST NonRelOverride = (Genesis w2676) ;
 
-LIST PreMark = (Genesis w1774) (Genesis w6030) (Genesis w6036) (Genesis w11906) (Genesis w16927) (Genesis w17650) (Genesis w28321) (Ruth w1212) (Ruth w1206) (Ruth w1412) ;
-LIST PostMark = (Genesis w1035) (Genesis w1231) (Genesis w2977) (Ruth w948) (Ruth w1301) (Ruth w1467) ;
+LIST PreMark = (Genesis w1774) (Genesis w6030) (Genesis w6036) (Genesis w11906) (Genesis w16927) (Genesis w17650) (Genesis w28321) (Ruth w1212) (Ruth w1206) (Ruth w1412) (Genesis w6169) ;
+LIST PostMark = (Genesis w1035) (Genesis w1231) (Genesis w2977) (Ruth w948) (Ruth w1301) (Ruth w1467) (Genesis w5736) ;
 LIST NestMark = (Genesis w2099) (Genesis w2760) (Genesis w13723) (Genesis w16271) (Genesis prn c32626) (Genesis w21741) (Genesis w25551) (Ruth w122) (Ruth w127) (Ruth w266) (Ruth w1161) (Ruth w1181) (Ruth w1325) ;
 LIST MarkToAcl = (Genesis w1848) (Genesis w19068) (Genesis w26087) (Ruth w714) ;
 
@@ -209,7 +209,8 @@ SUBSTITUTE (infc) (infa) (Ruth w797) ;
 # Nested Quotations
 ####################
 
-LIST DoubleQuoteGen = s80831 s80834 s80836 s80837 s80886 s81424 s81428 s81443 s81543 s81737 s81766 s81767 s81785 s81829 s81933 s81999 s82001 s82028 s82037 s82159 s82295 s82315 s82367 s82380 s82382 s82410 s82412 s82413 s82446 s82450 s82599 s82626 s82629 s82776 s82946 s83252 s83255 s83285 s83303 s83318 s83319 s83327 s83431 s83432 s83449 s83459 s83470 s83474 s83479 s83480 s83482 s83510 s83626 s83628 s83906 s83919 s84071 s84283 s84313 s84382 s84435 s84464 s84492 s84537 s84545 s84551 s84555 s84628 s84638 s84673 s84681 s84708 s84709 s84719 s84722 s84765 s84804 s84805 s84828 s84934 s84941 s84943 s85134 s85229 s85230 s85261 s85262 ;
+LIST DoubleQuoteGen = s80831 s80834 s80836 s80837 s80886 s81424 s81443 s81543 s81737 s81766 s81767 s81785 s81829 s81933 s81999 s82001 s82028 s82037 s82159 s82295 s82315 s82367 s82380 s82382 s82410 s82412 s82413 s82446 s82450 s82599 s82626 s82629 s82776 s82946 s83252 s83255 s83285 s83303 s83318 s83319 s83327 s83431 s83432 s83449 s83459 s83470 s83474 s83479 s83480 s83482 s83510 s83626 s83628 s83906 s83919 s84071 s84283 s84313 s84382 s84435 s84464 s84492 s84537 s84545 s84551 s84555 s84628 s84638 s84673 s84681 s84708 s84709 s84719 s84722 s84765 s84804 s84805 s84828 s84934 s84941 s84943 s85134 s85229 s85230 s85261 s85262
+c29820 ; # TODO: handle rela:Objc properly
 LIST DoubleQuoteRuth = s5648 s5649 s5720 s5825 ;
 SET DoubleQuote = (Genesis) + DoubleQuoteGen OR (Ruth) + DoubleQuoteRuth ;
 SUBSTITUTE (Q) (QQ) DoubleQuote ;
@@ -248,7 +249,7 @@ SUBSTITUTE (adjv) (subs retag:adjv) (adjv a) (1 (prn)) ;
 # TODO: does this really apply to all gentillics?
 SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl pl) ;
 SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl) (-1* Noun + (c) BARRIER NonJoiner - Det) ;
-SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl) (NEGATE 0* (subs) OR (nmpr) BARRIER PB) ;
+SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl) (NEGATE 0* (subs) - (retag:adjv gntl) OR (nmpr) BARRIER PB) ;
 
 # Participles in smixut
 LIST NPish = NP PP ;
@@ -266,6 +267,8 @@ SUBSTITUTE (subs) (prep retag:subs) ("אחר" subs ppre) ;
 SUBSTITUTE (subs) (prep retag:subs) ("בין" subs ppre) ;
 LIST SubsOverride = (Genesis w20500) (Ruth w1233) ;
 SUBSTITUTE (subs) (prep retag:subs) (ppre CP Conj) IF (NOT 0 SubsOverride) ;
+
+SUBSTITUTE (prep) (conj retag:prep) ("למען" CP) ;
 
 # yesh and ein
 SUBSTITUTE (subs) (verb retag:subs ClauseRoot) (nmcp) ;
@@ -311,7 +314,8 @@ MAP @case Pr ;
 MAP @cc (conj) - (Rela) ;
 MAP @advmod ADV - (ClausePhraseRoot) - PPHead ;
 MAP @advmod ADV + (MSyn) ;
-MAP @advmod ADV - PPHead IF (0* NonJoiner - BD BARRIER BD) ;
+MAP @advmod ADV - PPHead - (ClausePhraseRoot) IF (0* NonJoiner - BD BARRIER BD) ;
+MAP @advmod ADV + (ClausePhraseRoot) IF (0* PRON BARRIER BD) ;
 MAP @advmod ("למה" inrg) ;
 MAP @discourse (intj) - (ClausePhraseRoot) ; # TODO: is there a better way to handle הנה?
 
@@ -515,8 +519,8 @@ SETPARENT PPHead + @conj (NOT p (*))
 
 SECTION
 MAP @appos ApposOverride;
-SETPARENT CaseAble + ConjToAppos TO (-1* @appos) ;
-SETPARENT CaseAble + ConjToSmixut TO (-1* @compound:smixut) ;
+SETPARENT CaseAble + ConjToAppos (NOT p (*)) TO (-1* @appos) ;
+SETPARENT CaseAble + ConjToSmixut (NOT p (*)) TO (-1* @compound:smixut) ;
 MAP REPEAT @conj NPHead + HasConj + (/^\(ph\\d+\)$/r)
     IF (-1* NPHead + (VSTR:$1)) ;
 MAP @conj NPHead + HasConj IF (-1* NonAppos BARRIER BD) ;
@@ -529,6 +533,10 @@ SETPARENT (w189 Genesis) (NOT p (*)) TO (-1* (w185)) ;
 SETPARENT (Genesis w3459) (NOT p (*)) TO (-1* NPHead - (verb)) ;
 SETPARENT (Genesis w14323) (NOT p (*)) TO (-1* (prn)) ;
 SETPARENT (Genesis w4544) (NOT p (*)) TO (-1* (subs)) ;
+SETPARENT (Genesis w2674) (NOT p (*)) TO (-1* (subs)) ;
+MAP @conj (Genesis w2674) ;
+SETPARENT (Genesis w2671) OR (Genesis w2672) (NOT p (*))
+    TO (1* (Genesis w2674)) ;
 
 LIST ApposToConjHead = (Genesis w3289) (Genesis w3332) ;
 SETPARENT ApposToConjHead (NOT p (*)) TO (-1* (conjhead)) ;
@@ -698,6 +706,10 @@ LIST OrphanInfc = (Genesis w18716) ;
 MAP @advcl CR + HasMark - OrphanInfc IF (p CR) ;
 
 SETPARENT @ccomp (NOT p (*)) TO (0* CcompVerb BARRIER SB) ;
+
+MAP (@parataxis ish_recip) ("אישׁ" ClauseRoot Ellp rela:Adju)
+    IF (-1* (verb) BARRIER NonJoiner - BD) ;
+SETPARENT (ish_recip) (NOT p (*)) TO (-1* (verb)) ;
 
 ADD FullClauseRoot PlainC - @acl - FullClauseRoot ;
 
@@ -871,6 +883,10 @@ SETPARENT (@ccomp Q) (NOT p (*)) TO (-1* (quot ClauseRoot) - @mark) ;
 LIST CcompAble = "חלל" "נתן" "מהר" "צוה" "שׁמע" ;
 SETPARENT @ccomp (NOT p (*)) TO (-1* CcompAble + CR) ;
 
+LIST AttrSkipAcl = (Genesis w22880) ;
+SETPARENT CR + (rela:Attr) - AttrSkipAcl (NOT p (*)) TO (-1* CB LINK -1* ApposAble) ;
+MAP @acl CR + (rela:Attr) IF (p ApposAble) ;
+
 LIST ClauseCon = @conj @parataxis @xcomp ;
 MAP (@conj ClauseRoot) CR + $$NonQuote IF (-1* CR + $$NonQuote) (c @cc) ;
 MAP (@parataxis ClauseRoot) CR + $$NonQuote - (PrepVerb) IF (-1* CR + $$NonQuote) ;
@@ -923,7 +939,7 @@ SETPARENT @discourse (NOT p (*)) TO (1* (verb) BARRIER (*) - PB - CB) ;
 
 SECTION
 
-SETPARENT CR + (Q) (NOT p (*)) (c QMark) TO (-1* SpeakingVerb BARRIER PlainC + (N) - QMark) ;
+SETPARENT CR + (Q) (NOT p (*)) (c QMark) TO (-1* SpeakingVerb + (verb) BARRIER PlainC + (N) - QMark) ;
 SETPARENT CR + (Q) (NOT p (*)) (c QMark) TO (-1* PlainC + (N)) ;
 SETPARENT CR + (Q) - HasConj - SpecialMark (NOT p (*)) TO (-1* PlainC - (QQ)) ;
 SETPARENT CR + (QQ) - HasConj (NOT p (*)) TO (-1* CR + (Q)) ;
@@ -932,7 +948,7 @@ SETPARENT QMark + @ccomp (NOT p (*)) TO (-1* SpeakingVerb) ;
 SETPARENT CR - @acl (NOT p (*)) TO (-1* @root) ;
 MAP @conj CR IF (c @cc) (p @root) ;
 MAP @ccomp CR + (Q) IF (p SpeakingVerb - (Q)) ;
-MAP @ccomp CR + (Q) IF (p (N)) ;
+MAP @ccomp CR + (Q) IF (p NonQuote) ;
 MAP @ccomp CR + (QQ) IF (p (Q)) ;
 MAP @parataxis CR IF (p CR) (NEGATE c @cc) ;
 

@@ -632,12 +632,12 @@
 18	_	מות	NOUN	subs	Gender=Masc|Number=Sing	19	nsubj	_	_
 19	יַפְרִ֖יד	פרד	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	15	advcl	_	_
 20-21	בֵּינִ֥י	_	_	_	_	_	_	_	_
-20	_	בין	NOUN	subs	Gender=Masc|Number=Sing	19	obl	_	_
-21	_	אני	PRON	prn	Number=Sing|Person=1|PronType=Prs	20	nmod:poss	_	_
+20	_	בין	ADP	subs	_	21	case	_	_
+21	_	אני	PRON	prn	Number=Sing|Person=1|PronType=Prs	19	obl	_	_
 22-24	וּבֵינֵֽךְ	_	_	_	_	_	_	_	SpaceAfter=No
-22	_	ו	CCONJ	conj	_	23	cc	_	_
-23	_	בין	NOUN	subs	Gender=Masc|Number=Sing	20	conj	_	_
-24	_	את	PRON	prn	Gender=Fem|Number=Sing|Person=2|PronType=Prs	23	nmod:poss	_	_
+22	_	ו	CCONJ	conj	_	24	cc	_	_
+23	_	בין	ADP	subs	_	24	case	_	_
+24	_	את	PRON	prn	Gender=Fem|Number=Sing|Person=2|PronType=Prs	21	conj	_	_
 25	׃	׃	PUNCT	punct	_	4	punct	_	_
 
 # sent_id = Masoretic-Ruth-1:18-hbo
@@ -1441,11 +1441,11 @@
 10	_	נער	NOUN	subs	Gender=Masc|Number=Plur	6	obj	_	_
 11	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	10	nmod:poss	_	_
 12	לֵאמֹ֗ר	לאמר	SCONJ	verb	_	17	mark	_	_
-13	גַּ֣ם	גם	ADV	advb	_	14	advmod	_	_
-14	בֵּ֧ין	בין	NOUN	subs	Gender=Masc|Number=Sing	17	obl	_	_
+13	גַּ֣ם	גם	ADV	advb	_	16	advmod	_	_
+14	בֵּ֧ין	בין	ADP	subs	_	16	case	_	_
 15-16	הָֽעֳמָרִ֛ים	_	_	_	_	_	_	_	_
 15	_	ה	DET	art	_	16	det	_	_
-16	_	עמר	NOUN	subs	Gender=Masc|Number=Plur	14	compound:smixut	_	_
+16	_	עמר	NOUN	subs	Gender=Masc|Number=Plur	17	obl	_	_
 17	תְּלַקֵּ֖ט	לקט	VERB	verb	Aspect=Imp|Gender=Fem|HebBinyan=PIEL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	6	ccomp	_	_
 18-19	וְלֹ֥א	_	_	_	_	_	_	_	_
 18	_	ו	CCONJ	conj	_	20	cc	_	_

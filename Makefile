@@ -2,9 +2,9 @@ all: torah ruth-book
 
 torah: genesis-book exodus-book leviticus-book numbers-book deuteronomy-book
 
-current: genesis-book ruth-book
+current: genesis-book
 background: exodus-book leviticus-book numbers-book deuteronomy-book
-finished:
+finished: ruth-book
 
 %.corpus.cg3.txt: to-CG.py find_clause_root.py
 	./to-CG.py $* | apertium-cleanstream -n | ./find_clause_root.py | cg-conv -al > $@
@@ -32,7 +32,7 @@ hbo.bin: hbo.cg3
 	./report.py $*
 
 %-filter: %-book
-	cat $*.checkable.conllu | udapy -s util.Filter delete_tree_if_node='node.deprel in ["parataxis", "xcomp", "appos"] or node.is_nonprojective()' > $*.filter.conllu
+	cat $*.checkable.conllu | udapy -s util.Filter delete_tree_if_node='node.deprel in [] or node.is_nonprojective()' > $*.filter.conllu
 #	cat $*.checkable.conllu | udapy -s util.Filter keep_tree_if_node='node.deprel in ["appos", "nmod"]' > $*.filter.conllu
 
 export:

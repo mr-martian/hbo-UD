@@ -1094,7 +1094,7 @@
 30	רָאִ֔יתָ	ראה	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	28	acl	_	_
 31	אֲשֶׁ֤ר	אשׁר	SCONJ	conj	_	32	mark	_	_
 32-33	נְשָׂאֲךָ֙	_	_	_	_	_	_	_	_
-32	_	נשׂא	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	28	acl	_	_
+32	_	נשׂא	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	30	ccomp	_	_
 33	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	32	obj	_	_
 34	יְהוָ֣ה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	32	nsubj	_	_
 35-36	אֱלֹהֶ֔יךָ	_	_	_	_	_	_	_	_
@@ -1858,7 +1858,7 @@
 11	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	10	nmod:poss	_	_
 12	יָדַ֣ע	ידע	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	5	parataxis	_	_
 13-14	לֶכְתְּךָ֔	_	_	_	_	_	_	_	_
-13	_	הלך	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	12	parataxis	_	_
+13	_	הלך	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	12	ccomp	_	_
 14	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	13	nsubj	_	_
 15	אֶת	את	ADP	prep	_	18	case	_	SpaceAfter=No
 16	־	־	PUNCT	punct	_	15	punct	_	SpaceAfter=No
@@ -1881,7 +1881,7 @@
 29	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	28	nmod:poss	_	_
 30-31	עִמָּ֔ךְ	_	_	_	_	_	_	_	_
 30	_	עם	ADP	prep	_	31	case	_	_
-31	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	13	parataxis	_	_
+31	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	12	parataxis	_	_
 32	לֹ֥א	לא	ADV	nega	Polarity=Neg	33	advmod	_	_
 33	חָסַ֖רְתָּ	חסר	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	31	parataxis	_	_
 34	דָּבָֽר	דבר	NOUN	subs	Gender=Masc|Number=Sing	33	obj	_	SpaceAfter=No
@@ -9280,7 +9280,7 @@
 31	אֲשֶׁ֧ר	אשׁר	SCONJ	conj	_	33	mark	_	_
 32-34	בִּֽלְבָבְךָ֛	_	_	_	_	_	_	_	_
 32	_	ב	ADP	prep	_	33	case	_	_
-33	_	לבב	NOUN	subs	Gender=Masc|Number=Sing	29	acl	_	_
+33	_	לבב	NOUN	subs	Gender=Masc|Number=Sing	28	ccomp	_	_
 34	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	33	nmod:poss	_	_
 35-36	הֲתִשְׁמֹ֥ר	_	_	_	_	_	_	_	_
 35	_	ה	PART	inrg	_	36	mark	_	_
@@ -14727,7 +14727,7 @@
 26	_	ידע	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	19	advcl	_	_
 27-29	הֲיִשְׁכֶ֤ם	_	_	_	_	_	_	_	_
 27	_	ה	PART	inrg	_	28	mark	_	_
-28	_	ישׁ	VERB	subs	Number=Sing	2	parataxis	_	_
+28	_	ישׁ	VERB	subs	Number=Sing	26	ccomp	_	_
 29	_	אתם	PRON	prn	Gender=Masc|Number=Plur|Person=2|PronType=Prs	28	nsubj	_	_
 30	אֹֽהֲבִים֙	אהב	VERB	verb	Gender=Masc|HebBinyan=PAAL|Number=Plur|VerbForm=Part	28	xcomp	_	_
 31	אֶת	את	ADP	prep	_	33	case	_	SpaceAfter=No
@@ -30350,7 +30350,7 @@
 11	תֵּֽדְע֔וּ	ידע	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=2|VerbForm=Fin	3	parataxis	_	_
 12	כִּ֛י	כי	SCONJ	conj	_	14	mark	_	_
 13	אֲנִ֥י	אני	PRON	prps	Number=Sing|Person=1|PronType=Prs	14	nsubj	_	_
-14	יְהוָ֖ה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	11	parataxis	_	_
+14	יְהוָ֖ה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	11	ccomp	_	_
 15-16	אֱלֹהֵיכֶֽם	_	_	_	_	_	_	_	SpaceAfter=No
 15	_	אלהים	NOUN	subs	Gender=Masc|Number=Plur	14	appos	_	_
 16	_	אתם	PRON	prn	Gender=Masc|Number=Plur|Person=2|PronType=Prs	15	nmod:poss	_	_
@@ -34118,7 +34118,7 @@
 6	_	מן	ADP	prep	_	7	case	_	_
 7	_	הם	PRON	prn	Gender=Masc|Number=Plur|Person=3|PronType=Prs	3	obl	_	_
 8	אֶרְאֶ֖ה	ראה	VERB	verb	Aspect=Imp|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	3	parataxis	_	_
-9	מָ֣ה	מה	PRON	prin	PronType=Int	8	parataxis	_	_
+9	מָ֣ה	מה	PRON	prin	PronType=Int	8	ccomp	_	_
 10-11	אַחֲרִיתָ֑ם	_	_	_	_	_	_	_	_
 10	_	אחרית	NOUN	subs	Gender=Fem|Number=Sing	9	nsubj	_	_
 11	_	הם	PRON	prn	Gender=Masc|Number=Plur|Person=3|PronType=Prs	10	nmod:poss	_	_

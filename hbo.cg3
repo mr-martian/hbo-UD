@@ -91,7 +91,7 @@ LIST QMark = ("לאמר" SCONJ verb) ;
 
 LIST CaseAbleAdv = "כן" "שׁם" "פה" "שׁם" "הלאה" "הנה" "עתה" "אז" ;
 
-LIST FamilyOrTitle = "בן" "בת" "אב" "כלה" "אשׁה" "מלך" "גברת" "שׂר" "אחות" ;
+LIST FamilyOrTitle = "בן" "בת" "אב" "כלה" "אשׁה" "מלך" "גברת" "שׂר" "אחות" "כהן" ;
 
 LIST CcompVerb = "ראה" "ירא" "ידע" "נחם" "נגד" ;
 LIST XcompVerb = "שׁחת" "קרא" "מלא" "לבשׁ" "שׁחת" "מהר" "יכל" "חדל" "אמץ" "כלה" ;
@@ -121,7 +121,7 @@ LIST ConjToAppos = w36714 (w7950 Exodus) (w95 Ruth) (w215 Genesis) (w313 Genesis
 LIST ConjToSmixut = (Genesis w734) (Genesis w6582) (Genesis w6628) ;
 
 # prn doesn't have w###, so use preceding prep
-LIST PrnNmodToSublist = (Genesis w2960) (Genesis w3165) (Genesis w3871) (Genesis w3921) (Genesis w4172) (Genesis w3298) ;
+LIST PrnNmodToSublist = (Genesis w2960) (Genesis w3165) (Genesis w3871) (Genesis w3921) (Genesis w4172) (Genesis w3298) (Genesis w26108) ;
 
 # @acl and @advcl
 LIST NonAclOverride = (Genesis w2676) (Ruth w1682) ;
@@ -133,7 +133,7 @@ LIST NonRelOverride = (Genesis w2676) ;
 LIST PreMark = (Genesis w1774) (Genesis w6030) (Genesis w6036) (Genesis w11906) (Genesis w16927) (Genesis w17650) (Genesis w28321) (Ruth w1212) (Ruth w1206) (Ruth w1412) (Genesis w6169) ;
 LIST PostMark = (Genesis w1035) (Genesis w1231) (Genesis w2977) (Ruth w948) (Ruth w1301) (Ruth w1467) (Genesis w5736) ;
 LIST NestMark = (Genesis w2099) (Genesis w2760) (Genesis w13723) (Genesis w16271) (Genesis prn c32626) (Genesis w21741) (Genesis w25551) (Ruth w122) (Ruth w127) (Ruth w266) (Ruth w1161) (Ruth w1181) (Ruth w1325) ;
-LIST MarkToAcl = (Genesis w1848) (Genesis w19068) (Genesis w26087) (Ruth w714) ;
+LIST MarkToAcl = (Genesis w1848) (Genesis w19068) (Genesis w26087) (Ruth w714) (Genesis w12378) ;
 
 LIST ActuallyCcomp = (w351 Genesis) (Genesis w1037) (Genesis w1251) (Genesis w7129) (Ruth w1243) (Genesis w3697) ;
 LIST ActuallyAdvcl = (Genesis w16459) (Genesis w26044) (Genesis w28625) (Ruth w1161) (Ruth w1187) (Ruth w1418) ;
@@ -197,7 +197,7 @@ BEFORE-SECTIONS
 # Corrections
 ####################
 
-LIST MislabeledAsNarrative = w1404 w1405 w1423 w1424 w14251 w14252 w14253 (Genesis s80885) (Ruth s5672) (Ruth s5673) (Genesis s83562) (Ruth s5647) (Ruth s5650) (Ruth s5651) ;
+LIST MislabeledAsNarrative = w1404 w1405 w1423 w1424 w14251 w14252 w14253 (Genesis s80885) (Ruth s5672) (Ruth s5673) (Genesis s83562) (Ruth s5647) (Ruth s5650) (Ruth s5651) (Genesis s85072) (Genesis s83308) (Genesis s83309) ;
 SUBSTITUTE (N) (Q) MislabeledAsNarrative ;
 
 LIST UnknownShouldBeNarrative = (Genesis w2137) ;
@@ -542,7 +542,7 @@ LIST ApposToConjHead = (Genesis w3289) (Genesis w3332) ;
 SETPARENT ApposToConjHead (NOT p (*)) TO (-1* (conjhead)) ;
 
 SETPARENT FamilyOrTitle + (subs) - FamilyOrTitleSkip (NOT p (*))
-    TO (-1* (nmpr a) - (topo) BARRIER NonJoiner) ;
+    TO (-1* (nmpr a) - (topo) - @flat:name BARRIER NonJoiner - @flat:name) ;
 
 LIST YesApposAble = subs nmpr prn (adjv NPHead) (adjv PPHead) ;
 LIST NoApposAble = wp2 @nmod:poss ;
@@ -767,7 +767,7 @@ ADD REPEAT (ProbablyObj) ObjAble + (Objc) - (ProbablyObj) ;
 ADD REPEAT CR (ProbablyObj Ellp) - CR ;
 
 LIST ObjIsh = @obj ProbablyObj ;
-LIST XcompOverride = (Genesis w17124) ;
+LIST XcompOverride = (Genesis w17124) (Genesis w26289) ;
 MAP @xcomp XcompOverride ;
 MAP @obj (ProbablyObj) + $$ClauseType - CR IF (NEGATE -1* ObjIsh + $$ClauseType BARRIER SB) ;
 
@@ -816,7 +816,7 @@ SETPARENT CorR + $$ClauseType (NOT p (*)) TO (1* CorM + $$ClauseType) ;
 MAP @acl CR - NonAclOverride IF (c RelMark) (NEGATE c (@nsubj NmCl)) ;
 LIST AclAble = subs adjv ptcp ptca nmpr ;
 LIST AclCompOk = (Exodus w3801) (Exodus w5417) ;
-LIST AclCompNotOk = (Genesis w1179) (Genesis w12528) (Genesis w12613) (Ruth w712) ;
+LIST AclCompNotOk = (Genesis w1179) (Genesis w12528) (Genesis w12613) (Ruth w712) (Genesis w26221) (Genesis w26340) (Genesis w26404) ;
 LIST AclMultiTarget = (Genesis w391) ;
 SETPARENT @acl (NOT p (*)) TO (-1* AclMultiTarget BARRIER SB) ;
 SETPARENT @acl (NOT p (*)) TO (c @mark LINK -1* Pr BARRIER NonJoiner) ;

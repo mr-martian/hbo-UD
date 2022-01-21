@@ -133,7 +133,7 @@ LIST NonRelOverride = (Genesis w2676) ;
 LIST PreMark = (Genesis w1774) (Genesis w6030) (Genesis w6036) (Genesis w11906) (Genesis w16927) (Genesis w17650) (Genesis w28321) (Ruth w1212) (Ruth w1206) (Ruth w1412) (Genesis w6169) (Genesis w9388) ;
 LIST PostMark = (Genesis w1035) (Genesis w1231) (Genesis w2977) (Ruth w948) (Ruth w1301) (Ruth w1467) (Genesis w5736) ;
 LIST NestMark = (Genesis w2099) (Genesis w2760) (Genesis w13723) (Genesis w16271) (Genesis prn c32626) (Genesis w21741) (Genesis w25551) (Ruth w122) (Ruth w127) (Ruth w266) (Ruth w1161) (Ruth w1181) (Ruth w1325) ;
-LIST MarkToAcl = (Genesis w1848) (Genesis w19068) (Genesis w26087) (Ruth w714) (Genesis w12378) ;
+LIST MarkToAcl = (Genesis w1848) (Genesis w19068) (Genesis w26087) (Ruth w714) (Genesis w12378) (Genesis w5084) ;
 
 LIST ActuallyCcomp = (w351 Genesis) (Genesis w1037) (Genesis w1251) (Genesis w7129) (Ruth w1243) (Genesis w3697) ;
 LIST ActuallyAdvcl = (Genesis w16459) (Genesis w26044) (Genesis w28625) (Ruth w1161) (Ruth w1187) (Ruth w1418) (Genesis w8318) (Genesis w9462) ;
@@ -558,7 +558,7 @@ SETPARENT CaseAble - ApposToLast - ConjToAppos (NOT p (*))
 MAP @conj CaseAble IF (c @cc) (p CaseAble) ;
 MAP KEEPORDER @appos CaseAble IF (c @case + $$Lemma) (p CaseAble LINK c @case + $$Lemma) ;
 MAP @nmod CaseAble IF (c @case - ("את")) (p CaseAble) ;
-MAP @appos CaseAble IF (p CaseAble) ;
+MAP @appos CaseAble - (verb infc) IF (p CaseAble) ;
 
 SETPARENT PPHead (NOT p (*)) TO (-1* NPHead BARRIER PB) ;
 MAP @nmod PPHead IF (p NPHead OR PPHead) ;
@@ -714,7 +714,8 @@ MAP (@parataxis ish_recip) ("אישׁ" ClauseRoot Ellp rela:Adju)
     IF (-1* (verb) BARRIER NonJoiner - BD) ;
 SETPARENT (ish_recip) (NOT p (*)) TO (-1* (verb)) ;
 
-ADD FullClauseRoot PlainC - @acl - FullClauseRoot ;
+LIST NonFCROverride = (Genesis w5072) ;
+ADD FullClauseRoot PlainC - @acl - FullClauseRoot - NonFCROverride ;
 
 SECTION
 
@@ -759,7 +760,7 @@ SETPARENT @nsubj + (NmCl ClausePhraseRoot) (NOT p (*))
 LIST NonCsubjOverride = (Genesis w1956) ;
 MAP @csubj CR + (rela:Subj) - NonCsubjOverride ;
 
-LIST CsubjOverride = (Genesis w1006) ;
+LIST CsubjOverride = (Genesis w1006) (Genesis w5072) ;
 MAP @csubj CsubjOverride ;
 SETPARENT @csubj (NOT p (*)) TO (0* CR BARRIER SB) ;
 

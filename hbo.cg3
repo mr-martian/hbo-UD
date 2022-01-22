@@ -47,12 +47,14 @@ LIST AGen = m f ;
 LIST ANum = sg du pl ;
 LIST ADet = det und ;
 LIST Domain = N D Q ? QQ ;
+LIST Rela = rela:Adju rela:Attr rela:Cmpl rela:Coor rela:Objc rela:PrAd rela:PreC rela:ReVo rela:Resu rela:RgRc rela:Spec rela:Subj ;
 
 # Subsets
 
 LIST VavClause = Way0 WayX WIm0 WImX WQt0 WQtX WxI0 WXIm WxIX WxQ0 WXQt WxQX WxY0 WXYq WxYX WYq0 WYqX ;
 LIST VerbInitial = Way0 WayX ;
 LIST NonQuote = N D ? ;
+LIST RelaNonAcl = rela:Cmpl rela:Objc rela:PreC ;
 
 ####################
 # Helper labels
@@ -68,6 +70,7 @@ LIST NPHead = NPHead ;
 LIST CR = ClauseRoot ;
 LIST ClauseRoot = ClauseRoot ; # is root of clause
 LIST FullClauseRoot = FullClauseRoot ; # is root of non-relative clause
+LIST SR = SentenceRoot ;
 
 SET PlainC = CR - HasMark - HasRel ;
 SET PlainNC = PlainC - HasConj ;
@@ -318,7 +321,6 @@ MAP @case Pr ;
 MAP @cc (conj) - (Rela) ;
 MAP @advmod ADV - (ClausePhraseRoot) - PPHead ;
 MAP @advmod ADV + (MSyn) ;
-MAP @advmod ADV - PPHead - (ClausePhraseRoot) IF (0* NonJoiner - BD BARRIER BD) ;
 MAP @advmod ADV + (ClausePhraseRoot) IF (0* PRON BARRIER BD) ;
 MAP @advmod ("למה" inrg) ;
 MAP @discourse (intj) - (ClausePhraseRoot) ; # TODO: is there a better way to handle הנה?
@@ -352,7 +354,6 @@ LIST NsubjPrn = ExsS ModS NCoS PrcS PreS (InjP IntS ClausePhraseRoot) ;
 LIST ObjPrn = PreO PtcO ;
 MAP @nsubj (prn) + NsubjPrn ;
 MAP @obj (prn) + ObjPrn ;
-MAP @obj (prn) IF (-1 (verb)) ;
 MAP (NPHead @obj) (prn Objc) IF (-1 Pr + ("את") - etNotAcc) ;
 SETPARENT (prn @obj) OR (prn @nsubj) (NOT p (*)) TO (-1 (verb) OR (intj ClausePhraseRoot)) ;
 MAP @nmod:poss (prn) IF (-1 Noun - (verb) - Number) ;
@@ -369,7 +370,6 @@ MAP @flat BigNumber + Number IF (-1* Number BARRIER NonJoiner) ;
 SETPARENT @flat + Number (NOT p (*)) TO (-1* Number BARRIER NonJoiner) ;
 MAP @conj Number IF (-1* @cc BARRIER NonJoiner LINK -1* Number BARRIER NonJoiner - @flat) ;
 SETPARENT @cc (NOT p (*)) TO (1 Number + @conj) ;
-#SETPARENT Number (NOT p (*)) TO (1 (prn)) ;
 SETPARENT Number + @conj (NOT p (*))
     TO (-1* Number - @flat BARRIER NonJoiner - @cc - @flat) ;
 SETPARENT Number + (c) (NOT p (*)) TO (1* Noun - Number BARRIER NonJoiner - Det) ;
@@ -413,7 +413,6 @@ SETPARENT @det + PrnMaybeDet (NOT p (*)) TO (-1* Number BARRIER NonJoiner) ;
 ####################
 
 SET AdjNonBar = NonJoiner - (nega) ;
-SETPARENT (nega) (NOT p (*)) TO (1* ADJ BARRIER NonJoiner) ;
 MAP @conj ADJ IF (-1* @cc BARRIER AdjNonBar LINK -1* ADJ BARRIER AdjNonBar) ;
 MAP @conj ADJ IF (-1* ADJ BARRIER AdjNonBar)
                  (1* @cc BARRIER AdjNonBar LINK 1* ADJ BARRIER AdjNonBar) ;
@@ -513,7 +512,6 @@ SET NonAppos = NPHead - @appos ;
 
 MAP REPEAT @conj PPHead + HasConj + (/^\(ph\\d+\)$/r)
     IF (-1* PPHead + (VSTR:$1)) ;
-MAP REPEAT @conj PPHead + HasConj IF (-1* PPHead BARRIER BD OR NonAppos) ;
 MAP REPEAT @conj PPHead IF (-1* PPHead BARRIER BD OR NonAppos)
                            (1* PPHead + HasConj BARRIER BD OR NonAppos) ;
 
@@ -539,7 +537,6 @@ SETPARENT CaseAble + ConjToAppos (NOT p (*)) TO (-1* @appos) ;
 SETPARENT CaseAble + ConjToSmixut (NOT p (*)) TO (-1* @compound:smixut) ;
 MAP REPEAT @conj NPHead + HasConj + (/^\(ph\\d+\)$/r)
     IF (-1* NPHead + (VSTR:$1)) ;
-MAP @conj NPHead + HasConj IF (-1* NonAppos BARRIER BD) ;
 MAP @conj NPHead IF (-1* NonAppos BARRIER BD) (1* NPHead + HasConj BARRIER BD) ;
 SETPARENT NPHead + @conj + (/^\(ph\\d+\)$/r) (NOT p (*))
     TO (-1* (conjhead VSTR:$1) OR NonAppos - @conj + (VSTR:$1)) ;
@@ -574,8 +571,6 @@ MAP @nmod PPHead IF (p NPHead OR PPHead) ;
 LIST NorP = NPHead PPHead ;
 SETPARENT NPHead + @appos (NOT p (*)) TO (-1* NorP - @appos BARRIER BD) ;
 
-SETPARENT (/^\(c\\d+\)$/r) + (Objc HasConj) (NOT p (*)) TO (-1* (VSTR:$1) + (NPHead Objc) - HasConj - @appos) ;
-
 ####################
 # Other labels
 ####################
@@ -588,13 +583,11 @@ SECTION # conjunction
 SETPARENT (conj PP) (NOT p (*)) TO (1* (subs PP)) ;
 MAP @conj (subs PP) - (PreC) - CR IF (0 (subs) LINK c @cc) (NOT c @cop) ;
 LIST CorC = (@conj) (@compound:smixut) ;
-SETPARENT ("בין" subs PP @conj) TO (-1* ("בין" subs PP) - @conj) ;
 SETPARENT (subs PPHead @conj /^(c\\d+\)$/r) - CR (NOT p (*))
     TO (-1* (subs PP) + (VSTR:$1) - @conj - @compound:smixut) ;
 SETPARENT (subs PPHead @conj) - CR (NOT p (*)) TO (-1* (subs PP) - @conj - @compound:smixut) ;
 
 SETPARENT (conj NP) (NOT p (*)) TO (1* (subs NP)) ;
-MAP @conj (subs NP) IF (0 (subs) LINK c @cc - (CP)) ;
 
 SECTION # helper labels
 
@@ -603,7 +596,6 @@ TEMPLATE CRp = (NOT 0 CR LINK NEGATE 0* CR BARRIER CB) ;
 ADD CR (ClausePhraseRoot) - CR + (/^(c\\d+\)$/r) - QMark IF (NEGATE -1* (VSTR:$1) + CR) ;
 
 # irregular conjunction attachment
-#SETPARENT (Genesis w11903) (NOT p (*)) TO (1* (Genesis w11910)) ;
 LIST ConjSkipClause = (Genesis w1771) (Genesis w11903) (Ruth w1409) (Genesis w9386) ;
 SETPARENT ConjSkipClause (NOT p (*)) TO (1* CR LINK 1* CR) ;
 
@@ -656,6 +648,15 @@ ADD HasMark CR + MarkOverride - HasMark ;
 
 SECTION
 
+LIST RelaCRToPrev = (Genesis w1037) (Ruth w1316) (Genesis w3697) (Genesis w6172) (Genesis w21741) (Genesis ph59024 ClauseRoot) ;
+SETPARENT CR + RelaCRToPrev (NOT p (*)) TO (-1* CR) ;
+SETPARENT CR + RelaNonAcl - HasRel (NOT p (*)) TO (0* CR - Rela BARRIER SB) ;
+LIST ObjcXcomp = "יסף" "יכל" ;
+MAP @xcomp CR + (rela:Objc) IF (p CR + ObjcXcomp) ;
+MAP @ccomp CR + (rela:Objc) IF (p CR) ;
+
+SECTION
+
 SETPARENT (HasMark HasConj) (NOT p (*))
     TO (-1* HasMark - HasConj BARRIER PlainC) ;
 MAP @conj (HasMark HasConj) - NestMark IF (p HasMark) ;
@@ -671,7 +672,6 @@ MAP @advcl ActuallyAdvcl ;
 MAP @xcomp (verb infc InfC) - QMark IF (-1* XcompInf + (verb) BARRIER SB OR @mark) ;
 
 MAP @xcomp (NPHead PreC) IF (0* (vbcp infc InfC) BARRIER CB LINK -1* XcompInf + (verb) BARRIER SB OR @mark) ;
-MAP @cop (vbcp) IF (p (PreC)) ;
 
 SETPARENT (@xcomp InfC) (NOT p (*)) TO (-1* XcompInf + (verb) BARRIER SB) ;
 
@@ -697,9 +697,6 @@ LIST AdvclAble = ("כי" conj @mark) ("אם" conj @mark) ;
 
 SETPARENT QMark (NOT p (*))
     TO (1* (FullClauseRoot Q) OR (FullClauseRoot QQ)) ;
-
-SETPARENT CR + (rela:Objc) (NOT p (*)) TO (-1* CR + CcompVerb BARRIER CR OR (prep @obj)) ;
-MAP @ccomp CR + (rela:Objc) IF (p CR + CcompVerb) ;
 
 SET SpecialMark = MarkToAcl OR NestMark OR PreMark OR PostMark ;
 SETPARENT CR + $$Domain - SpecialMark - HasRel (c AdvclAble) (NOT p (*))
@@ -787,11 +784,9 @@ ADD REPEAT CR (ProbablyObj Ellp) - CR ;
 LIST ObjIsh = @obj ProbablyObj ;
 LIST XcompOverride = (Genesis w17124) (Genesis w26289) ;
 MAP @xcomp XcompOverride ;
-MAP @obj (ProbablyObj) + $$ClauseType - CR IF (NEGATE -1* ObjIsh + $$ClauseType BARRIER SB) ;
 
 ### OBLIQUES
 
-MAP @obl Noun + (Adju a) - CR ;
 MAP @obl PPHead + (PreC) IF (-1* (nmcp) BARRIER SB) ;
 MAP @obl Noun + OblIsh - CR ;
 
@@ -830,7 +825,6 @@ SETPARENT (conj CP) (NOT p (*)) TO (1 PB LINK 1 @cop LINK p (*)) ;
 SET CorR = (conj CP) OR RelMark ;
 SET CorM = CR OR (nmcp) - @cop ;
 LIST ConjTypes = CPen NmCl MSyn ;
-SETPARENT CorR + $$ClauseType (NOT p (*)) TO (1* CorM + $$ClauseType) ;
 MAP @acl CR - NonAclOverride IF (c RelMark) (NEGATE c (@nsubj NmCl)) ;
 LIST AclAble = subs adjv ptcp ptca nmpr ;
 LIST AclCompOk = (Exodus w3801) (Exodus w5417) ;
@@ -842,8 +836,6 @@ SETPARENT @acl + AclCompNotOk (NOT p (*))
     TO (-1* CB LINK -1* AclAble - @compound:smixut BARRIER BD) ;
 SETPARENT @acl - AclCompNotOk - AclChain (NOT p (*))
     TO (-1* CB LINK -1* AclAble - @nummod BARRIER BD) ;
-
-MAP @advmod (verb infa) IF (1* PB BARRIER NonJoiner LINK 1 (verb)) ;
 
 MAP @ccomp QMark IF (NEGATE 1* CR) ;
 MAP @mark QMark ;
@@ -864,17 +856,11 @@ SECTION
 
 LIST PrepVerbChain = (Genesis w13720) (Genesis w16269) ;
 
-SETPARENT (PrepVerb) (NOT p (*))
-    TO (0* CR - (PrepVerb) OR PrepVerbChain BARRIER SB) ;
-MAP @advcl (PrepVerb) IF (p (*)) ;
-
 ADD CR NPHead OR PPHead IF (c @mark) ;
 SETPARENT CorR + ConjTypes + @mark (NOT p (*)) TO (1* CorM - @acl) ;
 
 MAP @advcl (ClauseRoot Q HasMark)
     IF (c @mark - (inrg ques) - QMark) (1* (ClauseRoot Q) BARRIER NonQuote LINK NEGATE c @mark) ;
-MAP (ClauseRoot @ccomp) (subs ClauseRoot)
-    IF (c (vbcp infc Pred)) (NOT -1* @ccomp) ;
 SET MSynIsh = CorR + @cc OR @advmod ;
 SETPARENT MSynIsh + ConjTypes (NOT p (*)) TO (1* CorM - @advcl - @acl) ;
 MAP @conj (ClauseRoot Q)
@@ -893,8 +879,6 @@ SETPARENT (ClauseRoot Q @conj) (NOT p (*))
 
 MAP @root CR IF (NOT -1* CR - @advcl - @acl - @csubj) ;
 
-SETPARENT @advcl + $$Domain (NOT p (*)) TO (1* CR + $$Domain BARRIER SB) ;
-SETPARENT @advcl + $$Domain (NOT p (*)) TO (-1* CR + $$Domain BARRIER SB) ;
 SETPARENT @advcl + $$Domain (NOT p (*)) (NEGATE 0* CR BARRIER SB) TO (1* CR + $$Domain - @advcl) ;
 
 SETPARENT (@ccomp Q) (NOT p (*)) TO (-1* (quot ClauseRoot) - @mark) ;
@@ -914,7 +898,7 @@ LIST ConjToAcl = (Genesis w845) (Genesis w5094) ;
 SETPARENT ConjToAdvcl (NOT p (*)) TO (-1* CR + @advcl) ;
 SETPARENT ConjToAcl (NOT p (*)) TO (-1* @acl) ;
 
-LIST DontConj = @conj @acl @nmod @xcomp @appos @advcl @nmod:poss (@ccomp N) @obl @mark HasConj @csubj skipconj ;
+LIST DontConj = @conj @acl @nmod @xcomp @appos @advcl @nmod:poss (@ccomp N) @obl @mark HasConj @csubj skipconj (@ccomp rela:Objc) ;
 SETPARENT CR + ClauseCon + $$Domain (NOT p (*)) TO (-1* CR + $$Domain - DontConj) ;
 
 SECTION
@@ -933,13 +917,8 @@ SETPARENT Pr + VerbArgs (NOT p (*)) TO (-1* (verb) BARRIER SB) ;
 SETPARENT Pr + VerbArgs (NOT p (*)) TO (1* (verb) BARRIER SB) ;
 SETPARENT Pr + VerbArgs (NOT p (*)) TO (-1* (verb)) ;
 
-SETPARENT @nsubj (NOT p (*)) TO (0* @cop BARRIER CB LINK p (*)) ;
-
 SETPARENT VerbArgs (NOT p (*))
     TO (c @acl LINK 1* CB LINK 1* CR BARRIER CB OR SB) ;
-
-SETPARENT VerbArgs + $$ClauseType (NOT p (*))
-    TO (0* CR + $$ClauseType BARRIER SB) ;
 
 SETPARENT @mark (NOT p (*)) TO (1* (ClauseRoot) OR CR) ;
 
@@ -953,7 +932,6 @@ SETPARENT @vocative (NOT p (*)) TO (-1* ClauseRoot) ;
 
 SETPARENT @discourse (NOT p (*))
     TO (1* @nsubj BARRIER NonJoiner - BD LINK p (*)) ;
-SETPARENT @discourse (NOT p (*)) TO (1* (verb) BARRIER (*) - PB - CB) ;
 
 SECTION
 

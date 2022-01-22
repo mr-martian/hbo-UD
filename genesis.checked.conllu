@@ -6422,18 +6422,18 @@
 # text = וְהַמַּ֗יִם הָיוּ֙ הָלֹ֣וךְ וְחָסֹ֔ור עַ֖ד הַחֹ֣דֶשׁ הָֽעֲשִׂירִ֑י בָּֽעֲשִׂירִי֙ בְּאֶחָ֣ד לַחֹ֔דֶשׁ נִרְא֖וּ רָאשֵׁ֥י הֶֽהָרִֽים׃
 # checker = Daniel
 1-3	וְהַמַּ֗יִם	_	_	_	_	_	_	_	_
-1	_	ו	CCONJ	conj	_	21	cc	_	_
+1	_	ו	CCONJ	conj	_	5	cc	_	_
 2	_	ה	DET	art	_	3	det	_	_
-3	_	מים	NOUN	subs	Gender=Masc|Number=Plur	21	dislocated	_	_
-4	הָיוּ֙	היה	AUX	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|VerbForm=Fin	21	cop	_	_
-5	הָלֹ֣וךְ	הלך	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	21	advcl	_	_
+3	_	מים	NOUN	subs	Gender=Masc|Number=Plur	5	nsubj	_	_
+4	הָיוּ֙	היה	AUX	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|VerbForm=Fin	5	cop	_	_
+5	הָלֹ֣וךְ	הלך	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	0	root	_	_
 6-7	וְחָסֹ֔ור	_	_	_	_	_	_	_	_
 6	_	ו	CCONJ	conj	_	7	cc	_	_
 7	_	חסר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	5	conj	_	_
 8	עַ֖ד	עד	ADP	prep	_	10	case	_	_
 9-10	הַחֹ֣דֶשׁ	_	_	_	_	_	_	_	_
 9	_	ה	DET	art	_	10	det	_	_
-10	_	חדשׁ	NOUN	subs	Gender=Masc|Number=Sing	21	obl	_	_
+10	_	חדשׁ	NOUN	subs	Gender=Masc|Number=Sing	5	obl	_	_
 11-12	הָֽעֲשִׂירִ֑י	_	_	_	_	_	_	_	_
 11	_	ה	DET	art	_	12	det	_	_
 12	_	עשׂירי	NUM	adjv	Gender=Masc|Number=Sing	10	nummod	_	_
@@ -6448,12 +6448,12 @@
 18	_	ל	ADP	prep	_	20	case	_	_
 19	_	ה	DET	art	_	20	det	_	_
 20	_	חדשׁ	NOUN	subs	Gender=Masc|Number=Sing	17	nmod	_	_
-21	נִרְא֖וּ	ראה	VERB	verb	Aspect=Perf|HebBinyan=NIFAL|Mood=Ind|Number=Plur|Person=3|VerbForm=Fin	0	root	_	_
+21	נִרְא֖וּ	ראה	VERB	verb	Aspect=Perf|HebBinyan=NIFAL|Mood=Ind|Number=Plur|Person=3|VerbForm=Fin	5	parataxis	_	_
 22	רָאשֵׁ֥י	ראשׁ	NOUN	subs	Gender=Masc|Number=Plur	21	nsubj	_	_
 23-24	הֶֽהָרִֽים	_	_	_	_	_	_	_	SpaceAfter=No
 23	_	ה	DET	art	_	24	det	_	_
 24	_	הר	NOUN	subs	Gender=Masc|Number=Plur	22	compound:smixut	_	_
-25	׃	׃	PUNCT	punct	_	21	punct	_	_
+25	׃	׃	PUNCT	punct	_	5	punct	_	_
 
 # sent_id = Masoretic-Genesis-8:6-hbo
 # text = וַֽיְהִ֕י מִקֵּ֖ץ אַרְבָּעִ֣ים יֹ֑ום וַיִּפְתַּ֣ח נֹ֔חַ אֶת־חַלֹּ֥ון הַתֵּבָ֖ה אֲשֶׁ֥ר עָשָֽׂה׃
@@ -8962,7 +8962,7 @@
 23	שֵׁ֑ם	שׁם	NOUN	subs	Gender=Masc|Number=Sing	19	obj	_	_
 24	פֶּן	פן	SCONJ	conj	_	26	mark	_	SpaceAfter=No
 25	־	־	PUNCT	punct	_	24	punct	_	SpaceAfter=No
-26	נָפ֖וּץ	פוץ	VERB	verb	Aspect=Imp|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=1|VerbForm=Fin	19	parataxis	_	_
+26	נָפ֖וּץ	פוץ	VERB	verb	Aspect=Imp|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=1|VerbForm=Fin	19	advcl	_	_
 27	עַל	על	ADP	prep	_	29	case	_	SpaceAfter=No
 28	־	־	PUNCT	punct	_	27	punct	_	SpaceAfter=No
 29	פְּנֵ֥י	פנה	NOUN	subs	Gender=Masc|Number=Plur	26	obl	_	_
@@ -14888,7 +14888,7 @@
 10	_	זה	PRON	prde	Gender=Masc|Number=Sing|PronType=Dem	8	det	_	_
 11	כִּֽי	כי	SCONJ	conj	_	13	mark	_	SpaceAfter=No
 12	־	־	PUNCT	punct	_	11	punct	_	SpaceAfter=No
-13	גָֽדְלָ֤ה	גדל	VERB	verb	Aspect=Perf|Gender=Fem|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	3	parataxis	_	_
+13	גָֽדְלָ֤ה	גדל	VERB	verb	Aspect=Perf|Gender=Fem|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	3	advcl	_	_
 14-15	צַעֲקָתָם֙	_	_	_	_	_	_	_	_
 14	_	צעקה	NOUN	subs	Gender=Fem|Number=Sing	13	nsubj	_	_
 15	_	הם	PRON	prn	Gender=Masc|Number=Plur|Person=3|PronType=Prs	14	nmod:poss	_	_
@@ -15070,7 +15070,7 @@
 33	הִמָּלֵ֖ט	מלט	VERB	verb	Gender=Masc|HebBinyan=NIFAL|Mood=Imp|Number=Sing|Person=2|VerbForm=Fin	19	parataxis	_	_
 34	פֶּן	פן	SCONJ	conj	_	36	mark	_	SpaceAfter=No
 35	־	־	PUNCT	punct	_	34	punct	_	SpaceAfter=No
-36	תִּסָּפֶֽה	ספה	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=NIFAL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	33	parataxis	_	SpaceAfter=No
+36	תִּסָּפֶֽה	ספה	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=NIFAL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	33	advcl	_	SpaceAfter=No
 37	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sent_id = Masoretic-Genesis-19:18-hbo
@@ -21519,7 +21519,7 @@
 11	_	אני	PRON	prn	Number=Sing|Person=1|PronType=Prs	10	nmod:poss	_	_
 12	לְמַ֥עַן	למען	SCONJ	prep	_	13	mark	_	_
 13-14	תְּבָֽרֶכְךָ֖	_	_	_	_	_	_	_	_
-13	_	ברך	VERB	verb	Aspect=Imp|Gender=Fem|HebBinyan=PIEL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	7	parataxis	_	_
+13	_	ברך	VERB	verb	Aspect=Imp|Gender=Fem|HebBinyan=PIEL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	7	advcl	_	_
 14	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	13	obj	_	_
 15-16	נַפְשִׁ֑י	_	_	_	_	_	_	_	_
 15	_	נפשׁ	NOUN	subs	Gender=Fem|Number=Sing	13	nsubj	_	_
@@ -27038,7 +27038,7 @@
 11	_	אנחנו	PRON	prn	Number=Plur|Person=1|PronType=Prs	13	advcl	_	_
 12-13	לְהִמֹּ֥ל	_	_	_	_	_	_	_	_
 12	_	ל	ADP	prep	_	13	case	_	_
-13	_	מול	VERB	verb	HebBinyan=NIFAL|VerbForm=Inf	5	parataxis	_	_
+13	_	מול	VERB	verb	HebBinyan=NIFAL|VerbForm=Inf	5	advcl	_	_
 14-15	לָכֶ֖ם	_	_	_	_	_	_	_	_
 14	_	ל	ADP	prep	_	15	case	_	_
 15	_	אתם	PRON	prn	Gender=Masc|Number=Plur|Person=2|PronType=Prs	13	obl	_	_

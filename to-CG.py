@@ -18,6 +18,20 @@ def get(w, f, p=''):
     else:
         return f'<{p}{v}>'
 
+def clause_parent(c):
+    l = list(E.mother.f(c))
+    if len(l) != 1:
+        return ''
+    p = l[0]
+    if F.otype.v(p) == 'phrase':
+        return f'<par:ph{p}>'
+    elif F.otype.v(p) == 'clause':
+        return f'<par:c{p}>'
+    elif F.otype.v(p) == 'word':
+        return f'<par:w{p}>'
+    else:
+        return ''
+
 feats = ['sp', 'ls', 'vt', 'vs', 'typ', 'function', 'domain', 'gn', 'nametype', 'nu', 'ps', 'st', 'det']
 
 prev_p = 0
@@ -47,6 +61,7 @@ for w in F.otype.s('word'):
         phr_ft += get(p, f)
         phr_ft += get(c, f)
     phr_ft += get(c, 'rela', 'rela:')
+    phr_ft += clause_parent(c)
     srf = surf(w)
     if srf != 'blah':
         srf = srf[:len(F.g_lex_utf8.v(w))] or 'blah'

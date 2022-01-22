@@ -13,12 +13,13 @@ args = parser.parse_args()
 gen = utils.load_conllu(args.gen)
 ref = utils.load_conllu(args.ref, True)
 
-fail = False
+fail = 0
 for k in ref:
     if k in gen and gen[k][1] != ref[k][1]:
         print(f'Sentence {gen[k][0]} ({k}) differs!')
-        fail = True
+        fail += 1
 
-if fail:
+if fail > 0:
+    print(f'{fail} sentences in {args.gen} differ from accepted!')
     sys.exit(1)
 

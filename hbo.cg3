@@ -138,8 +138,8 @@ LIST PostMark = (Genesis w1035) (Genesis w1231) (Genesis w2977) (Ruth w948) (Rut
 LIST NestMark = (Genesis w2099) (Genesis w2760) (Genesis w13723) (Genesis w16271) (Genesis prn c32626) (Genesis w21741) (Genesis w25551) (Ruth w122) (Ruth w127) (Ruth w266) (Ruth w1161) (Ruth w1181) (Ruth w1325) (Genesis w8239) ;
 LIST MarkToAcl = (Genesis w1848) (Genesis w19068) (Genesis w26087) (Ruth w714) (Genesis w12378) (Genesis w5084) ;
 
-LIST ActuallyCcomp = (w351 Genesis) (Genesis w1037) (Genesis w1251) (Genesis w7129) (Ruth w1243) (Genesis w3697) ;
-LIST ActuallyAdvcl = (Genesis w26044) (Genesis w28625) (Ruth w1161) (Ruth w1187) (Ruth w1418) (Genesis w8318) (Genesis w15305) ;
+LIST ActuallyCcomp = (w351 Genesis) (Genesis w1037) (Genesis w1251) (Genesis w7129) (Genesis w3697) ;
+LIST ActuallyAdvcl = (Genesis w26044) (Genesis w28625) (Ruth w1161) (Ruth w1187) (Ruth w1418) (Genesis w8318) (Genesis w15305) (Genesis w7576) (Genesis w15883) ;
 
 LIST DontConjTo = (Genesis w4993) ;
 LIST HasConjOverride = (Genesis w4584) ;
@@ -227,6 +227,7 @@ LIST NonCopIsh = (Genesis w1955) ;
 LIST OrphanPrepVerb = (Genesis w18716) ;
 LIST RelaCRToPrev = (Genesis w1037) (Ruth w1316) (Genesis w3697) (Genesis w6172) (Genesis w21741) (Genesis ph59024 ClauseRoot) ;
 LIST ObjcXcomp = "יסף" "יכל" ;
+LIST AdjuXcomp = "מהר" "נתן" ("אמץ" hit) "חדל" "צוה" "כלה" "חפץ" "יסף" "חלל" "קרב" "ירא" "מלא" "לאה" "יאל" ;
 LIST Ptc = ptcp ptca infc ;
 LIST AdvclAble = ("כי" conj @mark) ("אם" conj @mark) ;
 LIST ActuallyAcl = (Genesis ClauseRoot ph47742) ;
@@ -270,6 +271,9 @@ SET NonNmCl = (*) - (NmCl) - (prn) ;
 SET CorR = (conj CP) OR RelMark ;
 SET CorM = CR OR (nmcp) - @cop ;
 SET MSynIsh = CorR + @cc OR @advmod ;
+LIST ActuallyParataxis = (Genesis w888) (Genesis w921) (Genesis w935) (Genesis w2979) (Genesis w4072) (Genesis w4208) (Genesis w12675) (Genesis w12530) (Genesis w7997) (Genesis w23609) ;
+LIST ActuallyNsubj = (Genesis w886) (Genesis w919) (Genesis w933) ;
+LIST ActuallyCsubj = (Genesis w5072) ;
 
 ########################################
 # INDIVIDUAL WORDS
@@ -687,10 +691,35 @@ ADD HasMark CR + MarkOverride - HasMark ;
 
 SECTION
 
+SETCHILD REPEAT CR + (/^par:\(c\\d+\)$/r rela:PreC) - ActuallyCsubj
+    TO (-1*A CR + (VSTR:$1 Subj) LINK NOT p (*)) ;
+MAP REPEAT @nsubj CR + (subs Subj) IF (p CR + (rela:PreC)) ;
+
+MAP @ccomp ActuallyCcomp ;
+MAP @advcl ActuallyAdvcl ;
+MAP @nsubj ActuallyNsubj ;
+MAP @parataxis ActuallyParataxis ;
+
+SETPARENT CR (NOT p (*)) TO (c RelMark LINK -1* Pr BARRIER NonJoiner) ;
+MAP @acl CR IF (p Pr) ;
+SETPARENT Pr + (/^par:\(c\\d+\)$/r) (NOT p (*)) (c CR) TO (0* CR + (VSTR:$1)) ;
+SETPARENT CR + (/^par:\(c\\d+\)$/r) (NOT p (*)) TO (0* CR + (VSTR:$1)) ;
+SETPARENT CR + (rela:Coor) TO (p (rela:Coor) LINK p (*)) ;
+
 SETPARENT CR + RelaCRToPrev (NOT p (*)) TO (-1* CR) ;
 SETPARENT CR + RelaNonAcl - HasRel (NOT p (*)) TO (0* CR - Rela BARRIER SB) ;
+
 MAP @xcomp CR + (rela:Objc) IF (p CR + ObjcXcomp) ;
+MAP @xcomp CR + (rela:Adju) IF (p CR + AdjuXcomp) ;
+
+MAP @parataxis CR + (rela:Adju Ellp Subj) IF (p CR) ;
+MAP @acl CR + (rela:Adju) - (PrepVerb) IF (p CR + (subs)) ;
+MAP @appos CR + (rela:Coor) - HasConj IF (p CR) (NEGATE 0* (ClauseRoot rela:Coor HasConj) BARRIER SB) ;
+
 MAP @ccomp CR + (rela:Objc) IF (p CR) ;
+MAP @advcl CR + (rela:Adju) IF (p CR) ;
+MAP @conj CR + (rela:Coor) IF (p CR) ;
+MAP @csubj CR + (rela:Subj) IF (p CR) ;
 
 SECTION
 
@@ -700,9 +729,6 @@ MAP @conj (HasMark HasConj) - NestMark IF (p HasMark) ;
 
 SETPARENT (verb) + Ptc - QMark - NonAclOverride (NOT p (*)) TO (-1* Noun - @compound:smixut BARRIER NonJoiner - BD - @det - @compound:smixut) ;
 MAP @acl (verb) + Ptc - QMark IF (p Noun) ;
-
-MAP @ccomp ActuallyCcomp ;
-MAP @advcl ActuallyAdvcl ;
 
 MAP @xcomp (verb infc InfC) - QMark IF (-1* XcompInf + (verb) BARRIER SB OR @mark) ;
 

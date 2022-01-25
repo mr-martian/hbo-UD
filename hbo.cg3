@@ -113,7 +113,7 @@ LIST PPHeadOverride = (Ruth w575) (Ruth w580) ;
 # Apposition and NP conjunction
 LIST FamilyOrTitleSkip = (Genesis w14663) ;
 
-LIST ApposToLastGen = w265 w297 w307 w640 w648 w734 w1129 w1257 w1338 w1966 w2993 w3000 w5450 w7733 w11294 w12466 w12610 w12711 w13874 w14590 w14649 w18761 w18788 w19072 w3308 w3314 w3331 w5402 w4106 w4185 w6817 w6820 w2672 w8520 w8578 w9563 w24352 w24349 w6459 ;
+LIST ApposToLastGen = w265 w297 w307 w640 w648 w734 w1129 w1257 w1338 w1966 w2993 w3000 w5450 w7733 w11294 w12466 w12610 w12711 w13874 w14590 w14649 w18761 w18788 w19072 w3308 w3314 w3331 w5402 w4106 w4185 w6817 w6820 w2672 w8520 w8578 w9563 w24352 w24349 w6459 w27627 w27629 ;
 LIST ApposToLastRut = w19 w50 w93 w1528 ;
 SET ApposToLast = ApposToLastGen + (Genesis) OR ApposToLastRut + (Ruth) ;
 
@@ -139,7 +139,7 @@ LIST NestMark = (Genesis w2099) (Genesis w2760) (Genesis w13723) (Genesis w16271
 LIST MarkToAcl = (Genesis w1848) (Genesis w19068) (Genesis w26087) (Ruth w714) (Genesis w12378) (Genesis w5084) ;
 
 LIST ActuallyCcomp = (w351 Genesis) (Genesis w1037) (Genesis w1251) (Genesis w7129) (Genesis w3697) ;
-LIST ActuallyAdvcl = (Genesis w26044) (Genesis w28625) (Ruth w1161) (Ruth w1187) (Ruth w1418) (Genesis w8318) (Genesis w15305) (Genesis w7576) (Genesis w15883) ;
+LIST ActuallyAdvcl = (Genesis w26044) (Genesis w28625) (Ruth w1161) (Ruth w1187) (Ruth w1418) (Genesis w8318) (Genesis w15305) (Genesis w7576) (Genesis w15883) (Genesis w25513) (Genesis w23318) (Genesis w23300) (Genesis w18024) (Genesis w9388) ;
 
 LIST DontConjTo = (Genesis w4993) ;
 LIST HasConjOverride = (Genesis w4584) ;
@@ -274,6 +274,7 @@ SET MSynIsh = CorR + @cc OR @advmod ;
 LIST ActuallyParataxis = (Genesis w888) (Genesis w921) (Genesis w935) (Genesis w2979) (Genesis w4072) (Genesis w4208) (Genesis w12675) (Genesis w12530) (Genesis w7997) (Genesis w23609) ;
 LIST ActuallyNsubj = (Genesis w886) (Genesis w919) (Genesis w933) ;
 LIST ActuallyCsubj = (Genesis w5072) ;
+LIST ActuallyObl = (Genesis ph57618) ;
 
 ########################################
 # INDIVIDUAL WORDS
@@ -285,7 +286,7 @@ BEFORE-SECTIONS
 # Corrections
 ####################
 
-LIST MislabeledAsNarrative = w1404 w1405 w1423 w1424 w14251 w14252 w14253 (Genesis s80885) (Ruth s5672) (Ruth s5673) (Genesis s83562) (Ruth s5647) (Ruth s5650) (Ruth s5651) (Genesis s85072) (Genesis s83308) (Genesis s83309) (Genesis s84608) ;
+LIST MislabeledAsNarrative = w1404 w1405 w1423 w1424 w14251 w14252 w14253 (Genesis s80885) (Ruth s5672) (Ruth s5673) (Genesis s83562) (Ruth s5647) (Ruth s5650) (Ruth s5651) (Genesis s85072) (Genesis s83308) (Genesis s83309) (Genesis s84608) (Genesis s83116) (Genesis s83082) ;
 SUBSTITUTE (N) (Q) MislabeledAsNarrative ;
 
 LIST UnknownShouldBeNarrative = (Genesis w2137) ;
@@ -297,7 +298,7 @@ SUBSTITUTE (infc) (infa) (Ruth w797) ;
 # Nested Quotations
 ####################
 
-LIST DoubleQuoteGen = s80831 s80834 s80836 s80837 s80886 s81424 s81443 s81543 s81737 s81766 s81767 s81785 s81829 s81933 s81999 s82001 s82028 s82037 s82159 s82295 s82315 s82367 s82380 s82382 s82410 s82412 s82413 s82446 s82450 s82599 s82626 s82629 s82776 s82946 s83252 s83255 s83285 s83303 s83318 s83319 s83327 s83431 s83432 s83449 s83459 s83470 s83474 s83479 s83480 s83482 s83510 s83626 s83628 s83906 s83919 s84071 s84283 s84313 s84382 s84435 s84464 s84492 s84537 s84545 s84551 s84555 s84628 s84638 s84673 s84681 s84708 s84709 s84719 s84722 s84765 s84804 s84805 s84828 s84934 s84941 s84943 s85134 s85229 s85230 s85261 s85262
+LIST DoubleQuoteGen = s80831 s80834 s80836 s80837 s80886 s81424 s81443 s81543 s81737 s81766 s81767 s81785 s81829 s81933 s81999 s82001 s82028 s82037 s82159 s82295 s82315 s82367 s82380 s82382 s82410 s82412 s82413 s82446 s82450 s82599 s82626 s82629 s82776 s82946 s83252 s83255 s83285 s83303 s83318 s83319 s83327 s83431 s83432 s83449 s83459 s83470 s83474 s83479 s83480 s83482 s83510 s83626 s83628 s83906 s83919 s84071 s84283 s84313 s84382 s84435 s84464 s84492 s84537 s84545 s84551 s84552 s84555 s84638 s84673 s84681 s84708 s84709 s84719 s84722 s84765 s84804 s84805 s84828 s84934 s84941 s84943 s85134 s85229 s85230 s85261 s85262
 c29820 ; # TODO: handle rela:Objc properly
 LIST DoubleQuoteRuth = s5648 s5649 s5720 s5825 ;
 SET DoubleQuote = (Genesis) + DoubleQuoteGen OR (Ruth) + DoubleQuoteRuth ;
@@ -655,12 +656,16 @@ SETPARENT ConjSkipClause (NOT p (*)) TO (1* CR LINK 1* CR) ;
 
 SETPARENT (Genesis w1251) (NOT p (*)) TO (-1* CR LINK -1* CR) ;
 SETPARENT (Genesis w1256) (NOT p (*)) TO (-1* CR) ;
+SETPARENT (Genesis w21545) (NOT p (*)) TO (-1* NPHead) ;
+MAP @nmod (Genesis w21545) ;
 
 ####################
 # Attach by clause label
 ####################
 
 SETPARENT (/^\(c\\d+\)$/r) - CR - NoGlom (NOT p (*)) TO (0* (VSTR:$1) + CR) ;
+
+MAP @obl ActuallyObl ;
 
 MAP @nsubj SubjIsh - CR IF (p CR LINK NEGATE c @nsubj) ;
 MAP @dislocated (Subj) - CR IF (p CR) ;
@@ -845,10 +850,13 @@ MAP @vocative Noun + (Voct) - CR ;
 
 SECTION
 
+SETPARENT CR + (rela:Attr /^par:\(w\\d+\)$/r) (NOT p (*)) TO (-1* (VSTR:$1)) ;
+
 MAP (@conj rel_conj) (ClauseRoot NmCl rela:Coor) IF (-1* RelMark BARRIER CB) ;
 MAP @acl (ClauseRoot NmCl) IF (-1* RelMark BARRIER CB) ;
+MAP @acl CR + (rela:Attr) IF (c RelMark) (p (*)) ;
 SETPARENT @acl + AclChain (NOT p (*)) TO (-1* @acl LINK p (*)) ;
-SETPARENT (subs @acl) - AclChain (NOT p (*)) TO (-1* Noun - (verb) OR Pr + @obj OR Pr + @obl) ;
+SETPARENT (subs @acl) - AclChain (NOT p (*)) TO (-1* Noun - (verb) - @flat:name OR Pr + @obj OR Pr + @obl) ;
 
 SETPARENT @acl + RelToPrn (NOT p (*)) TO (c RelMark LINK -1* (prn)) ;
 SETPARENT @acl OR CR + @conj + (rela:Coor rel_conj) (NOT p (*))
@@ -868,7 +876,7 @@ SETPARENT @acl (NOT p (*)) TO (c @mark LINK -1* Pr BARRIER NonJoiner) ;
 SETPARENT @acl + AclCompNotOk (NOT p (*))
     TO (-1* CB LINK -1* AclAble - @compound:smixut BARRIER BD) ;
 SETPARENT @acl - AclCompNotOk - AclChain (NOT p (*))
-    TO (-1* CB LINK -1* AclAble - @nummod BARRIER BD) ;
+    TO (-1* CB LINK -1* AclAble - @nummod - @amod BARRIER BD) ;
 
 MAP @ccomp QMark IF (NEGATE 1* CR) ;
 MAP @mark QMark ;

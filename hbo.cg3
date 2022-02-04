@@ -345,7 +345,7 @@ SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl) (NEGATE 0* (subs) - (retag:adjv 
 SUBSTITUTE (verb) (subs retag:verb) Participle + NPish ;
 
 # Adverbs tagged subs
-SUBSTITUTE (subs) (advb retag:subs) (padv) - (NP) (-1 BD) (1* BD BARRIER (*) - (punct)) ;
+SUBSTITUTE (subs) (advb retag:subs) (padv) - (NP) (-1 BD) (1* BD BARRIER (*) - (punct) - (prn ModS)) ;
 
 # Determiner on clause participles
 SUBSTITUTE (art) (conj retag:art) (CP Rela) ;
@@ -613,12 +613,12 @@ SETPARENT ApposOverAcl (NOT p (*))
 
 SETPARENT CaseAble + ApposToLast (NOT p (*)) TO (-1* ApposAble) ;
 SETPARENT (prn) (c Pr + ApposToLast) (NOT p (*)) TO (-1* ApposAble) ;
-SETPARENT CaseAble - ApposToLast - ConjToAppos (NOT p (*))
+SETPARENT CaseAble - ApposToLast - ConjToAppos - (prn ModS) (NOT p (*))
      TO (-1* BD LINK 1*A CaseAble - @compound:smixut BARRIER BD LINK NOT p (*)) ;
 MAP @conj CaseAble IF (c @cc) (p CaseAble) ;
 MAP KEEPORDER @appos CaseAble IF (c @case + $$Lemma) (p CaseAble LINK c @case + $$Lemma) ;
 MAP @nmod CaseAble IF (c @case - ("את")) (p CaseAble) ;
-MAP @appos CaseAble - (verb infc) IF (p CaseAble) ;
+MAP @appos CaseAble - (verb infc) IF (p CaseAble - CR) ;
 
 SETPARENT PPHead (NOT p (*)) TO (-1* NPHead BARRIER PB) ;
 MAP @nmod PPHead IF (p NPHead OR PPHead) ;
@@ -896,7 +896,7 @@ ADD CR (*) - CR IF (c @nsubj) ;
 
 SECTION
 
-ADD CR NPHead OR PPHead IF (c @mark) ;
+ADD CR NPHead OR PPHead IF (c @mark) (NOT 0 CR) ;
 SETPARENT CorR + ConjTypes + @mark (NOT p (*)) TO (1* CorM - @acl) ;
 
 MAP @advcl (ClauseRoot Q HasMark)
@@ -967,7 +967,7 @@ SETPARENT @discourse (NOT p (*))
 SECTION
 
 SETPARENT CR + QuoteSkipAcl (NOT p (*)) TO (-1* SpeakingVerb + (verb) - @acl) ;
-SETPARENT CR + (Q) (NOT p (*)) TO (-1* SpeakingVerb + (verb) BARRIER PlainC + (N) - QMark OR PlainC + (Q)) ;
+SETPARENT CR + (Q) (NOT p (*)) TO (-1* SpeakingVerb + (verb N) BARRIER PlainC + (N) - QMark OR PlainC + (Q)) ;
 SETPARENT CR + (Q) (NOT p (*)) (c QMark) TO (-1* PlainC + (N)) ;
 SETPARENT CR + (Q) - HasConj - SpecialMark (NOT p (*)) TO (-1* PlainC - (QQ)) ;
 SETPARENT CR + (QQ) - HasConj (NOT p (*)) TO (-1* CR + (Q)) ;

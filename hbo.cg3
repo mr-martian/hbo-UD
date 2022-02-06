@@ -92,7 +92,7 @@ LIST VerbArgs = @nsubj @obj @obl @vocative (@xcomp adjv) (@advcl infa) (@advcl i
 LIST NegObl = ("בלת" subs InfC) ;
 LIST QMark = ("לאמר" SCONJ verb) ;
 
-LIST CaseAbleAdv = "כן" "שׁם" "פה" "שׁם" "הלאה" "הנה" "עתה" "אז" ;
+LIST CaseAbleAdv = "כן" "שׁם" "פה" "שׁם" "הלאה" "הנה" "עתה" "אז" "כה" ;
 
 LIST FamilyOrTitle = "בן" "בת" "אב" "כלה" "אשׁה" "מלך" "גברת" "שׂר" "אחות" "כהן" ;
 
@@ -113,11 +113,11 @@ LIST PPHeadOverride = (Ruth w575) (Ruth w580) ;
 # Apposition and NP conjunction
 LIST FamilyOrTitleSkip = (Genesis w14663) ;
 
-LIST ApposToLastGen = w265 w297 w307 w640 w648 w734 w1129 w1257 w1338 w1966 w2993 w3000 w5450 w7733 w11294 w12466 w12610 w12711 w13874 w14590 w14649 w18761 w18788 w19072 w3308 w3314 w3331 w5402 w4106 w4185 w6817 w6820 w2672 w8520 w8578 w9563 w24352 w24349 w6459 w27627 w27629 ;
+LIST ApposToLastGen = w265 w297 w307 w640 w648 w734 w1129 w1257 w1338 w1966 w2993 w3000 w5450 w7733 w11294 w12466 w12610 w12711 w13874 w14590 w14649 w18761 w18788 w19072 w3308 w3314 w3331 w5402 w4106 w4185 w6817 w6820 w2672 w8520 w8578 w9563 w24352 w24349 w6459 w27627 w27629 w7423 w10681 ;
 LIST ApposToLastRut = w19 w50 w93 w1528 ;
 SET ApposToLast = ApposToLastGen + (Genesis) OR ApposToLastRut + (Ruth) ;
 
-LIST ApposOverAcl = (Genesis w3325) (Genesis w12858) (Genesis w14778) ;
+LIST ApposOverAcl = (Genesis w3325) (Genesis w12858) (Genesis w14778) (Genesis w10252) ;
 
 LIST ApposOverride = (w93 Ruth) (w189 Genesis) (Genesis w14323) (Genesis w4544) ;
 LIST ConjToAppos = w36714 (w7950 Exodus) (w95 Ruth) (w215 Genesis) (w313 Genesis) (Genesis w303) (Genesis w5424) (Genesis w6462) ;
@@ -134,12 +134,12 @@ LIST NonMarkOverride = (Genesis w1243) (Genesis w11173) ;
 LIST NonRelOverride = (Genesis w2676) ;
 
 LIST PreMark = (Genesis w1774) (Genesis w6030) (Genesis w6036) (Genesis w11906) (Genesis w16927) (Genesis w17650) (Genesis w28321) (Ruth w1212) (Ruth w1206) (Ruth w1412) (Genesis w6169) (Genesis w9388) (Genesis w8176) ;
-LIST PostMark = (Genesis w1035) (Genesis w1231) (Genesis w2977) (Ruth w948) (Ruth w1301) (Ruth w1467) (Genesis w5736) (Genesis w17852) (Genesis w7273) (Genesis w8069) ;
+LIST PostMark = (Genesis w1035) (Genesis w1231) (Genesis w2977) (Ruth w948) (Ruth w1301) (Ruth w1467) (Genesis w5736) (Genesis w17852) (Genesis w7273) (Genesis w8069) (Genesis w28587) ;
 LIST NestMark = (Genesis w2099) (Genesis w2760) (Genesis w13723) (Genesis w16271) (Genesis prn c32626) (Genesis w21741) (Genesis w25551) (Ruth w122) (Ruth w127) (Ruth w266) (Ruth w1161) (Ruth w1181) (Ruth w1325) (Genesis w8239) ;
 LIST MarkToAcl = (Genesis w1848) (Genesis w19068) (Genesis w26087) (Ruth w714) (Genesis w12378) (Genesis w5084) ;
 
 LIST ActuallyCcomp = (w351 Genesis) (Genesis w1037) (Genesis w1251) (Genesis w7129) (Genesis w3697) ;
-LIST ActuallyAdvcl = (Genesis w26044) (Genesis w28625) (Ruth w1161) (Ruth w1187) (Ruth w1418) (Genesis w8318) (Genesis w15305) (Genesis w7576) (Genesis w15883) (Genesis w25513) (Genesis w23318) (Genesis w23300) (Genesis w18024) (Genesis w9388) (Genesis w8176) (Genesis w9841) (Genesis w9928) ;
+LIST ActuallyAdvcl = (Genesis w26044) (Genesis w28625) (Ruth w1161) (Ruth w1187) (Ruth w1418) (Genesis w8318) (Genesis w15305) (Genesis w7576) (Genesis w15883) (Genesis w25513) (Genesis w23318) (Genesis w23300) (Genesis w18024) (Genesis w9388) (Genesis w8176) (Genesis w9841) (Genesis w9928) (Genesis w13245) ;
 
 LIST DontConjTo = (Genesis w4993) ;
 LIST HasConjOverride = (Genesis w4584) ;
@@ -217,7 +217,7 @@ LIST NoApposAble = wp2 @nmod:poss ;
 SET ApposAble = YesApposAble - NoApposAble ;
 LIST NorP = NPHead PPHead ;
 LIST CorC = (@conj) (@compound:smixut) ;
-LIST ConjSkipClause = (Genesis w1771) (Genesis w11903) (Ruth w1409) (Genesis w9386) (Genesis w8174) ; # conjunction to clause after next clause
+LIST ConjSkipClause = (Genesis w1771) (Genesis w11903) (Ruth w1409) (Genesis w9386) (Genesis w8174) (Genesis w6737) (Genesis w6738) ; # conjunction to clause after next clause
 LIST NoGlom = prep ;
 LIST SubjIsh = Subj (IntS prn) ;
 LIST OblIsh = Time Cmpl Loca Modi Adju Supp (Conj PPHead) ;
@@ -276,6 +276,7 @@ LIST ActuallyNsubj = (Genesis w886) (Genesis w919) (Genesis w933) ;
 LIST ActuallyCsubj = (Genesis w5072) ;
 LIST ActuallyObl = (Genesis ph57618) ;
 LIST QuoteSkipAcl = (Genesis w7270) ;
+LIST ParenSent = (Genesis s82236) ;
 
 ########################################
 # INDIVIDUAL WORDS
@@ -368,8 +369,8 @@ SUBSTITUTE (inrg) (advb retag:inrg) ItgAdv ;
 # MWE conjunctions
 ####################
 
-SETPARENT ("אם" conj) TO (-1 ("עד" prep)) ;
-MAP @fixed ("אם" conj) IF (-1 ("עד" prep)) ;
+SETPARENT ("אם" conj) OR ("כי" conj) TO (-1* ("עד" prep) BARRIER NonJoiner) ;
+MAP @fixed ("אם" conj) OR ("כי" conj) IF (-1* ("עד" prep) BARRIER NonJoiner) ;
 SUBSTITUTE (prep) (conj retag:prep) ("עד") IF (c @fixed) ;
 
 ####################
@@ -584,8 +585,8 @@ SECTION
 SETPARENT (w189 Genesis) (NOT p (*)) TO (-1* (w185)) ;
 SETPARENT (Genesis w3459) (NOT p (*)) TO (-1* NPHead - (verb)) ;
 SETPARENT (Genesis w14323) (NOT p (*)) TO (-1* (prn)) ;
-SETPARENT (Genesis w4544) (NOT p (*)) TO (-1* (subs)) ;
-SETPARENT (Genesis w2674) (NOT p (*)) TO (-1* (subs)) ;
+SETPARENT (Genesis w4544) OR (Genesis w2674) OR (Genesis w7425) (NOT p (*))
+    TO (-1* (subs)) ;
 MAP @conj (Genesis w2674) OR (Genesis w6219) ;
 SETPARENT (Genesis w2671) OR (Genesis w2672) (NOT p (*))
     TO (1* (Genesis w2674)) ;
@@ -636,8 +637,8 @@ SECTION # conjunction
 
 SETPARENT (conj PP) (NOT p (*)) TO (1* (subs PP)) ;
 MAP @conj (subs PP) - (PreC) - CR IF (0 (subs) LINK c @cc) (NOT c @cop) ;
-SETPARENT (subs PPHead @conj /^(c\\d+\)$/r) - CR (NOT p (*))
-    TO (-1* (subs PP) + (VSTR:$1) - @conj - @compound:smixut) ;
+SETPARENT (subs PPHead @conj /^\(ph\\d+\)$/r) - CR (NOT p (*))
+    TO (-1* CaseAble + (VSTR:$1) - @conj - @compound:smixut) ;
 SETPARENT (subs PPHead @conj) - CR (NOT p (*)) TO (-1* (subs PP) - @conj - @compound:smixut) ;
 
 SETPARENT (conj NP) (NOT p (*)) TO (1* (subs NP)) ;
@@ -672,9 +673,11 @@ MAP @nsubj SubjIsh - CR IF (p CR LINK NEGATE c @nsubj) ;
 MAP @dislocated (Subj) - CR IF (p CR) ;
 MAP @obj (Objc) - CR - (Ellp) IF (p CR LINK NEGATE c @obj) ;
 MAP @xcomp (Objc) - CR - (Ellp) OR (PrAd) - CR IF (p CR) ;
+MAP @obj (ProbablyObj InrP) - CR - (Ellp) IF (p CR LINK NEGATE c @obj) ;
 
 MAP @advcl (infa AdvP) IF (NEGATE 1* NonJoiner LINK 0 BD) (NEGATE c @cop) ;
 MAP @advmod (verb infa) + $$Lemma - CR IF (p CR + $$Lemma) ;
+MAP @advmod (verb infa AdvP) - CR IF (p NPHead) ;
 
 MAP @orphan OblIsh + (Ellp) - CR OR (Objc Ellp) - CR IF (p CR + (Ellp)) ;
 MAP @obl OblIsh - CR IF (p CR) ;
@@ -754,7 +757,7 @@ SECTION
 SETPARENT MarkToAcl (NOT p (*)) TO (0* CR + HasRel) ;
 SETPARENT NestMark (NOT p (*)) TO (0* CR + HasMark) ;
 SETPARENT PreMark (NOT p (*)) TO (1* CR - HasMark) ;
-SETPARENT PostMark + $$QuoteLevel (NOT p (*)) TO (-1* CR + $$QuoteLevel - HasMark) ;
+SETPARENT PostMark + $$QuoteLevel (NOT p (*)) TO (-1* CR + $$QuoteLevel - HasMark - HasRel) ;
 SETPARENT HasMark (NOT p (*))
     TO (0* PlainC - @csubj - (rela:Subj) BARRIER CR - HasMark - HasRel OR SB OR ("ה" inrg)) ;
 
@@ -791,7 +794,7 @@ ADD FullClauseRoot PlainC - @acl - FullClauseRoot - NonFCROverride ;
 SECTION
 
 SETPARENT FullClauseRoot + HasConj + $$Domain (NOT p (*))
-    TO (-1* FullClauseRoot - HasConj + $$Domain - FCRSkip BARRIER FullClauseRoot - $$Domain) ;
+    TO (-1* FullClauseRoot - HasConj + $$Domain - FCRSkip - ParenSent BARRIER FullClauseRoot - $$Domain - ParenSent) ;
 
 MAP @conj FullClauseRoot + HasConj IF (p FullClauseRoot) ;
 
@@ -832,6 +835,7 @@ SETPARENT @csubj (NOT p (*)) TO (0* CR BARRIER SB) ;
 ### OBJECTS
 
 ADD REPEAT (ProbablyObj) ObjAble + (Objc) - (ProbablyObj) ;
+ADD REPEAT (ProbablyObj) ObjAble + (InrP) - (ProbablyObj) ;
 ADD REPEAT CR (ProbablyObj Ellp) - CR ;
 
 MAP @xcomp XcompOverride ;
@@ -919,7 +923,7 @@ MAP @root CR IF (NOT -1* CR - @advcl - @acl - @csubj) ;
 
 SETPARENT @advcl + $$Domain (NOT p (*)) (NEGATE 0* CR BARRIER SB) TO (1* CR + $$Domain - @advcl) ;
 
-SETPARENT (@ccomp Q) + QuoteSkipAcl (NOT p (*)) TO (-1* (quot ClauseRoot) - @mark - @acl) ;
+SETPARENT (@ccomp Q) + QuoteSkipAcl (NOT p (*)) TO (-1* CR - @mark - @acl) ;
 SETPARENT (@ccomp Q) (NOT p (*)) TO (-1* (quot ClauseRoot) - @mark) ;
 SETPARENT @ccomp (NOT p (*)) TO (-1* CcompAble + CR) ;
 
@@ -932,7 +936,7 @@ MAP (@parataxis ClauseRoot) CR + $$NonQuote - (PrepVerb) IF (-1* CR + $$NonQuote
 SETPARENT ConjToAdvcl (NOT p (*)) TO (-1* CR + @advcl) ;
 SETPARENT ConjToAcl (NOT p (*)) TO (-1* @acl) ;
 
-SETPARENT CR + ClauseCon + $$Domain (NOT p (*)) TO (-1* CR + $$Domain - DontConj) ;
+SETPARENT CR + ClauseCon + $$Domain (NOT p (*)) TO (-1* CR + $$Domain - DontConj - ParenSent) ;
 
 SECTION
 
@@ -966,8 +970,10 @@ SETPARENT @discourse (NOT p (*))
 
 SECTION
 
+SETPARENT ParenSent (NOT p (*)) TO (-1* NPHead OR PPHead) ;
+
 SETPARENT CR + QuoteSkipAcl (NOT p (*)) TO (-1* SpeakingVerb + (verb) - @acl) ;
-SETPARENT CR + (Q) (NOT p (*)) TO (-1* SpeakingVerb + (verb N) BARRIER PlainC + (N) - QMark OR PlainC + (Q)) ;
+SETPARENT CR + (Q) (NOT p (*)) TO (-1* SpeakingVerb + (verb N) - QMark BARRIER PlainC + (N) - QMark OR PlainC + (Q)) ;
 SETPARENT CR + (Q) (NOT p (*)) (c QMark) TO (-1* PlainC + (N)) ;
 SETPARENT CR + (Q) - HasConj - SpecialMark (NOT p (*)) TO (-1* PlainC - (QQ)) ;
 SETPARENT CR + (QQ) - HasConj (NOT p (*)) TO (-1* CR + (Q)) ;

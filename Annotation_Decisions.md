@@ -17,6 +17,7 @@
 - should @parataxis to NP in geneologies actually be @dislocated?
   - also @appos → @list ?
 - G424 has @cop rather than @advmod for infa
+- G349 should maybe be @dislocated rather than @csubj
 
 # Resolved - unimplemented
 - A B וC - B should get @conj

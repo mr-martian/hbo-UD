@@ -22090,7 +22090,7 @@
 43-46	וְלַאֲבֹתֵֽינוּ	_	_	_	_	_	_	_	SpaceAfter=No
 43	_	ו	CCONJ	conj	_	45	cc	_	_
 44	_	ל	ADP	prep	_	45	case	_	_
-45	_	אב	NOUN	subs	Gender=Masc|Number=Plur	19	conj	_	_
+45	_	אב	NOUN	subs	Gender=Masc|Number=Plur	41	conj	_	_
 46	_	אנחנו	PRON	prn	Number=Plur|Person=1|PronType=Prs	45	nmod:poss	_	_
 47	׃	׃	PUNCT	punct	_	2	punct	_	_
 
@@ -25435,6 +25435,25 @@
 29	יִשְׂרָאֵֽל	ישׂראל	PROPN	nmpr	Number=Sing	28	obj	_	SpaceAfter=No
 30	׃	׃	PUNCT	punct	_	2	punct	_	_
 
+# sentence_index = 750
+# sent_id = Masoretic-Numbers-23:8-hbo
+# text = מָ֣ה אֶקֹּ֔ב לֹ֥א קַבֹּ֖ה אֵ֑ל וּמָ֣ה אֶזְעֹ֔ם לֹ֥א זָעַ֖ם יְהוָֽה׃
+1	מָ֣ה	מה	PRON	prin	PronType=Int	2	obj	_	_
+2	אֶקֹּ֔ב	קבב	VERB	verb	Aspect=Imp|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	0	root	_	_
+3	לֹ֥א	לא	ADV	nega	Polarity=Neg	4	advmod	_	_
+4-5	קַבֹּ֖ה	_	_	_	_	_	_	_	_
+4	_	קבב	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	2	parataxis	_	_
+5	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	4	obj	_	_
+6	אֵ֑ל	אל	NOUN	subs	Gender=Masc|Number=Sing	4	nsubj	_	_
+7-8	וּמָ֣ה	_	_	_	_	_	_	_	_
+7	_	ו	CCONJ	conj	_	9	cc	_	_
+8	_	מה	PRON	prin	PronType=Int	9	obj	_	_
+9	אֶזְעֹ֔ם	זעם	VERB	verb	Aspect=Imp|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	4	conj	_	_
+10	לֹ֥א	לא	ADV	nega	Polarity=Neg	11	advmod	_	_
+11	זָעַ֖ם	זעם	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	4	parataxis	_	_
+12	יְהוָֽה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	11	nsubj	_	SpaceAfter=No
+13	׃	׃	PUNCT	punct	_	2	punct	_	_
+
 # sentence_index = 751
 # sent_id = Masoretic-Numbers-23:9-hbo
 # text = כִּֽי־מֵרֹ֤אשׁ צֻרִים֙ אֶרְאֶ֔נּוּ וּמִגְּבָעֹ֖ות אֲשׁוּרֶ֑נּוּ הֶן־עָם֙ לְבָדָ֣ד יִשְׁכֹּ֔ן וּבַגֹּויִ֖ם לֹ֥א יִתְחַשָּֽׁב׃
@@ -26247,6 +26266,22 @@
 12	_	גלה	VERB	verb	Gender=Masc|HebBinyan=PAAL|Number=Sing|VerbForm=Part|Voice=Pass	10	conj	_	_
 13	עֵינָֽיִם	עין	NOUN	subs	Gender=Fem|Number=Dual	12	compound:smixut	_	SpaceAfter=No
 14	׃	׃	PUNCT	punct	_	1	punct	_	_
+
+# sentence_index = 777
+# sent_id = Masoretic-Numbers-24:5-hbo
+# text = מַה־טֹּ֥בוּ אֹהָלֶ֖יךָ יַעֲקֹ֑ב מִשְׁכְּנֹתֶ֖יךָ יִשְׂרָאֵֽל׃
+1	מַה	מה	PRON	prin	PronType=Int	3	obj	_	SpaceAfter=No
+2	־	־	PUNCT	punct	_	1	punct	_	SpaceAfter=No
+3	טֹּ֥בוּ	טוב	VERB	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|VerbForm=Fin	0	root	_	_
+4-5	אֹהָלֶ֖יךָ	_	_	_	_	_	_	_	_
+4	_	אהל	NOUN	subs	Gender=Masc|Number=Plur	3	nsubj	_	_
+5	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	4	nmod:poss	_	_
+6	יַעֲקֹ֑ב	יעקב	PROPN	nmpr	Gender=Masc|Number=Sing	7	vocative	_	_
+7-8	מִשְׁכְּנֹתֶ֖יךָ	_	_	_	_	_	_	_	_
+7	_	משׁכן	NOUN	subs	Gender=Masc|Number=Plur	3	parataxis	_	_
+8	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	7	nmod:poss	_	_
+9	יִשְׂרָאֵֽל	ישׂראל	PROPN	nmpr	Number=Sing	7	vocative	_	SpaceAfter=No
+10	׃	׃	PUNCT	punct	_	3	punct	_	_
 
 # sentence_index = 778
 # sent_id = Masoretic-Numbers-24:6-hbo

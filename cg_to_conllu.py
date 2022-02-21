@@ -95,7 +95,7 @@ class Word:
                 self.tail = ' '
             if self.tail:
                 self.text = self.text.rstrip(self.tail)
-            if ' ' in self.surf or '־' in self.surf:
+            if (' ' in self.surf or '־' in self.surf) and self.seg != 0:
                 if self.seg == 1:
                     self.tail = ' ' if ' ' in self.text else '־'
                     self.wid = 0

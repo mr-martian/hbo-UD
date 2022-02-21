@@ -133,7 +133,7 @@ LIST PrnNmodToSublist = (Genesis w2960) (Genesis w3165) (Genesis w3871) (Genesis
 # @acl and @advcl
 LIST NonAclOverride = (Genesis w2676) (Ruth w1682) ;
 
-LIST MarkOverride = (Genesis w1508) (Genesis w1561) (Genesis w2064) (Genesis w2072) (Genesis w14455) (Genesis w15341) (Ruth w319) ;
+LIST MarkOverride = (Genesis w1508) (Genesis w1561) (Genesis w2064) (Genesis w2072) (Genesis w14455) (Genesis w15341) (Ruth w319) (Genesis w8867) ;
 LIST NonMarkOverride = (Genesis w1243) (Genesis w11173) ;
 LIST NonRelOverride = (Genesis w2676) ;
 
@@ -667,6 +667,7 @@ SETPARENT ConjSkipClause (NOT p (*)) TO (1* CR LINK 1* CR) ;
 SETPARENT (Genesis w1251) (NOT p (*)) TO (-1* CR LINK -1* CR) ;
 SETPARENT (Genesis w1256) (NOT p (*)) TO (-1* CR) ;
 SETPARENT (Genesis w21545) (NOT p (*)) TO (-1* NPHead) ;
+SETPARENT (Genesis w8857) (NOT p (*)) TO (-1* (Genesis w8839)) ;
 MAP @nmod (Genesis w21545) ;
 
 ####################
@@ -1010,6 +1011,8 @@ SETPARENT @dislocated (NOT p (*)) TO (1* CR) ;
 #MAP @mark Pr IF (p (verb)) ;
 
 SETPARENT @nsubj OR @case (p @cop) TO (p @cop LINK p (*)) ;
+
+SETPARENT @discourse (NOT p (*)) TO (0* CR BARRIER SB) ;
 
 REMCOHORT (pb) ;
 REMCOHORT (cb) ;

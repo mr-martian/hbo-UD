@@ -156,6 +156,10 @@ class Word:
             self.feats = [x for x in self.feats if 'Polarity' in x]
         elif self.upos == 'VERB' and self.lemma in ['ישׁ', 'אין']:
             self.feats = []
+        if self.rel == 'cop':
+            self.upos = 'AUX'
+            if self.lemma == 'הוה':
+                self.lemma = 'היה'
         self.get_info()
     def to_conllu(self):
         ls = [

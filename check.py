@@ -8,10 +8,12 @@ import utils
 parser = argparse.ArgumentParser()
 parser.add_argument('gen', action='store')
 parser.add_argument('ref', action='store')
+parser.add_argument('man', action='store')
 args = parser.parse_args()
 
 gen = utils.load_conllu(args.gen)
 ref = utils.load_conllu(args.ref, True)
+man = utils.load_conllu(args.man, True)
 
 fail = 0
 for k in ref:

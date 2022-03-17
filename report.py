@@ -49,19 +49,23 @@ with open(f'{book}.parsed.conllu') as fin:
                 by_pos[ls[4]][3] += 1
 
 checkers = defaultdict(lambda: 0)
-with open(f'{book}.checked.conllu') as fin:
-    for line in fin:
-        if '# sent_id' in line:
-            check_sent += 1
-            for c in get_chapter(line):
-                chapters[c][1] += 1
-        elif '# checker =' in line:
-            for n in line.split('=')[1].split(','):
-                checkers[n.strip()] += 1
-        elif '\t' in line:
-            if '-' in line.split()[0]:
-                continue
-            check_word += 1
+def check(fname):
+    global check_sent, checkers, check_word, chapters
+    with open(fname) as fin:
+        for line in fin:
+            if '# sent_id' in line:
+                check_sent += 1
+                for c in get_chapter(line):
+                    chapters[c][1] += 1
+            elif '# checker =' in line:
+                for n in line.split('=')[1].split(','):
+                    checkers[n.strip()] += 1
+            elif '\t' in line:
+                if '-' in line.split()[0]:
+                    continue
+                check_word += 1
+check(f'{book}.checked.conllu')
+check(f'{book}.manual.conllu')
 
 def table(headers, rows):
     actual_headers = headers[:2]
@@ -117,7 +121,8 @@ for ch in sorted(chapters.keys()):
         chapter_dist[10].append(ch)
     else:
         n = math.floor(10.0 * ct / tot)
-        chapter_dist[n].append(ch)
+        #chapter_dist[n].append(ch)
+        chapter_dist[n].append(f'{ch}[{tot-ct}]')
 print('\nChapters')
 print('    Complete:', ' '.join(map(str, chapter_dist[10])))
 for n in reversed(range(10)):

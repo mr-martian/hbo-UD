@@ -199,7 +199,7 @@ LIST etNotAcc = NonAcc (Genesis w2857) (Genesis w2946) (Genesis w3165) (Genesis 
 ####################
 
 LIST NPish = NP PP ;
-LIST SubsOverride = (Genesis w20500) (Ruth w1233) ; # actually nouns, don't retag as prep
+LIST SubsOverride = (Genesis w20500) (Ruth w1233) (Genesis w13703) (Genesis w14216) ; # actually nouns, don't retag as prep
 LIST ItgAdv = "מתי" "איפה" "איך" "אן" "מדוע" ;
 LIST VoctNonCROverride = (Genesis s81570) (Genesis s81725) (Genesis s85145) (Genesis s82809) (Genesis w9312) ;
 LIST NsubjPrn = ExsS ModS NCoS PrcS PreS (InjP IntS ClausePhraseRoot) ;
@@ -253,7 +253,7 @@ LIST RelToPrn = (Ruth w1714) ;
 LIST ConjTypes = CPen NmCl MSyn ;
 LIST AclAble = subs adjv ptcp ptca nmpr ;
 LIST AclCompOk = (Exodus w3801) (Exodus w5417) ;
-LIST AclCompNotOk = (Genesis w1179) (Genesis w12528) (Genesis w12613) (Ruth w712) (Genesis w26221) (Genesis w26340) (Genesis w26404) (Genesis w24882) ;
+LIST AclCompNotOk = (Genesis w1179) (Genesis w12528) (Genesis w12613) (Ruth w712) (Genesis w26221) (Genesis w26340) (Genesis w26404) (Genesis w24882) (Genesis w11227) ;
 LIST AclMultiTarget = (Genesis w391) (Genesis w9660) (Genesis w9740) ;
 LIST XorO = (@xcomp ProbablyObj) @obj ;
 LIST PrepVerbChain = (Genesis w13720) (Genesis w16269) ;
@@ -281,6 +281,7 @@ LIST ActuallyCsubj = (Genesis w5072) ;
 LIST ActuallyObl = (Genesis ph57618) ;
 LIST QuoteSkipAcl = (Genesis w7270) ;
 LIST ParenSent = (Genesis s82236) ;
+LIST ActuallyInf = (Genesis w13111) ;
 
 ########################################
 # INDIVIDUAL WORDS
@@ -337,7 +338,7 @@ SETPARENT @flat:name TO (-1* (nmpr wp1)) ;
 ####################
 
 # quotation
-MERGECOHORTS ("<le'emor>" "$2$1"v SCONJ *) ("(אמר)"r verb infc) WITH (-1 ("(ל)"r prep)) ;
+MERGECOHORTS ("<le'emor>" "$2$1"v SCONJ *) ("(אמר)"r verb infc) - ActuallyInf WITH (-1 ("(ל)"r prep)) ;
 
 # Substantivized adjectives
 SUBSTITUTE (adjv) (subs retag:adjv) (c) ;
@@ -670,6 +671,7 @@ SETPARENT (Genesis w1256) (NOT p (*)) TO (-1* CR) ;
 SETPARENT (Genesis w21545) (NOT p (*)) TO (-1* NPHead) ;
 SETPARENT (Genesis w8857) (NOT p (*)) TO (-1* (Genesis w8839)) ;
 MAP @nmod (Genesis w21545) ;
+SETPARENT (Genesis w11587) (NOT p (*)) TO (-1* (w11585)) ;
 
 ####################
 # Attach by clause label
@@ -952,7 +954,7 @@ SECTION
 
 MAP @dislocated SubjAble + (CPen) ;
 SETPARENT (@dislocated Frnt) (NOT p (*)) TO (-1* @mark BARRIER (*) - BD LINK p (*)) ;
-SETPARENT (@dislocated Frnt) (NOT p (*)) TO (1* CR - @advcl) ;
+SETPARENT (@dislocated Frnt) + $$Domain (NOT p (*)) TO (1* CR + $$Domain - @advcl) ;
 
 SECTION
 
@@ -983,6 +985,7 @@ SECTION
 SETPARENT ParenSent (NOT p (*)) TO (-1* NPHead OR PPHead) ;
 
 SETPARENT CR + QuoteSkipAcl (NOT p (*)) TO (-1* SpeakingVerb + (verb) - @acl) ;
+SETPARENT CR + (Q) + @advcl (NOT p (*)) TO (0* CR + (Q) - @xcomp - @advcl BARRIER CR - (Q)) ;
 SETPARENT CR + (Q) (NOT p (*)) TO (-1* SpeakingVerb + (verb N) - QMark BARRIER PlainC + (N) - QMark OR PlainC + (Q)) ;
 SETPARENT CR + (Q) (NOT p (*)) (c QMark) TO (-1* PlainC + (N)) ;
 SETPARENT CR + (Q) - HasConj - SpecialMark (NOT p (*)) TO (-1* PlainC - (QQ)) ;

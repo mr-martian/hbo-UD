@@ -136,7 +136,7 @@ class Word:
                 elif self.rel == 'fixed' and self.xpos == 'conj':
                     self.upos = 'SCONJ'
             elif tg.startswith('retag:'):
-                if self.xpos == 'conj' and tg == 'retag:art':
+                if self.xpos == 'conj' and tg in ['retag:art', 'retag:subs']:
                     self.upos = 'SCONJ'
                 self.xpos = tg[6:]
                 if self.xpos == 'nmpr' and 'subs' in parts:

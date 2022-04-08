@@ -26,7 +26,7 @@ LIST Number = card ordn ;
 LIST PRON = prde prps prn ;
 LIST ADJ = adjv ;
 LIST ADV = advb nega ;
-LIST SCONJ = "כי" "פן" "אשׁר" "אם" "שׁ" "ה" "לולא" "לו" (conj retag:prep) ;
+LIST SCONJ = "כי" "פן" "אשׁר" "אם" "שׁ" "ה" "לולא" "לו" (conj retag:prep) (conj retag:subs ppre) ;
 LIST NonMarkingSCONJ = "לו" ;
 
 ####################
@@ -89,12 +89,13 @@ LIST VerbArgs = @nsubj @obj @obl @vocative (@xcomp adjv) (@advcl infa) (@advcl i
 # Word lists
 ####################
 
+LIST AdvclObl = ("בלי" subs CP) ;
 LIST NegObl = ("בלת" subs InfC) ;
 LIST QMark = ("לאמר" SCONJ verb) ;
 
 LIST CaseAbleAdv = "כן" "שׁם" "פה" "שׁם" "הלאה" "הנה" "עתה" "אז" "כה" ;
 
-LIST FamilyOrTitle = "בן" "בת" "אב" "כלה" "אשׁה" "מלך" "גברת" "שׂר" "אחות" "כהן" "אח" "שׁפחה" "אדון" ;
+LIST FamilyOrTitle = "בן" "בת" "אב" "כלה" "אשׁה" "מלך" "גברת" "שׂר" "אחות" "כהן" "אח" "שׁפחה" "אדון" "אלוף" ;
 
 LIST CcompVerb = "ראה" "ירא" "ידע" "נחם" "נגד" ;
 LIST XcompVerb = "שׁחת" "קרא" "מלא" "לבשׁ" "שׁחת" "מהר" "יכל" "חדל" "אמץ" "כלה" ;
@@ -105,8 +106,11 @@ LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "
 LIST SpeakingVerb = quot "ברך" "צוה" "נגד" "דבר" "ענה" "שׁמע" ;
 
 LIST ConjAblePrep = "כמו" "למען" ;
+LIST ConjAbleSubsPrep = "בלת" ;
 
 LIST Masculine = "מכיר" ;
+
+SET GeneologyTitle = ("אלוף" Genesis) - (w20123) ;
 
 ####################
 # Special-case words
@@ -359,10 +363,14 @@ SUBSTITUTE (subs) (advb retag:subs) (padv) - (NP) (-1 BD) (1* BD BARRIER (*) - (
 SUBSTITUTE (art) (conj retag:art) (CP Rela) ;
 
 # Prepositions tagged as nouns
+SUBSTITUTE (subs) (conj retag:subs) ConjAbleSubsPrep + (CP) ;
 SUBSTITUTE (subs) (advb retag:subs) ("אחר" subs ppre AdvP) (1 BD) ;
 SUBSTITUTE (subs) (prep retag:subs) ("אחר" subs ppre) ;
 SUBSTITUTE (subs) (prep retag:subs) ("בין" subs ppre) ;
-SUBSTITUTE (subs) (prep retag:subs) (ppre CP Conj) IF (NOT 0 SubsOverride) ;
+SUBSTITUTE (subs) (prep retag:subs) (ppre CP Conj)
+    IF (NOT 0 SubsOverride)
+       (NEGATE 0 ("טרם" subs) LINK -1 ("ב" prep))
+       (NEGATE 0 ("בלי" subs CP) LINK -1* ("על" prep) BARRIER PB) ;
 
 SUBSTITUTE (prep) (conj retag:prep) ConjAblePrep + (CP) ;
 
@@ -557,6 +565,9 @@ SETPARENT @advmod + NPIsh (NOT p (*)) TO (1* NPHead OR PPHead OR ADJ BARRIER PB)
 
 MAP @nmod (*) IF (c NmodOverridePrep) ;
 
+MAP @conj GeneologyTitle IF (-1* GeneologyTitle BARRIER SB) ;
+SETPARENT GeneologyTitle + @conj (NOT p (*)) TO (-1* GeneologyTitle - @conj) ;
+
 MAP REPEAT @appos NPHead - HasConj - (nmpr) IF (-1* NPHead OR PPHead BARRIER BD) ;
 MAP REPEAT @appos NPHead - HasConj + (nmpr) IF (-1* NPHead + Titles BARRIER BD OR NPHead OR PPHead) ;
 
@@ -736,6 +747,8 @@ MAP @xcomp CR + (rela:Adju) IF (p CR + AdjuXcomp) ;
 MAP @parataxis CR + (rela:Adju Ellp Subj) IF (p CR) ;
 MAP @acl CR + (rela:Adju) - (PrepVerb) IF (p CR + (subs)) ;
 MAP @appos CR + (rela:Coor) - HasConj IF (p CR) (NEGATE 0* (ClauseRoot rela:Coor HasConj) BARRIER SB) ;
+
+MAP @advcl CR IF (-1* CR) (c AdvclObl) ;
 
 MAP @ccomp CR + (rela:Objc) IF (p CR) ;
 MAP @advcl CR + (rela:Adju) IF (p CR) ;

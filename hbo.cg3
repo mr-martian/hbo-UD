@@ -105,7 +105,7 @@ LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "
 
 LIST SpeakingVerb = quot "ברך" "צוה" "נגד" "דבר" "ענה" "שׁמע" ;
 
-LIST ConjAblePrep = "כמו" "למען" ;
+LIST ConjAblePrep = "כמו" "למען" "עד" ;
 LIST ConjAbleSubsPrep = "בלת" ;
 
 LIST Masculine = "מכיר" ;
@@ -338,6 +338,14 @@ MAP @flat:name (nmpr wp2) IF (-1* (nmpr wp1) BARRIER NonJoiner) ;
 SETPARENT @flat:name TO (-1* (nmpr wp1)) ;
 
 ####################
+# MWE conjunctions
+####################
+
+SETPARENT ("אם" conj) OR ("כי" conj) TO (-1* ("עד" prep) BARRIER NonJoiner) ;
+MAP @fixed ("אם" conj) OR ("כי" conj) IF (-1* ("עד" prep) BARRIER NonJoiner) ;
+SUBSTITUTE (prep) (conj retag:prep) ("עד") IF (c @fixed) ;
+
+####################
 # Retagging
 ####################
 
@@ -357,7 +365,8 @@ SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl) (NEGATE 0* (subs) - (retag:adjv 
 SUBSTITUTE (verb) (subs retag:verb) Participle + NPish ;
 
 # Adverbs tagged subs
-SUBSTITUTE (subs) (advb retag:subs) (padv) - (NP) (-1 BD) (1* BD BARRIER (*) - (punct) - (prn ModS)) ;
+SET AdvOk = (*) - (punct) - (prn ModS) - ("מאד" padv) ;
+SUBSTITUTE (subs) (advb retag:subs) (padv) - (NP) (-1* BD BARRIER AdvOk) (1* BD BARRIER AdvOk) ;
 
 # Determiner on clause participles
 SUBSTITUTE (art) (conj retag:art) (CP Rela) ;
@@ -372,21 +381,14 @@ SUBSTITUTE (subs) (prep retag:subs) (ppre CP Conj)
        (NEGATE 0 ("טרם" subs) LINK -1 ("ב" prep))
        (NEGATE 0 ("בלי" subs CP) LINK -1* ("על" prep) BARRIER PB) ;
 
-SUBSTITUTE (prep) (conj retag:prep) ConjAblePrep + (CP) ;
+SUBSTITUTE (prep) (conj retag:prep) ConjAblePrep + (CP)
+    IF (NOT 1 ("אשׁר" conj)) ;
 
 # yesh and ein
 SUBSTITUTE (subs) (verb retag:subs ClauseRoot) (nmcp) ;
 
 # interrogative adverbs
 SUBSTITUTE (inrg) (advb retag:inrg) ItgAdv ;
-
-####################
-# MWE conjunctions
-####################
-
-SETPARENT ("אם" conj) OR ("כי" conj) TO (-1* ("עד" prep) BARRIER NonJoiner) ;
-MAP @fixed ("אם" conj) OR ("כי" conj) IF (-1* ("עד" prep) BARRIER NonJoiner) ;
-SUBSTITUTE (prep) (conj retag:prep) ("עד") IF (c @fixed) ;
 
 ####################
 # Helper labels
@@ -520,6 +522,8 @@ MAP @amod ADJ IF (p Noun) ;
 
 UNMAP @advmod IF (NOT 0 (MSyn)) (NEGATE 0* BetterHeads BARRIER SB) ;
 ADD CR AdvIsh - CR ;
+
+SETPARENT ("מאד" @advmod) (NOT p (*)) TO (-1 ADV) ;
 
 ####################
 # Prepositions

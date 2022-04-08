@@ -3091,7 +3091,7 @@
 24	_	ו	CCONJ	conj	_	25	cc	_	_
 25	_	נכה	VERB	verb	HebBinyan=HIFIL|Mood=Ind|Number=Plur|Person=1|Tense=Past|VerbForm=Fin	2	conj	_	_
 26	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	25	obj	_	_
-27	עַד	עד	ADP	prep	_	2	case	_	SpaceAfter=No
+27	עַד	עד	SCONJ	prep	_	30	mark	_	SpaceAfter=No
 28	־	־	PUNCT	punct	_	27	punct	_	SpaceAfter=No
 29	בִּלְתִּ֥י	בלת	SCONJ	subs	_	30	mark	_	_
 30	הִשְׁאִֽיר	שׁאר	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	25	advcl	_	SpaceAfter=No
@@ -3100,7 +3100,7 @@
 32	_	ל	ADP	prep	_	33	case	_	_
 33	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	30	obl	_	_
 34	שָׂרִֽיד	שׂריד	NOUN	subs	Gender=Masc|Number=Sing	30	obj	_	SpaceAfter=No
-35	׃	׃	PUNCT	punct	_	30	punct	_	_
+35	׃	׃	PUNCT	punct	_	2	punct	_	_
 
 # sentence_index = 81
 # sent_id = Masoretic-Deuteronomy-3:4-hbo
@@ -20983,11 +20983,11 @@
 # sentence_index = 504
 # sent_id = Masoretic-Deuteronomy-20:18-hbo
 # text = לְמַ֗עַן אֲשֶׁ֨ר לֹֽא־יְלַמְּד֤וּ אֶתְכֶם֙ לַעֲשֹׂ֔ות כְּכֹל֙ תֹּֽועֲבֹתָ֔ם אֲשֶׁ֥ר עָשׂ֖וּ לֵֽאלֹהֵיהֶ֑ם וַחֲטָאתֶ֖ם לַיהוָ֥ה אֱלֹהֵיכֶֽם׃ ס
-1	לְמַ֗עַן	למען	SCONJ	prep	_	5	mark	_	_
+1	לְמַ֗עַן	למען	ADP	prep	_	20	obl	_	_
 2	אֲשֶׁ֨ר	אשׁר	SCONJ	conj	_	5	mark	_	_
 3	לֹֽא	לא	ADV	nega	Polarity=Neg	5	advmod	_	SpaceAfter=No
 4	־	־	PUNCT	punct	_	3	punct	_	SpaceAfter=No
-5	יְלַמְּד֤וּ	למד	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PIEL|Mood=Ind|Number=Plur|Person=3|VerbForm=Fin	20	acl	_	_
+5	יְלַמְּד֤וּ	למד	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PIEL|Mood=Ind|Number=Plur|Person=3|VerbForm=Fin	1	acl	_	_
 6-7	אֶתְכֶם֙	_	_	_	_	_	_	_	_
 6	_	את	ADP	prep	_	7	case	_	_
 7	_	אתם	PRON	prn	Gender=Masc|Number=Plur|Person=2|PronType=Prs	5	obj	_	_
@@ -26562,9 +26562,9 @@
 14	_	ב	ADP	prep	_	15	case	_	_
 15	_	עבר	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	2	advcl	_	_
 16	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	15	nsubj	_	_
-17	לְמַ֡עַן	למען	SCONJ	prep	_	19	mark	_	_
+17	לְמַ֡עַן	למען	ADP	prep	_	2	obl	_	_
 18	אֲשֶׁר֩	אשׁר	SCONJ	conj	_	19	mark	_	_
-19	תָּבֹ֨א	בוא	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	2	advcl	_	_
+19	תָּבֹ֨א	בוא	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	17	acl	_	_
 20	אֶל	אל	ADP	prep	_	23	case	_	SpaceAfter=No
 21	־	־	PUNCT	punct	_	20	punct	_	SpaceAfter=No
 22-23	הָאָ֜רֶץ	_	_	_	_	_	_	_	_

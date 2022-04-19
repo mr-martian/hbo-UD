@@ -36,7 +36,7 @@ hbo.bin: hbo.cg3
 #	cat $*.checkable.conllu | udapy -s util.Filter keep_tree_if_node='node.deprel in ["appos", "nmod"]' > $*.filter.conllu
 
 export:
-	./export.py genesis 1-40 50 > UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-test.conllu
+	./export.py genesis 1-40 47 50 > UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-test.conllu
 	./export.py ruth 1-4 >> UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-test.conllu
 
 .PRECIOUS: %.parsed.cg3.txt

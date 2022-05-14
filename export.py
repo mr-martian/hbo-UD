@@ -31,8 +31,16 @@ for sid, block in utils.iter_conllu(f'{args.book}.parsed.conllu'):
 rule = utils.load_conllu(f'{args.book}.checked.conllu', True)
 manual = utils.load_conllu(f'{args.book}.manual.conllu', True)
 
+def print_block(blk):
+    for line in unicodedata.normalize('NFC', blk).splitlines():
+        ls = line.strip().split('\t')
+        if len(ls) == 10 and ls[1] == '_':
+            ls[1] = ls[2]
+        print('\t'.join(ls))
+    print('')
+
 for sid in ids:
     if sid in rule:
-        print(unicodedata.normalize('NFC', rule[sid][1]) + '\n')
+        print_block(rule[sid][1])
     else:
-        print(unicodedata.normalize('NFC', manual[sid][1]) + '\n')
+        print_block(manual[sid][1])

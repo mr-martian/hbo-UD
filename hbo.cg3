@@ -21,12 +21,12 @@ SET NonJoiner = (*) - Joiner ;
 LIST Det = art ;
 LIST Pr = prep ;
 LIST Noun = subs nmpr (verb ptcp) (verb ptca) ;
-LIST RelMark = ("אשׁר" conj @mark) ("ה" conj CP Rela) ("שׁ" conj) ;
+LIST RelMark = ("אשׁר" conj @mark) ("ה" conj CP Rela) ("שׁ" conj) ;
 LIST Number = card ordn ;
 LIST PRON = prde prps prn ;
 LIST ADJ = adjv ;
 LIST ADV = advb nega ;
-LIST SCONJ = "כי" "פן" "אשׁר" "אם" "שׁ" "ה" "לולא" "לו" (conj retag:prep) (conj retag:subs ppre) ;
+LIST SCONJ = "כי" "פן" "אשׁר" "אם" "שׁ" "ה" "לולא" "לו" (conj retag:prep) (conj retag:subs ppre) ;
 LIST NonMarkingSCONJ = "לו" ;
 
 ####################
@@ -93,17 +93,17 @@ LIST AdvclObl = ("בלי" subs CP) ;
 LIST NegObl = ("בלת" subs InfC) ;
 LIST QMark = ("לאמר" SCONJ verb) ;
 
-LIST CaseAbleAdv = "כן" "שׁם" "פה" "שׁם" "הלאה" "הנה" "עתה" "אז" "כה" ;
+LIST CaseAbleAdv = "כן" "שׁם" "פה" "שׁם" "הלאה" "הנה" "עתה" "אז" "כה" ;
 
-LIST FamilyOrTitle = "בן" "בת" "אב" "כלה" "אשׁה" "מלך" "גברת" "שׂר" "אחות" "כהן" "אח" "שׁפחה" "אדון" "אלוף" ;
+LIST FamilyOrTitle = "בן" "בת" "אב" "כלה" "אשׁה" "מלך" "גברת" "שׂר" "אחות" "כהן" "אח" "שׁפחה" "אדון" "אלוף" ;
 
 LIST CcompVerb = "ראה" "ירא" "ידע" "נחם" "נגד" ;
-LIST XcompVerb = "שׁחת" "קרא" "מלא" "לבשׁ" "שׁחת" "מהר" "יכל" "חדל" "אמץ" "כלה" ;
+LIST XcompVerb = "שׁחת" "קרא" "מלא" "לבשׁ" "שׁחת" "מהר" "יכל" "חדל" "אמץ" "כלה" ;
 LIST AdvclMarkVerb = "קרא" ;
 LIST PrAdvcl = "עד" ;
 LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "קרב" "יאל" "לאה" "צוה" "נתן" ;
 
-LIST SpeakingVerb = quot "ברך" "צוה" "נגד" "דבר" "ענה" "שׁמע" ;
+LIST SpeakingVerb = quot "ברך" "צוה" "נגד" "דבר" "ענה" "שׁמע" ;
 
 LIST ConjAblePrep = "כמו" "למען" "עד" ;
 LIST ConjAbleSubsPrep = "בלת" ;
@@ -208,7 +208,7 @@ LIST ItgAdv = "מתי" "איפה" "איך" "אן" "מדוע" ;
 LIST VoctNonCROverride = (Genesis s81570) (Genesis s81725) (Genesis s85145) (Genesis s82809) (Genesis w9312) ;
 LIST NsubjPrn = ExsS ModS NCoS PrcS PreS (InjP IntS ClausePhraseRoot) ;
 LIST ObjPrn = PreO PtcO ;
-LIST BigNumber = "עשׂרה" "מאה" "עשׂר" ;
+LIST BigNumber = "עשׂרה" "מאה" "עשׂר" ;
 LIST NumberedOverride = (Genesis w3094) ; # should have @nummod child but normally wouldn't
 LIST PrnMaybeDet = prde (prps p3) ;
 LIST BetterHeads = Pred Subj Objc PreC PreO ;
@@ -262,7 +262,7 @@ LIST AclMultiTarget = (Genesis w391) (Genesis w9660) (Genesis w9740) ;
 LIST XorO = (@xcomp ProbablyObj) @obj ;
 LIST PrepVerbChain = (Genesis w13720) (Genesis w16269) ;
 LIST CRconj = @ccomp @root @parataxis ;
-LIST CcompAble = "חלל" "נתן" "מהר" "צוה" "שׁמע" ;
+LIST CcompAble = "חלל" "נתן" "מהר" "צוה" "שׁמע" ;
 LIST AttrSkipAcl = (Genesis w22880) ;
 LIST ClauseCon = @conj @parataxis @xcomp ;
 LIST ConjToAdvcl = (Genesis w772) ;
@@ -382,7 +382,7 @@ SUBSTITUTE (subs) (prep retag:subs) (ppre CP Conj)
        (NEGATE 0 ("בלי" subs CP) LINK -1* ("על" prep) BARRIER PB) ;
 
 SUBSTITUTE (prep) (conj retag:prep) ConjAblePrep + (CP)
-    IF (NOT 1 ("אשׁר" conj)) ;
+    IF (NOT 1 ("אשׁר" conj)) ;
 
 # yesh and ein
 SUBSTITUTE (subs) (verb retag:subs ClauseRoot) (nmcp) ;
@@ -814,7 +814,7 @@ MAP @advcl CR + HasMark - OrphanInfc IF (p CR) ;
 
 SETPARENT @ccomp (NOT p (*)) TO (0* CcompVerb BARRIER SB) ;
 
-MAP (@parataxis ish_recip) ("אישׁ" ClauseRoot Ellp rela:Adju)
+MAP (@parataxis ish_recip) ("אישׁ" ClauseRoot Ellp rela:Adju)
     IF (-1* (verb) BARRIER NonJoiner - BD) ;
 SETPARENT (ish_recip) (NOT p (*)) TO (-1* (verb)) ;
 

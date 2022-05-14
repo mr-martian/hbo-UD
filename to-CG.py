@@ -8,8 +8,11 @@ import unicodedata
 import utils
 utils.load_volume(sys.argv[1], globals())
 
+def norm(s):
+    return unicodedata.normalize('NFC', s).replace('שׁ', 'שׁ').replace('שׂ', 'שׂ')
+
 def surf(w):
-    return unicodedata.normalize('NFC', T.text(w).strip(F.trailer_utf8.v(w))) or 'blah'
+    return norm(T.text(w).strip(F.trailer_utf8.v(w))) or 'blah'
 
 def get(w, f, p=''):
     v = F.__getattribute__(f).v(w)
@@ -65,7 +68,7 @@ for w in F.otype.s('word'):
     srf = surf(w)
     if srf != 'blah':
         srf = srf[:len(F.g_lex_utf8.v(w))] or 'blah'
-    lem = unicodedata.normalize('NFC', F.lex_utf8.v(w))
+    lem = norm(F.lex_utf8.v(w))
     tags = ''
     for f in feats:
         tags += get(w, f)

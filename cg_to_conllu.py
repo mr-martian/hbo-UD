@@ -58,7 +58,8 @@ MORPH = {
     'prde': ['PronType=Dem'],
     'prin': ['PronType=Int'],
     'card': ['NumType=Card'],
-    'ord': ['NumType=Ord']
+    'ordn': ['NumType=Ord'],
+    'art': ['PronType=Art']
 }
 
 def norm(s):
@@ -155,7 +156,7 @@ class Word:
         elif self.upos == 'ADV':
             self.feats = [x for x in self.feats if 'Polarity' in x]
         elif self.upos == 'VERB' and self.lemma in ['ישׁ', 'אין']:
-            self.feats = []
+            self.feats = ['VerbForm=Fin', 'Mood=Ind']
         if self.rel == 'cop':
             self.upos = 'AUX'
             if self.lemma == 'הוה':

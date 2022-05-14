@@ -15,13 +15,14 @@ gen = utils.load_conllu(args.gen)
 ref = utils.load_conllu(args.ref, True)
 man = utils.load_conllu(args.man, True)
 
-fail = 0
+fail = []
 for k in ref:
     if k in gen and gen[k][1] != ref[k][1]:
         print(f'Sentence {gen[k][0]} ({k}) differs!')
-        fail += 1
+        fail.append(str(gen[k][0]))
 
-if fail > 0:
-    print(f'{fail} sentences in {args.gen} differ from accepted!')
+if fail:
+    print(f'{len(fail)} sentences in {args.gen} differ from accepted!')
+    print(' '.join(fail))
     sys.exit(1)
 

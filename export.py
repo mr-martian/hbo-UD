@@ -2,6 +2,7 @@
 
 import utils
 import argparse
+import unicodedata
 
 parser = argparse.ArgumentParser()
 parser.add_argument('book', action='store')
@@ -32,6 +33,6 @@ manual = utils.load_conllu(f'{args.book}.manual.conllu', True)
 
 for sid in ids:
     if sid in rule:
-        print(rule[sid][1] + '\n')
+        print(unicodedata.normalize('NFC', rule[sid][1]) + '\n')
     else:
-        print(manual[sid][1] + '\n')
+        print(unicodedata.normalize('NFC', manual[sid][1]) + '\n')

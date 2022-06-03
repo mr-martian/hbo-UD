@@ -32,7 +32,7 @@ hbo.bin: hbo.cg3
 	./report.py $*
 
 %-filter: %-book
-	cat $*.checkable.conllu | udapy -s util.Filter delete_tree_if_node='node.deprel in [] or node.is_nonprojective()' > $*.filter.conllu
+	cat $*.checkable.conllu | udapy -s util.Filter delete_tree_if_node='node.deprel in ["parataxis", "appos"] or node.is_nonprojective()' > $*.filter.conllu
 #	cat $*.checkable.conllu | udapy -s util.Filter keep_tree_if_node='node.deprel in ["appos", "nmod"]' > $*.filter.conllu
 
 export:

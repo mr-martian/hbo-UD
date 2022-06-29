@@ -72,7 +72,7 @@ LIST ClauseRoot = ClauseRoot ; # is root of clause
 LIST FullClauseRoot = FullClauseRoot ; # is root of non-relative clause
 LIST SR = SentenceRoot ;
 
-SET PlainC = CR - HasMark - HasRel ;
+SET PlainC = CR - HasMark - HasRel - (@nsubj:outer) ;
 SET PlainNC = PlainC - HasConj ;
 
 LIST Lemma = ".*"r ;
@@ -163,6 +163,7 @@ LIST HasConjOverride = (Genesis w4584) ;
 
 LIST @root = @root ;     # The root of the sentence, often a finite verb
 LIST @nsubj = @nsubj ;   # The nominal subject of the sentence
+LIST @nsubj:outer = @nsubj:outer ;
 LIST @amod = @amod ;       # 
 LIST @advmod = @advmod ; # An adverbial modifier
 LIST @case = @case ;     # The relation of an adposition to its head
@@ -734,7 +735,7 @@ SECTION
 
 SETCHILD REPEAT CR + (/^par:\(c\\d+\)$/r rela:PreC) - ActuallyCsubj
     TO (-1*A CR + (VSTR:$1 Subj) LINK NOT p (*)) ;
-MAP REPEAT @nsubj CR + (subs Subj) IF (p CR + (rela:PreC)) ;
+MAP REPEAT @nsubj:outer CR + (Subj) IF (p CR + (rela:PreC)) ;
 
 MAP @ccomp ActuallyCcomp ;
 MAP @advcl ActuallyAdvcl ;
@@ -861,10 +862,12 @@ MAP @nsubj SubjAble + (Subj NmCl ClausePhraseRoot)
 SETPARENT @nsubj + (NmCl ClausePhraseRoot) (NOT p (*))
     TO (1* CR + HasRel BARRIER CR) ;
 
+MAP @dislocated CR + (rela:Subj) IF (1* (prps Subj rela:Resu)) ;
+
 MAP @csubj CR + (rela:Subj) - NonCsubjOverride ;
 
 MAP @csubj CsubjOverride ;
-SETPARENT @csubj (NOT p (*)) TO (0* CR BARRIER SB) ;
+SETPARENT @csubj OR CR + @dislocated (NOT p (*)) TO (0* CR BARRIER SB) ;
 
 ### OBJECTS
 
@@ -909,7 +912,8 @@ SETPARENT VerbArgs + $$ClauseType - Pr (NOT p (*))
 SECTION
 
 SETPARENT (conj CP) (NOT p (*)) TO (1 PB LINK 1 @cop LINK p (*)) ;
-MAP @acl CR - NonAclOverride IF (c RelMark) (NEGATE c (@nsubj NmCl)) ;
+MAP @acl CR - NonAclOverride
+    IF (c RelMark) (NEGATE c (@nsubj NmCl)) (NEGATE c @nsubj:outer) ;
 SETPARENT @acl (NOT p (*)) TO (-1* AclMultiTarget BARRIER SB) ;
 SETPARENT @acl (NOT p (*)) TO (c @mark LINK -1* Pr BARRIER NonJoiner) ;
 SETPARENT @acl + AclCompNotOk (NOT p (*))
@@ -1012,7 +1016,7 @@ SETPARENT CR + (Q) (NOT p (*)) TO (-1* SpeakingVerb + (verb N) - QMark BARRIER P
 SETPARENT CR + (Q) (NOT p (*)) (c QMark) TO (-1* PlainC + (N)) ;
 SETPARENT CR + (Q) - HasConj - SpecialMark (NOT p (*)) TO (-1* PlainC - (QQ)) ;
 SETPARENT CR + (QQ) - HasConj (NOT p (*)) TO (-1* CR + (Q)) ;
-SETPARENT CR + (Q) (NOT p (*)) TO (-1* SpeakingVerb OR CR - @conj - @acl OR @root) ;
+SETPARENT CR + (Q) (NOT p (*)) TO (-1* SpeakingVerb OR CR - @conj - @acl - @nsubj:outer OR @root) ;
 SETPARENT QMark + @ccomp (NOT p (*)) TO (-1* SpeakingVerb) ;
 SETPARENT CR - @acl (NOT p (*)) TO (-1* @root) ;
 MAP @conj CR IF (c @cc) (p @root) ;

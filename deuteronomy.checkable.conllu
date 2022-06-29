@@ -3770,7 +3770,7 @@
 10	_	היא	PRON	prps	Gender=Fem|Number=Sing|Person=3|PronType=Prs	8	det	_	Ref=DEUT_3.21
 11	לֵאמֹ֑ר	לאמר	SCONJ	verb	_	32	mark	_	Ref=DEUT_3.21
 12-13	עֵינֶ֣יךָ	_	_	_	_	_	_	_	_
-12	_	עין	NOUN	subs	Gender=Fem|Number=Dual	15	nsubj	_	Ref=DEUT_3.21
+12	_	עין	NOUN	subs	Gender=Fem|Number=Dual	15	nsubj:outer	_	Ref=DEUT_3.21
 13	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	12	nmod:poss	_	Ref=DEUT_3.21
 14-15	הָרֹאֹ֗ת	_	_	_	_	_	_	_	_
 14	_	ה	SCONJ	art	_	15	mark	_	Ref=DEUT_3.21
@@ -3822,7 +3822,7 @@
 6-7	אֱלֹֽהֵיכֶ֔ם	_	_	_	_	_	_	_	_
 6	_	אלהים	NOUN	subs	Gender=Masc|Number=Plur	5	appos	_	Ref=DEUT_3.22
 7	_	אתם	PRON	prn	Gender=Masc|Number=Plur|Person=2|PronType=Prs	6	nmod:poss	_	Ref=DEUT_3.22
-8	ה֖וּא	הוא	PRON	prps	Gender=Masc|Number=Sing|Person=3|PronType=Prs	10	nsubj	_	Ref=DEUT_3.22
+8	ה֖וּא	הוא	PRON	prps	Gender=Masc|Number=Sing|Person=3|PronType=Prs	10	nsubj:outer	_	Ref=DEUT_3.22
 9-10	הַנִּלְחָ֥ם	_	_	_	_	_	_	_	_
 9	_	ה	SCONJ	art	_	10	mark	_	Ref=DEUT_3.22
 10	_	לחם	VERB	verb	Gender=Masc|HebBinyan=NIFAL|Number=Sing|VerbForm=Part	2	parataxis	_	Ref=DEUT_3.22
@@ -4203,7 +4203,7 @@
 # sent_id = Masoretic-Deuteronomy-4:3-hbo
 # text = עֵֽינֵיכֶם֙ הָֽרֹאֹ֔ת אֵ֛ת אֲשֶׁר־עָשָׂ֥ה יְהוָ֖ה בְּבַ֣עַל פְּעֹ֑ור כִּ֣י כָל־הָאִ֗ישׁ אֲשֶׁ֤ר הָלַךְ֙ אַחֲרֵ֣י בַֽעַל־פְּעֹ֔ור הִשְׁמִידֹ֛ו יְהוָ֥ה אֱלֹהֶ֖יךָ מִקִּרְבֶּֽךָ׃
 1-2	עֵֽינֵיכֶם֙	_	_	_	_	_	_	_	_
-1	_	עין	NOUN	subs	Gender=Fem|Number=Dual	4	nsubj	_	Ref=DEUT_4.3
+1	_	עין	NOUN	subs	Gender=Fem|Number=Dual	4	nsubj:outer	_	Ref=DEUT_4.3
 2	_	אתם	PRON	prn	Gender=Masc|Number=Plur|Person=2|PronType=Prs	1	nmod:poss	_	Ref=DEUT_4.3
 3-4	הָֽרֹאֹ֔ת	_	_	_	_	_	_	_	_
 3	_	ה	SCONJ	art	_	4	mark	_	Ref=DEUT_4.3
@@ -4230,7 +4230,7 @@
 22	־	־	PUNCT	punct	_	23	punct	_	Ref=DEUT_4.3|SpaceAfter=No
 23	פְּעֹ֔ור	פעור	PROPN	nmpr	Gender=Masc|Number=Sing	21	flat:name	_	Ref=DEUT_4.3
 24-25	הִשְׁמִידֹ֛ו	_	_	_	_	_	_	_	_
-24	_	שׁמד	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	1	advcl	_	Ref=DEUT_4.3
+24	_	שׁמד	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	4	advcl	_	Ref=DEUT_4.3
 25	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	24	obj	_	Ref=DEUT_4.3
 26	יְהוָ֥ה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	24	nsubj	_	Ref=DEUT_4.3
 27-28	אֱלֹהֶ֖יךָ	_	_	_	_	_	_	_	_
@@ -9735,10 +9735,10 @@
 6	_	אלהים	NOUN	subs	Gender=Masc|Number=Plur	5	appos	_	Ref=DEUT_8.18
 7	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	6	nmod:poss	_	Ref=DEUT_8.18
 8	כִּ֣י	כי	SCONJ	conj	_	9	mark	_	Ref=DEUT_8.18
-9	ה֗וּא	הוא	PRON	prps	Gender=Masc|Number=Sing|Person=3|PronType=Prs	11	advcl	_	Ref=DEUT_8.18
+9	ה֗וּא	הוא	PRON	prps	Gender=Masc|Number=Sing|Person=3|PronType=Prs	11	nsubj:outer	_	Ref=DEUT_8.18
 10-11	הַנֹּתֵ֥ן	_	_	_	_	_	_	_	_
 10	_	ה	SCONJ	art	_	11	mark	_	Ref=DEUT_8.18
-11	_	נתן	VERB	verb	Gender=Masc|HebBinyan=PAAL|Number=Sing|VerbForm=Part	2	acl	_	Ref=DEUT_8.18
+11	_	נתן	VERB	verb	Gender=Masc|HebBinyan=PAAL|Number=Sing|VerbForm=Part	2	parataxis	_	Ref=DEUT_8.18
 12-13	לְךָ֛	_	_	_	_	_	_	_	_
 12	_	ל	ADP	prep	_	13	case	_	Ref=DEUT_8.18
 13	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	11	obl	_	Ref=DEUT_8.18
@@ -9764,7 +9764,7 @@
 30-32	כַּיֹּ֥ום	_	_	_	_	_	_	_	_
 30	_	כ	ADP	prep	_	32	case	_	Ref=DEUT_8.18
 31	_	ה	DET	art	PronType=Art	32	det	_	Ref=DEUT_8.18
-32	_	יום	NOUN	subs	Gender=Masc|Number=Sing	2	parataxis	_	Ref=DEUT_8.18
+32	_	יום	NOUN	subs	Gender=Masc|Number=Sing	11	parataxis	_	Ref=DEUT_8.18
 33-34	הַזֶּֽה	_	_	_	_	_	_	_	SpaceAfter=No
 33	_	ה	DET	art	PronType=Art	34	det	_	Ref=DEUT_8.18
 34	_	זה	PRON	prde	Gender=Masc|Number=Sing|PronType=Dem	32	det	_	Ref=DEUT_8.18
@@ -12187,7 +12187,7 @@
 # text = כִּ֤י עֵֽינֵיכֶם֙ הָֽרֹאֹ֔ת אֶת־כָּל־מַעֲשֵׂ֥ה יְהוָ֖ה הַגָּדֹ֑ל אֲשֶׁ֖ר עָשָֽׂה׃
 1	כִּ֤י	כי	SCONJ	conj	_	2	mark	_	Ref=DEUT_11.7
 2-3	עֵֽינֵיכֶם֙	_	_	_	_	_	_	_	_
-2	_	עין	NOUN	subs	Gender=Fem|Number=Dual	5	nsubj	_	Ref=DEUT_11.7
+2	_	עין	NOUN	subs	Gender=Fem|Number=Dual	5	nsubj:outer	_	Ref=DEUT_11.7
 3	_	אתם	PRON	prn	Gender=Masc|Number=Plur|Person=2|PronType=Prs	2	nmod:poss	_	Ref=DEUT_11.7
 4-5	הָֽרֹאֹ֔ת	_	_	_	_	_	_	_	_
 4	_	ה	SCONJ	art	_	5	mark	_	Ref=DEUT_11.7
@@ -15498,7 +15498,7 @@
 # text = וְזֶ֕ה אֲשֶׁ֥ר לֹֽא־תֹאכְל֖וּ מֵהֶ֑ם הַנֶּ֥שֶׁר וְהַפֶּ֖רֶס וְהָֽעָזְנִיָּֽה׃ וְהָרָאָה֙ וְאֶת־הָ֣אַיָּ֔ה וְהַדַּיָּ֖ה לְמִינָֽהּ׃ וְאֵ֥ת כָּל־עֹרֵ֖ב לְמִינֹֽו׃ וְאֵת֙ בַּ֣ת הַֽיַּעֲנָ֔ה וְאֶת־הַתַּחְמָ֖ס וְאֶת־הַשָּׁ֑חַף וְאֶת־הַנֵּ֖ץ לְמִינֵֽהוּ׃ אֶת־הַכֹּ֥וס וְאֶת־הַיַּנְשׁ֖וּף וְהַתִּנְשָֽׁמֶת׃ וְהַקָּאָ֥ת וְאֶֽת־הָרָחָ֖מָה וְאֶת־הַשָּׁלָֽךְ׃ וְהַ֣חֲסִידָ֔ה וְהָאֲנָפָ֖ה לְמִינָ֑הּ וְהַדּוּכִיפַ֖ת וְהָעֲטַלֵּֽף׃
 1-2	וְזֶ֕ה	_	_	_	_	_	_	_	_
 1	_	ו	CCONJ	conj	_	2	cc	_	Ref=DEUT_14.12
-2	_	זה	PRON	prde	Gender=Masc|Number=Sing|PronType=Dem	6	nsubj	_	Ref=DEUT_14.12
+2	_	זה	PRON	prde	Gender=Masc|Number=Sing|PronType=Dem	6	nsubj:outer	_	Ref=DEUT_14.12
 3	אֲשֶׁ֥ר	אשׁר	SCONJ	conj	_	6	mark	_	Ref=DEUT_14.12
 4	לֹֽא	לא	ADV	nega	Polarity=Neg	6	advmod	_	Ref=DEUT_14.12|SpaceAfter=No
 5	־	־	PUNCT	punct	_	4	punct	_	Ref=DEUT_14.12|SpaceAfter=No
@@ -20467,7 +20467,7 @@
 # sent_id = Masoretic-Deuteronomy-20:4-hbo
 # text = כִּ֚י יְהוָ֣ה אֱלֹֽהֵיכֶ֔ם הַהֹלֵ֖ךְ עִמָּכֶ֑ם לְהִלָּחֵ֥ם לָכֶ֛ם עִם־אֹיְבֵיכֶ֖ם לְהֹושִׁ֥יעַ אֶתְכֶֽם׃
 1	כִּ֚י	כי	SCONJ	conj	_	2	mark	_	Ref=DEUT_20.4
-2	יְהוָ֣ה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	6	advcl	_	Ref=DEUT_20.4
+2	יְהוָ֣ה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	6	nsubj:outer	_	Ref=DEUT_20.4
 3-4	אֱלֹֽהֵיכֶ֔ם	_	_	_	_	_	_	_	_
 3	_	אלהים	NOUN	subs	Gender=Masc|Number=Plur	2	appos	_	Ref=DEUT_20.4
 4	_	אתם	PRON	prn	Gender=Masc|Number=Plur|Person=2|PronType=Prs	3	nmod:poss	_	Ref=DEUT_20.4
@@ -32172,7 +32172,7 @@
 17-18	אֱלֹהֶ֗יךָ	_	_	_	_	_	_	_	_
 17	_	אלהים	NOUN	subs	Gender=Masc|Number=Plur	16	appos	_	Ref=DEUT_31.6
 18	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	17	nmod:poss	_	Ref=DEUT_31.6
-19	ה֚וּא	הוא	PRON	prps	Gender=Masc|Number=Sing|Person=3|PronType=Prs	21	nsubj	_	Ref=DEUT_31.6
+19	ה֚וּא	הוא	PRON	prps	Gender=Masc|Number=Sing|Person=3|PronType=Prs	21	nsubj:outer	_	Ref=DEUT_31.6
 20-21	הַהֹלֵ֣ךְ	_	_	_	_	_	_	_	_
 20	_	ה	SCONJ	art	_	21	mark	_	Ref=DEUT_31.6
 21	_	הלך	VERB	verb	Gender=Masc|HebBinyan=PAAL|Number=Sing|VerbForm=Part	10	parataxis	_	Ref=DEUT_31.6
@@ -32264,7 +32264,7 @@
 1-2	וַֽיהוָ֞ה	_	_	_	_	_	_	_	_
 1	_	ו	CCONJ	conj	_	3	cc	_	Ref=DEUT_31.8
 2	_	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	3	dislocated	_	Ref=DEUT_31.8
-3	ה֣וּא	הוא	PRON	prps	Gender=Masc|Number=Sing|Person=3|PronType=Prs	6	nsubj	_	Ref=DEUT_31.8|SpaceAfter=No
+3	ה֣וּא	הוא	PRON	prps	Gender=Masc|Number=Sing|Person=3|PronType=Prs	6	nsubj:outer	_	Ref=DEUT_31.8|SpaceAfter=No
 4	׀	׀	PUNCT	punct	_	3	punct	_	Ref=DEUT_31.8
 5-6	הַהֹלֵ֣ךְ	_	_	_	_	_	_	_	_
 5	_	ה	SCONJ	art	_	6	mark	_	Ref=DEUT_31.8

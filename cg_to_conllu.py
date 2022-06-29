@@ -62,6 +62,15 @@ MORPH = {
     'art': ['PronType=Art']
 }
 
+BOOK_ABBR = {
+    'Genesis': 'GEN',
+    'Exodus': 'EX',
+    'Leviticus': 'LEV',
+    'Numbers': 'NUM',
+    'Deuteronomy': 'DEUT',
+    'Ruth': 'RUTH',
+}
+
 def norm(s):
     return unicodedata.normalize('NFC', s)
 
@@ -104,6 +113,11 @@ class Word:
                 self.surf = self.text
             if (F.prs.v(last_wid) and F.prs.v(last_wid) not in ['absent', 'n/a']):
                 self.is_end = False
+            bk = BOOK_ABBR.get(T.bookName(last_wid))
+            ch = F.chapter.v(L.u(last_wid, otype='verse')[0])
+            vs = F.verse.v(L.u(last_wid, otype='verse')[0])
+            if bk:
+                self.misc.append(f'Ref={bk}_{ch}.{vs}')
         if self.xpos not in ['punct', 'prn'] and not self.tail:
             self.is_end = False
     def from_cg(self, inp):
@@ -235,6 +249,15 @@ class Sentence:
                     w.misc.append('SpaceAfter=No')
                 self.all_words.append(w)
     def process(self):
+        last_misc = ''
+        for w in self.real_words:
+            for m in w.misc:
+                if m.startswith('Ref='):
+                    last_misc = m
+                    break
+            else:
+                if last_misc:
+                    w.misc.append(last_misc)
         self.add_compounds()
         ids = self.get_ids()
         self.text = norm(T.text(ids).strip())

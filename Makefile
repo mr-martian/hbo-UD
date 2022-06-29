@@ -26,6 +26,7 @@ hbo.bin: hbo.cg3
 
 %-book: %.parsed.conllu %.checked.conllu %.manual.conllu
 	./check.py $^
+	./update_manual.py $*
 	./filter-ready.py $*
 
 %-report:

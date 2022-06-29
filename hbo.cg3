@@ -107,8 +107,13 @@ LIST SpeakingVerb = quot "ברך" "צוה" "נגד" "דבר" "ענה" "שׁמע" 
 
 LIST ConjAblePrep = "כמו" "למען" "עד" ;
 LIST ConjAbleSubsPrep = "בלת" ;
+LIST SubsToPrep = "אחר" "בין" "אצל" "בעד" ;
 
-LIST Masculine = "מכיר" ;
+LIST Masculine = "מכיר" "אשׁר" "בצע" "בקר" ;
+# TODO: BDB says sometimes masculine
+LIST FeminineMixed = "ארץ" "יד" "צאן" "אשׁ" "גן" "גפן" ;
+# TODO: BDB says sometimes feminine
+LIST MasculineMixed = "לחם" "דרך" "אור" "אות" "ארון" "גמל" ;
 
 SET GeneologyTitle = ("אלוף" Genesis) - (w20123) ;
 
@@ -305,7 +310,8 @@ SUBSTITUTE (?) (N) UnknownShouldBeNarrative ;
 
 SUBSTITUTE (infc) (infa) (Ruth w797) ;
 
-ADD (m) Noun + Masculine - AGen ;
+ADD (m) Noun - AGen IF (0 Masculine OR MasculineMixed) ;
+ADD (f) Noun - AGen IF (0 FeminineMixed) ;
 
 ####################
 # Nested Quotations
@@ -374,8 +380,7 @@ SUBSTITUTE (art) (conj retag:art) (CP Rela) ;
 # Prepositions tagged as nouns
 SUBSTITUTE (subs) (conj retag:subs) ConjAbleSubsPrep + (CP) ;
 SUBSTITUTE (subs) (advb retag:subs) ("אחר" subs ppre AdvP) (1 BD) ;
-SUBSTITUTE (subs) (prep retag:subs) ("אחר" subs ppre) ;
-SUBSTITUTE (subs) (prep retag:subs) ("בין" subs ppre) ;
+SUBSTITUTE (subs) (prep retag:subs) SubsToPrep + (subs ppre) ;
 SUBSTITUTE (subs) (prep retag:subs) (ppre CP Conj)
     IF (NOT 0 SubsOverride)
        (NEGATE 0 ("טרם" subs) LINK -1 ("ב" prep))

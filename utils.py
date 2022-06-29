@@ -49,3 +49,29 @@ def get_chapter(sid):
         return [single(p[0])]
     else:
         return [single(p[0]), single(p[1])]
+
+def split_lines(sent):
+    head = []
+    body = []
+    for l in sent.strip().split('\n'):
+        if l.startswith('#'):
+            head.append(l)
+        else:
+            body.append(l)
+    return head, body
+
+def update_deps(old_sent, new_sent, old_headers=True):
+    oh, ols = split_lines(old_sent)
+    nh, nls = split_lines(new_sent)
+    lines = oh if old_headers else nh
+    if len(ols) != len(nls):
+        return None
+    for ol, nl in zip(ols, nls):
+        ot = ol.split('\t')
+        nt = nl.split('\t')
+        if ot[0] != nt[0]:
+            return None
+        ot[6] = nt[6]
+        ot[7] = nt[7]
+        lines.append('\t'.join(ot))
+    return '\n'.join(lines)

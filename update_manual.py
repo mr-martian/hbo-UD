@@ -7,8 +7,8 @@ parser = argparse.ArgumentParser('Fix morphology etc for manual sentences')
 parser.add_argument('book', action='store')
 args = parser.parse_args()
 
-gen = utils.load_conllu(f'{args.book}.parsed.conllu')
-man = utils.load_conllu(f'{args.book}.manual.conllu')
+gen = utils.load_conllu(f'temp/merged/{args.book}.conllu')
+man = utils.load_conllu(f'data/manual/{args.book}.conllu')
 
 ret = []
 for sid, sent in man.items():
@@ -25,6 +25,6 @@ for sid, sent in man.items():
     ret.append((idx, res))
 
 ret.sort()
-with open(f'{args.book}.manual.conllu', 'w') as fout:
+with open(f'data/manual/{args.book}.conllu', 'w') as fout:
     fout.write('\n\n'.join(r[1] for r in ret) + '\n\n')
 

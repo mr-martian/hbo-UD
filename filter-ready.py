@@ -15,15 +15,15 @@ def is_complete(block):
             return False
     return True
 
-check = utils.load_conllu(f'{book}.checked.conllu')
-manual = utils.load_conllu(f'{book}.manual.conllu')
+check = utils.load_conllu(f'data/checked/{book}.conllu')
+manual = utils.load_conllu(f'data/manual/{book}.conllu')
 
 good = []
 bad = []
 checked = []
 manual_ls = []
 
-for i, (n, b) in enumerate(utils.iter_conllu(f'{book}.parsed.conllu'), 1):
+for i, (n, b) in enumerate(utils.iter_conllu(f'temp/merged/{book}.conllu'), 1):
     if n in check:
         checked.append(check[n][1])
     elif n in manual:
@@ -43,9 +43,9 @@ def maybe_replace(fname, ls):
             with open(fname, 'w') as fout:
                 fout.write(text)
 
-maybe_replace(f'{book}.checked.conllu', checked)
-maybe_replace(f'{book}.checkable.conllu', good)
-maybe_replace(f'{book}.incomplete.conllu', bad)
-maybe_replace(f'{book}.manual.conllu', manual_ls)
+maybe_replace(f'data/checked/{book}.conllu', checked)
+maybe_replace(f'data/checkable/{book}.conllu', good)
+maybe_replace(f'data/incomplete/{book}.conllu', bad)
+maybe_replace(f'data/manual/{book}.conllu', manual_ls)
 
 print(f'{book}: accepted: {len(checked)} manual: {len(manual_ls)} checkable: {len(good)} incomplete: {len(bad)}')

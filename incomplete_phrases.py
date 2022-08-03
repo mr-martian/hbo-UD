@@ -51,7 +51,7 @@ parser.add_argument('-s', '--start', action='store', type=int, default=1)
 parser.add_argument('-l', '--level', choices=['pb', 'cb', 'sb'], default='pb')
 args = parser.parse_args()
 
-with open(f'{args.book}.parsed.cg3.txt') as fin:
+with open(f'temp/parsed-cg3/{args.book}.txt') as fin:
     sents = fin.read().strip().split('\n\n')
     n = 0
     for i, s in enumerate(sents, 1):

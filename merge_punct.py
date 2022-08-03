@@ -3,9 +3,9 @@
 import sys
 book = sys.argv[1]
 
-with open(f'{book}.cg3.conllu') as af:
-    with open(f'{book}.punct.conllu') as bf:
-        with open(f'{book}.parsed.conllu', 'w') as out:
+with open(f'temp/conv/{book}.conllu') as af:
+    with open(f'temp/punct/{book}.conllu') as bf:
+        with open(f'temp/merged/{book}.conllu', 'w') as out:
             for al, bl in zip(af, bf):
                 ls = []
                 for a, b, in zip(al.strip().split('\t'), bl.strip().split('\t')):

@@ -1,8 +1,5 @@
 #!/usr/bin/env python3
 
-# TODO LIST
-# - maybe retag (e.g.) שם, פה
-
 import sys
 import unicodedata
 import utils
@@ -91,8 +88,6 @@ for w in F.otype.s('word'):
     for c in F.trailer_utf8.v(w):
         if c == ' ':
             lu += c
-        #elif c in 'נפס':
-        #    pass # skip inter-sentential punctuation
         else:
             lu += f'^{c}/{c}<punct>$\n'
     print(lu, end='')

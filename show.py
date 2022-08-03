@@ -14,12 +14,12 @@ parser.add_argument('n', action='store', type=int, help='Sentence index')
 args = parser.parse_args()
 
 if not args.g and not args.r:
-    with open(f'{args.b}.parsed.cg3.txt') as fin:
+    with open(f'temp/parsed-cg3/{args.b}.txt') as fin:
         print(fin.read().strip().split('\n\n')[int(args.n)-1])
     if args.c:
         sys.exit(0)
 
-gen = utils.load_conllu(f'{args.b}.parsed.conllu')
+gen = utils.load_conllu(f'temp/merged/{args.b}.conllu')
 sid = None
 for k in gen:
     if gen[k][0] == args.n:
@@ -30,7 +30,7 @@ else:
     sys.exit(1)
 
 if args.r:
-    ref = utils.load_conllu(f'{args.b}.checked.conllu', True)
+    ref = utils.load_conllu(f'data/{args.b}.conllu', True)
     if sid in ref:
         print(ref[sid][1])
     else:

@@ -75,3 +75,10 @@ def update_deps(old_sent, new_sent, old_headers=True):
         ot[7] = nt[7]
         lines.append('\t'.join(ot))
     return '\n'.join(lines)
+
+def get_cg(sent_id):
+    book = sent_id.split('-')[1].lower()
+    data = load_conllu(f'temp/merged/{book}.conllu')
+    idx = data[sent_id][0]-1
+    with open(f'temp/parsed-cg3/{book}.txt') as fin:
+        return fin.read().split('\n\n')[idx]

@@ -8,9 +8,9 @@ parser.add_argument('book', action='store')
 parser.add_argument('sent', type=int, nargs='+')
 args = parser.parse_args()
 
-with open(f'{args.book}.parsed.conllu') as fin:
+with open(f'temp/merged/{args.book}.conllu') as fin:
     blocks = fin.read().strip().split('\n\n')
-    with open(f'{args.book}.checked.conllu', 'a') as fout:
+    with open(f'data/checked/{args.book}.conllu', 'a') as fout:
         for sent in args.sent:
             block = blocks[sent-1]
             written = False

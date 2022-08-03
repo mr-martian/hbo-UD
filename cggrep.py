@@ -16,7 +16,7 @@ pat = re.compile(args.query)
 
 ct = 0
 
-with open(f'{args.book}.parsed.cg3.txt') as fin:
+with open(f'temp/parsed-cg3/{args.book}.txt') as fin:
     for l in fin:
         if not l.strip():
             blk = '\n'.join(cur)

@@ -23,7 +23,7 @@ check_sent = 0
 check_word = 0
 by_pos = defaultdict(lambda: [0,0,0,0])
 chapters = defaultdict(lambda: [0,0])
-with open(f'{book}.parsed.conllu') as fin:
+with open(f'temp/merged/{book}.conllu') as fin:
     for line in fin:
         if '# sent_id' in line:
             total_sents += 1
@@ -64,8 +64,8 @@ def check(fname):
                 if '-' in line.split()[0]:
                     continue
                 check_word += 1
-check(f'{book}.checked.conllu')
-check(f'{book}.manual.conllu')
+check(f'data/checked/{book}.conllu')
+check(f'data/manual/{book}.conllu')
 
 def table(headers, rows):
     actual_headers = headers[:2]

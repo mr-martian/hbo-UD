@@ -23,13 +23,13 @@ for c in args.chapters:
         parser.error("Invalid chapter specifier '%s'" % c)
 
 ids = []
-for sid, block in utils.iter_conllu(f'{args.book}.parsed.conllu'):
+for sid, block in utils.iter_conllu(f'temp/merged/{args.book}.conllu'):
     for ch in utils.get_chapter(sid):
         if ch in chapters:
             ids.append(sid)
 
-rule = utils.load_conllu(f'{args.book}.checked.conllu', True)
-manual = utils.load_conllu(f'{args.book}.manual.conllu', True)
+rule = utils.load_conllu(f'data/checked/{args.book}.conllu', True)
+manual = utils.load_conllu(f'data/manual/{args.book}.conllu', True)
 
 def print_block(blk):
     for line in unicodedata.normalize('NFC', blk).splitlines():

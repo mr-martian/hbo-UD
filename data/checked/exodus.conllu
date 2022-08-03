@@ -120,6 +120,43 @@
 15	_	אנחנו	PRON	prn	Number=Plur|Person=1|PronType=Prs	11	obl	_	Ref=EX_1.9
 16	׃	׃	PUNCT	punct	_	2	punct	_	Ref=EX_1.9
 
+# sent_id = Masoretic-Exodus-1:11-hbo
+# text = וַיָּשִׂ֤ימוּ עָלָיו֙ שָׂרֵ֣י מִסִּ֔ים לְמַ֥עַן עַנֹּתֹ֖ו בְּסִבְלֹתָ֑ם וַיִּ֜בֶן עָרֵ֤י מִסְכְּנֹות֙ לְפַרְעֹ֔ה אֶת־פִּתֹ֖ם וְאֶת־רַעַמְסֵֽס׃
+# checker = Daniel
+1-2	וַיָּשִׂ֤ימוּ	_	_	_	_	_	_	_	_
+1	_	ו	CCONJ	conj	_	2	cc	_	Ref=EX_1.11
+2	_	שׂים	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin	0	root	_	Ref=EX_1.11
+3-4	עָלָיו֙	_	_	_	_	_	_	_	_
+3	_	על	ADP	prep	_	4	case	_	Ref=EX_1.11
+4	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	2	obl	_	Ref=EX_1.11
+5	שָׂרֵ֣י	שׂר	NOUN	subs	Gender=Masc|Number=Plur	2	obj	_	Ref=EX_1.11
+6	מִסִּ֔ים	מס	NOUN	subs	Gender=Masc|Number=Plur	5	compound:smixut	_	Ref=EX_1.11
+7	לְמַ֥עַן	למען	ADP	prep	_	8	case	_	Ref=EX_1.11
+8-9	עַנֹּתֹ֖ו	_	_	_	_	_	_	_	_
+8	_	ענה	VERB	verb	HebBinyan=PIEL|VerbForm=Inf	2	advcl	_	Ref=EX_1.11
+9	_	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	8	obj	_	Ref=EX_1.11
+10-12	בְּסִבְלֹתָ֑ם	_	_	_	_	_	_	_	_
+10	_	ב	ADP	prep	_	11	case	_	Ref=EX_1.11
+11	_	סבלות	NOUN	subs	Gender=Fem|Number=Plur	8	obl	_	Ref=EX_1.11
+12	_	הם	PRON	prn	Gender=Masc|Number=Plur|Person=3|PronType=Prs	11	nmod:poss	_	Ref=EX_1.11
+13-14	וַיִּ֜בֶן	_	_	_	_	_	_	_	_
+13	_	ו	CCONJ	conj	_	14	cc	_	Ref=EX_1.11
+14	_	בנה	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	2	conj	_	Ref=EX_1.11
+15	עָרֵ֤י	עיר	NOUN	subs	Gender=Fem|Number=Plur	14	obj	_	Ref=EX_1.11
+16	מִסְכְּנֹות֙	מסכנות	NOUN	subs	Gender=Fem|Number=Plur	15	compound:smixut	_	Ref=EX_1.11
+17-18	לְפַרְעֹ֔ה	_	_	_	_	_	_	_	_
+17	_	ל	ADP	prep	_	18	case	_	Ref=EX_1.11
+18	_	פרעה	NOUN	subs	Gender=Masc|Number=Sing	14	obl	_	Ref=EX_1.11
+19	אֶת	את	ADP	prep	_	21	case	_	Ref=EX_1.11|SpaceAfter=No
+20	־	־	PUNCT	punct	_	19	punct	_	Ref=EX_1.11|SpaceAfter=No
+21	פִּתֹ֖ם	פתם	PROPN	nmpr	Number=Sing	14	xcomp	_	Ref=EX_1.11
+22-23	וְאֶת	_	_	_	_	_	_	_	SpaceAfter=No
+22	_	ו	CCONJ	conj	_	25	cc	_	Ref=EX_1.11
+23	_	את	ADP	prep	_	25	case	_	Ref=EX_1.11
+24	־	־	PUNCT	punct	_	23	punct	_	Ref=EX_1.11|SpaceAfter=No
+25	רַעַמְסֵֽס	רעמסס	PROPN	nmpr	Number=Sing	21	conj	_	Ref=EX_1.11|SpaceAfter=No
+26	׃	׃	PUNCT	punct	_	2	punct	_	Ref=EX_1.11
+
 # sent_id = Masoretic-Exodus-1:13-hbo
 # text = וַיַּעֲבִ֧דוּ מִצְרַ֛יִם אֶת־בְּנֵ֥י יִשְׂרָאֵ֖ל בְּפָֽרֶךְ׃
 # checker = Daniel

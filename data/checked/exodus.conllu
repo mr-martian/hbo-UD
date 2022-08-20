@@ -96,6 +96,39 @@
 14	_	הוא	PRON	prps	Gender=Masc|Number=Sing|Person=3|PronType=Prs	12	det	_	Ref=EX_1.6
 15	׃	׃	PUNCT	punct	_	2	punct	_	Ref=EX_1.6
 
+# sent_id = Masoretic-Exodus-1:7-hbo
+# text = וּבְנֵ֣י יִשְׂרָאֵ֗ל פָּר֧וּ וַֽיִּשְׁרְצ֛וּ וַיִּרְבּ֥וּ וַיַּֽעַצְמ֖וּ בִּמְאֹ֣ד מְאֹ֑ד וַתִּמָּלֵ֥א הָאָ֖רֶץ אֹתָֽם׃ פ
+# checker = Daniel
+1-2	וּבְנֵ֣י	_	_	_	_	_	_	_	_
+1	_	ו	CCONJ	conj	_	4	cc	_	Ref=EX_1.7
+2	_	בן	NOUN	subs	Gender=Masc|Number=Plur	4	nsubj	_	Ref=EX_1.7
+3	יִשְׂרָאֵ֗ל	ישׂראל	PROPN	nmpr	Number=Sing	2	compound:smixut	_	Ref=EX_1.7
+4	פָּר֧וּ	פרה	VERB	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|VerbForm=Fin	0	root	_	Ref=EX_1.7
+5-6	וַֽיִּשְׁרְצ֛וּ	_	_	_	_	_	_	_	_
+5	_	ו	CCONJ	conj	_	6	cc	_	Ref=EX_1.7
+6	_	שׁרץ	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin	4	conj	_	Ref=EX_1.7
+7-8	וַיִּרְבּ֥וּ	_	_	_	_	_	_	_	_
+7	_	ו	CCONJ	conj	_	8	cc	_	Ref=EX_1.7
+8	_	רבה	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin	4	conj	_	Ref=EX_1.7
+9-10	וַיַּֽעַצְמ֖וּ	_	_	_	_	_	_	_	_
+9	_	ו	CCONJ	conj	_	10	cc	_	Ref=EX_1.7
+10	_	עצם	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin	4	conj	_	Ref=EX_1.7
+11-12	בִּמְאֹ֣ד	_	_	_	_	_	_	_	_
+11	_	ב	ADP	prep	_	12	case	_	Ref=EX_1.7
+12	_	מאד	NOUN	subs	Gender=Masc|Number=Sing	10	obl	_	Ref=EX_1.7
+13	מְאֹ֑ד	מאד	NOUN	subs	Gender=Masc|Number=Sing	12	appos	_	Ref=EX_1.7
+14-15	וַתִּמָּלֵ֥א	_	_	_	_	_	_	_	_
+14	_	ו	CCONJ	conj	_	15	cc	_	Ref=EX_1.7
+15	_	מלא	VERB	verb	Gender=Fem|HebBinyan=NIFAL|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	4	conj	_	Ref=EX_1.7
+16-17	הָאָ֖רֶץ	_	_	_	_	_	_	_	_
+16	_	ה	DET	art	PronType=Art	17	det	_	Ref=EX_1.7
+17	_	ארץ	NOUN	subs	Gender=Fem|Number=Sing	15	nsubj	_	Ref=EX_1.7
+18-19	אֹתָֽם	_	_	_	_	_	_	_	SpaceAfter=No
+18	_	את	ADP	prep	_	19	case	_	Ref=EX_1.7
+19	_	הם	PRON	prn	Gender=Masc|Number=Plur|Person=3|PronType=Prs	15	obj	_	Ref=EX_1.7
+20	׃	׃	PUNCT	punct	_	4	punct	_	Ref=EX_1.7
+21	פ	פ	PUNCT	punct	_	4	punct	_	Ref=EX_1.7
+
 # sent_id = Masoretic-Exodus-1:9-hbo
 # text = וַיֹּ֖אמֶר אֶל־עַמֹּ֑ו הִנֵּ֗ה עַ֚ם בְּנֵ֣י יִשְׂרָאֵ֔ל רַ֥ב וְעָצ֖וּם מִמֶּֽנּוּ׃
 # checker = Daniel

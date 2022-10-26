@@ -8214,7 +8214,7 @@
 22	_	ו	CCONJ	conj	_	23	cc	_	Ref=DEUT_7.4
 23	_	שׁמד	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	12	conj	_	Ref=DEUT_7.4
 24	_	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	23	obj	_	Ref=DEUT_7.4
-25	מַהֵֽר	מהר	VERB	verb	HebBinyan=PIEL|VerbForm=Inf	23	advcl	_	Ref=DEUT_7.4|SpaceAfter=No
+25	מַהֵֽר	מהר	VERB	verb	HebBinyan=PIEL|VerbForm=Inf	23	obl	_	Ref=DEUT_7.4|SpaceAfter=No
 26	׃	׃	PUNCT	punct	_	12	punct	_	Ref=DEUT_7.4
 
 # sentence_index = 205
@@ -9200,7 +9200,7 @@
 27-28	לָדַ֜עַת	_	_	_	_	_	_	_	_
 27	_	ל	ADP	prep	_	28	case	_	Ref=DEUT_8.2
 28	_	ידע	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	25	advcl	_	Ref=DEUT_8.2
-29	אֶת	את	ADP	prep	_	28	obl	_	Ref=DEUT_8.2|SpaceAfter=No
+29	אֶת	את	ADP	prep	_	28	obj	_	Ref=DEUT_8.2|SpaceAfter=No
 30	־	־	PUNCT	punct	_	33	punct	_	Ref=DEUT_8.2|SpaceAfter=No
 31	אֲשֶׁ֧ר	אשׁר	SCONJ	conj	_	33	mark	_	Ref=DEUT_8.2
 32-34	בִּֽלְבָבְךָ֛	_	_	_	_	_	_	_	_
@@ -10341,7 +10341,7 @@
 3-4	מִקֵּץ֙	_	_	_	_	_	_	_	_
 3	_	מן	ADP	prep	_	4	case	_	Ref=DEUT_9.11
 4	_	קץ	NOUN	subs	Gender=Masc|Number=Sing	10	obl	_	Ref=DEUT_9.11
-5	אַרְבָּעִ֣ים	ארבע	NUM	subs	Gender=Masc|Number=Plur|NumType=Card	4	nummod	_	Ref=DEUT_9.11
+5	אַרְבָּעִ֣ים	ארבע	NUM	subs	Gender=Masc|Number=Plur|NumType=Card	6	nummod	_	Ref=DEUT_9.11
 6	יֹ֔ום	יום	NOUN	subs	Gender=Masc|Number=Sing	4	compound:smixut	_	Ref=DEUT_9.11
 7-8	וְאַרְבָּעִ֖ים	_	_	_	_	_	_	_	_
 7	_	ו	CCONJ	conj	_	9	cc	_	Ref=DEUT_9.11
@@ -11772,7 +11772,7 @@
 29	יִקַּ֖ח	לקח	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	25	conj	_	Ref=DEUT_10.17
 30	שֹֽׁחַד	שׁחד	NOUN	subs	Gender=Masc|Number=Sing	29	obj	_	Ref=DEUT_10.17|SpaceAfter=No
 31	׃	׃	PUNCT	punct	_	32	punct	_	Ref=DEUT_10.17
-32	עֹשֶׂ֛ה	עשׂה	VERB	verb	Gender=Masc|HebBinyan=PAAL|Number=Sing|VerbForm=Part	21	parataxis	_	Ref=DEUT_10.18
+32	עֹשֶׂ֛ה	עשׂה	VERB	verb	Gender=Masc|HebBinyan=PAAL|Number=Sing|VerbForm=Part	21	acl	_	Ref=DEUT_10.18
 33	מִשְׁפַּ֥ט	משׁפט	NOUN	subs	Gender=Masc|Number=Sing	32	obj	_	Ref=DEUT_10.18
 34	יָתֹ֖ום	יתום	NOUN	subs	Gender=Masc|Number=Sing	33	compound:smixut	_	Ref=DEUT_10.18
 35-36	וְאַלְמָנָ֑ה	_	_	_	_	_	_	_	_
@@ -16099,8 +16099,8 @@
 1-2	מִקֵּ֥ץ	_	_	_	_	_	_	_	_
 1	_	מן	ADP	prep	_	2	case	_	Ref=DEUT_15.1
 2	_	קץ	NOUN	subs	Gender=Masc|Number=Sing	6	obl	_	Ref=DEUT_15.1
-3	שֶֽׁבַע	שׁבע	NUM	subs	Number=Sing|NumType=Card	2	nummod	_	Ref=DEUT_15.1|SpaceAfter=No
-4	־	־	PUNCT	punct	_	5	punct	_	Ref=DEUT_15.1|SpaceAfter=No
+3	שֶֽׁבַע	שׁבע	NUM	subs	Number=Sing|NumType=Card	5	nummod	_	Ref=DEUT_15.1|SpaceAfter=No
+4	־	־	PUNCT	punct	_	3	punct	_	Ref=DEUT_15.1|SpaceAfter=No
 5	שָׁנִ֖ים	שׁנה	NOUN	subs	Gender=Fem|Number=Plur	2	compound:smixut	_	Ref=DEUT_15.1
 6	תַּעֲשֶׂ֥ה	עשׂה	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	0	root	_	Ref=DEUT_15.1
 7	שְׁמִטָּֽה	שׁמטה	NOUN	subs	Gender=Fem|Number=Sing	6	obj	_	Ref=DEUT_15.1|SpaceAfter=No
@@ -17731,7 +17731,7 @@
 19	_	ו	CCONJ	conj	_	20	cc	_	Ref=DEUT_16.19
 20	_	סלף	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PIEL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	6	conj	_	Ref=DEUT_16.19
 21	דִּבְרֵ֥י	דבר	NOUN	subs	Gender=Masc|Number=Plur	20	obj	_	Ref=DEUT_16.19
-22	צַדִּיקִֽם	צדיק	ADJ	adjv	Gender=Masc|Number=Plur	21	compound:smixut	_	Ref=DEUT_16.19|SpaceAfter=No
+22	צַדִּיקִֽם	צדיק	NOUN	adjv	Gender=Masc|Number=Plur	21	compound:smixut	_	Ref=DEUT_16.19|SpaceAfter=No
 23	׃	׃	PUNCT	punct	_	3	punct	_	Ref=DEUT_16.19
 
 # sentence_index = 424
@@ -17879,7 +17879,7 @@
 22	אִשָּׁ֗ה	אשׁה	NOUN	subs	Gender=Fem|Number=Sing	19	conj	_	Ref=DEUT_17.2
 23	אֲשֶׁ֨ר	אשׁר	SCONJ	conj	_	24	mark	_	Ref=DEUT_17.2
 24	יַעֲשֶׂ֧ה	עשׂה	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	22	acl	_	Ref=DEUT_17.2
-25	אֶת	את	ADP	prep	_	24	obl	_	Ref=DEUT_17.2|SpaceAfter=No
+25	אֶת	את	ADP	prep	_	24	obj	_	Ref=DEUT_17.2|SpaceAfter=No
 26	־	־	PUNCT	punct	_	28	punct	_	Ref=DEUT_17.2|SpaceAfter=No
 27-28	הָרַ֛ע	_	_	_	_	_	_	_	_
 27	_	ה	SCONJ	art	_	28	mark	_	Ref=DEUT_17.2
@@ -20131,8 +20131,8 @@
 30	עַל	על	ADP	prep	_	32	case	_	Ref=DEUT_19.15|SpaceAfter=No
 31	־	־	PUNCT	punct	_	30	punct	_	Ref=DEUT_19.15|SpaceAfter=No
 32	פִּ֥י	פה	NOUN	subs	Gender=Masc|Number=Sing	25	conj	_	Ref=DEUT_19.15
-33	שְׁלֹשָֽׁה	שׁלשׁ	NUM	subs	Gender=Fem|Number=Sing|NumType=Card	32	nummod	_	Ref=DEUT_19.15|SpaceAfter=No
-34	־	־	PUNCT	punct	_	35	punct	_	Ref=DEUT_19.15|SpaceAfter=No
+33	שְׁלֹשָֽׁה	שׁלשׁ	NUM	subs	Gender=Fem|Number=Sing|NumType=Card	35	nummod	_	Ref=DEUT_19.15|SpaceAfter=No
+34	־	־	PUNCT	punct	_	33	punct	_	Ref=DEUT_19.15|SpaceAfter=No
 35	עֵדִ֖ים	עד	NOUN	subs	Gender=Masc|Number=Plur	32	compound:smixut	_	Ref=DEUT_19.15
 36	יָק֥וּם	קום	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	18	parataxis	_	Ref=DEUT_19.15
 37	דָּבָֽר	דבר	NOUN	subs	Gender=Masc|Number=Sing	36	nsubj	_	Ref=DEUT_19.15|SpaceAfter=No
@@ -21194,7 +21194,7 @@
 15	סְבִיבֹ֥ת	סביב	NOUN	subs	Gender=Fem|Number=Plur	13	acl	_	Ref=DEUT_21.2
 16-17	הֶחָלָֽל	_	_	_	_	_	_	_	SpaceAfter=No
 16	_	ה	DET	art	PronType=Art	17	det	_	Ref=DEUT_21.2
-17	_	חלל	ADJ	adjv	Gender=Masc|Number=Sing	15	compound:smixut	_	Ref=DEUT_21.2
+17	_	חלל	NOUN	adjv	Gender=Masc|Number=Sing	15	compound:smixut	_	Ref=DEUT_21.2
 18	׃	׃	PUNCT	punct	_	2	punct	_	Ref=DEUT_21.2
 
 # sentence_index = 509
@@ -26750,7 +26750,7 @@
 14	_	ה	DET	art	PronType=Art	15	det	_	Ref=DEUT_27.8
 15	_	זאת	PRON	prde	Gender=Fem|Number=Sing|PronType=Dem	13	det	_	Ref=DEUT_27.8
 16	בַּאֵ֥ר	באר	VERB	verb	HebBinyan=PIEL|VerbForm=Inf	2	parataxis	_	Ref=DEUT_27.8
-17	הֵיטֵֽב	יטב	VERB	verb	HebBinyan=HIFIL|VerbForm=Inf	16	advcl	_	Ref=DEUT_27.8|SpaceAfter=No
+17	הֵיטֵֽב	יטב	VERB	verb	HebBinyan=HIFIL|VerbForm=Inf	16	obl	_	Ref=DEUT_27.8|SpaceAfter=No
 18	׃	׃	PUNCT	punct	_	2	punct	_	Ref=DEUT_27.8
 19	ס	ס	PUNCT	punct	_	2	punct	_	Ref=DEUT_27.8
 
@@ -30370,7 +30370,7 @@
 22	_	זאת	PRON	prde	Gender=Fem|Number=Sing|PronType=Dem	20	det	_	Ref=DEUT_29.13
 23	׃	׃	PUNCT	punct	_	25	punct	_	Ref=DEUT_29.13
 24	כִּי֩	כי	SCONJ	conj	_	28	mark	_	Ref=DEUT_29.14
-25	אֶת	את	ADP	prep	_	9	obl	_	Ref=DEUT_29.14|SpaceAfter=No
+25	אֶת	את	ADP	prep	_	9	obj	_	Ref=DEUT_29.14|SpaceAfter=No
 26	־	־	PUNCT	punct	_	28	punct	_	Ref=DEUT_29.14|SpaceAfter=No
 27	אֲשֶׁ֨ר	אשׁר	SCONJ	conj	_	28	mark	_	Ref=DEUT_29.14
 28-29	יֶשְׁנֹ֜ו	_	_	_	_	_	_	_	_
@@ -33296,7 +33296,7 @@
 30	כִּֽי	כי	SCONJ	conj	_	32	mark	_	Ref=DEUT_31.29|SpaceAfter=No
 31	־	־	PUNCT	punct	_	30	punct	_	Ref=DEUT_31.29|SpaceAfter=No
 32	תַעֲשׂ֤וּ	עשׂה	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=2|VerbForm=Fin	21	advcl	_	Ref=DEUT_31.29
-33	אֶת	את	ADP	prep	_	32	obl	_	Ref=DEUT_31.29|SpaceAfter=No
+33	אֶת	את	ADP	prep	_	32	obj	_	Ref=DEUT_31.29|SpaceAfter=No
 34	־	־	PUNCT	punct	_	36	punct	_	Ref=DEUT_31.29|SpaceAfter=No
 35-36	הָרַע֙	_	_	_	_	_	_	_	_
 35	_	ה	SCONJ	art	_	36	mark	_	Ref=DEUT_31.29

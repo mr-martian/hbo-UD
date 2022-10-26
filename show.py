@@ -30,7 +30,7 @@ else:
     sys.exit(1)
 
 if args.r:
-    ref = utils.load_conllu(f'data/{args.b}.conllu', True)
+    ref = utils.load_conllu(f'data/checked/{args.b}.conllu', True)
     if sid in ref:
         print(ref[sid][1])
     else:

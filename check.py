@@ -6,14 +6,16 @@ import sys
 import utils
 
 parser = argparse.ArgumentParser()
-parser.add_argument('gen', action='store')
-parser.add_argument('ref', action='store')
-parser.add_argument('man', action='store')
+parser.add_argument('book', action='store')
 args = parser.parse_args()
 
-gen = utils.load_conllu(args.gen)
-ref = utils.load_conllu(args.ref, True)
-man = utils.load_conllu(args.man, True)
+fgen = f'temp/merged/{args.book}.conllu'
+fref = f'data/checked/{args.book}.conllu'
+fman = f'data/manual/{args.book}.conllu'
+
+gen = utils.load_conllu(fgen)
+ref = utils.load_conllu(fref, True)
+man = utils.load_conllu(fman, True)
 
 fail = []
 for k in ref:
@@ -22,7 +24,7 @@ for k in ref:
         fail.append(str(gen[k][0]))
 
 if fail:
-    print(f'{len(fail)} sentences in {args.gen} differ from accepted!')
+    print(f'{len(fail)} sentences in {fgen} differ from accepted!')
     print(' '.join(fail))
     sys.exit(1)
 

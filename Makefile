@@ -7,25 +7,24 @@ background: exodus-book leviticus-book numbers-book deuteronomy-book
 finished: ruth-book
 
 temp/plain-cg3/%.txt: to-CG.py find_clause_root.py
+	mkdir -p temp/plain-cg3
 	./to-CG.py $* | apertium-cleanstream -n | ./find_clause_root.py | cg-conv -al > $@
 
 temp/parsed-cg3/%.txt: temp/plain-cg3/%.txt hbo.bin
+	mkdir -p temp/parsed-cg3
 	cat $< | vislcg3 -t -g hbo.bin | tail -n +4 > $@
 
-temp/conv/%.conllu: temp/parsed-cg3/%.txt cg_to_conllu.py
-	cat $< | ./cg_to_conllu.py $* > $@
-
-temp/punct/%.conllu: temp/conv/%.conllu
-	cat $< | udapy -s -q ud.FixPunct > $@
-
-temp/merged/%.conllu: temp/%.punct.conllu
+temp/merged/%.conllu: temp/parsed-cg3/%.txt cg_to_conllu.py
+	mkdir -p temp/conv temp/punct temp/merged
+	cat $< | ./cg_to_conllu.py $* > temp/conv/$*.conllu
+	cat temp/conv/$*.conllu | udapy -s -q ud.FixPunct > temp/punct/$*.conllu
 	./merge_punct.py $*
 
 hbo.bin: hbo.cg3
 	cg-comp $< $@
 
 %-book: temp/merged/%.conllu data/checked/%.conllu data/manual/%.conllu
-	./check.py $^
+	./check.py $*
 	./update_manual.py $*
 	./filter-ready.py $*
 	./rule-stats.py $*
@@ -43,4 +42,4 @@ export:
 	./export.py genesis 31-50 > UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-train.conllu
 	./export.py ruth 1-4 >> UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-train.conllu
 
-.PRECIOUS: temp/parsed-cg3/%.txt
+.PRECIOUS: temp/parsed-cg3/%.txt temp/merged/%.conllu

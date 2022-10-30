@@ -82,3 +82,11 @@ def get_cg(sent_id):
     idx = data[sent_id][0]-1
     with open(f'temp/parsed-cg3/{book}.txt') as fin:
         return fin.read().split('\n\n')[idx]
+
+def get_coref(book):
+    with open(f'coref/spans/{book}.txt') as fin:
+        for l in fin:
+            ls = l.strip().split()
+            if len(ls) != 2:
+                continue
+            yield (tuple(ls[0].split('-')), ls[1])

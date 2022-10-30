@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 
-from collections import defaultdict
+from collections import defaultdict, Counter
 import math
 import sys
+from utils import get_coref
 book = sys.argv[1]
 
 def get_chapter(sid):
@@ -127,3 +128,15 @@ print('\nChapters')
 print('    Complete:', ' '.join(map(str, chapter_dist[10])))
 for n in reversed(range(10)):
     print(f'    >={n}0%:', ' '.join(map(str, chapter_dist[n])))
+
+try:
+    print('\nCoref')
+    coref_freq = Counter()
+    total = 0
+    for span, sid in get_coref(book):
+        total += 1
+        coref_freq[sid[0]] += 1
+    for typ, cnt in coref_freq.most_common():
+        print(f'    {typ}: {cnt} ({round(100.0*cnt/total, 2)}%)')
+except:
+    print('\nNo corefs yet')

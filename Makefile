@@ -36,6 +36,18 @@ hbo.bin: hbo.cg3
 	mkdir -p data/filter
 	cat data/checkable/$*.conllu | udapy -s util.Filter delete_tree_if_node='node.deprel in ["parataxis", "appos"] or node.is_nonprojective()' > data/filter/$*.conllu
 
+coref/base/genesis.conllu: data/checked/genesis.conllu data/manual/genesis.conllu
+	mkdir -p coref/base
+	./export.py genesis 1-50 > $@
+
+coref/pred/%.txt: coref/base/%.conllu
+	mkdir -p coref/pred
+	python3 xrenner/xrenner/xrenner.py -m ./xrhbo coref/base/$*.conllu > $@
+
+coref/pred-spans/%.txt: coref/pred/%.txt
+	mkdir -p coref/pred-spans
+	./conv_xrenner.py $*
+
 export:
 	./export.py genesis 1-18 > UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-dev.conllu
 	./export.py genesis 19-30 > UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-test.conllu

@@ -186,10 +186,10 @@ class CorefCLI(cmd.Cmd):
     def do_fix(self, arg):
         ls = arg.split()
         sp = tuple(ls[0].split('-'))
-        if sp not in self.spans:
+        if sp not in self.corpus.spans:
             print(f'Unknown span {sp}')
         elif len(ls) == 2:
-            self.update_span(sp, ls[1])
+            self.corpus.update_span(sp, ls[1])
     def replace_cur_span(self, sent, w1, w2):
         new_span = (f'{sent+1}:{w1}', f'{sent+1}:{w2}')
         self.corpus.replace_span(self.cur_span, new_span)

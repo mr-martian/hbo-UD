@@ -137,6 +137,7 @@ try:
         total += 1
         coref_freq[sid[0]] += 1
     for typ, cnt in coref_freq.most_common():
-        print(f'    {typ}: {cnt} ({round(100.0*cnt/total, 2)}%)')
+        print(f'    {typ}: {cnt}\t({round(100.0*cnt/total, 2)}%)')
+    print(f'TOTAL: {total}')
 except:
     print('\nNo corefs yet')

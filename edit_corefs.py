@@ -2,7 +2,7 @@
 
 import utils
 import cmd
-from collections import defaultdict
+from collections import defaultdict, Counter
 import re
 
 CONLL_COLUMNS = {
@@ -108,6 +108,13 @@ class CorefCorpus:
         while prefix+str(n) in self.span_ids[prefix]:
             n += 1
         return prefix+str(n)
+    def stats(self):
+        freq = Counter()
+        for span, sid in self.spans.items():
+            freq[sid[0]] += 1
+        for typ, cnt in freq.most_common():
+            print(f'    {typ}: {cnt}\t({round(100.0*cnt/len(self.spans), 2)}%)')
+        print(f'TOTAL: {len(self.spans)}')
 
 class CorefCLI(cmd.Cmd):
     prompt = '> '
@@ -251,9 +258,11 @@ class CorefCLI(cmd.Cmd):
             for i in range(max(idx-n, 0), idx):
                 self.corpus.print_span(all_spans[i], window_only=True)
     def do_show(self, arg):
-        ls = arg.split()
+        ls = arg.strip().split('-')
         if len(ls) == 2:
             self.corpus.print_span(tuple(ls))
+    def do_stats(self, arg):
+        self.corpus.stats()
     def do_quit(self, arg):
         return True
     def do_EOF(self, arg):
@@ -270,6 +279,7 @@ if __name__ == '__main__':
     parser.add_argument('-w', '--window', type=int, default=2)
     parser.add_argument('--width', type=int, default=0)
     parser.add_argument('--assign', action='store', default='')
+    parser.add_argument('-c', '--count', action='store_true')
     args = parser.parse_args()
 
     corpus = CorefCorpus(args.book)
@@ -288,7 +298,9 @@ if __name__ == '__main__':
             col, key = s.split(':', 1)
             col = int(CONLL_COLUMNS.get(col, col))
         all_spans = corpus.search(key, all_spans, col)
-    if args.print:
+    if args.count:
+        print(len(all_spans))
+    elif args.print:
         for sp in all_spans:
             corpus.print_span(sp, window=args.window)
         print(f'\n{len(all_spans)} results')

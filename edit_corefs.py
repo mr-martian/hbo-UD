@@ -117,6 +117,13 @@ class CorefCLI(cmd.Cmd):
         self.todo_spans = []
         self.cur_span = None
         self.cur_col = -1
+        self.entity_names = {}
+        try:
+            with open(f'coref/spans/{self.corpus.book}.names.txt') as fin:
+                ls = [tuple(l.split()) for l in fin.readlines()]
+                self.entity_names = dict(ls)
+        except:
+            pass
         super().__init__()
         self.next_span()
     def next_span(self):
@@ -150,10 +157,18 @@ class CorefCLI(cmd.Cmd):
             print(f'New ID: {self.cur_id}')
     def do_set(self, arg):
         if self.cur_span and arg:
-            self.corpus.update_span(self.cur_span, arg)
+            lab = self.entity_names.get(arg, arg)
+            self.corpus.update_span(self.cur_span, lab)
             if self.todo_spans and self.todo_spans[0] == self.cur_span:
                 self.todo_spans.pop(0)
         self.next_span()
+    def complete_set(self, text, line, beginidx, endidx):
+        pref = 0
+        ls = line.split()
+        key = ls[-1] if len(ls) > 1 else ''
+        if len(key) > len(text):
+            pref = len(key)-len(text)
+        return [l[pref:] for l in self.entity_names.keys() if l.startswith(key)]
     def do_setid(self, arg):
         self.cur_id = arg
     def do_yes(self, arg):

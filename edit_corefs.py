@@ -41,6 +41,13 @@ class CorefCorpus:
         self.span_ids = defaultdict(set)
         for sid in self.spans.values():
             self.span_ids[sid[0]].add(sid)
+        self.names = {}
+        self.rev_names = {}
+        with open(f'coref/spans/{self.book}.names.txt') as fin:
+            for line in fin.readlines():
+                n, i = line.split()
+                self.names[n] = i
+                self.rev_names[i] = n
     def ispans(self, unk_only=False):
         ls = self.spans.keys()
         if unk_only:
@@ -50,9 +57,13 @@ class CorefCorpus:
         with open(f'coref/spans/{self.book}.txt', 'w') as fout:
             for sp in self.ispans():
                 fout.write(f'{sp[0]}-{sp[1]} {self.spans[sp]}\n')
+        with open(f'coref/spans/{self.book}.names.txt', 'w') as fout:
+            for n in sorted(self.names.keys()):
+                fout.write(f'{n} {self.names[n]}\n')
     def update_span(self, span, new_id, save=True):
-        self.spans[span] = new_id
-        self.span_ids[new_id[0]].add(new_id)
+        nid = self.names.get(new_id, new_id)
+        self.spans[span] = nid
+        self.span_ids[new_id[0]].add(nid)
         if save:
             self.save()
     def parse_span(self, span):
@@ -98,16 +109,26 @@ class CorefCorpus:
             if i == w2:
                 print('|', end=' ')
         print('')
-        print(f'{span[0]}-{span[1]} {self.spans[span]}')
+        print(f'{span[0]}-{span[1]} {self.spans[span]} ({self.rev_names.get(self.spans[span], "")})')
     def replace_span(self, old, new):
         if new not in self.spans:
             self.spans[new] = self.spans[old]
         del self.spans[old]
-    def next_id(self, prefix):
+    def next_id(self, prefix, name=None):
         n = len(self.span_ids[prefix])+1
         while prefix+str(n) in self.span_ids[prefix]:
             n += 1
-        return prefix+str(n)
+        sid = prefix+str(n)
+        if name:
+            self.names[name] = sid
+            self.rev_names[sid] = name
+            self.span_ids[prefix].add(sid)
+            self.save()
+        return sid
+    def name_id(self, name, sid):
+        self.names[name] = sid
+        self.rev_names[sid] = name
+        self.save()
     def stats(self):
         freq = Counter()
         for span, sid in self.spans.items():
@@ -124,13 +145,7 @@ class CorefCLI(cmd.Cmd):
         self.todo_spans = []
         self.cur_span = None
         self.cur_col = -1
-        self.entity_names = {}
-        try:
-            with open(f'coref/spans/{self.corpus.book}.names.txt') as fin:
-                ls = [tuple(l.split()) for l in fin.readlines()]
-                self.entity_names = dict(ls)
-        except:
-            pass
+        self.macros = {}
         super().__init__()
         self.next_span()
     def next_span(self):
@@ -156,26 +171,54 @@ class CorefCLI(cmd.Cmd):
         except:
             print(f'Unknown column {arg}')
     def do_new(self, arg):
-        c = arg.strip()
+        ls = arg.split()
+        c = ls[0]
+        name = ls[1] if len(ls) > 1 else None
+        self.cur_id = None
         if len(c) != 1:
             print(f'ID type must be single character, not {c}')
+        elif name in self.corpus.names:
+            print(f'Name {name} already exists')
         else:
-            self.cur_id = self.corpus.next_id(c)
+            self.cur_id = self.corpus.next_id(c, name)
             print(f'New ID: {self.cur_id}')
+    def do_setnew(self, arg):
+        self.do_new(arg)
+        self.do_yes('')
+    def do_rename(self, arg):
+        ls = arg.split()
+        if ls[1] in self.corpus.names:
+            print(f'Name {ls[1]} already exists')
+        elif len(ls) == 2:
+            self.corpus.name_id(ls[1], ls[0])
+    def current_token(self, line):
+        ls = line.split()
+        if line[-1].isspace():
+            return ('', len(ls))
+        else:
+            return (ls[-1], len(ls)-1)
+    def completion_list(self, prefix, keys, tok):
+        if not prefix:
+            return list(keys)
+        ln = 0
+        if len(prefix) > len(tok):
+            ln = len(prefix) - len(tok)
+        return [l[ln:] for l in keys if l.startswith(prefix)]
     def do_set(self, arg):
         if self.cur_span and arg:
-            lab = self.entity_names.get(arg, arg)
-            self.corpus.update_span(self.cur_span, lab)
+            self.corpus.update_span(self.cur_span, arg)
             if self.todo_spans and self.todo_spans[0] == self.cur_span:
                 self.todo_spans.pop(0)
         self.next_span()
     def complete_set(self, text, line, beginidx, endidx):
-        pref = 0
-        ls = line.split()
-        key = ls[-1] if len(ls) > 1 else ''
-        if len(key) > len(text):
-            pref = len(key)-len(text)
-        return [l[pref:] for l in self.entity_names.keys() if l.startswith(key)]
+        key, tok = self.current_token(line)
+        return self.completion_list(key, self.corpus.names.keys(), text)
+    def complete_fix(self, text, line, beginidx, endidx):
+        key, tok = self.current_token(line)
+        if tok == 1:
+            return self.completion_list(key, ['%s-%s' % s for s in self.corpus.ispans()], text)
+        elif tok == 2:
+            return self.completion_list(key, self.corpus.names.keys(), text)
     def do_setid(self, arg):
         self.cur_id = arg
     def do_yes(self, arg):
@@ -257,10 +300,24 @@ class CorefCLI(cmd.Cmd):
             n = int(arg or '5')
             for i in range(max(idx-n, 0), idx):
                 self.corpus.print_span(all_spans[i], window_only=True)
+    def do_near(self, arg):
+        if self.cur_span:
+            all_spans = list(self.corpus.ispans())
+            idx = all_spans.index(self.cur_span)
+            n = int(arg or '5')
+            for i in range(max(idx-n, 0), min(idx+n, len(all_spans))):
+                self.corpus.print_span(all_spans[i], window_only=True)
     def do_show(self, arg):
         ls = arg.strip().split('-')
         if len(ls) == 2:
             self.corpus.print_span(tuple(ls))
+    def do_defmacro(self, arg):
+        name, ls = arg.strip().split(' ', 1)
+        self.macros[name] = ls.split('|')
+    def do_macro(self, arg):
+        for c in self.macros[arg]:
+            print('>', c)
+            self.onecmd(c)
     def do_stats(self, arg):
         self.corpus.stats()
     def do_quit(self, arg):
@@ -280,6 +337,7 @@ if __name__ == '__main__':
     parser.add_argument('--width', type=int, default=0)
     parser.add_argument('--assign', action='store', default='')
     parser.add_argument('-c', '--count', action='store_true')
+    parser.add_argument('--chapter', type=int, default=0)
     args = parser.parse_args()
 
     corpus = CorefCorpus(args.book)
@@ -289,6 +347,13 @@ if __name__ == '__main__':
         for sp in all_spans:
             sent, w1, w2 = corpus.parse_span(sp)
             if w2 - w1 + 1 == args.width:
+                ls.append(sp)
+        all_spans = ls
+    if args.chapter != 0:
+        ls = []
+        for sp in all_spans:
+            sent, w1, w2 = corpus.parse_span(sp)
+            if f'-{args.chapter}:' in corpus.trees[sent][0]:
                 ls.append(sp)
         all_spans = ls
     for s in args.search or []:

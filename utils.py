@@ -50,6 +50,11 @@ def get_chapter(sid):
     else:
         return [single(p[0]), single(p[1])]
 
+def get_first_verse(sid):
+    v1 = sid.split('-')[2]
+    c, v = v1.split(':')
+    return (int(c), int(v))
+
 def split_lines(sent):
     head = []
     body = []

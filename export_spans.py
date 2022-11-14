@@ -5,7 +5,6 @@ import sys
 
 for book in sys.argv[1:]:
     ids = [x[0] for x in utils.iter_conllu(f'coref/base/{book}.conllu')]
-    print(ids)
     for (start, end), eid in utils.get_coref(book):
         sent = int(start.split(':')[0])-1
         w1 = start.split(':')[1]

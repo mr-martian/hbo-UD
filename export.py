@@ -36,5 +36,12 @@ def print_block(blk):
         print('\t'.join(ls))
     print('')
 
+cur_chapter = 0
 for sid in ids:
+    # TODO: if we ever actually have a sentence cross chapter boundaries
+    # then this will get messy
+    ch = utils.get_chapter(sid)[0]
+    if ch > cur_chapter:
+        cur_chapter = ch
+        print(f'# newdoc id = {args.book}_{ch}')
     print_block(rule[sid][1])

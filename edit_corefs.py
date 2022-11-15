@@ -43,10 +43,12 @@ class CorefCorpus:
             self.span_ids[sid[0]].add(sid)
         self.names = {}
         self.rev_names = {}
-        with open(f'coref/spans/{self.book}.names.txt') as fin:
+        with open(f'coref/spans/names.txt') as fin:
             for line in fin.readlines():
-                n, i = line.split()
-                self.names[n] = i
+                i, n = line.split()
+                self.span_ids[i[0]].add(i)
+                if n != '_':
+                    self.names[n] = i
                 self.rev_names[i] = n
     def ispans(self, unk_only=False):
         ls = self.spans.keys()
@@ -57,9 +59,10 @@ class CorefCorpus:
         with open(f'coref/spans/{self.book}.txt', 'w') as fout:
             for sp in self.ispans():
                 fout.write(f'{sp[0]}-{sp[1]} {self.spans[sp]}\n')
-        with open(f'coref/spans/{self.book}.names.txt', 'w') as fout:
-            for n in sorted(self.names.keys()):
-                fout.write(f'{n} {self.names[n]}\n')
+        with open(f'coref/spans/names.txt', 'w') as fout:
+            ls = sorted(self.rev_names.keys(), key=lambda x: (x[0], int(x[1:])))
+            for n in ls:
+                fout.write(f'{n} {self.rev_names[n]}\n')
     def update_span(self, span, new_id, save=True):
         nid = self.names.get(new_id, new_id)
         self.spans[span] = nid
@@ -261,6 +264,7 @@ class CorefCLI(cmd.Cmd):
         if self.todo_spans[0] == self.cur_span:
             self.todo_spans[0] = new_span
         self.cur_span = new_span
+        self.corpus.save()
         self.corpus.print_span(self.cur_span, window_only=True)
     def update_cur_span(self, w1shift, w2shift):
         if self.cur_span:
@@ -282,11 +286,15 @@ class CorefCLI(cmd.Cmd):
             self.update_cur_span(int(arg), 0)
         except:
             print(f'Invalid argument {arg}')
+    def do_sf(self, arg):
+        self.do_shiftfirst(arg)
     def do_shiftlast(self, arg):
         try:
             self.update_cur_span(0, int(arg))
         except:
             print(f'Invalid argument {arg}')
+    def do_sl(self, arg):
+        self.do_shiftlast(arg)
     def do_del(self, arg):
         if self.cur_span:
             del self.corpus.spans[self.cur_span]
@@ -338,10 +346,17 @@ if __name__ == '__main__':
     parser.add_argument('--assign', action='store', default='')
     parser.add_argument('-c', '--count', action='store_true')
     parser.add_argument('--chapter', type=int, default=0)
+    parser.add_argument('-r', '--review', type=str, default='')
     args = parser.parse_args()
 
     corpus = CorefCorpus(args.book)
-    all_spans = list(corpus.ispans(unk_only=not args.all))
+    all_spans = list(corpus.ispans(unk_only=not (args.all or args.review)))
+    if args.review:
+        ls = []
+        for sp in all_spans:
+            if corpus.spans[sp] == args.review:
+                ls.append(sp)
+        all_spans = ls
     if args.width != 0:
         ls = []
         for sp in all_spans:

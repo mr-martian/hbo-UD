@@ -40,6 +40,10 @@ coref/base/genesis.conllu: data/checked/genesis.conllu data/manual/genesis.conll
 	mkdir -p coref/base
 	./export.py genesis 1-50 > $@
 
+coref/base/ruth.conllu: data/checked/ruth.conllu data/manual/ruth.conllu
+	mkdir -p coref/base
+	./export.py ruth 1-4 > $@
+
 coref/pred/%.txt: coref/base/%.conllu
 	mkdir -p coref/pred
 	python3 xrenner/xrenner/xrenner.py -m ./xrhbo coref/base/$*.conllu > $@

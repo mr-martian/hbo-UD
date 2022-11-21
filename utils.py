@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 
 from collections import defaultdict
-from tf.app import use
-import sys
 
 def load_volume(vol, hoist):
+    from tf.app import use
+    import sys
     out = sys.stdout
     sys.stdout = open('blah.txt', 'w')
     v = vol.capitalize() + 'Book'

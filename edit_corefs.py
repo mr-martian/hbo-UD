@@ -117,7 +117,7 @@ class CorefCorpus:
         if new not in self.spans:
             self.spans[new] = self.spans[old]
         del self.spans[old]
-    def next_id(self, prefix, name=None):
+    def next_id(self, prefix, name=None, save=True):
         n = len(self.span_ids[prefix])+1
         while prefix+str(n) in self.span_ids[prefix]:
             n += 1
@@ -126,7 +126,8 @@ class CorefCorpus:
             self.names[name] = sid
             self.rev_names[sid] = name
             self.span_ids[prefix].add(sid)
-            self.save()
+            if save:
+                self.save()
         return sid
     def name_id(self, name, sid):
         self.names[name] = sid
@@ -159,6 +160,10 @@ class CorefCLI(cmd.Cmd):
                 print('No unknown spans remain. Search if you want to merge anything.')
                 return
         self.cur_span = self.todo_spans[0]
+        if self.cur_span not in self.corpus.spans:
+            self.todo_spans.pop(0)
+            self.next_span()
+            return
         self.corpus.print_span(self.cur_span)
     def search(self, arg, spans):
         self.todo_spans = self.corpus.search(arg, spans, self.cur_col)

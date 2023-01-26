@@ -13,6 +13,7 @@ CONLL_COLUMNS = {
     'upos': 4,
     'xpos': 5,
     'morph': 6,
+    'feat': 6,
     'head': 7,
     'deprel': 8,
     'edeps': 9,
@@ -140,6 +141,10 @@ class CorefCorpus:
         for typ, cnt in freq.most_common():
             print(f'    {typ}: {cnt}\t({round(100.0*cnt/len(self.spans), 2)}%)')
         print(f'TOTAL: {len(self.spans)}')
+    def get_id(self, name):
+        return self.names.get(name, name)
+    def repr_id(self, sid):
+        return '%s (%s)' % (sid, self.rev_names.get(sid, '_'))
 
 class CorefCLI(cmd.Cmd):
     prompt = '> '
@@ -150,6 +155,7 @@ class CorefCLI(cmd.Cmd):
         self.cur_span = None
         self.cur_col = -1
         self.macros = {}
+        self.hotkeys = [None]*10
         super().__init__()
         self.next_span()
     def next_span(self):
@@ -227,6 +233,37 @@ class CorefCLI(cmd.Cmd):
             return self.completion_list(key, ['%s-%s' % s for s in self.corpus.ispans()], text)
         elif tok == 2:
             return self.completion_list(key, self.corpus.names.keys(), text)
+    def do_hotkey(self, arg):
+        if not arg.strip():
+            for i, h in enumerate(self.hotkeys):
+                if h:
+                    print(i, self.corpus.repr_id(h))
+                else:
+                    print(i, '[unset]')
+        else:
+            toks = arg.split()
+            if len(toks) == 2:
+                try:
+                    self.hotkeys[int(toks[0])] = self.corpus.get_id(toks[1])
+                except:
+                    # TODO: this can have a better error message...
+                    print('Invalid specifier')
+    def complete_hotkey(self, text, line, beginidx, endidx):
+        key, tok = self.current_token(line)
+        if tok == 2:
+            return self.completion_list(key, self.corpus.names.keys(), text)
+        else:
+            return []
+    def do_0(self, arg): self.do_set(self.hotkeys[0])
+    def do_1(self, arg): self.do_set(self.hotkeys[1])
+    def do_2(self, arg): self.do_set(self.hotkeys[2])
+    def do_3(self, arg): self.do_set(self.hotkeys[3])
+    def do_4(self, arg): self.do_set(self.hotkeys[4])
+    def do_5(self, arg): self.do_set(self.hotkeys[5])
+    def do_6(self, arg): self.do_set(self.hotkeys[6])
+    def do_7(self, arg): self.do_set(self.hotkeys[7])
+    def do_8(self, arg): self.do_set(self.hotkeys[8])
+    def do_9(self, arg): self.do_set(self.hotkeys[9])
     def do_setid(self, arg):
         self.cur_id = arg
     def do_yes(self, arg):

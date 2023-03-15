@@ -207,6 +207,10 @@ class Sentence:
                 if surf == 'blah':
                     surf = '_'
             elif line[0] == '\t':
+                if line[1] == '\t':
+                    # no idea what happened here
+                    # but see psalms 1896
+                    continue
                 w = Word()
                 w.surf = surf
                 w.from_cg(line.strip())

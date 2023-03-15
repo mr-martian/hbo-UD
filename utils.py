@@ -7,7 +7,10 @@ def load_volume(vol, hoist):
     import sys
     out = sys.stdout
     sys.stdout = open('blah.txt', 'w')
-    v = vol.capitalize() + 'Book'
+    if vol[0].isnumeric():
+        v = vol[:2] + vol[2:].capitalize() + 'Book'
+    else:
+        v = vol.capitalize() + 'Book'
     use("bhsa", mod="etcbc/trees/tf,etcbc/bridging/tf", hoist=hoist, volume=v)
     sys.stdout.close()
     sys.stdout = out

@@ -10,17 +10,35 @@ temp/plain-cg3/%.txt: to-CG.py find_clause_root.py
 	mkdir -p temp/plain-cg3
 	./to-CG.py $* | apertium-cleanstream -n | ./find_clause_root.py | cg-conv -al > $@
 
+temp/macula-arcs/%.tsv: extract_macula_arcs.py
+	mkdir -p temp/macula-arcs
+	./extract_macula_arcs.py $* > $@
+
+temp/macula-cg3/%.txt: to-CG.py temp/macula-arcs/%.tsv add-macula.py
+	mkdir -p temp/macula-cg3
+	./to-CG.py $* | apertium-cleanstream -n | ./add-macula.py temp/macula-arcs/$*.tsv | cg-conv -al > $@
+
+temp/macula-parsed-cg3/%.txt: temp/macula-cg3/%.txt hbo-macula.bin
+	mkdir -p temp/macula-parsed-cg3
+	cat $< | vislcg3 -t -g hbo-macula.bin | tail -n +4 > $@
+
+temp/macula-merged/%.conllu: temp/macula-parsed-cg3/%.txt cg_to_conllu.py
+	mkdir -p temp/macula-merged
+	cat $< | ./cg_to_conllu.py $* | ./merge_punct.py > $@
+
 temp/parsed-cg3/%.txt: temp/plain-cg3/%.txt hbo.bin
 	mkdir -p temp/parsed-cg3
 	cat $< | vislcg3 -t -g hbo.bin | tail -n +4 > $@
 
 temp/merged/%.conllu: temp/parsed-cg3/%.txt cg_to_conllu.py
-	mkdir -p temp/conv temp/punct temp/merged
+	mkdir -p temp/conv temp/merged
 	cat $< | ./cg_to_conllu.py $* > temp/conv/$*.conllu
-	cat temp/conv/$*.conllu | udapy -s -q ud.FixPunct > temp/punct/$*.conllu
-	./merge_punct.py $*
+	cat temp/conv/$*.conllu | ./merge_punct.py > $@
 
 hbo.bin: hbo.cg3
+	cg-comp $< $@
+
+hbo-macula.bin: hbo-macula.cg3
 	cg-comp $< $@
 
 %-book: temp/merged/%.conllu data/checked/%.conllu data/manual/%.conllu
@@ -58,4 +76,4 @@ export:
 	./export.py genesis 31-50 > UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-train.conllu
 	./export.py ruth 1-4 >> UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-train.conllu
 
-.PRECIOUS: temp/parsed-cg3/%.txt temp/merged/%.conllu
+.PRECIOUS: temp/parsed-cg3/%.txt temp/merged/%.conllu temp/macula-parsed-cg3/%.txt

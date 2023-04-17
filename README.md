@@ -8,11 +8,11 @@ Manually-verified trees can be found in the files named `[book].checked.conllu`.
 
 | Book | Sentences | Words |
 |---|---|---|
-| Genesis | 1133 / 1494 (76%) | 26136 / 36741 (71%) |
-| Exodus | 77 / 1151 (7%) | 1298 / 29878 (4%) |
-| Leviticus | 57 / 820 (7%) | 793 / 21769 (4%) |
-| Numbers | 128 / 1179 (11%) | 1417 / 28888 (5%) |
-| Deuteronomy | 22 / 879 (3%) | 235 / 26155 (1%) |
+| Genesis | 1494 / 1494 (100%) | 36741 / 36741 (100%) |
+| Exodus | 118 / 1151 (10%) | 2260 / 29878 (8%) |
+| Leviticus | 53 / 820 (6%) | 685 / 21769 (3%) |
+| Numbers | 116 / 1179 (10%) | 1249 / 28888 (4%) |
+| Deuteronomy | 21 / 879 (2%) | 224 / 26155 (1%) |
 | Ruth | 85 / 85 (100%) | 2294 / 2294 (100%) |
 
 # License

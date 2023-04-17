@@ -1,18 +1,19 @@
 #!/usr/bin/env python3
 
+import subprocess
 import sys
-book = sys.argv[1]
 
-with open(f'temp/conv/{book}.conllu') as af:
-    with open(f'temp/punct/{book}.conllu') as bf:
-        with open(f'temp/merged/{book}.conllu', 'w') as out:
-            for al, bl in zip(af, bf):
-                ls = []
-                for a, b, in zip(al.strip().split('\t'), bl.strip().split('\t')):
-                    if a == b:
-                        ls.append(a)
-                    elif a == 'SpaceAfter=No':
-                        ls.append(a)
-                    else:
-                        ls.append(b)
-                out.write('\t'.join(ls) + '\n')
+data = sys.stdin.read()
+
+proc = subprocess.run(['udapy', '-s', '-q', 'ud.FixPunct'],
+                      input=data.encode('utf-8'),
+                      capture_output=True)
+
+for l1, l2 in zip(data.splitlines(), proc.stdout.decode('utf-8').splitlines()):
+    if l1.count('\t') != 9 or 'PUNCT' not in l1:
+        print(l1)
+    else:
+        ls1 = l1.split('\t')
+        ls2 = l2.split('\t')
+        ls1[6] = ls2[6]
+        print('\t'.join(ls1))

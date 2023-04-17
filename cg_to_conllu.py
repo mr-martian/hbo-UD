@@ -59,7 +59,8 @@ MORPH = {
     'prin': ['PronType=Int'],
     'card': ['NumType=Card'],
     'ordn': ['NumType=Ord'],
-    'art': ['PronType=Art']
+    'art': ['PronType=Art'],
+    #'uvf:H': ['Case=Loc'], # TODO
 }
 
 BOOK_ABBR = {
@@ -133,7 +134,7 @@ class Word:
                 self.feats += MORPH[tg]
             elif tg.startswith('wp'):
                 self.seg = int(tg[2:])
-            elif tg[0] == 'w':
+            elif tg[0] == 'w' and tg[-1] != 'p':
                 self.wid = int(tg[1:])
                 if self.xpos == 'SCONJ':
                     self.wid = [self.wid-1, self.wid]

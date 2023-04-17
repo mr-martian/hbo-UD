@@ -13,7 +13,7 @@ def surf(w):
 
 def get(w, f, p=''):
     v = F.__getattribute__(f).v(w)
-    if not v or v in ['NA', 'unknown', 'none']:
+    if not v or v in ['NA', 'unknown', 'none', '>']:
         return ''
     else:
         return f'<{p}{v}>'
@@ -62,6 +62,8 @@ for w in F.otype.s('word'):
         phr_ft += get(c, f)
     phr_ft += get(c, 'rela', 'rela:')
     phr_ft += clause_parent(c)
+    q_depth = (F.txt.v(c) or '').count('Q')
+    phr_ft += f'<txt:{q_depth}>'
     srf = surf(w)
     if srf != 'blah':
         srf = srf[:len(F.g_lex_utf8.v(w))] or 'blah'
@@ -69,6 +71,7 @@ for w in F.otype.s('word'):
     tags = ''
     for f in feats:
         tags += get(w, f)
+    tags += get(w, 'uvf', 'uvf:')
     tags += phr_ft
     tags += f'<w{w}>'
     lu = ''
@@ -84,7 +87,7 @@ for w in F.otype.s('word'):
         prn += get(w, f)
     if prn:
         srf = surf(w)[len(F.g_lex_utf8.v(w)):]
-        lu += f'^{srf}/prn<prn>{prn}{phr_ft}$'
+        lu += f'^{srf}/prn<prn>{prn}<w{w}p>{phr_ft}$'
     for c in F.trailer_utf8.v(w):
         if c == ' ':
             lu += c

@@ -1,0 +1,511 @@
+DELIMITERS = "<svb>" ;
+
+####################
+# Boundaries
+####################
+
+LIST PB = pb ;
+LIST CB = cb ;
+LIST SB = sb ;
+LIST SVB = svb ;
+LIST BD = pb cb sb svb ;
+
+####################
+# POS
+####################
+
+LIST Det = art ;
+LIST Pr = prep ;
+LIST Noun = subs nmpr (verb ptcp) (verb ptca) ;
+LIST RelMark = ("אשׁר" conj @mark) ("ה" conj CP Rela) ("שׁ" conj) ;
+LIST Number = card ordn ;
+LIST PRON = prde prps prn ;
+LIST ADJ = adjv ;
+LIST ADV = advb nega ;
+LIST SCONJ = "כי" "פן" "אשׁר" "אם" "שׁ" "ה" "לולא" "לו" (conj retag:prep) (conj retag:subs ppre) ;
+LIST NonMarkingSCONJ = "לו" ;
+
+####################
+# Subcategories
+####################
+
+LIST Participle = ptca ptcp ;
+
+####################
+# Text-Fabric labels
+####################
+
+# Complete
+
+LIST Function = Adju Cmpl Conj EPPr ExsS Exst Frnt Intj IntS Loca Modi ModS NCop NCoS Nega Objc PrAd PrcS PreC Pred PreO PreS PtcO Ques Rela Subj Supp Time Unkn Voct ;
+LIST ClauseType = AjCl CPen Defc Ellp InfA InfC MSyn NmCl Ptcp Reop Unkn Voct Way0 WayX WIm0 WImX WQt0 WQtX WxI0 WXIm WxIX WxQ0 WXQt WxQX WxY0 WXYq WxYX WYq0 WYqX xIm0 XImp xImX XPos xQt0 XQtl xQtX xYq0 XYqt xYqX ZIm0 ZImX ZQt0 ZQtX ZYq0 ZYqX ; # feature typ
+LIST AGen = m f ;
+LIST ANum = sg du pl ;
+LIST ADet = det und ;
+LIST Domain = N D Q ? QQ ;
+LIST Rela = rela:Adju rela:Attr rela:Cmpl rela:Coor rela:Objc rela:PrAd rela:PreC rela:ReVo rela:Resu rela:RgRc rela:Spec rela:Subj ;
+
+# Subsets
+
+LIST VavClause = Way0 WayX WIm0 WImX WQt0 WQtX WxI0 WXIm WxIX WxQ0 WXQt WxQX WxY0 WXYq WxYX WYq0 WYqX ;
+LIST VerbInitial = Way0 WayX ;
+LIST NonQuote = N D ? ;
+LIST RelaNonAcl = rela:Cmpl rela:Objc rela:PreC ;
+
+####################
+# Helper labels
+####################
+
+LIST HasConj = HasConj ;
+LIST HasMark = HasMark ;
+LIST HasRel = HasRel ;
+
+LIST PPHead = PPHead ;
+LIST NPHead = NPHead ;
+
+LIST CR = ClauseRoot ;
+LIST ClauseRoot = ClauseRoot ; # is root of clause
+LIST FullClauseRoot = FullClauseRoot ; # is root of non-relative clause
+LIST SR = SentenceRoot ;
+
+SET PlainC = CR - HasMark - HasRel - (@nsubj:outer) ;
+SET PlainNC = PlainC - HasConj ;
+
+LIST Lemma = ".*"r ;
+LIST Lemma2 = ".*"r ;
+
+LIST Q = Q ;
+LIST QQ = QQ ;
+LIST NQ = NQ ;
+LIST QuoteLevel = NQ Q QQ ;
+
+LIST VerbArgs = @nsubj @obj @obl @vocative (@xcomp adjv) (@advcl infa) (@advcl infc) @advmod ;
+
+####################
+# Word lists
+####################
+
+LIST AdvclObl = ("בלי" subs CP) ;
+LIST NegObl = ("בלת" subs InfC) ;
+LIST QMark = ("לאמר" SCONJ verb) ;
+
+LIST CaseAbleAdv = "כן" "שׁם" "פה" "שׁם" "הלאה" "הנה" "עתה" "אז" "כה" ;
+
+LIST FamilyOrTitle = "בן" "בת" "אב" "כלה" "אשׁה" "מלך" "גברת" "שׂר" "אחות" "כהן" "אח" "שׁפחה" "אדון" "אלוף" ;
+
+LIST CcompVerb = "ראה" "ירא" "ידע" "נחם" "נגד" ;
+LIST XcompVerb = "שׁחת" "קרא" "מלא" "לבשׁ" "שׁחת" "מהר" "יכל" "חדל" "אמץ" "כלה" ;
+LIST AdvclMarkVerb = "קרא" ;
+LIST PrAdvcl = "עד" ;
+LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "קרב" "יאל" "לאה" "צוה" "נתן" ;
+
+LIST SpeakingVerb = quot "ברך" "צוה" "נגד" "דבר" "ענה" "שׁמע" ;
+
+LIST ConjAblePrep = "כמו" "למען" "עד" ;
+LIST ConjAbleSubsPrep = "בלת" ;
+LIST SubsToPrep = "אחר" "בין" "אצל" "בעד" ;
+
+LIST Masculine = "מכיר" "אשׁר" "בצע" "בקר" ;
+# TODO: BDB says sometimes masculine
+LIST FeminineMixed = "ארץ" "יד" "צאן" "אשׁ" "גן" "גפן" ;
+# TODO: BDB says sometimes feminine
+LIST MasculineMixed = "לחם" "דרך" "אור" "אות" "ארון" "גמל" ;
+
+SET GeneologyTitle = ("אלוף" Genesis) - (w20123) ;
+
+####################
+# Special-case words
+####################
+
+LIST PPHeadOverride = (Ruth w575) (Ruth w580) ;
+
+# Apposition and NP conjunction
+LIST FamilyOrTitleSkip = (Genesis w14663) ;
+
+LIST ApposToLastGen = w265 w297 w307 w640 w648 w734 w1129 w1257 w1338 w1966 w2993 w3000 w5450 w7733 w11294 w12466 w12610 w12711 w13874 w14590 w14649 w18761 w18788 w19072 w3308 w3314 w3331 w5402 w4106 w4185 w6817 w6820 w2672 w8520 w8578 w9563 w24352 w24349 w6459 w27627 w27629 w7423 w10681 w10987 w11356 ;
+LIST ApposToLastRut = w19 w50 w93 w1528 ;
+SET ApposToLast = ApposToLastGen + (Genesis) OR ApposToLastRut + (Ruth) ;
+
+LIST ApposOverAcl = (Genesis w3325) (Genesis w12858) (Genesis w14778) (Genesis w10252) ;
+
+LIST ApposOverride = (w93 Ruth) (w189 Genesis) (Genesis w14323) (Genesis w4544) ;
+LIST ConjToAppos = w36714 (w7950 Exodus) (w95 Ruth) (w215 Genesis) (w313 Genesis) (Genesis w303) (Genesis w5424) (Genesis w6462) (Genesis w7517) (Genesis w7793) (Genesis w11149) ;
+LIST ConjToSmixut = (Genesis w734) (Genesis w6582) (Genesis w6628) (Genesis w8154) ;
+
+# prn doesn't have w###, so use preceding prep
+LIST PrnNmodToSublist = (Genesis w2960) (Genesis w3165) (Genesis w3871) (Genesis w3921) (Genesis w4172) (Genesis w3298) (Genesis w26108) ;
+
+# @acl and @advcl
+LIST NonAclOverride = (Genesis w2676) (Ruth w1682) (Genesis w10555) ;
+
+LIST MarkOverride = (Genesis w1508) (Genesis w1561) (Genesis w2064) (Genesis w2072) (Genesis w14455) (Genesis w15341) (Ruth w319) (Genesis w8867) ;
+LIST NonMarkOverride = (Genesis w1243) (Genesis w11173) ;
+LIST NonRelOverride = (Genesis w2676) (Genesis w10555) ;
+
+LIST PreMark = (Genesis w1774) (Genesis w6030) (Genesis w6036) (Genesis w11906) (Genesis w16927) (Genesis w17650) (Genesis w28321) (Ruth w1212) (Ruth w1206) (Ruth w1412) (Genesis w6169) (Genesis w9388) (Genesis w8176) (Genesis w11268) (Genesis w25408) ;
+LIST PostMark = (Genesis w1035) (Genesis w1231) (Genesis w2977) (Ruth w948) (Ruth w1301) (Ruth w1467) (Genesis w5736) (Genesis w17852) (Genesis w7273) (Genesis w8069) (Genesis w28587) (Genesis w17852) (Genesis w28587) ;
+LIST NestMark = (Genesis w2099) (Genesis w2760) (Genesis w13723) (Genesis w16271) (Genesis prn c32626) (Genesis w21741) (Genesis w25551) (Ruth w122) (Ruth w127) (Ruth w266) (Ruth w1161) (Ruth w1181) (Ruth w1325) (Genesis w8239) ;
+LIST MarkToAcl = (Genesis w1848) (Genesis w19068) (Genesis w26087) (Ruth w714) (Genesis w12378) (Genesis w5084) ;
+
+LIST ActuallyCcomp = (w351 Genesis) (Genesis w1037) (Genesis w1251) (Genesis w7129) (Genesis w3697) (Genesis w10561) ;
+LIST ActuallyAdvcl = (Genesis w26044) (Genesis w28625) (Ruth w1161) (Ruth w1187) (Ruth w1418) (Genesis w8318) (Genesis w15305) (Genesis w7576) (Genesis w15883) (Genesis w25513) (Genesis w23318) (Genesis w23300) (Genesis w18024) (Genesis w9388) (Genesis w8176) (Genesis w9841) (Genesis w9928) (Genesis w13245) (Genesis w10555) ;
+
+LIST DontConjTo = (Genesis w4993) ;
+LIST HasConjOverride = (Genesis w4584) ;
+
+####################
+# Universal Dependencies
+####################
+
+LIST @root = @root ;     # The root of the sentence, often a finite verb
+LIST @nsubj = @nsubj ;   # The nominal subject of the sentence
+LIST @nsubj:outer = @nsubj:outer ;
+LIST @amod = @amod ;       # 
+LIST @advmod = @advmod ; # An adverbial modifier
+LIST @case = @case ;     # The relation of an adposition to its head
+LIST @acl = @acl ;       # A clause which modifies a nominal
+LIST @nmod = @nmod ;     # Nominal modifier 
+LIST @dobj = @dobj ;     # The direct object of the sentence
+LIST @punct = @punct ;   # Any punctuation
+LIST @cop = @cop ;       # 
+LIST @nmod:poss = @nmod:poss ;
+LIST @obl = @obl ;
+LIST @obj = @obj ;
+LIST @advcl = @advcl ;
+LIST @aux = @aux ;
+LIST @parataxis = @parataxis ;
+LIST @det = @det ;
+LIST @csubj = @csubj ;
+LIST @nummod = @nummod ;
+LIST @compound = @compound ;
+LIST @compound:smixut = @compound:smixut ;
+LIST @cc = @cc ;
+LIST @conj = @conj ;
+LIST @ccomp = @ccomp ;
+LIST @mark = @mark ;
+LIST @discourse = @discourse ;
+LIST @vocative = @vocative ;
+LIST @appos = @appos ;
+LIST @dislocated = @dislocated ;
+LIST @xcomp = @xcomp ;
+LIST @flat = @flat ;
+LIST @flat:name = @flat:name ;
+LIST @orphan = @orphan ;
+LIST @fixed = @fixed ;
+LIST @dep = @dep ;       # Any remaining dependency
+
+####################
+# Special-case words
+####################
+
+LIST etNotAcc = NonAcc (Genesis w2857) (Genesis w2946) (Genesis w3165) (Genesis w3529) (Genesis w3560) (Genesis w3693) (Genesis w4172) (Genesis w4221) (Genesis w13880) (Ruth w897) (Ruth w901) (Genesis w25257) ;
+
+####################
+# Unsorted lists
+####################
+
+LIST NPish = NP PP ;
+LIST SubsOverride = (Genesis w20500) (Ruth w1233) (Genesis w13703) (Genesis w14216) ; # actually nouns, don't retag as prep
+LIST ItgAdv = "מתי" "איפה" "איך" "אן" "מדוע" ;
+LIST VoctNonCROverride = (Genesis s81570) (Genesis s81725) (Genesis s85145) (Genesis s82809) (Genesis w9312) ;
+LIST NsubjPrn = ExsS ModS NCoS PrcS PreS (InjP IntS ClausePhraseRoot) ;
+LIST ObjPrn = PreO PtcO ;
+LIST BigNumber = "עשׂרה" "מאה" "עשׂר" ;
+LIST NumberedOverride = (Genesis w3094) ; # should have @nummod child but normally wouldn't
+LIST PrnMaybeDet = prde (prps p3) ;
+LIST BetterHeads = Pred Subj Objc PreC PreO ;
+LIST AdvIsh = (advb AdvP) (nega NegP) ;
+LIST NumberLabel = @nummod @conj @flat ;
+LIST ConjHeadOverride = (Genesis w3284) (Genesis w3292) (Genesis w3327) (Genesis w4544) (Genesis w6216) ;
+LIST NPIsh = NP PPrP PP PrNP PreO ;
+LIST Titles = "בכר" ;
+LIST Inf = (infc InfC) PrepVerb ;
+LIST NmodOverridePrep = (Genesis w17245) (Genesis w15328) ; # prep whose prn should get @nmod
+LIST ApposToConjHead = (Genesis w3289) (Genesis w3332) ;
+LIST YesApposAble = subs nmpr prn (adjv NPHead) (adjv PPHead) ;
+LIST NoApposAble = wp2 @nmod:poss ;
+SET ApposAble = YesApposAble - NoApposAble ;
+LIST NorP = NPHead PPHead ;
+LIST CorC = (@conj) (@compound:smixut) ;
+LIST ConjSkipClause = (Genesis w1771) (Genesis w11903) (Ruth w1409) (Genesis w9386) (Genesis w8174) (Genesis w6737) (Genesis w6738) ; # conjunction to clause after next clause
+LIST NoGlom = prep ;
+LIST SubjIsh = Subj (IntS prn) ;
+LIST OblIsh = Time Cmpl Loca Modi Adju Supp (Conj PPHead) ;
+LIST PredIsh = PreC PrcS PrAd PreO PreS PtcO ;
+LIST CopIsh = (Pred vbcp) NCop NCoS ;
+LIST NonCopIsh = (Genesis w1955) ;
+LIST OrphanPrepVerb = (Genesis w18716) ;
+LIST RelaCRToPrev = (Genesis w1037) (Ruth w1316) (Genesis w3697) (Genesis w6172) (Genesis w21741) (Genesis ph59024 ClauseRoot) ;
+LIST ObjcXcomp = "יסף" "יכל" ;
+LIST AdjuXcomp = "מהר" "נתן" ("אמץ" hit) "חדל" "צוה" "כלה" "חפץ" "יסף" "חלל" "קרב" "ירא" "מלא" "לאה" "יאל" "אבה" ;
+LIST Ptc = ptcp ptca infc ;
+LIST AdvclAble = ("כי" conj @mark) ("אם" conj @mark) ;
+LIST ActuallyAcl = (Genesis ClauseRoot ph47742) ;
+LIST OrphanInfc = (Genesis w18716) ;
+LIST NonFCROverride = (Genesis w5072) ;
+LIST FCRSkip = @csubj @acl @advcl rela:Attr ;
+LIST SmallQstQ = inrg prin ;
+LIST SmallQstPrn = prde prn ;
+LIST AdjNonAcl = (Genesis w23609) ;
+LIST SubjAble = subs prps nmpr prde prn prin ;
+LIST NonCsubjOverride = (Genesis w1956) ;
+LIST CsubjOverride = (Genesis w1006) (Genesis w5072) ;
+LIST ObjAble = subs prn nmpr prin prde ;
+LIST ObjIsh = @obj ProbablyObj ;
+LIST XcompOverride = (Genesis w17124) (Genesis w26289) ;
+LIST AclChain = (Genesis w603) ;
+LIST RelSkip = (Ruth w550) ;
+LIST RelToPrn = (Ruth w1714) ;
+LIST ConjTypes = CPen NmCl MSyn ;
+LIST AclAble = subs adjv ptcp ptca nmpr ;
+LIST AclCompOk = (Exodus w3801) (Exodus w5417) ;
+LIST AclCompNotOk = (Genesis w1179) (Genesis w12528) (Genesis w12613) (Ruth w712) (Genesis w26221) (Genesis w26340) (Genesis w26404) (Genesis w24882) (Genesis w11227) ;
+LIST AclMultiTarget = (Genesis w391) (Genesis w9660) (Genesis w9740) ;
+LIST XorO = (@xcomp ProbablyObj) @obj ;
+LIST PrepVerbChain = (Genesis w13720) (Genesis w16269) ;
+LIST CRconj = @ccomp @root @parataxis ;
+LIST CcompAble = "חלל" "נתן" "מהר" "צוה" "שׁמע" ;
+LIST AttrSkipAcl = (Genesis w22880) ;
+LIST ClauseCon = @conj @parataxis @xcomp ;
+LIST ConjToAdvcl = (Genesis w772) ;
+LIST ConjToAcl = (Genesis w845) (Genesis w5094) ;
+LIST DontConj = @conj @acl @nmod @xcomp @appos @advcl @nmod:poss (@ccomp N) @obl @mark HasConj @csubj skipconj (@ccomp rela:Objc) ;
+SET DetAble = Noun OR ADJ OR PRON ;
+SET AdjNonBar = (*) - (nega) ;
+SET ProbablyNumber = Number + NumberLabel ;
+SET CaseAble = Noun - ProbablyNumber OR PRON OR (verb infc) - QMark OR (verb infa) OR CaseAbleAdv + ADV OR (prin) OR (inrg);
+SET AfterPrep = Det OR @case OR @nummod OR @cc OR ProbablyNumber ;
+SET NonAppos = NPHead - @appos ;
+SET SpecialMark = MarkToAcl OR NestMark OR PreMark OR PostMark ;
+SET NonNmCl = (*) - (NmCl) - (prn) ;
+SET CorR = (conj CP) OR RelMark ;
+SET CorM = CR OR (nmcp) - @cop ;
+SET MSynIsh = CorR + @cc OR @advmod ;
+LIST ActuallyParataxis = (Genesis w888) (Genesis w921) (Genesis w935) (Genesis w2979) (Genesis w4072) (Genesis w4208) (Genesis w12675) (Genesis w12530) (Genesis w7997) (Genesis w23609) ;
+LIST ActuallyNsubj = (Genesis w886) (Genesis w919) (Genesis w933) ;
+LIST ActuallyCsubj = (Genesis w5072) ;
+LIST ActuallyObl = (Genesis ph57618) ;
+LIST QuoteSkipAcl = (Genesis w7270) ;
+LIST ParenSent = (Genesis s82236) ;
+LIST ActuallyInf = (Genesis w13111) ;
+
+########################################
+# INDIVIDUAL WORDS
+########################################
+
+BEFORE-SECTIONS
+
+####################
+# Hide Punctuation
+####################
+
+MAP @punct (punct) ;
+REMCOHORT IGNORED (punct) ;
+
+####################
+# Corrections
+####################
+
+LIST MislabeledAsNarrative = w1404 w1405 w1423 w1424 w14251 w14252 w14253 (Genesis s80885) (Ruth s5672) (Ruth s5673) (Genesis s83562) (Ruth s5647) (Ruth s5650) (Ruth s5651) (Genesis s85072) (Genesis s83308) (Genesis s83309) (Genesis s84608) (Genesis s83116) (Genesis s83082) (Genesis s81615) (Genesis s81616) (Genesis s81881) ;
+SUBSTITUTE (N) (Q) MislabeledAsNarrative ;
+
+LIST UnknownShouldBeNarrative = (Genesis w2137) ;
+SUBSTITUTE (?) (N) UnknownShouldBeNarrative ;
+
+SUBSTITUTE (infc) (infa) (Ruth w797) ;
+
+ADD (m) Noun - AGen IF (0 Masculine OR MasculineMixed) ;
+ADD (f) Noun - AGen IF (0 FeminineMixed) ;
+
+####################
+# Nested Quotations
+####################
+
+LIST DoubleQuoteGen = s80831 s80834 s80836 s80837 s80886 s81424 s81443 s81543 s81737 s81766 s81767 s81785 s81829 s81933 s81999 s82001 s82028 s82037 s82159 s82295 s82315 s82367 s82380 s82382 s82410 s82412 s82413 s82446 s82450 s82599 s82626 s82629 s82776 s82946 s83252 s83255 s83285 s83303 s83318 s83319 s83327 s83431 s83432 s83449 s83459 s83470 s83474 s83479 s83480 s83482 s83510 s83626 s83628 s83906 s83919 s84071 s84283 s84313 s84382 s84435 s84464 s84492 s84537 s84545 s84551 s84552 s84555 s84638 s84673 s84681 s84708 s84709 s84719 s84722 s84765 s84804 s84805 s84828 s84934 s84941 s84943 s85134 s85229 s85230 s85261 s85262
+c29820 ; # TODO: handle rela:Objc properly
+LIST DoubleQuoteRuth = s5648 s5649 s5720 s5825 ;
+SET DoubleQuote = (Genesis) + DoubleQuoteGen OR (Ruth) + DoubleQuoteRuth ;
+SUBSTITUTE (Q) (QQ) DoubleQuote ;
+
+ADD NQ (*) - QuoteLevel ;
+
+####################
+# MWE names
+####################
+
+SUBSTITUTE (nmpr a) (subs c m retag:nmpr) ("בית" wp1) ;
+SUBSTITUTE (nmpr a) (subs c m retag:nmpr) ("בן" wp1) ;
+SUBSTITUTE (nmpr) (subs retag:nmpr m) ("אל" wp2) ;
+SUBSTITUTE (nmpr) (subs retag:nmpr) ("לחם" wp2) ;
+SUBSTITUTE (nmpr) (subs retag:nmpr) ("צדק" wp2) ;
+SUBSTITUTE ("מלכי" nmpr) ("מלך" subs c retag:nmpr) (wp1 Genesis w6557) ;
+SUBSTITUTE ("עמי" nmpr) ("עם" subs retag:nmpr has_prn) ("עמי" wp2) ;
+SUBSTITUTE ("אוני" nmpr) ("און" subs retag:nmpr has_prn) ("אוני" wp2) ;
+ADDCOHORT ("<prn>" "אני" prn p1 sg) AFTER ("עם" subs retag:nmpr) ;
+ADDCOHORT ("<prn>" "אני" prn p1 sg) AFTER ("און" subs retag:nmpr) ;
+
+MAP @flat:name (nmpr wp2) IF (-1 (nmpr wp1)) ;
+SETPARENT @flat:name TO (-1* (nmpr wp1)) ;
+
+####################
+# MWE conjunctions
+####################
+
+SETPARENT ("אם" conj) OR ("כי" conj) TO (-1 ("עד" prep)) ;
+MAP @fixed ("אם" conj) OR ("כי" conj) IF (-1 ("עד" prep)) ;
+SUBSTITUTE (prep) (conj retag:prep) ("עד") IF (c @fixed) ;
+
+####################
+# Retagging
+####################
+
+# quotation
+MERGECOHORTS ("<le'emor>" "$2$1"v SCONJ *) ("(אמר)"r verb infc) - ActuallyInf WITH (-1 ("(ל)"r prep)) ;
+
+# Substantivized adjectives
+SUBSTITUTE (adjv) (subs retag:adjv) (c) ;
+SUBSTITUTE (adjv) (subs retag:adjv) (a) (1 BD) (-1* Noun + (c) BARRIER (*) - Det) ;
+SUBSTITUTE (adjv) (subs retag:adjv) (adjv a) (1 (prn)) ;
+# TODO: does this really apply to all gentillics?
+SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl pl) ;
+SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl) (-1* Noun + (c) BARRIER (*) - Det) ;
+SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl) (NEGATE 0* (subs) - (retag:adjv gntl) OR (nmpr) BARRIER PB) ;
+
+# Participles in smixut
+SUBSTITUTE (verb) (subs retag:verb) Participle + NPish ;
+
+# Adverbs tagged subs
+SET AdvOk = (*) - (punct) - (prn ModS) - ("מאד" padv) ;
+SUBSTITUTE (subs) (advb retag:subs) (padv) - (NP) (-1* BD BARRIER AdvOk) (1* BD BARRIER AdvOk) ;
+
+# Determiner on clause participles
+SUBSTITUTE (art) (conj retag:art) (CP Rela) ;
+
+# Prepositions tagged as nouns
+SUBSTITUTE (subs) (conj retag:subs) ConjAbleSubsPrep + (CP) ;
+SUBSTITUTE (subs) (advb retag:subs) ("אחר" subs ppre AdvP) (1 BD) ;
+SUBSTITUTE (subs) (prep retag:subs) SubsToPrep + (subs ppre) ;
+SUBSTITUTE (subs) (prep retag:subs) (ppre CP Conj)
+    IF (NOT 0 SubsOverride)
+       (NEGATE 0 ("טרם" subs) LINK -1 ("ב" prep))
+       (NEGATE 0 ("בלי" subs CP) LINK -1* ("על" prep) BARRIER PB) ;
+
+SUBSTITUTE (prep) (conj retag:prep) ConjAblePrep + (CP)
+    IF (NOT 1 ("אשׁר" conj)) ;
+
+# yesh and ein
+SUBSTITUTE (subs) (verb retag:subs ClauseRoot) (nmcp) ;
+
+# interrogative adverbs
+SUBSTITUTE (inrg) (advb retag:inrg) ItgAdv ;
+
+####################
+# Helper labels
+####################
+
+ADD (NonAcc) ("את" prep Cmpl) + $$ClauseType - (NonAcc)
+    IF (0* ("את" prep Objc) + $$ClauseType BARRIER SB) ;
+ADD PPHead PPHeadOverride - PPHead ;
+
+SUBSTITUTE (ClausePhraseRoot) (WhyAreVocativesTheirOwnClause) VoctNonCROverride ;
+SUBSTITUTE (ClausePhraseRoot) (WhyAreVocativesTheirOwnClause) (Voct) IF (0* (ClausePhraseRoot) - (Voct) BARRIER SB) ;
+
+ADD (ClausePhraseRoot) ("חלילה" intj) - (ClausePhraseRoot) ;
+SUBSTITUTE (ClausePhraseRoot) (InterjectionOverride) (*) - (intj)
+    IF (0* ("חלילה" intj) BARRIER CB) ;
+
+ADD (skipconj) DontConjTo - (skipconj) ;
+ADD HasConj HasConjOverride - HasConj ;
+
+####################
+# Consistent labels
+####################
+
+MAP @punct (punct) ;
+MAP @det Det ;
+MAP @mark SCONJ + (conj CP) ;
+MAP @mark ("ה" inrg) ;
+MAP @obj ("את") + Pr IF (1 RelMark) ;
+MAP @obl Pr IF (1 RelMark) ;
+MAP @case Pr ;
+MAP @cc (conj) - (Rela) ;
+MAP @advmod ADV - (ClausePhraseRoot) - PPHead ;
+MAP @advmod ADV + (MSyn) ;
+MAP @advmod ADV + (ClausePhraseRoot) IF (0* PRON BARRIER BD) ;
+MAP @advmod ("למה" inrg) ;
+MAP @discourse (intj) - (ClausePhraseRoot) ; # TODO: is there a better way to handle הנה?
+
+####################
+# Pronoun suffixes
+####################
+
+SUBSTITUTE ("prn") ("אני") ("prn" prn p1 sg) ;
+SUBSTITUTE ("prn") ("אנחנו") ("prn" prn p1 pl) ;
+SUBSTITUTE ("prn") ("אתה") ("prn" prn p2 m sg) ;
+SUBSTITUTE ("prn") ("את") ("prn" prn p2 f sg) ;
+SUBSTITUTE ("prn") ("אתם") ("prn" prn p2 m pl) ;
+SUBSTITUTE ("prn") ("אתן") ("prn" prn p2 f pl) ;
+SUBSTITUTE ("prn") ("הוא") ("prn" prn p3 m sg) ;
+SUBSTITUTE ("prn") ("היא") ("prn" prn p3 f sg) ;
+SUBSTITUTE ("prn") ("הם") ("prn" prn p3 m pl) ;
+SUBSTITUTE ("prn") ("הן") ("prn" prn p3 f pl) ;
+
+WITH ("ו" conj) IF (cll (*)) {
+  SETPARENT REPEAT (*) (cA (*)) TO (jC1 (*)) ;
+  SETPARENT _C1_ TO (p (*) LINK p (*)) ;
+  SETPARENT (*) TO (jC1 (*)) ;
+} ;
+
+WITH ("ו" conj) IF (pl (*)) (sllr (*)) {
+  SETPARENT (*) TO (sllr (*)) ;
+  MAP @cc (*) ;
+  MAP @conj (*) IF (pA (*)) ;
+} ;
+
+WITH ("היה" vbcp) IF (c (PreC)) {
+  MAP @cop (*) ;
+  SETPARENT _C1_ TO (p (*) LINK p (*)) ;
+  SETPARENT (*) TO (jC1 (*)) ;
+} ;
+
+SETPARENT (*) TO (p ("היה" vbcp) LINK p (PreC)) ;
+
+WITH (txt:1 _) IF (srrl (txt:0)) {
+  SETPARENT (*) TO (jC1 (*)) ;
+  MAP @ccomp (*) ;
+} ;
+
+MAP @ccomp (txt:1) IF (p (txt:0)) ;
+
+#SETPARENT (*) (p ("היה" vbcp)) TO (p (*) LINK p (*)) ;
+
+LIST FinCL = /((S|V|O2?|PP?)-)+(S|V|O2?|PP?)/r ;
+
+MAP @conj $$Function IF (c ("ו" conj)) (p $$Function) ;
+MAP @conj (_) IF (c ("ו" conj)) (p (_)) ;
+
+MAP @compound:smixut (NP NPofNP) ;
+MAP @compound:smixut (PP NPofNP) ;
+MAP @nsubj (Subj NP) + FinCL ;
+MAP @obj (Objc) + FinCL ;
+MAP @obl (PP) + FinCL ;
+MAP @nummod (NpNump) ;
+
+SECTION
+
+SETPARENT (*) TO (p ("ו" conj) LINK p (*)) ;
+
+AFTER-SECTIONS
+
+MAP @root (*) ;
+
+WITH @root IF (p @root) {
+  UNMAP @root ;
+  MAP @parataxis (*) ;
+} ;
+
+REMCOHORT (pb) ;
+REMCOHORT (cb) ;
+REMCOHORT (sb) ;
+REMCOHORT (svb) ;
+#REMCOHORT (excb) ;

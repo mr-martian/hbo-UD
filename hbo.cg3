@@ -326,7 +326,7 @@ LIST DoubleQuoteRuth = s5648 s5649 s5720 s5825 ;
 SET DoubleQuote = (Genesis) + DoubleQuoteGen OR (Ruth) + DoubleQuoteRuth ;
 SUBSTITUTE (Q) (QQ) DoubleQuote ;
 
-ADD NQ (*) - QuoteLevel ;
+ADD NQ (*) - QuoteLevel - BD ;
 
 ####################
 # MWE names
@@ -1048,8 +1048,8 @@ SETPARENT @nsubj OR @case (p @cop) TO (p @cop LINK p (*)) ;
 
 SETPARENT @discourse (NOT p (*)) TO (0* CR BARRIER SB) ;
 
-REMCOHORT (pb) ;
-REMCOHORT (cb) ;
-REMCOHORT (sb) ;
+REMCOHORT REPEAT (pb) ;
+REMCOHORT REPEAT (cb) ;
+REMCOHORT REPEAT (sb) ;
 REMCOHORT (svb) ;
 #REMCOHORT (excb) ;

@@ -9,7 +9,33 @@ def norm(s):
     return unicodedata.normalize('NFC', s).replace('שׁ', 'שׁ').replace('שׂ', 'שׂ')
 
 def surf(w):
-    return norm(T.text(w).strip(F.trailer_utf8.v(w))) or 'blah'
+    ws = norm(T.text(w).strip(F.trailer_utf8.v(w))) or 'blah'
+    prs = F.prs.v(w)
+    if prs and prs not in ['absent', 'n/a']:
+        cons = {
+            'W': ['ו', 'ה'],
+            'J': ['י'],
+            'K': ['כ', 'ך'],
+            'H': ['ה', 'נ', 'ת'],
+            'M': ['מ', 'ם'],
+            'N': ['נ', 'ן'],
+            # ignore '='
+        }
+        #print(ws, prs, file=sys.stderr)
+        i = len(ws)-1
+        p = len(prs)-1
+        while p >= 0:
+            if prs[p] not in cons:
+                p -= 1
+            elif ws[i] in cons[prs[p]]:
+                p -= 1
+                i -= 1
+            else:
+                i -= 1
+                continue
+        return ws[:i+1], ws[i+1:]
+    else:
+        return ws, ''
 
 def get(w, f, p=''):
     v = F.__getattribute__(f).v(w)
@@ -64,9 +90,7 @@ for w in F.otype.s('word'):
     phr_ft += clause_parent(c)
     q_depth = (F.txt.v(c) or '').count('Q')
     phr_ft += f'<txt:{q_depth}>'
-    srf = surf(w)
-    if srf != 'blah':
-        srf = srf[:len(F.g_lex_utf8.v(w))] or 'blah'
+    srf, psrf = surf(w)
     lem = norm(F.lex_utf8.v(w))
     tags = ''
     for f in feats:
@@ -86,8 +110,7 @@ for w in F.otype.s('word'):
     for f in ['prs_ps', 'prs_gn', 'prs_nu']:
         prn += get(w, f)
     if prn:
-        srf = surf(w)[len(F.g_lex_utf8.v(w)):]
-        lu += f'^{srf}/prn<prn>{prn}<w{w}p>{phr_ft}$'
+        lu += f'^{psrf}/prn<prn>{prn}<w{w}p>{phr_ft}$'
     for c in F.trailer_utf8.v(w):
         if c == ' ':
             lu += c

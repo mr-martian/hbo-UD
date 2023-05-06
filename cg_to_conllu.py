@@ -111,7 +111,7 @@ class Word:
                     self.tail = ' ' if ' ' in self.text else '־'
                     self.wid = 0
                 self.text = self.text.replace('־', ' ').split()[self.seg-1]
-                self.surf = self.text
+                #self.surf = self.text
             if (F.prs.v(last_wid) and F.prs.v(last_wid) not in ['absent', 'n/a']):
                 self.is_end = False
             bk = BOOK_ABBR.get(T.bookName(last_wid))
@@ -136,6 +136,7 @@ class Word:
                 self.seg = int(tg[2:])
             elif tg[0] == 'w' and tg[-1] != 'p':
                 self.wid = int(tg[1:])
+                #self.misc.append('BHSA=' + str(self.wid))
                 if self.xpos == 'SCONJ':
                     self.wid = [self.wid-1, self.wid]
                     self.xpos = 'verb'
@@ -243,8 +244,8 @@ class Sentence:
                     nw.misc.append('SpaceAfter=No')
                 self.all_words.append(nw)
                 self.all_words += g
-                for w in g:
-                    w.surf = '_'
+                #for w in g:
+                #    w.surf = '_'
             else:
                 w = g[0]
                 w.surf = w.lemma if w.xpos == 'punct' else w.text

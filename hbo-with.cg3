@@ -1,4 +1,5 @@
 DELIMITERS = "<svb>" ;
+OPTIONS += safe-setparent ;
 
 ####################
 # Boundaries
@@ -453,11 +454,11 @@ WITH (prn) - DepLabel IF (-1 Noun - (verb)) (NOT p (*)) {
 # Determiners
 ####################
 
-SETPARENT Det (NOT p (*)) TO (1 DetAble) ;
+SETPARENT Det TO (1 DetAble) ;
 MAP @det PrnMaybeDet IF (-1 Det LINK -1 Noun) ;
-SETPARENT @det (NOT p (*)) TO (-1* Noun BARRIER (*) - Det) ;
+SETPARENT @det TO (-1* Noun BARRIER (*) - Det) ;
 MAP @det PrnMaybeDet IF (-1 Number) ;
-SETPARENT @det + PrnMaybeDet (NOT p (*)) TO (-1 Number) ;
+SETPARENT @det + PrnMaybeDet TO (-1 Number) ;
 REMCOHORT IGNORED WITHCHILD (*) @det ;
 
 ####################
@@ -477,12 +478,12 @@ WITH Number - DepLabel IF (-1 @cc) (-2 Number) (NOT p (*)) {
   REMCOHORT IGNORED WITHCHILD (*) (*) ;
 } ;
 
-SETPARENT Number + (c) (NOT p (*)) TO (1 Noun - Number) ;
-SETPARENT Number (NOT p (*)) (-1 Noun + (c)) TO (1 Noun) ;
-SETPARENT Number (NOT p (*)) TO (-1 Noun - Number) ;
-SETPARENT Number (NOT p (*))
+SETPARENT Number + (c) TO (1 Noun - Number) ;
+SETPARENT Number (-1 Noun + (c)) TO (1 Noun) ;
+SETPARENT Number TO (-1 Noun - Number) ;
+SETPARENT Number
     TO (1* Noun - Number OR NumberedOverride BARRIER (*) - Number - @cc) ;
-SETPARENT Number (NOT p (*))
+SETPARENT Number
     TO (0* Noun - Number BARRIER (*) - Number - @cc) ;
 MAP @nummod Number IF (p Noun OR (prn) OR NumberedOverride) (NEGATE c @nmod) ;
 
@@ -500,10 +501,10 @@ WITH $$Lemma + (subs) - DepLabel
     MAP @conj (*) ;
     SETPARENT (*) TO (jC1 (*)) ;
   } ;
-SETPARENT @cc (NOT p (*)) TO (1 (subs @conj)) ;
+SETPARENT @cc TO (1 (subs @conj)) ;
 
 MAP @compound:smixut Noun OR ADJ OR (prin) IF (-1* Noun + (c) - Number BARRIER (*) - @nummod - @cc - (card @conj)) ;
-SETPARENT @compound:smixut (NOT p (*)) TO (-1* Noun - @nummod) ;
+SETPARENT @compound:smixut TO (-1* Noun - @nummod) ;
 
 ####################
 # Adjectives
@@ -516,35 +517,35 @@ WITH (nega) IF (1 ADJ) {
 
 MAP @conj ADJ IF (-1 @cc) (-2 ADJ) ;
 MAP @conj ADJ IF (-1 ADJ) (1 @cc) (2 ADJ) ;
-SETPARENT ADJ + @conj (NOT p (*))
+SETPARENT ADJ + @conj
     TO (-1* ADJ - @conj BARRIER (*) - @cc) ;
-SETPARENT @cc (NOT p (*)) (-1 ADJ) TO (1 ADJ) ;
+SETPARENT @cc (-1 ADJ) TO (1 ADJ) ;
 
-SETPARENT ADJ + $$AGen + $$ANum + $$ADet (NOT p (*))
+SETPARENT ADJ + $$AGen + $$ANum + $$ADet
     TO (-1* Noun + $$AGen + $$ANum + $$ADet BARRIER PB OR Pr) ;
-SETPARENT ADJ + $$ANum + $$ADet (NOT p (*))
+SETPARENT ADJ + $$ANum + $$ADet
     TO (-1* Noun + $$ANum + $$ADet - AGen BARRIER PB OR Pr) ;
 MAP @amod ADJ IF (p Noun) ;
 
 UNMAP @advmod IF (NOT 0 (MSyn)) (NEGATE 0* BetterHeads BARRIER SB) ;
 ADD CR AdvIsh - CR ;
 
-SETPARENT ("מאד" @advmod) (NOT p (*)) TO (-1 ADV) ;
+SETPARENT ("מאד" @advmod) TO (-1 ADV) ;
 
 ####################
 # Prepositions
 ####################
 
-SETPARENT @case (NOT p (*)) TO (1* CaseAble BARRIER (*) - AfterPrep) ;
-SETPARENT @case (NOT p (*)) TO (1*A ADJ BARRIER (*) - AfterPrep LINK NOT p (*)) ;
+SETPARENT @case TO (1* CaseAble BARRIER (*) - AfterPrep) ;
+SETPARENT @case TO (1*A ADJ BARRIER (*) - AfterPrep LINK NOT p (*)) ;
 
 ####################
 # Weird List Behavior
 ####################
 
 MAP (@nmod prn_sub) (prn) IF (c PrnNmodToSublist) ;
-SETPARENT (@nmod prn_sub) (NOT p (*)) TO (-1* ConjHeadOverride BARRIER PB) ;
-SETPARENT (@nmod prn_sub) (NOT p (*))
+SETPARENT (@nmod prn_sub) TO (-1* ConjHeadOverride BARRIER PB) ;
+SETPARENT (@nmod prn_sub)
     TO (-1* BD LINK 1* @cc LINK 1* Noun BARRIER (*) - Pr) ;
 ADD (conjhead) ConjHeadOverride IF (NOT 0 (conjhead)) ;
 ADD (conjhead) (*) - (conjhead) IF (c (@nmod prn_sub)) ;
@@ -560,14 +561,14 @@ ADD NPHead Noun OR PRON OR ADJ IF (NOT p (*)) (NOT 0 PPHead OR NPHead) ;
 # NP/PP conjunctions
 ####################
 
-SETPARENT REPEAT @cc (NOT p (*)) TO (1* NPHead OR PPHead BARRIER PB) ;
+SETPARENT REPEAT @cc TO (1* NPHead OR PPHead BARRIER PB) ;
 ADD REPEAT HasConj NPHead OR PPHead IF (NOT 0 HasConj) (c @cc) ;
 
 ####################
 # NP/PP adverbs
 ####################
 
-SETPARENT @advmod + NPIsh (NOT p (*)) TO (1* NPHead OR PPHead OR ADJ BARRIER PB) ;
+SETPARENT @advmod + NPIsh TO (1* NPHead OR PPHead OR ADJ BARRIER PB) ;
 
 ####################
 # Apposition
@@ -576,7 +577,7 @@ SETPARENT @advmod + NPIsh (NOT p (*)) TO (1* NPHead OR PPHead OR ADJ BARRIER PB)
 MAP @nmod (*) IF (c NmodOverridePrep) ;
 
 MAP @conj GeneologyTitle IF (-1* GeneologyTitle BARRIER SB) ;
-SETPARENT GeneologyTitle + @conj (NOT p (*)) TO (-1* GeneologyTitle - @conj) ;
+SETPARENT GeneologyTitle + @conj TO (-1* GeneologyTitle - @conj) ;
 
 MAP REPEAT @appos NPHead - HasConj - (nmpr) IF (-1* NPHead OR PPHead BARRIER BD) ;
 MAP REPEAT @appos NPHead - HasConj + (nmpr) IF (-1* NPHead + Titles BARRIER BD OR NPHead OR PPHead) ;
@@ -586,10 +587,10 @@ MAP REPEAT @appos NPHead - HasConj + (nmpr) IF (-1* NPHead + Titles BARRIER BD O
 ####################
 
 MAP @obl NegObl IF (1 (infc)) ;
-SETPARENT NegObl (NOT p (*)) TO (1 (infc)) ;
+SETPARENT NegObl TO (1 (infc)) ;
 
 MAP @acl (verb infc VP) IF (-1 (subs c) - NegObl) ;
-SETPARENT (verb infc VP @acl) (NOT p (*)) TO (-1 (subs c)) ;
+SETPARENT (verb infc VP @acl) TO (-1 (subs c)) ;
 
 WITH (infa) IF (-1 @cc) (-2 (infa)) {
   MAP @advcl _C2_ IF (NOT 0 (ClausePhraseRoot)) ;
@@ -598,10 +599,6 @@ WITH (infa) IF (-1 @cc) (-2 (infa)) {
   SETPARENT (*) TO (-2 _C2_) ; #(jC2 (*)) ;
   REMCOHORT IGNORED WITHCHILD (*) (*) ;
 } ;
-
-#SETPARENT @cc (NOT p (*)) (-1 (infa)) TO (1 (infa)) ;
-#MAP @conj (infa) - CR IF (c @cc) ;
-#SETPARENT (infa) (NOT p (*)) (c @cc) TO (-2 (infa)) ;
 
 ####################
 # Connect NPs
@@ -613,74 +610,74 @@ MAP REPEAT @conj PPHead IF (-1* PPHead BARRIER BD OR NonAppos)
                            (1* PPHead + HasConj BARRIER BD OR NonAppos) ;
 
 SECTION
-SETPARENT PPHead + @conj (NOT p (*))
+SETPARENT PPHead + @conj
     TO (-1* PPHead - @conj BARRIER BD OR NonAppos) ;
 
 SECTION
 # TODO: any better way to do this?
-SETPARENT (w189 Genesis) (NOT p (*)) TO (-1* (w185)) ;
-SETPARENT (Genesis w3459) (NOT p (*)) TO (-1* NPHead - (verb)) ;
-SETPARENT (Genesis w14323) (NOT p (*)) TO (-1* (prn)) ;
-SETPARENT (Genesis w4544) OR (Genesis w2674) OR (Genesis w7425) (NOT p (*))
+SETPARENT (w189 Genesis) TO (-1* (w185)) ;
+SETPARENT (Genesis w3459) TO (-1* NPHead - (verb)) ;
+SETPARENT (Genesis w14323) TO (-1* (prn)) ;
+SETPARENT (Genesis w4544) OR (Genesis w2674) OR (Genesis w7425)
     TO (-1* (subs)) ;
 MAP @conj (Genesis w2674) OR (Genesis w6219) ;
-SETPARENT (Genesis w2671) OR (Genesis w2672) (NOT p (*))
+SETPARENT (Genesis w2671) OR (Genesis w2672)
     TO (1* (Genesis w2674)) ;
-SETPARENT (Genesis w6219) OR (Genesis w6222) OR (Genesis w6226) (NOT p (*))
+SETPARENT (Genesis w6219) OR (Genesis w6222) OR (Genesis w6226)
     TO (-1* (Genesis w6216)) ;
 
 MAP @appos ApposOverride;
-SETPARENT CaseAble + ConjToAppos (NOT p (*)) TO (-1* @appos) ;
-SETPARENT CaseAble + ConjToSmixut (NOT p (*)) TO (-1* @compound:smixut) ;
+SETPARENT CaseAble + ConjToAppos TO (-1* @appos) ;
+SETPARENT CaseAble + ConjToSmixut TO (-1* @compound:smixut) ;
 MAP REPEAT @conj NPHead + HasConj + (/^\(ph\\d+\)$/r)
     IF (-1* NPHead + (VSTR:$1)) ;
 MAP @conj NPHead IF (-1* NonAppos BARRIER BD) (1* NPHead + HasConj BARRIER BD) ;
-SETPARENT NPHead + @conj + (/^\(ph\\d+\)$/r) (NOT p (*))
+SETPARENT NPHead + @conj + (/^\(ph\\d+\)$/r)
     TO (-1* (conjhead VSTR:$1) OR NonAppos - @conj + (VSTR:$1)) ;
 
-SETPARENT ApposToConjHead (NOT p (*)) TO (-1* (conjhead)) ;
+SETPARENT ApposToConjHead TO (-1* (conjhead)) ;
 
-SETPARENT FamilyOrTitle + (subs) - FamilyOrTitleSkip + $$AGen (NOT p (*))
+SETPARENT FamilyOrTitle + (subs) - FamilyOrTitleSkip + $$AGen
     TO (-1* (nmpr a) - (topo) - @flat:name + $$AGen BARRIER (*) - @flat:name) ;
-SETPARENT (nmpr) (NOT p (*)) TO (-1* FamilyOrTitle BARRIER (*) - (prn)) ;
+SETPARENT (nmpr) TO (-1* FamilyOrTitle BARRIER (*) - (prn)) ;
 
-SETPARENT ApposOverAcl + (/^\(ph\\d+\)$/r) (NOT p (*))
+SETPARENT ApposOverAcl + (/^\(ph\\d+\)$/r)
     TO (-1* ApposAble + (VSTR:$1)) ;
-SETPARENT ApposOverAcl (NOT p (*))
+SETPARENT ApposOverAcl
     TO (-1* (rela:Attr) LINK -1* CB LINK -1* ApposAble) ;
 
-SETPARENT CaseAble + ApposToLast (NOT p (*)) TO (-1* ApposAble) ;
-SETPARENT (prn) (c Pr + ApposToLast) (NOT p (*)) TO (-1* ApposAble) ;
-SETPARENT CaseAble - ApposToLast - ConjToAppos - (prn ModS) (NOT p (*))
+SETPARENT CaseAble + ApposToLast TO (-1* ApposAble) ;
+SETPARENT (prn) (c Pr + ApposToLast) TO (-1* ApposAble) ;
+SETPARENT CaseAble - ApposToLast - ConjToAppos - (prn ModS)
      TO (-1* BD LINK 1*A CaseAble - @compound:smixut BARRIER BD LINK NOT p (*)) ;
 MAP @conj CaseAble IF (c @cc) (p CaseAble) ;
 MAP KEEPORDER @appos CaseAble IF (c @case + $$Lemma) (p CaseAble LINK c @case + $$Lemma) ;
 MAP @nmod CaseAble IF (c @case - ("את")) (p CaseAble) ;
 MAP @appos CaseAble - (verb infc) IF (p CaseAble - CR) ;
 
-SETPARENT PPHead (NOT p (*)) TO (-1* NPHead BARRIER PB) ;
+SETPARENT PPHead TO (-1* NPHead BARRIER PB) ;
 MAP @nmod PPHead IF (p NPHead OR PPHead) ;
 
-SETPARENT NPHead + @appos (NOT p (*)) TO (-1* NorP - @appos BARRIER BD) ;
+SETPARENT NPHead + @appos TO (-1* NorP - @appos BARRIER BD) ;
 
-SETPARENT (nmpr @appos) TO (p ("אלהים") LINK c (@compound:smixut)) ;
+SETPARENT UNSAFE (nmpr @appos) TO (p ("אלהים") LINK c (@compound:smixut)) ;
 
 ####################
 # Other labels
 ####################
 
 MAP @cop (vbcp) + $$ClauseType OR (aux nmcp) IF (0* (PreC) + $$ClauseType BARRIER SB) ;
-SETPARENT @cop + $$ClauseType (NOT p (*)) TO (0* (PreC) + $$ClauseType + NorP - @conj BARRIER SB) ;
+SETPARENT @cop + $$ClauseType TO (0* (PreC) + $$ClauseType + NorP - @conj BARRIER SB) ;
 
 SECTION # conjunction
 
-SETPARENT (conj PP) (NOT p (*)) TO (1* (subs PP)) ;
+SETPARENT (conj PP) TO (1* (subs PP)) ;
 MAP @conj (subs PP) - (PreC) - CR IF (0 (subs) LINK c @cc) (NOT c @cop) ;
-SETPARENT (subs PPHead @conj /^\(ph\\d+\)$/r) - CR (NOT p (*))
+SETPARENT (subs PPHead @conj /^\(ph\\d+\)$/r) - CR
     TO (-1* CaseAble + (VSTR:$1) - @conj - @compound:smixut) ;
-SETPARENT (subs PPHead @conj) - CR (NOT p (*)) TO (-1* (subs PP) - @conj - @compound:smixut) ;
+SETPARENT (subs PPHead @conj) - CR TO (-1* (subs PP) - @conj - @compound:smixut) ;
 
-SETPARENT (conj NP) (NOT p (*)) TO (1* (subs NP)) ;
+SETPARENT (conj NP) TO (1* (subs NP)) ;
 
 SECTION # helper labels
 
@@ -689,24 +686,24 @@ TEMPLATE CRp = (NOT 0 CR LINK NEGATE 0* CR BARRIER CB) ;
 ADD CR (ClausePhraseRoot) - CR + (/^(c\\d+\)$/r) - QMark IF (NEGATE -1* (VSTR:$1) + CR) ;
 
 # irregular conjunction attachment
-SETPARENT ConjSkipClause (NOT p (*)) TO (1* CR LINK 1* CR) ;
+SETPARENT ConjSkipClause TO (1* CR LINK 1* CR) ;
 
 ####################
 # Blah
 ####################
 
-SETPARENT (Genesis w1251) (NOT p (*)) TO (-1* CR LINK -1* CR) ;
-SETPARENT (Genesis w1256) (NOT p (*)) TO (-1* CR) ;
-SETPARENT (Genesis w21545) (NOT p (*)) TO (-1* NPHead) ;
-SETPARENT (Genesis w8857) (NOT p (*)) TO (-1* (Genesis w8839)) ;
+SETPARENT (Genesis w1251) TO (-1* CR LINK -1* CR) ;
+SETPARENT (Genesis w1256) TO (-1* CR) ;
+SETPARENT (Genesis w21545) TO (-1* NPHead) ;
+SETPARENT (Genesis w8857) TO (-1* (Genesis w8839)) ;
 MAP @nmod (Genesis w21545) ;
-SETPARENT (Genesis w11587) (NOT p (*)) TO (-1* (w11585)) ;
+SETPARENT (Genesis w11587) TO (-1* (w11585)) ;
 
 ####################
 # Attach by clause label
 ####################
 
-SETPARENT (/^\(c\\d+\)$/r) - CR - NoGlom (NOT p (*)) TO (0* (VSTR:$1) + CR) ;
+SETPARENT (/^\(c\\d+\)$/r) - CR - NoGlom TO (0* (VSTR:$1) + CR) ;
 
 MAP @obl ActuallyObl ;
 
@@ -749,11 +746,11 @@ MAP @ccomp ActuallyCcomp ;
 MAP @advcl ActuallyAdvcl ;
 MAP @parataxis ActuallyParataxis ;
 
-SETPARENT CR (NOT p (*)) TO (c RelMark LINK -1 Pr) ;
+SETPARENT CR TO (c RelMark LINK -1 Pr) ;
 MAP @acl CR IF (p Pr) ;
-SETPARENT Pr + (/^par:\(c\\d+\)$/r) (NOT p (*)) (c CR) TO (0* CR + (VSTR:$1)) ;
-SETPARENT CR + (/^par:\(c\\d+\)$/r) (NOT p (*)) TO (0* CR + (VSTR:$1)) ;
-SETPARENT CR + (rela:Coor) (NOT p Pr) TO (p (rela:Coor) LINK p (*)) ;
+SETPARENT Pr + (/^par:\(c\\d+\)$/r) (c CR) TO (0* CR + (VSTR:$1)) ;
+SETPARENT CR + (/^par:\(c\\d+\)$/r) TO (0* CR + (VSTR:$1)) ;
+SETPARENT UNSAFE CR + (rela:Coor) (NOT p Pr) TO (p (rela:Coor) LINK p (*)) ;
 
 MAP @xcomp CR + (rela:Objc) IF (p CR + ObjcXcomp) ;
 MAP @xcomp CR + (rela:Adju) IF (p CR + AdjuXcomp) ;
@@ -771,16 +768,17 @@ MAP @csubj CR + (rela:Subj) IF (p CR) ;
 
 SECTION
 
-SETPARENT (HasMark HasConj) (NOT p (*))
+SETPARENT (HasMark HasConj)
     TO (-1* HasMark - HasConj BARRIER PlainC) ;
 MAP @conj (HasMark HasConj) - NestMark IF (p HasMark) ;
 
-SETPARENT (verb) + Ptc - QMark - NonAclOverride (NOT p (*)) TO (-1* Noun - @compound:smixut BARRIER (*) - BD - @compound:smixut) ;
+SETPARENT (verb) + Ptc - QMark - NonAclOverride
+    TO (-1* Noun - @compound:smixut BARRIER (*) - BD - @compound:smixut) ;
 MAP @acl (verb) + Ptc - QMark IF (p Noun) ;
 
 MAP @xcomp (verb infc InfC) - QMark IF (-1* XcompInf + (verb) BARRIER SB OR @mark) ;
 
-SETPARENT (@xcomp InfC) (NOT p (*)) TO (-1* XcompInf + (verb) BARRIER SB) ;
+SETPARENT (@xcomp InfC) TO (-1* XcompInf + (verb) BARRIER SB) ;
 
 WITH (vbcp) - DepLabel
   IF (1* Participle OR (infc) BARRIER (*) - BD - ("ל" prep))
@@ -790,24 +788,24 @@ WITH (vbcp) - DepLabel
   } ;
 
 MAP @xcomp Participle - (Subj) - HasRel IF (-1* (verb nmcp) BARRIER SB) ;
-SETPARENT @advcl OR @xcomp (NOT p (*)) TO (-1* (verb nmcp) BARRIER SB) ;
+SETPARENT @advcl OR @xcomp TO (-1* (verb nmcp) BARRIER SB) ;
 
 SECTION
 
-SETPARENT NestMark (NOT p (*)) TO (0* CR + HasMark) ;
-SETPARENT PreMark (NOT p (*)) TO (1* CR - HasMark) ;
-SETPARENT PostMark + $$QuoteLevel (NOT p (*)) TO (-1* CR + $$QuoteLevel - HasMark - HasRel) ;
-SETPARENT HasMark (NOT p (*))
+SETPARENT NestMark TO (0* CR + HasMark) ;
+SETPARENT PreMark TO (1* CR - HasMark) ;
+SETPARENT PostMark + $$QuoteLevel TO (-1* CR + $$QuoteLevel - HasMark - HasRel) ;
+SETPARENT HasMark
     TO (0* PlainC - @csubj - (rela:Subj) BARRIER CR - HasMark - HasRel OR SB OR ("ה" inrg)) ;
 
 MAP @csubj CR + (rela:Cmpl) IF (p ("חלילה" intj)) ;
 
-SETPARENT QMark (NOT p (*))
+SETPARENT QMark
     TO (1* (FullClauseRoot Q) OR (FullClauseRoot QQ)) ;
 
-SETPARENT CR + $$Domain - SpecialMark - HasRel (c AdvclAble) (NOT p (*))
+SETPARENT CR + $$Domain - SpecialMark - HasRel (c AdvclAble)
     TO (-1* PlainC + $$Domain BARRIER Domain - $$Domain) ;
-SETPARENT (verb infc) + $$Domain - QMark (NEGATE c @cc) (NOT p (*))
+SETPARENT (verb infc) + $$Domain - QMark (NEGATE c @cc)
     TO (-1* CR + $$Domain - @csubj - (rela:Subj) BARRIER Domain - $$Domain) ;
 
 MAP @acl ActuallyAcl ;
@@ -820,13 +818,13 @@ MAP @advcl (PrepVerb) IF (p (*)) ;
 
 MAP @advcl CR + HasMark - OrphanInfc IF (p CR) ;
 
-SETPARENT @ccomp (NOT p (*)) TO (0* CcompVerb BARRIER SB) ;
+SETPARENT @ccomp TO (0* CcompVerb BARRIER SB) ;
 
 ADD FullClauseRoot PlainC - @acl - FullClauseRoot - NonFCROverride ;
 
 SECTION
 
-SETPARENT FullClauseRoot + HasConj + $$Domain (NOT p (*))
+SETPARENT FullClauseRoot + HasConj + $$Domain
     TO (-1* FullClauseRoot - HasConj + $$Domain - FCRSkip - ParenSent BARRIER FullClauseRoot - $$Domain - ParenSent) ;
 
 MAP @conj FullClauseRoot + HasConj IF (p FullClauseRoot) ;
@@ -858,7 +856,7 @@ WITH SubjAble + (Subj NmCl ClausePhraseRoot) - DepLabel
 MAP @dislocated CR + (rela:Subj) IF (1* (prps Subj rela:Resu)) ;
 
 MAP @csubj CsubjOverride ;
-SETPARENT @csubj OR CR + @dislocated (NOT p (*)) TO (0* CR BARRIER SB) ;
+SETPARENT @csubj OR CR + @dislocated TO (0* CR BARRIER SB) ;
 
 ### OBJECTS
 
@@ -881,55 +879,55 @@ MAP @vocative Noun + (Voct) - CR ;
 
 SECTION
 
-SETPARENT CR + (rela:Attr /^par:\(w\\d+\)$/r) (NOT p (*)) TO (-1* (VSTR:$1)) ;
+SETPARENT CR + (rela:Attr /^par:\(w\\d+\)$/r) TO (-1* (VSTR:$1)) ;
 
 MAP (@conj rel_conj) (ClauseRoot NmCl rela:Coor) IF (-1* RelMark BARRIER CB) ;
 MAP @acl (ClauseRoot NmCl) IF (-1* RelMark BARRIER CB) ;
 MAP @acl CR + (rela:Attr) IF (c RelMark) (p (*)) ;
-SETPARENT @acl + AclChain (NOT p (*)) TO (-1* @acl LINK p (*)) ;
-SETPARENT (subs @acl) - AclChain (NOT p (*)) TO (-1* Noun - (verb) - @flat:name OR Pr + @obj OR Pr + @obl) ;
+SETPARENT @acl + AclChain TO (-1* @acl LINK p (*)) ;
+SETPARENT (subs @acl) - AclChain TO (-1* Noun - (verb) - @flat:name OR Pr + @obj OR Pr + @obl) ;
 
-SETPARENT @acl + RelToPrn (NOT p (*)) TO (c RelMark LINK -1* (prn)) ;
-SETPARENT @acl OR CR + @conj + (rela:Coor rel_conj) (NOT p (*))
+SETPARENT @acl + RelToPrn TO (c RelMark LINK -1* (prn)) ;
+SETPARENT @acl OR CR + @conj + (rela:Coor rel_conj)
     TO (-1* NorP - RelSkip BARRIER SB) ;
 
 SECTION
 
-SETPARENT VerbArgs + $$ClauseType - Pr (NOT p (*))
+SETPARENT VerbArgs + $$ClauseType - Pr
     TO (0* CR + $$ClauseType BARRIER SB) ;
 
 SECTION
 
-SETPARENT (conj CP) (NOT p (*)) TO (1 PB LINK 1 @cop LINK p (*)) ;
+SETPARENT (conj CP) TO (1 PB LINK 1 @cop LINK p (*)) ;
 MAP @acl CR - NonAclOverride
     IF (c RelMark) (NEGATE c (@nsubj NmCl)) (NEGATE c @nsubj:outer) ;
-SETPARENT @acl (NOT p (*)) TO (-1* AclMultiTarget BARRIER SB) ;
-SETPARENT @acl (NOT p (*)) TO (c @mark LINK -1 Pr) ;
-SETPARENT @acl + AclCompNotOk (NOT p (*))
+SETPARENT @acl TO (-1* AclMultiTarget BARRIER SB) ;
+SETPARENT @acl TO (c @mark LINK -1 Pr) ;
+SETPARENT @acl + AclCompNotOk
     TO (-1* CB LINK -1* AclAble - @compound:smixut BARRIER BD) ;
-SETPARENT @acl - AclCompNotOk - AclChain (NOT p (*))
+SETPARENT @acl - AclCompNotOk - AclChain
     TO (-1* CB LINK -1* AclAble - @nummod - @amod BARRIER BD) ;
 
-SETPARENT (verb /^par:\(ph\\d+\)$/r) + Ptc (p (*) - (VSTR:$1)) TO (-1* NPHead + (VSTR:$1)) ;
+SETPARENT UNSAFE (verb /^par:\(ph\\d+\)$/r) + Ptc (p (*) - (VSTR:$1)) TO (-1* NPHead + (VSTR:$1)) ;
 
 MAP @ccomp QMark IF (NEGATE 1* CR) ;
 MAP @mark QMark ;
 
 SECTION
 
-SETPARENT CR (NOT p (*)) TO (c RelMark LINK -1* CB BARRIER Pr LINK -1* NorP BARRIER PB) ;
+SETPARENT CR TO (c RelMark LINK -1* CB BARRIER Pr LINK -1* NorP BARRIER PB) ;
 MAP @acl CR IF (p NorP) (c RelMark) ;
 
-SETPARENT XorO + $$ClauseType (NOT p (*))
+SETPARENT XorO + $$ClauseType
     TO (0* CR + $$ClauseType BARRIER SB) ;
 
 SECTION
 
-SETPARENT CorR + ConjTypes + @mark (NOT p (*)) TO (1* CorM - @acl) ;
+SETPARENT CorR + ConjTypes + @mark TO (1* CorM - @acl) ;
 
 MAP @advcl (ClauseRoot Q HasMark)
     IF (c @mark - (inrg ques) - QMark) (1* (ClauseRoot Q) BARRIER NonQuote LINK NEGATE c @mark) ;
-SETPARENT MSynIsh + ConjTypes (NOT p (*)) TO (1* CorM - @advcl - @acl) ;
+SETPARENT MSynIsh + ConjTypes TO (1* CorM - @advcl - @acl) ;
 MAP @conj (ClauseRoot Q)
     IF (c @cc) (-1* (ClauseRoot Q) - @acl - @advcl - @xcomp - HasMark BARRIER (N)) ;
 MAP @parataxis (ClauseRoot Q) - (infc) - HasMark - HasConj
@@ -938,71 +936,72 @@ MAP @parataxis (ClauseRoot Q) - (infc) - HasMark - HasConj
 MAP @ccomp (ClauseRoot Q)
     IF (NEGATE c @mark) (-1* CR + NonQuote)
        (NOT -1* (ClauseRoot Q) - @acl BARRIER NonQuote) ;
-SETPARENT (ClauseRoot Q HasConj) - HasMark (NOT p (*))
+SETPARENT (ClauseRoot Q HasConj) - HasMark
     TO (-1* PlainNC + (Q) BARRIER CR + NonQuote) ;
-SETPARENT (ClauseRoot Q @conj) (NOT p (*))
+SETPARENT (ClauseRoot Q @conj)
     TO (-1* (ClauseRoot Q) + CRconj) ;
 
 MAP @root CR IF (NOT -1* CR - @advcl - @acl - @csubj) ;
 
-SETPARENT @advcl + $$Domain (NOT p (*)) (NEGATE 0* CR BARRIER SB) TO (1* CR + $$Domain - @advcl) ;
+SETPARENT @advcl + $$Domain (NEGATE 0* CR BARRIER SB) TO (1* CR + $$Domain - @advcl) ;
 
-SETPARENT (@ccomp Q) + QuoteSkipAcl (NOT p (*)) TO (-1* CR - @mark - @acl) ;
-SETPARENT (@ccomp Q) (NOT p (*)) TO (-1* (quot ClauseRoot) - @mark) ;
-SETPARENT @ccomp (NOT p (*)) TO (-1* CcompAble + CR) ;
+SETPARENT (@ccomp Q) + QuoteSkipAcl TO (-1* CR - @mark - @acl) ;
+SETPARENT (@ccomp Q) TO (-1* (quot ClauseRoot) - @mark) ;
+SETPARENT @ccomp TO (-1* CcompAble + CR) ;
 
-SETPARENT CR + (rela:Attr) - AttrSkipAcl (NOT p (*)) TO (-1* CB LINK -1* ApposAble) ;
+SETPARENT CR + (rela:Attr) - AttrSkipAcl TO (-1* CB LINK -1* ApposAble) ;
 MAP @acl CR + (rela:Attr) IF (p ApposAble) ;
 
 MAP (@conj ClauseRoot) CR + $$NonQuote IF (-1* CR + $$NonQuote) (c @cc) ;
 MAP (@parataxis ClauseRoot) CR + $$NonQuote - (PrepVerb) IF (-1* CR + $$NonQuote) ;
 
-SETPARENT ConjToAdvcl (NOT p (*)) TO (-1* CR + @advcl) ;
+SETPARENT ConjToAdvcl TO (-1* CR + @advcl) ;
 
-SETPARENT CR + ClauseCon + $$Domain (NOT p (*)) TO (-1* CR + $$Domain - DontConj - ParenSent) ;
+SETPARENT CR + ClauseCon + $$Domain
+    TO (-1* CR + $$Domain - DontConj - ParenSent) ;
 
 SECTION
 
 MAP @dislocated SubjAble + (CPen) ;
-SETPARENT (@dislocated Frnt) (NOT p (*)) TO (-1* @mark BARRIER (*) - BD LINK p (*)) ;
-SETPARENT (@dislocated Frnt) + $$Domain (NOT p (*)) TO (1* CR + $$Domain - @advcl) ;
+SETPARENT (@dislocated Frnt) TO (-1* @mark BARRIER (*) - BD LINK p (*)) ;
+SETPARENT (@dislocated Frnt) + $$Domain TO (1* CR + $$Domain - @advcl) ;
 
 SECTION
 
 MAP @obl PPHead - CR ;
 
-SETPARENT Pr + VerbArgs (NOT p (*)) TO (-1* (verb) BARRIER SB) ;
-SETPARENT Pr + VerbArgs (NOT p (*)) TO (1* (verb) BARRIER SB) ;
-SETPARENT Pr + VerbArgs (NOT p (*)) TO (-1* (verb)) ;
+SETPARENT Pr + VerbArgs TO (-1* (verb) BARRIER SB) ;
+SETPARENT Pr + VerbArgs TO (1* (verb) BARRIER SB) ;
+SETPARENT Pr + VerbArgs TO (-1* (verb)) ;
 
-SETPARENT VerbArgs (NOT p (*))
+SETPARENT VerbArgs
     TO (c @acl LINK 1* CB LINK 1* CR BARRIER CB OR SB) ;
 
-SETPARENT @mark (NOT p (*)) TO (1* CR) ;
+SETPARENT @mark TO (1* CR) ;
 
 SECTION
 
-SETPARENT @root TO (@0 (*)) ;
+SETPARENT UNSAFE @root TO (@0 (*)) ;
 
-SETPARENT @vocative + (Q) (NOT p (*)) TO (0* CR + (Q) BARRIER SB) ;
-SETPARENT @vocative + $$Domain (NOT p (*)) TO (0* CR + $$Domain) ;
-SETPARENT @vocative (NOT p (*)) TO (-1* CR) ;
+SETPARENT @vocative + (Q) TO (0* CR + (Q) BARRIER SB) ;
+SETPARENT @vocative + $$Domain TO (0* CR + $$Domain) ;
+SETPARENT @vocative TO (-1* CR) ;
 
-SETPARENT @discourse (NOT p (*))
+SETPARENT @discourse
     TO (1* @nsubj BARRIER (*) - BD LINK p (*)) ;
 
 SECTION
 
-SETPARENT ParenSent (NOT p (*)) TO (-1* NPHead OR PPHead) ;
+SETPARENT ParenSent TO (-1* NPHead OR PPHead) ;
 
-SETPARENT CR + (Q) + @advcl (NOT p (*)) TO (0* CR + (Q) - @xcomp - @advcl BARRIER CR - (Q)) ;
-SETPARENT CR + (Q) (NOT p (*)) TO (-1* SpeakingVerb + (verb N) - QMark BARRIER PlainC + (N) - QMark OR PlainC + (Q)) ;
-SETPARENT CR + (Q) (NOT p (*)) (c QMark) TO (-1* PlainC + (N)) ;
-SETPARENT CR + (Q) - HasConj - SpecialMark (NOT p (*)) TO (-1* PlainC - (QQ)) ;
-SETPARENT CR + (QQ) - HasConj (NOT p (*)) TO (-1* CR + (Q)) ;
-SETPARENT CR + (Q) (NOT p (*)) TO (-1* SpeakingVerb OR CR - @conj - @acl - @nsubj:outer OR @root) ;
-SETPARENT QMark + @ccomp (NOT p (*)) TO (-1* SpeakingVerb) ;
-SETPARENT CR - @acl (NOT p (*)) TO (-1* @root) ;
+SETPARENT CR + (Q) + @advcl TO (0* CR + (Q) - @xcomp - @advcl BARRIER CR - (Q)) ;
+SETPARENT CR + (Q) TO (-1* SpeakingVerb + (verb N) - QMark BARRIER PlainC + (N) - QMark OR PlainC + (Q)) ;
+SETPARENT CR + (Q) (c QMark) TO (-1* PlainC + (N)) ;
+SETPARENT CR + (Q) - HasConj - SpecialMark TO (-1* PlainC - (QQ)) ;
+SETPARENT CR + (QQ) - HasConj TO (-1* CR + (Q)) ;
+SETPARENT CR + (Q) TO (-1* SpeakingVerb OR CR - @conj - @acl - @nsubj:outer OR @root) ;
+SETPARENT QMark + @ccomp TO (-1* SpeakingVerb) ;
+SETPARENT CR - @acl TO (-1* @root) ;
 MAP @conj CR IF (c @cc) (p @root) ;
 MAP @ccomp CR + (Q) IF (p SpeakingVerb - (Q)) ;
 MAP @ccomp CR + (Q) IF (p NonQuote) ;
@@ -1010,21 +1009,21 @@ MAP @ccomp CR + (QQ) IF (p (Q)) ;
 MAP @advcl HasMark IF (p CR) ;
 MAP @parataxis CR IF (p CR) (NEGATE c @cc) ;
 
-SETPARENT @obl + (N) (NOT p (*)) TO (-1* QMark BARRIER CB LINK p (*)) ;
+SETPARENT @obl + (N) TO (-1* QMark BARRIER CB LINK p (*)) ;
 
 AFTER-SECTIONS
 
-SETPARENT @dislocated (NOT p (*)) TO (-1* CR - HasMark) ;
+SETPARENT @dislocated TO (-1* CR - HasMark) ;
 
 MAP @dislocated (CPen Frnt) IF (NOT p (*)) ;
-SETPARENT @dislocated (NOT p (*)) TO (1* CR) ;
+SETPARENT @dislocated TO (1* CR) ;
 
 #UNMAP @case IF (p (verb)) ;
 #MAP @mark Pr IF (p (verb)) ;
 
-SETPARENT @nsubj OR @case (p @cop) TO (p @cop LINK p (*)) ;
+SETPARENT UNSAFE @nsubj OR @case (p @cop) TO (p @cop LINK p (*)) ;
 
-SETPARENT @discourse (NOT p (*)) TO (0* CR BARRIER SB) ;
+SETPARENT @discourse TO (0* CR BARRIER SB) ;
 
 REMCOHORT REPEAT (pb) ;
 REMCOHORT REPEAT (cb) ;

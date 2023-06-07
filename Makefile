@@ -35,7 +35,7 @@ temp/merged/%.conllu: temp/parsed-cg3/%.txt cg_to_conllu.py
 	cat $< | ./cg_to_conllu.py $* > temp/conv/$*.conllu
 	cat temp/conv/$*.conllu | ./merge_punct.py > $@
 
-hbo.bin: hbo.cg3
+hbo.bin: hbo-with.cg3
 	cg-comp $< $@
 
 hbo-macula.bin: hbo-macula.cg3

@@ -111,7 +111,7 @@ class Word:
                     self.tail = ' ' if ' ' in self.text else '־'
                     self.wid = 0
                 self.text = self.text.replace('־', ' ').split()[self.seg-1]
-                #self.surf = self.text
+                self.surf = self.text
             if (F.prs.v(last_wid) and F.prs.v(last_wid) not in ['absent', 'n/a']):
                 self.is_end = False
             bk = BOOK_ABBR.get(T.bookName(last_wid))

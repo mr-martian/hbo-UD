@@ -82,13 +82,13 @@
 30	׃	׃	PUNCT	punct	_	31	punct	_	Ref=GEN_22.16
 31	כִּֽי	כי	SCONJ	conj	_	34	mark	_	Ref=GEN_22.17|SpaceAfter=No
 32	־	־	PUNCT	punct	_	31	punct	_	Ref=GEN_22.17|SpaceAfter=No
-33	בָרֵ֣ךְ	ברך	ADV	verb	_	34	advmod	_	Ref=GEN_22.17
+33	בָרֵ֣ךְ	ברך	VERB	verb	HebBinyan=PIEL|VerbForm=Inf	34	obl:npmod	_	Ref=GEN_22.17
 34-35	אֲבָרֶכְךָ֗	_	_	_	_	_	_	_	_
 34	אֲבָרֶכְ	ברך	VERB	verb	Aspect=Imp|HebBinyan=PIEL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	5	ccomp	_	Ref=GEN_22.17
 35	ךָ֗	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	34	obj	_	Ref=GEN_22.17
 36-37	וְהַרְבָּ֨ה	_	_	_	_	_	_	_	_
 36	וְ	ו	CCONJ	conj	_	38	cc	_	Ref=GEN_22.17
-37	הַרְבָּ֨ה	רבה	ADV	verb	_	38	advmod	_	Ref=GEN_22.17
+37	הַרְבָּ֨ה	רבה	VERB	verb	HebBinyan=HIFIL|VerbForm=Inf	38	obl:npmod	_	Ref=GEN_22.17
 38	אַרְבֶּ֤ה	רבה	VERB	verb	Aspect=Imp|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	34	conj	_	Ref=GEN_22.17
 39	אֶֽת	את	ADP	prep	_	41	case	_	Ref=GEN_22.17|SpaceAfter=No
 40	־	־	PUNCT	punct	_	39	punct	_	Ref=GEN_22.17|SpaceAfter=No
@@ -2533,6 +2533,64 @@
 31	סֹּֽהַר	סהר	NOUN	subs	Gender=Masc|Number=Sing	29	compound:smixut	_	Ref=GEN_40.5
 32	׃	׃	PUNCT	punct	_	2	punct	_	Ref=GEN_40.5
 
+# sent_id = Masoretic-Genesis-40:20-hbo
+# text = וַיְהִ֣י׀ בַּיֹּ֣ום הַשְּׁלִישִׁ֗י יֹ֚ום הֻלֶּ֣דֶת אֶת־פַּרְעֹ֔ה וַיַּ֥עַשׂ מִשְׁתֶּ֖ה לְכָל־עֲבָדָ֑יו וַיִּשָּׂ֞א אֶת־רֹ֣אשׁ׀ שַׂ֣ר הַמַּשְׁקִ֗ים וְאֶת־רֹ֛אשׁ שַׂ֥ר הָאֹפִ֖ים בְּתֹ֥וךְ עֲבָדָֽיו׃
+# checker = Daniel
+1-2	וַיְהִ֣י	_	_	_	_	_	_	_	SpaceAfter=No
+1	וַ	ו	CCONJ	conj	_	2	cc	_	Ref=GEN_40.20
+2	יְהִ֣י	היה	AUX	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	_	Ref=GEN_40.20
+3	׀	׀	PUNCT	punct	_	6	punct	_	Ref=GEN_40.20
+4-6	בַּיֹּ֣ום	_	_	_	_	_	_	_	_
+4	בַּ	ב	ADP	prep	_	6	case	_	Ref=GEN_40.20
+5	_	ה	DET	art	PronType=Art	6	det	_	Ref=GEN_40.20
+6	יֹּ֣ום	יום	NOUN	subs	Gender=Masc|Number=Sing	2	obl	_	Ref=GEN_40.20
+7-8	הַשְּׁלִישִׁ֗י	_	_	_	_	_	_	_	_
+7	הַ	ה	DET	art	PronType=Art	8	det	_	Ref=GEN_40.20
+8	שְּׁלִישִׁ֗י	שׁלישׁי	NUM	adjv	Gender=Masc|Number=Sing|NumType=Ord	6	nummod	_	Ref=GEN_40.20
+9	יֹ֚ום	יום	NOUN	subs	Gender=Masc|Number=Sing	6	appos	_	Ref=GEN_40.20
+10	הֻלֶּ֣דֶת	ילד	VERB	verb	VerbForm=Inf	9	acl	_	Ref=GEN_40.20
+11	אֶת	את	ADP	prep	_	13	case	_	Ref=GEN_40.20|SpaceAfter=No
+12	־	־	PUNCT	punct	_	11	punct	_	Ref=GEN_40.20|SpaceAfter=No
+13	פַּרְעֹ֔ה	פרעה	NOUN	subs	Gender=Masc|Number=Sing	10	nsubj	_	Ref=GEN_40.20
+14-15	וַיַּ֥עַשׂ	_	_	_	_	_	_	_	_
+14	וַ	ו	CCONJ	conj	_	15	cc	_	Ref=GEN_40.20
+15	יַּ֥עַשׂ	עשׂה	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	2	conj	_	Ref=GEN_40.20
+16	מִשְׁתֶּ֖ה	משׁתה	NOUN	subs	Gender=Masc|Number=Sing	15	obj	_	Ref=GEN_40.20
+17-18	לְכָל	_	_	_	_	_	_	_	SpaceAfter=No
+17	לְ	ל	ADP	prep	_	18	case	_	Ref=GEN_40.20
+18	כָל	כל	NOUN	subs	Gender=Masc|Number=Sing	15	obl	_	Ref=GEN_40.20
+19	־	־	PUNCT	punct	_	20	punct	_	Ref=GEN_40.20|SpaceAfter=No
+20-21	עֲבָדָ֑יו	_	_	_	_	_	_	_	_
+20	עֲבָדָ֑י	עבד	NOUN	subs	Gender=Masc|Number=Plur	18	compound:smixut	_	Ref=GEN_40.20
+21	ו	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	20	nmod:poss	_	Ref=GEN_40.20
+22-23	וַיִּשָּׂ֞א	_	_	_	_	_	_	_	_
+22	וַ	ו	CCONJ	conj	_	23	cc	_	Ref=GEN_40.20
+23	יִּשָּׂ֞א	נשׂא	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	2	conj	_	Ref=GEN_40.20
+24	אֶת	את	ADP	prep	_	26	case	_	Ref=GEN_40.20|SpaceAfter=No
+25	־	־	PUNCT	punct	_	24	punct	_	Ref=GEN_40.20|SpaceAfter=No
+26	רֹ֣אשׁ	ראשׁ	NOUN	subs	Gender=Masc|Number=Sing	23	obj	_	Ref=GEN_40.20|SpaceAfter=No
+27	׀	׀	PUNCT	punct	_	28	punct	_	Ref=GEN_40.20
+28	שַׂ֣ר	שׂר	NOUN	subs	Gender=Masc|Number=Sing	26	compound:smixut	_	Ref=GEN_40.20
+29-30	הַמַּשְׁקִ֗ים	_	_	_	_	_	_	_	_
+29	הַ	ה	DET	art	PronType=Art	30	det	_	Ref=GEN_40.20
+30	מַּשְׁקִ֗ים	שׁקה	NOUN	verb	Gender=Masc|HebBinyan=HIFIL|Number=Plur|VerbForm=Part	28	compound:smixut	_	Ref=GEN_40.20
+31-32	וְאֶת	_	_	_	_	_	_	_	SpaceAfter=No
+31	וְ	ו	CCONJ	conj	_	34	cc	_	Ref=GEN_40.20
+32	אֶת	את	ADP	prep	_	34	case	_	Ref=GEN_40.20
+33	־	־	PUNCT	punct	_	32	punct	_	Ref=GEN_40.20|SpaceAfter=No
+34	רֹ֛אשׁ	ראשׁ	NOUN	subs	Gender=Masc|Number=Sing	26	conj	_	Ref=GEN_40.20
+35	שַׂ֥ר	שׂר	NOUN	subs	Gender=Masc|Number=Sing	34	compound:smixut	_	Ref=GEN_40.20
+36-37	הָאֹפִ֖ים	_	_	_	_	_	_	_	_
+36	הָ	ה	DET	art	PronType=Art	37	det	_	Ref=GEN_40.20
+37	אֹפִ֖ים	אפה	NOUN	subs	Gender=Masc|Number=Plur	35	compound:smixut	_	Ref=GEN_40.20
+38-39	בְּתֹ֥וךְ	_	_	_	_	_	_	_	_
+38	בְּ	ב	ADP	prep	_	39	case	_	Ref=GEN_40.20
+39	תֹ֥וךְ	תוך	NOUN	subs	Gender=Masc|Number=Sing	23	obl	_	Ref=GEN_40.20
+40-41	עֲבָדָֽיו	_	_	_	_	_	_	_	SpaceAfter=No
+40	עֲבָדָֽי	עבד	NOUN	subs	Gender=Masc|Number=Plur	39	compound:smixut	_	Ref=GEN_40.20
+41	ו	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	40	nmod:poss	_	Ref=GEN_40.20
+42	׃	׃	PUNCT	punct	_	2	punct	_	Ref=GEN_40.20
+
 # sent_id = Masoretic-Genesis-41:2-hbo
 # text = וְהִנֵּ֣ה מִן־הַיְאֹ֗ר עֹלֹת֙ שֶׁ֣בַע פָּרֹ֔ות יְפֹ֥ות מַרְאֶ֖ה וּבְרִיאֹ֣ת בָּשָׂ֑ר וַתִּרְעֶ֖ינָה בָּאָֽחוּ׃
 # checker = Daniel
@@ -3356,7 +3414,7 @@
 1-2	וַיֹּאמְר֡וּ	_	_	_	_	_	_	_	_
 1	וַ	ו	CCONJ	conj	_	2	cc	_	Ref=GEN_43.7
 2	יֹּאמְר֡וּ	אמר	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|Tense=Past|VerbForm=Fin	0	root	_	Ref=GEN_43.7
-3	שָׁאֹ֣ול	שׁאל	ADV	verb	_	4	advmod	_	Ref=GEN_43.7
+3	שָׁאֹ֣ול	שׁאל	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	4	obl:npmod	_	Ref=GEN_43.7
 4	שָֽׁאַל	שׁאל	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	2	ccomp	_	Ref=GEN_43.7|SpaceAfter=No
 5	־	־	PUNCT	punct	_	7	punct	_	Ref=GEN_43.7|SpaceAfter=No
 6-7	הָ֠אִישׁ	_	_	_	_	_	_	_	_
@@ -3403,7 +3461,7 @@
 36	אֵ֑לֶּה	אלה	PRON	prde	Number=Plur|PronType=Dem	34	det	_	Ref=GEN_43.7
 37-38	הֲיָדֹ֣ועַ	_	_	_	_	_	_	_	_
 37	הֲ	ה	PART	inrg	_	39	mark	_	Ref=GEN_43.7
-38	יָדֹ֣ועַ	ידע	ADV	verb	_	39	advmod	_	Ref=GEN_43.7
+38	יָדֹ֣ועַ	ידע	VERB	verb	HebBinyan=PAAL|VerbForm=Inf	39	obl:npmod	_	Ref=GEN_43.7
 39	נֵדַ֔ע	ידע	VERB	verb	Aspect=Imp|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=1|VerbForm=Fin	26	ccomp	_	Ref=GEN_43.7
 40	כִּ֣י	כי	SCONJ	conj	_	41	mark	_	Ref=GEN_43.7
 41	יֹאמַ֔ר	אמר	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	39	ccomp	_	Ref=GEN_43.7
@@ -3538,7 +3596,7 @@
 10-11	וְה֕וּא	_	_	_	_	_	_	_	_
 10	וְ	ו	CCONJ	conj	_	13	cc	_	Ref=GEN_44.5
 11	ה֕וּא	הוא	PRON	prps	Gender=Masc|Number=Sing|Person=3|PronType=Prs	13	nsubj	_	Ref=GEN_44.5
-12	נַחֵ֥שׁ	נחשׁ	ADV	verb	_	13	advmod	_	Ref=GEN_44.5
+12	נַחֵ֥שׁ	נחשׁ	VERB	verb	HebBinyan=PIEL|VerbForm=Inf	13	obl:npmod	_	Ref=GEN_44.5
 13	יְנַחֵ֖שׁ	נחשׁ	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PIEL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	5	conj	_	Ref=GEN_44.5
 14-15	בֹּ֑ו	_	_	_	_	_	_	_	_
 14	בֹּ֑	ב	ADP	prep	_	15	case	_	Ref=GEN_44.5

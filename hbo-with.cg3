@@ -182,8 +182,9 @@ LIST @flat = @flat ;
 LIST @flat:name = @flat:name ;
 LIST @orphan = @orphan ;
 LIST @fixed = @fixed ;
+LIST @obl:npmod = @obl:npmod ;
 
-LIST DepLabel = @acl @advcl @advmod @amod @appos @case @cc @ccomp @compound:smixut @conj @cop @csubj @det @discourse @dislocated @fixed @flat @flat:name @mark @nmod @nmod:poss @nsubj @nsubj:outer @nummod @obj @obl @orphan @parataxis @root @vocative @xcomp ;
+LIST DepLabel = @acl @advcl @advmod @amod @appos @case @cc @ccomp @compound:smixut @conj @cop @csubj @det @discourse @dislocated @fixed @flat @flat:name @mark @nmod @nmod:poss @nsubj @nsubj:outer @nummod @obj @obl @obl:npmod @orphan @parataxis @root @vocative @xcomp ;
 
 ####################
 # Special-case words
@@ -714,7 +715,7 @@ MAP @xcomp (Objc) - CR - (Ellp) OR (PrAd) - CR IF (p CR) ;
 MAP @obj (ProbablyObj InrP) - CR - (Ellp) IF (p CR LINK NEGATE c @obj) ;
 
 MAP @advcl (infa AdvP) IF (NEGATE 1* (*) LINK 0 BD) (NEGATE c @cop) ;
-MAP @advmod (verb infa) + $$Lemma - CR IF (p CR + $$Lemma) ;
+MAP @obl:npmod (verb infa) + $$Lemma - CR IF (p CR + $$Lemma) ;
 MAP @advmod (verb infa AdvP) - CR IF (p NPHead) ;
 
 MAP @orphan OblIsh + (Ellp) - CR OR (Objc Ellp) - CR IF (p CR + (Ellp)) ;

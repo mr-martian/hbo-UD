@@ -46,12 +46,19 @@ def skip(c):
     return False
                 
 def clean(s):
-    s2 = ''.join(c for c in (s or '').strip() if not skip(c))
-    #s3 = s2.replace(
-    return unicodedata.normalize('NFC', s2)
+    s2 = (s or '').replace(chr(0xfb2a), chr(0x5e9)).replace(chr(0xfb2b), chr(0x5e9))
+    s3 = ''.join(c for c in s2.strip() if not skip(c))
+    return unicodedata.normalize('NFC', s3)
+
+def remsuf(a, b):
+    if not b:
+        return a
+    if not a.endswith(b):
+        return a
+    return a[:-len(b)]
                 
 def matches(node, idx):
-    bt = T.text(idx).strip(F.trailer_utf8.v(idx))
+    bt = remsuf(T.text(idx) or '', F.trailer_utf8.v(idx))
     mt = node.text
     btc = clean(bt)
     mtc = clean(mt)
@@ -59,80 +66,22 @@ def matches(node, idx):
         return True
     if F.prs.v(idx) and btc.startswith(mtc):
         return True
-    print(btc, mtc)
+    print('BHSA', btc, 'macula', mtc, 'text', [T.text(idx)], 'trailer', [F.trailer_utf8.v(idx)], file=sys.stderr)
     return False
 
-moved_nodes = [
-    (46, 'o010010040051'),
-    (1160, 'o010020250031'),
-    (5805, 'o010120170051'),
-    (5806, 'o010120170061'),
-    (5869, 'o010130010031'),
-    (5870, 'o010130010032'),
-    (6246, 'o010140020171'), # var spelling
-    (6429, 'o010140120042'),
-    (6430, 'o010140120051'),
-    (8155, 'o010180200061'),
-    (8159, 'o010180200091'),
-    (8556, 'o010190070041'),
-    (11428, 'o010240150081'),
-    (11586, 'o010240240051'),
-    (11763, 'o010240330022'),
-    (12371, 'o010240650061'),
-    (13157, 'o010260090061'),
-    (14343, 'o010270390091'),
-    (14344, 'o010270390101'),
-    (15630, 'o010300020081'),
-    (15905, 'o010300200041'),
-    (17401, 'o010310530071'),
-    (17402, 'o010310530081'),
-    (18401, 'o010330170151'), # bad lemma
-    (19170, 'o010350060021'),
-    (19324, 'o010350140081'),
-    (19325, 'o010350140091'),
-    (19603, 'o010360050051'), # bad lemma
-    (19771, 'o010360140151'), # bad lemma
-    (20518, 'o010370190081'),
-    (22049, 'o010400080061'),
-    (22077, 'o010400090101'),
-    (22078, 'o010400090102'),
-    (22391, 'o010410030051'),
-    (22392, 'o010410030061'),
-    (22393, 'o010410030071'),
-    (22394, 'o010410030081'),
-    (22395, 'o010410030082'),
-    (22628, 'o010410150081'),
-    (22690, 'o010410190051'),
-    (22691, 'o010410190061'),
-    (23257, 'o010410490041'),
-    (23258, 'o010410490042'),
-    (23259, 'o010410490051'),
-    (23260, 'o010410490052'),
-    (23631, 'o010420130051'),
-    (23812, 'o010420220161'),
-    (23978, 'o010420320031'),
-    (24889, 'o010440030041'),
-    (25687, 'o010450120031'),
-    (26541, 'o010460340091'),
-    (26542, 'o010460340101'),
-    (26543, 'o010460340111'),
-    (26544, 'o010460340121'),
-    (27467, 'o010480090061'),
-    (27593, 'o010480150101'),
-    (27594, 'o010480150111'),
-    (27595, 'o010480150112'),
-    (27893, 'o010490090061'),
-    (27916, 'o010490100121'),
-    (27975, 'o010490150031'),
-    (27981, 'o010490150071'),
-    (28521, 'o010500140031'),
-    (28667, 'o010500220021'),
-]
-b2m_moved = dict(moved_nodes)
-m2b_moved = {b:a for a,b in moved_nodes}
+bhsa_skip_nodes = {
+    'genesis': [28427, 28426, 28460, 28461, 16564],
+}
 
-mac_skip_nodes = ['o010130150101', 'o010130150102', 'o010140120091', 'o010250320101', 'o010270290042', 'o010280130201', 'o010280130202', 'o010280130203', 'o010280140151', 'o010280140152', 'o010280140153', 'o010320190051', 'o010390220201', 'o010410050101', 'o010410050111', 'o010410050112', 'o010410220091', 'o010410220101', 'o010410220102', 'o010420120071', 'o010420120081', 'o010420120082', 'o010430280092', 'o010480010141']
-bhsa_skip_nodes = [6152, 6154, 6428, 7287, 10176, 10186, 10204, 10646, 11326, 12319, 12370, 12733, 13599, 14112, 14522, 14581, 14606, 14675, 16564, 16705, 17279, 17802, 18416, 19236, 20517, 24704, 26004, 26066, 26227, 27317, 28426, 28427, 28460, 28461]
+name_groups = {
+    '883+': ['B>R/', 'LXJ_R>J/'],
+    '884+': ['B>R/', 'CB<==/'],
+    '6636': ['YB>JM/'],
+    '1976': ['H', 'LZH'],
+    '763+': ['>RM/', 'NHR/'],
+    '3026 a': ['JGR/', 'FHDW/'],
+    '4772': ['MRGLT/'],
+}
 
 def is_merge_prefix(node, idx):
     if node.attrib.get('lemma') == 'l' and F.lex.v(idx) in ['LMH', 'LKN']:
@@ -151,66 +100,84 @@ def is_np_second(node, idx):
         return True
     return False
 
-def align_to_bhsa(node, idx, add_tags):
+def is_name_group(node, idx):
+    lm = node.attrib.get('lemma')
+    if lm in name_groups:
+        for i in range(len(name_groups[lm])):
+            if F.lex.v(idx+i) != name_groups[lm][i]:
+                return (False, 0)
+        return (True, len(name_groups[lm]))
+    return (False, 0)
+
+def extract_morphemes(node):
     if node.tag == 'm':
-        if node.attrib[xml_id] in m2b_moved:
-            node.attrib['bhsa'] = m2b_moved[node.attrib[xml_id]]
-            return idx
-        while idx in b2m_moved or idx in bhsa_skip_nodes:
-            idx += 1
-        if node.attrib[xml_id] in mac_skip_nodes:
-            return idx
-        if node.attrib['pos'] == 'suffix':
-            if node.attrib['type'] == 'pronominal':
-                node.attrib['bhsa'] = str(idx-1) + 'p'
-                return idx
-            elif node.attrib['type'] == 'paragogic nun':
-                add_tags[node.attrib['head']].append('para_nun')
-                return idx
-            elif node.attrib['type'] == 'paragogic he':
-                add_tags[node.attrib['head']].append('para_he')
-                return idx
-            elif node.attrib['type'] == 'directional he':
-                add_tags[node.attrib['head']].append('dir_he')
-                return idx
-        if is_merge_prefix(node, idx):
-            return idx
-        if is_np_second(node, idx):
-            return idx + 1
-        if is_merge_main(node, idx):
-            node.attrib['bhsa'] = idx
-            return idx + 1
-        if matches(node, idx):
-            node.attrib['bhsa'] = idx
-            return idx + 1
-        print('NOMATCH', node.attrib[xml_id], idx, 'BHSA', F.voc_lex_utf8.v(idx), 'Macula', node.text, 'context', ' '.join(F.lex_utf8.v(i) for i in range(idx-2,idx+3)), file=sys.stderr)
-        return idx
+        yield node
     elif node.tag == 'c':
-        return align_to_bhsa(node[0], idx, add_tags)
+        yield node[0]
     else:
         for ch in node:
-            idx = align_to_bhsa(ch, idx, add_tags)
-        return idx
+            yield from extract_morphemes(ch)
+
+def align_to_bhsa(sentence, bhsa0):
+    morphs = list(extract_morphemes(sentence))
+    morphs.sort(key=lambda m: m.attrib[xml_id])
+    m2b = {}
+    tags = defaultdict(list)
+    heads = {}
+    idx = bhsa0
+    for m in morphs:
+        while idx in bhsa_skip_nodes:
+            idx += 1
+        mid = m.attrib[xml_id]
+        tags[mid].append(m.attrib['parentrule'])
+        heads[mid] = m.attrib['head']
+        if m.attrib['pos'] == 'suffix':
+            if m.attrib['type'] == 'pronominal':
+                m2b[mid] = str(idx-1) + 'p'
+                continue
+            elif m.attrib['type'] == 'paragogic nun':
+                tags[m.attrib['head']].append('para_nun')
+                continue
+            elif m.attrib['type'] == 'paragogic he':
+                tags[m.attrib['head']].append('para_he')
+                continue
+            elif m.attrib['type'] == 'directional he':
+                tags[m.attrib['head']].append('dir_he')
+                continue
+        if is_merge_prefix(m, idx):
+            continue
+        if is_np_second(m, idx):
+            continue
+        if is_merge_main(m, idx):
+            m2b[mid] = idx
+            idx += 1
+            continue
+        ok, n = is_name_group(m, idx)
+        if ok:
+            m2b[mid] = idx
+            idx += n
+            continue
+        if matches(m, idx):
+            m2b[mid] = idx
+            idx += 1
+            continue
+        print('NOMATCH', mid, idx, 'BHSA', F.voc_lex_utf8.v(idx), 'Macula', m.text, 'context', ' '.join((F.lex.v(i) or '_') + ':' + (F.lex_utf8.v(i) or '_') for i in range(idx-2,idx+3)), file=sys.stderr)
+    for mid in sorted(m2b.keys()):
+        wid = m2b[mid]
+        head = heads[mid]
+        tagstr = ''.join(f'<{x}>' for x in tags[mid])
+        if head in m2b:
+            head = 'w' + str(m2b[head])
+        print(f'w{wid}\t{head}\t{tags}')
 
 def process_sentence(sent):
     propogate_heads(sent)
     distribute_heads(sent, sent.attrib['headword'], '_')
-    add_tags = defaultdict(list)
     c, v = sent.attrib['verse'].split()[-1].split(':')
     cl = L.u(1, otype='chapter')[0] + int(c) - 1
     vl = L.d(cl, otype='verse')[0] + int(v) - 1
     wl = L.d(vl, otype='word')[0]
-    align_to_bhsa(sent, wl, add_tags)
-    data = {}
-    for m in sent.iter('m'):
-        if 'bhsa' in m.attrib:
-            data[m.attrib[xml_id]] = [m.attrib['bhsa'], m.attrib['parentrule'], m.attrib['head']]
-    for k in sorted(data.keys()):
-        wid, rl, head = data[k]
-        tags = f'<{rl}>' + ''.join(f'<{x}>' for x in add_tags[k])
-        if head in data:
-            head = 'w' + str(data[head][0])
-        print(f'w{wid}\t{head}\t{tags}')
+    align_to_bhsa(sent, wl)
 
 book_names = {
     'genesis': '01-Gen',
@@ -219,6 +186,8 @@ book_names = {
 }
 
 book = sys.argv[1]
+
+bhsa_skip_nodes = bhsa_skip_nodes.get(book, [])
 
 utils.load_volume(book, globals())
 

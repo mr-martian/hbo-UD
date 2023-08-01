@@ -119,6 +119,11 @@ class Word:
             vs = F.verse.v(L.u(last_wid, otype='verse')[0])
             if bk:
                 self.misc.append(f'Ref={bk}_{ch}.{vs}')
+            lex = L.u(last_wid)
+            if lex:
+                gloss = F.gloss.v(lex[0])
+                if gloss:
+                    self.misc.append(f'Gloss={gloss}')
         if self.xpos not in ['punct', 'prn'] and not self.tail:
             self.is_end = False
     def from_cg(self, inp):

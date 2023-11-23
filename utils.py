@@ -11,7 +11,7 @@ def load_volume(vol, hoist):
         v = vol[:2] + vol[2:].capitalize() + 'Book'
     else:
         v = vol.capitalize() + 'Book'
-    use("bhsa", mod="etcbc/trees/tf,etcbc/bridging/tf", hoist=hoist, volume=v)
+    use("ETCBC/bhsa:local", hoist=hoist, volume=v)
     sys.stdout.close()
     sys.stdout = out
 

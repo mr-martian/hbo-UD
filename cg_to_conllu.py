@@ -119,7 +119,7 @@ class Word:
             vs = F.verse.v(L.u(last_wid, otype='verse')[0])
             if bk:
                 self.misc.append(f'Ref={bk}_{ch}.{vs}')
-            lex = L.u(last_wid)
+            lex = L.u(last_wid, otype='lex')
             if lex:
                 gloss = F.gloss.v(lex[0])
                 if gloss:

@@ -9,6 +9,13 @@ from collections import defaultdict
 
 xml_id = '{http://www.w3.org/XML/1998/namespace}id'
 
+HEAD_OVERRIDE = {
+    'Conj3Np': 0,
+    'Conj3Pp': 0,
+    'Conj5Pp': 0,
+    'QuanNP': 0,
+}
+
 def propogate_heads(node):
     if node.tag == 'm':
         node.attrib['headword'] = node.attrib[xml_id]
@@ -17,6 +24,12 @@ def propogate_heads(node):
         propogate_heads(ch)
     if 'Head' not in node.attrib:
         node.attrib['Head'] = '0'
+    r = node.attrib.get('Rule')
+    if r in HEAD_OVERRIDE:
+        node.attrib['Head'] = str(HEAD_OVERRIDE[r])
+    elif r is None and node.attrib.get('Cat') == 'S':
+        if node[0].attrib.get('Rule') == 'Cj2Cjp':
+            node.attrib['Head'] = '1'
     h = int(node.attrib['Head'])
     node.attrib['headword'] = node[h].attrib['headword']
 
@@ -44,7 +57,7 @@ def skip(c):
     if ord(c) < 0x5d0:
         return True # vowel
     return False
-                
+
 def clean(s):
     s2 = (s or '').replace(chr(0xfb2a), chr(0x5e9)).replace(chr(0xfb2b), chr(0x5e9))
     s3 = ''.join(c for c in s2.strip() if not skip(c))
@@ -56,7 +69,7 @@ def remsuf(a, b):
     if not a.endswith(b):
         return a
     return a[:-len(b)]
-                
+
 def matches(node, idx):
     bt = remsuf(T.text(idx) or '', F.trailer_utf8.v(idx))
     mt = node.text
@@ -168,7 +181,7 @@ def align_to_bhsa(sentence, bhsa0):
         tagstr = ''.join(f'<{x}>' for x in tags[mid])
         if head in m2b:
             head = 'w' + str(m2b[head])
-        print(f'w{wid}\t{head}\t{tags}')
+        print(f'w{wid}\t{head}\t{tagstr}')
 
 def process_sentence(sent):
     propogate_heads(sent)

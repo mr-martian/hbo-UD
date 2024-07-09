@@ -10,10 +10,104 @@ from collections import defaultdict
 xml_id = '{http://www.w3.org/XML/1998/namespace}id'
 
 HEAD_OVERRIDE = {
+    '2PpaPp': 0,
+    'QuanNP': 0,
+
+    '2CLaCL': 0,
+    '2Np': 0,
+    '2NpaNpaNp': 0,
+    '2Pp': 0,
+    '3NpaNp': 0,
+    'AdjpaAdjp': 0,
+    'CLaCL': 0,
+    'CLandCL2': 0,
+    'ClCl': 0,
+    'Conj3CL': 0,
+    'Conj4Np': 0,
+    'Conj4Pp': 0,
+    'Conj5Np': 0,
+    'NP3NP': 0,
+    'NpaNp': 0,
+    'NPaNPaNPNPaNP': 0,
+    'NPaNPNP': 0,
+    'NPaNPNPaNP': 0,
+    'NpNpNp': 0,
+    'NPNPNPaNPaNP': 0,
+    'NpNpNpNp': 0,
+    'NpPp': 0,
+    'NumpAndNump': 0,
+    'NumpNump': 0,
+    'PPandPP': 0,
+    'PpaPpPpaPp': 0,
+    'Relp3Relp': 0,
+
+
+    'AdjpAdjpandAdjp': 0,
+    'AdjpandAdjpAdjp': 0,
+    'AdvpandAdvp': 0,
+    'AdvpandPp': 0,
+    'CLandCL2': 0,
+    'NPandPP2np': 0,
+    'NumpAndNump': 0,
+    'PPandPP': 0,
+    'PpPpPpPpandPp': 0,
+    'PpPpPpandPp': 0,
+    'PpPpPpandPpPp': 0,
+    'PpPpandPpPp': 0,
+    'PpandAdvp': 0,
+    'PpandPpPp': 0,
+    'RelpandRelp': 0,
+    'VPandVP': 0,
+
+    'Conj11Np': 0,
+    'Conj2Pp': 0,
+    'Conj3Adjp': 0,
+    'Conj3CL': 0,
     'Conj3Np': 0,
     'Conj3Pp': 0,
+    'Conj4Adjp': 0,
+    'Conj4CL': 0,
+    'Conj4Np': 0,
+    'Conj4Pp': 0,
+    'Conj5CL': 0,
+    'Conj5Np': 0,
     'Conj5Pp': 0,
-    'QuanNP': 0,
+    'Conj6Np': 0,
+    'Conj6Pp': 0,
+    'Conj7Np': 0,
+    'Conj7Pp': 0,
+    'Conj8Np': 0,
+    'Conj9Np': 0,
+
+    '12Np': 0,
+    '2Advp_h1': 0,
+    '3Adjp': 0,
+    '3NpaNp': 0,
+    '4NpaNp': 0,
+    '7Np': 0,
+
+    'NP10NP': 0,
+    'NP3NP': 0,
+    'NPnp4NP': 0,
+    'NPnp5NP': 0,
+    'Np5Np': 0,
+    'NpNp5': 0,
+    'NpNp6': 0,
+    'NpNpNp11': 0,
+    'PP8PP': 0,
+    'PP9PP': 0,
+    'PPPP4': 0,
+    'PPPP5': 0,
+    'PpPp9': 0,
+    'Relp3Relp': 0,
+    'Relp5Relp': 0,
+    'VP3VP': 0,
+    'VpVp2V3': 0,
+    'Vpvp2V1': 0,
+    'ppPP5PP': 0,
+    'ppPP6PP': 0,
+    'ppappPP5PP': 0,
+
 }
 
 def propogate_heads(node):
@@ -28,7 +122,7 @@ def propogate_heads(node):
     if r in HEAD_OVERRIDE:
         node.attrib['Head'] = str(HEAD_OVERRIDE[r])
     elif r is None and node.attrib.get('Cat') == 'S':
-        if node[0].attrib.get('Rule') == 'Cj2Cjp':
+        if node[0].attrib.get('Rule') in ['Cj2Cjp', 'CjpCjp']:
             node.attrib['Head'] = '1'
     h = int(node.attrib['Head'])
     node.attrib['headword'] = node[h].attrib['headword']

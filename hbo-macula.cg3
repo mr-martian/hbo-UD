@@ -89,6 +89,7 @@ LIST @punct = @punct ;   # Any punctuation
 LIST @cop = @cop ;       #
 LIST @nmod:poss = @nmod:poss ;
 LIST @obl = @obl ;
+LIST @obl:npmod = @obl:npmod ;
 LIST @obj = @obj ;
 LIST @advcl = @advcl ;
 LIST @aux = @aux ;
@@ -335,17 +336,29 @@ MAP @nsubj (role:S) ;
 MAP @ccomp (verb role:O) - Participle ;
 MAP @obj (role:O) ;
 MAP @obj (role:Np Objc) + FinCL ;
+MAP @mark (SCONJ role:PP) ;
 MAP @obl (role:PP) ;
 MAP @obj (Objc role:ADV) IF (NEGATE s (role:O)) ;
+MAP @xcomp (NP role:ADV) ;
+MAP @obl:npmod (infa role:ADV) ;
 MAP @advmod (role:ADV) ;
 MAP @obl (role:O2) ;
 MAP @nummod (NpNump) OR (NumpNP) ;
+MAP @det (prde NpAdjp) ;
 MAP @amod (NpAdjp) - (verb) ;
 MAP @acl:relcl (NpRelp) ;
 MAP @nmod (2Pp) OR (NpPp) ;
 MAP @acl:relcl (verb ptca Np-Appos) ;
 MAP @appos (NpNpNp) OR (NP3NP) OR (role:Appos) ;
 MAP @acl:relcl (verb NpAdjp) ;
+
+LIST ListRules = 2PpaPp AdjpAdjpandAdjp AdjpandAdjpAdjp CLaCL
+	 		     2CLaCL 2Np 2NpaNpaNp 2Pp 3NpaNp AdjpaAdjp aNpaNp aNpaNpaNp
+				 CLaCL CLandCL2 ClCl Conj3CL Conj4Np Conj4Pp Conj5Np
+				 NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP NPaNPNPaNP NpNpNp
+				 NPNPNPaNPaNP NpNpNpNp NpPp NumpAndNump NumpNump
+				 PPandPP PpaPpPpaPp Relp3Relp ;
+MAP @conj ListRules ;
 
 LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "קרב" "יאל" "לאה" "צוה" "נתן" ;
 MAP @xcomp (verb infc) + FinCLPP IF (p XcompInf) (c (prep PrepCL)) ;
@@ -366,12 +379,12 @@ WITH @ccomp IF (sl @ccomp) (c @cc) {
   SUBSTITUTE @ccomp @conj (*) ;
 } ;
 
-WITH (PPandPP) OR (PpPp) - (prep) IF (pr (@obl)) {
-  MAP @obl (*) ;
-  SETPARENT UNSAFE (*) TO (jC1 (*) LINK p (*)) ;
-  SETCHILD (*) TO (jC1 (*)) ;
-  SUBSTITUTE @obl @conj _C1_ ;
-} ;
+#WITH (PPandPP) OR (PpPp) - (prep) IF (pr (@obl)) {
+#  MAP @obl (*) ;
+#  SETPARENT UNSAFE (*) TO (jC1 (*) LINK p (*)) ;
+#  SETCHILD (*) TO (jC1 (*)) ;
+#  SUBSTITUTE @obl @conj _C1_ ;
+#} ;
 
 WITH (subs ppre c) IF (p @obl) {
   MAP @obl (*) ;
@@ -397,6 +410,8 @@ SETPARENT @appos OR @nmod TO (p (QuanNP) LINK p (*)) ;
 
 SETPARENT SAFE (SCONJ) TO (1* @ccomp) ;
 MAP @mark (SCONJ) ;
+
+SETPARENT @nsubj TO (p @discourse LINK p (*)) ;
 
 SECTION
 

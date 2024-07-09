@@ -33,21 +33,29 @@ def propogate_heads(node):
     h = int(node.attrib['Head'])
     node.attrib['headword'] = node[h].attrib['headword']
 
-def distribute_heads(node, headword, parentrule):
+def distribute_heads(node, headword, parentrule, rulepiece=None):
     if node.tag == 'm':
         node.attrib['parentrule'] = parentrule
         if node.attrib[xml_id] != headword:
             node.attrib['head'] = headword
         else:
             node.attrib['head'] = '0'
+        if rulepiece is not None:
+            node.attrib['rulepiece'] = rulepiece
     else:
         n = node.attrib.get('Head', '*')
         r = node.attrib.get('Rule', parentrule)
-        for i, ch in enumerate(node):
+        roles = r.split('-')
+        if len(node) == 1:
+            roles = [rulepiece]
+        elif len(roles) != len(node):
+            roles = [None] * len(node)
+            roles[int(n)] = rulepiece
+        for i, (ch, role) in enumerate(zip(node, roles)):
             if n == '*' or int(n) == i:
-                distribute_heads(ch, headword, parentrule)
+                distribute_heads(ch, headword, parentrule, role)
             else:
-                distribute_heads(ch, node.attrib['headword'], r)
+                distribute_heads(ch, node.attrib['headword'], r, role)
 
 def skip(c):
     if ord(c) > 0x5ea:
@@ -143,6 +151,8 @@ def align_to_bhsa(sentence, bhsa0):
             idx += 1
         mid = m.attrib[xml_id]
         tags[mid].append(m.attrib['parentrule'])
+        if 'rulepiece' in m.attrib:
+            tags[mid].append('role:'+m.attrib['rulepiece'])
         heads[mid] = m.attrib['head']
         if m.attrib['pos'] == 'suffix':
             if m.attrib['type'] == 'pronominal':

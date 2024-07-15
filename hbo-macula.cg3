@@ -182,6 +182,10 @@ ADDCOHORT ("<prn>" "אני" prn p1 sg) AFTER ("און" subs retag:nmpr) ;
 MAP @flat:name (nmpr wp2) IF (-1 (nmpr wp1)) ;
 SETPARENT @flat:name TO (-1* (nmpr wp1)) ;
 
+SETPARENT (wp2) TO (-1 (wp1)) ;
+SETPARENT (*) TO (p (wp2) LINK p (wp1)) ;
+MAP @compound:smixut (wp2) IF (p (wp1 c)) ;
+
 ####################
 # MWE conjunctions
 ####################
@@ -334,29 +338,36 @@ MAP @compound:smixut (NP NPofNP) OR (PP NPofNP) OR (QuanNP) IF (p (c)) ;
 MAP @appos (NPofNP) ;
 MAP @nsubj (role:S) ;
 MAP @ccomp (verb role:O) - Participle ;
-MAP @obj (role:O) ;
+MAP @obj (role:O) IF (NEGATE c (@cop)) ;
 MAP @obj (role:Np Objc) + FinCL ;
 MAP @mark (SCONJ role:PP) ;
-MAP @obl (role:PP) ;
+MAP @obl (role:PP) IF (NEGATE c (@cop)) ;
 MAP @obj (Objc role:ADV) IF (NEGATE s (role:O)) ;
+MAP @obl (NP rela:Attr role:ADV) ;
 MAP @xcomp (NP role:ADV) ;
 MAP @obl:npmod (infa role:ADV) ;
+MAP @obl (subs role:ADV) OR (nmpr role:ADV) ;
 MAP @advmod (role:ADV) ;
-MAP @obl (role:O2) ;
+MAP @xcomp (role:O2) ;
 MAP @nummod (NpNump) OR (NumpNP) ;
-MAP @det (prde NpAdjp) ;
+MAP @det (prde NpAdjp) OR (ppde NpAdjp) ;
 MAP @amod (NpAdjp) - (verb) ;
-MAP @acl:relcl (NpRelp) ;
+MAP @acl:relcl (NpRelp) OR (PpRelp) ;
 MAP @nmod (2Pp) OR (NpPp) ;
 MAP @acl:relcl (verb ptca Np-Appos) ;
+MAP @amod (adjv role:Appos) ;
 MAP @appos (NpNpNp) OR (NP3NP) OR (role:Appos) ;
 MAP @acl:relcl (verb NpAdjp) ;
+MAP @advcl (verb infc ClCl) IF (p (verb) - (infc)) ;
+MAP @flat (NumpNump) ;
+MAP @vocative (Voct ClCl) OR (Voct ClCl2) IF (p (_) OR (role:P) OR (role:V)) ;
+MAP @acl:relcl (verb infc NpInf) ; # TODO: maybe actually plain @acl?
 
 LIST ListRules = 2PpaPp AdjpAdjpandAdjp AdjpandAdjpAdjp CLaCL
 	 		     2CLaCL 2Np 2NpaNpaNp 2Pp 3NpaNp AdjpaAdjp aNpaNp aNpaNpaNp
 				 CLaCL CLandCL2 ClCl Conj3CL Conj4Np Conj4Pp Conj5Np
 				 NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP NPaNPNPaNP NpNpNp
-				 NPNPNPaNPaNP NpNpNpNp NpPp NumpAndNump NumpNump
+				 NPNPNPaNPaNP NpNpNpNp NpPp NumpAndNump
 				 PPandPP PpaPpPpaPp Relp3Relp ;
 MAP @conj ListRules ;
 
@@ -369,6 +380,8 @@ SUBSTITUTE @obj @obl (PP) IF (sl FinCLPP + @obj) ;
 SUBSTITUTE @obj @xcomp (adjv) IF (s FinCL + @obj) ;
 
 MAP @obj (prn V-O) IF (p (verb)) ;
+
+SETPARENT (@case PpPp) TO (p @case LINK p (*)) ;
 
 SECTION
 
@@ -413,16 +426,24 @@ MAP @mark (SCONJ) ;
 
 SETPARENT @nsubj TO (p @discourse LINK p (*)) ;
 
+WITH (nmpr) IF (-1 (subs c)) (NOT p (*)) {
+	SETPARENT (*) TO (-1 (*)) ;
+	MAP @compound:smixut (*) ;
+} ;
+
 SECTION
 
 MAP @ccomp (rela:Objc) ;
 
 SETPARENT (@ccomp txt:1) TO (srrl (_ txt:0) - (conj)) ;
 
+SETPARENT (_ txt:1) (p (txt:0)) TO (slll (_ txt:1) - (conj)) ;
+
 AFTER-SECTIONS
 
 MAP @root (*) ;
 
+SUBSTITUTE @root @conj (*) IF (p @root) (c @cc) ;
 SUBSTITUTE @root @parataxis (*) IF (p @root) ;
 
 REMCOHORT (pb) ;

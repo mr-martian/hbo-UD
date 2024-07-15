@@ -10,6 +10,9 @@ from collections import defaultdict
 xml_id = '{http://www.w3.org/XML/1998/namespace}id'
 
 HEAD_OVERRIDE = {
+    'PpAdvp': 1,
+    'PpRelp': 0, # TODO: should we just use case:outer for this instead?
+
     '2PpaPp': 0,
     'QuanNP': 0,
 
@@ -142,6 +145,8 @@ def distribute_heads(node, headword, parentrule, rulepiece=None):
         roles = r.split('-')
         if len(node) == 1:
             roles = [rulepiece]
+        elif r == 'Np-Appos':
+            roles = [rulepiece, 'Appos']
         elif len(roles) != len(node):
             roles = [None] * len(node)
             roles[int(n)] = rulepiece

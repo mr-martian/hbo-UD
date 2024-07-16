@@ -11,6 +11,7 @@ xml_id = '{http://www.w3.org/XML/1998/namespace}id'
 
 HEAD_OVERRIDE = {
     'PpAdvp': 1,
+    'PpPp': 0,
     'PpRelp': 0, # TODO: should we just use case:outer for this instead?
 
     '2PpaPp': 0,
@@ -116,9 +117,16 @@ HEAD_OVERRIDE = {
 def propogate_heads(node):
     if node.tag == 'm':
         node.attrib['headword'] = node.attrib[xml_id]
+        if node.attrib.get('lemma') == '1961':
+            if node.attrib.get('type') == 'jussive':
+                node.attrib['copula'] = 'juss'
+            else:
+                node.attrib['copula'] = 'yes'
         return
     for ch in node:
         propogate_heads(ch)
+    if len(node) == 1:
+        node.attrib['copula'] = node[0].attrib.get('copula') or ''
     if 'Head' not in node.attrib:
         node.attrib['Head'] = '0'
     r = node.attrib.get('Rule')
@@ -127,6 +135,19 @@ def propogate_heads(node):
     elif r is None and node.attrib.get('Cat') == 'S':
         if node[0].attrib.get('Rule') in ['Cj2Cjp', 'CjpCjp']:
             node.attrib['Head'] = '1'
+    elif r == 'PrepNp' and node[0].attrib.get('Rule') == 'PrepNp':
+        node.attrib['Head'] = '0'
+        node.attrib['Rule'] = 'PrepNp+NomPrep'
+    elif r and '-' in r:
+        ls = r.split('-')
+        if 'V' in ls:
+            v = ls.index('V')
+            cop = node[v].attrib.get('copula')
+            if cop in ['yes', 'juss']:
+                if 'O' in ls:
+                    node.attrib['Head'] = str(ls.index('O'))
+                elif 'PP' in ls and cop != 'juss':
+                    node.attrib['Head'] = str(ls.index('PP'))
     h = int(node.attrib['Head'])
     node.attrib['headword'] = node[h].attrib['headword']
 

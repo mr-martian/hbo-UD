@@ -42,10 +42,6 @@ LIST AGen = m f ;
 # Helper labels
 ####################
 
-LIST HasConj = HasConj ;
-
-LIST PPHead = PPHead ;
-
 LIST NQ = NQ ;
 LIST QuoteLevel = NQ Q QQ ;
 
@@ -62,15 +58,6 @@ LIST Masculine = "מכיר" "אשׁר" "בצע" "בקר" ;
 LIST FeminineMixed = "ארץ" "יד" "צאן" "אשׁ" "גן" "גפן" ;
 # TODO: BDB says sometimes feminine
 LIST MasculineMixed = "לחם" "דרך" "אור" "אות" "ארון" "גמל" ;
-
-####################
-# Special-case words
-####################
-
-LIST PPHeadOverride = (Ruth w575) (Ruth w580) ;
-
-LIST DontConjTo = (Genesis w4993) ;
-LIST HasConjOverride = (Genesis w4584) ;
 
 ####################
 # Universal Dependencies
@@ -239,28 +226,9 @@ SUBSTITUTE (subs) (verb retag:subs ClauseRoot) (nmcp) ;
 SUBSTITUTE (inrg) (advb retag:inrg) ItgAdv ;
 
 ####################
-# Helper labels
-####################
-
-ADD (NonAcc) ("את" prep Cmpl) + $$ClauseType - (NonAcc)
-    IF (0* ("את" prep Objc) + $$ClauseType BARRIER SB) ;
-ADD PPHead PPHeadOverride - PPHead ;
-
-SUBSTITUTE (ClausePhraseRoot) (WhyAreVocativesTheirOwnClause) VoctNonCROverride ;
-SUBSTITUTE (ClausePhraseRoot) (WhyAreVocativesTheirOwnClause) (Voct) IF (0* (ClausePhraseRoot) - (Voct) BARRIER SB) ;
-
-ADD (ClausePhraseRoot) ("חלילה" intj) - (ClausePhraseRoot) ;
-SUBSTITUTE (ClausePhraseRoot) (InterjectionOverride) (*) - (intj)
-    IF (0* ("חלילה" intj) BARRIER CB) ;
-
-ADD (skipconj) DontConjTo - (skipconj) ;
-ADD HasConj HasConjOverride - HasConj ;
-
-####################
 # Consistent labels
 ####################
 
-MAP @punct (punct) ;
 MAP @det Det ;
 MAP @mark SCONJ + (conj CP) ;
 MAP @mark ("ה" inrg) ;
@@ -268,11 +236,9 @@ MAP @obj ("את") + Pr IF (1 RelMark) ;
 MAP @obl Pr IF (1 RelMark) ;
 MAP @case Pr ;
 MAP @cc (conj) - (Rela) ;
-MAP @advmod ADV - (ClausePhraseRoot) - PPHead ;
-MAP @advmod ADV + (MSyn) ;
-MAP @advmod ADV + (ClausePhraseRoot) IF (0* PRON BARRIER BD) ;
+MAP @advmod ADV ;
 MAP @advmod ("למה" inrg) ;
-MAP @discourse (intj) - (ClausePhraseRoot) ; # TODO: is there a better way to handle הנה?
+MAP @discourse (intj) ; # TODO: is there a better way to handle הנה?
 
 ####################
 # Pronoun suffixes
@@ -288,15 +254,6 @@ SUBSTITUTE ("prn") ("הוא") ("prn" prn p3 m sg) ;
 SUBSTITUTE ("prn") ("היא") ("prn" prn p3 f sg) ;
 SUBSTITUTE ("prn") ("הם") ("prn" prn p3 m pl) ;
 SUBSTITUTE ("prn") ("הן") ("prn" prn p3 f pl) ;
-
-#SETPARENT (conj @cc) (pr (*)) TO (sllr (*)) ;
-
-WITH ("ו" conj) IF (cllr (*)) (NEGATE cl (*)) {
-  MAP REPEAT @conj (*) IF (cA (*) - (conj)) ;
-  SETPARENT REPEAT (*) (cA (*)) TO (jC1 (*)) ;
-  SETPARENT _C1_ TO (p (*) LINK p (*)) ;
-  SETPARENT (*) TO (jC1 (*)) ;
-} ;
 
 WITH ("ו" conj) IF (pl (*)) (sllr (*)) {
   SETPARENT (*) TO (sllr (*)) ;
@@ -320,11 +277,14 @@ WITH (2Pp) IF (p (prep)) {
 } ;
 
 MAP @ccomp (txt:1) IF (p (txt:0)) ;
+MAP @ccomp (txt:2) IF (p (txt:1)) ;
 
-#SETPARENT (*) (p ("היה" vbcp)) TO (p (*) LINK p (*)) ;
+SETPARENT (conj _) (pl (*)) TO (1* (_)) ;
 
 LIST FinCL = /((S|V|O2?|PP?)-)+(S|V|O2?|PP?)/r ;
 LIST FinCLPP = /((S|V|O2?|PP?)-)+PP/r ;
+LIST EllpCL = /^((S|O2?|PP)-)+(S|O2?|PP)$/r ;
+LIST VerbCL = /^V-|-V-|-V$/r ;
 
 LIST ConjSeq = /Conj\\d.*/r ;
 
@@ -333,53 +293,105 @@ MAP @conj ConjSeq IF (c (conj)) ;
 MAP @conj $$Function IF (c ("ו" conj)) (p $$Function) ;
 MAP @conj (_) IF (c ("ו" conj)) (p (_)) ;
 
-MAP @nmod:poss (prn NPofNP) ;
-MAP @compound:smixut (NP NPofNP) OR (PP NPofNP) OR (QuanNP) IF (p (c)) ;
-MAP @appos (NPofNP) ;
-MAP @nsubj (role:S) ;
-MAP @ccomp (verb role:O) - Participle ;
-MAP @obj (role:O) IF (NEGATE c (@cop)) ;
-MAP @obj (role:Np Objc) + FinCL ;
-MAP @mark (SCONJ role:PP) ;
-MAP @obl (role:PP) IF (NEGATE c (@cop)) ;
-MAP @obj (Objc role:ADV) IF (NEGATE s (role:O)) ;
-MAP @obl (NP rela:Attr role:ADV) ;
-MAP @xcomp (NP role:ADV) ;
-MAP @obl:npmod (infa role:ADV) ;
-MAP @obl (subs role:ADV) OR (nmpr role:ADV) ;
-MAP @advmod (role:ADV) ;
+####################
+# By role
+####################
+
+SECTION
+
+MAP @orphan EllpCL ;
+
+WITH (role:ADV) {
+  MAP @obj (Objc) IF (NEGATE s (role:O)) ;
+  MAP @obl (NP rela:Attr) ;
+  MAP @xcomp (NP) + VerbCL ;
+  MAP @obl:npmod (infa) ;
+  MAP @obl (subs) OR (nmpr) ;
+  MAP @advmod (*) ;
+} ;
+
+WITH (role:Appos) {
+  MAP @amod (adjv) ;
+  MAP @acl:relcl (verb ptca) ;
+  MAP @appos (*) ;
+} ;
+
+WITH (role:O) {
+  MAP @ccomp (verb) - Participle ;
+  MAP @obj (*) IF (NEGATE c (vbcp)) ;
+} ;
+
 MAP @xcomp (role:O2) ;
-MAP @nummod (NpNump) OR (NumpNP) ;
-MAP @det (prde NpAdjp) OR (ppde NpAdjp) ;
-MAP @amod (NpAdjp) - (verb) ;
-MAP @acl:relcl (NpRelp) OR (PpRelp) ;
-MAP @nmod (2Pp) OR (NpPp) ;
-MAP @acl:relcl (verb ptca Np-Appos) ;
-MAP @amod (adjv role:Appos) ;
-MAP @appos (NpNpNp) OR (NP3NP) OR (role:Appos) ;
-MAP @acl:relcl (verb NpAdjp) ;
+
+WITH (role:PP) {
+  MAP @mark (SCONJ) ;
+  MAP @nmod (*) IF (p (subs retag:verb)) ;
+  MAP @obl (*) IF (NEGATE c (vbcp)) ;
+} ;
+
+MAP @nsubj (role:S) ;
+
+WITH (role:V) {
+  MAP @cop (vbcp) + FinCL ;
+} ;
+
+####################
+# Simple rules
+####################
+
+SECTION
+
+LIST AclRules = NpRelp PpRelp ;
+LIST ApposRules = NpNpNp NP3NP ;
+LIST FlatRules = NumpNump ;
+LIST NmodRules = 2Pp NpPp ;
+LIST NummodRules = NpNump NumpNP ;
+
+MAP @acl:relcl AclRules ;
+MAP @appos ApposRules ;
+MAP @flat FlatRules ;
+MAP @nmod NmodRules ;
+MAP @nummod NummodRules ;
+
+####################
+# Other rules
+####################
+
+SECTION
+
+WITH (NpAdjp) {
+  MAP @det (prde) OR (ppde) ;
+  MAP @acl:relcl (verb) ;
+  MAP @amod (*) - (verb) ;
+} ;
+
+MAP @nmod:poss (prn NPofNP) OR (prn PrepNp+NomPrep) ;
+LIST CompoundAble = (NP NPofNP) (PP NPofNP) QuanNP (subs NPofNP) ;
+MAP @compound:smixut CompoundAble IF (p (c)) ;
 MAP @advcl (verb infc ClCl) IF (p (verb) - (infc)) ;
-MAP @flat (NumpNump) ;
 MAP @vocative (Voct ClCl) OR (Voct ClCl2) IF (p (_) OR (role:P) OR (role:V)) ;
 MAP @acl:relcl (verb infc NpInf) ; # TODO: maybe actually plain @acl?
+
+MAP @appos (NPofNP) ;
+
+WITH (AdjpPp) {
+  MAP @obl (*) IF (p (*) LINK c @cop) ;
+  MAP @nmod (*) ;
+} ;
 
 LIST ListRules = 2PpaPp AdjpAdjpandAdjp AdjpandAdjpAdjp CLaCL
 	 		     2CLaCL 2Np 2NpaNpaNp 2Pp 3NpaNp AdjpaAdjp aNpaNp aNpaNpaNp
 				 CLaCL CLandCL2 ClCl Conj3CL Conj4Np Conj4Pp Conj5Np
 				 NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP NPaNPNPaNP NpNpNp
 				 NPNPNPaNPaNP NpNpNpNp NpPp NumpAndNump
-				 PPandPP PpaPpPpaPp Relp3Relp ;
+				 PPandPP PpaPpPpaPp Relp3Relp PpPp ;
 MAP @conj ListRules ;
 
 LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "קרב" "יאל" "לאה" "צוה" "נתן" ;
-MAP @xcomp (verb infc) + FinCLPP IF (p XcompInf) (c (prep PrepCL)) ;
-MAP @advcl (verb infc) + FinCLPP IF (c (prep PrepCL)) ;
-
-SUBSTITUTE @nsubj @obl (*) IF (sl (V-S-PP-PP @nsubj)) ;
-SUBSTITUTE @obj @obl (PP) IF (sl FinCLPP + @obj) ;
-SUBSTITUTE @obj @xcomp (adjv) IF (s FinCL + @obj) ;
-
-MAP @obj (prn V-O) IF (p (verb)) ;
+WITH (verb infc) + FinCLPP IF (c (prep PrepCL)) {
+  MAP @xcomp (*) IF (p XcompInf) ;
+  MAP @advcl (*) ;
+} ;
 
 SETPARENT (@case PpPp) TO (p @case LINK p (*)) ;
 
@@ -392,28 +404,10 @@ WITH @ccomp IF (sl @ccomp) (c @cc) {
   SUBSTITUTE @ccomp @conj (*) ;
 } ;
 
-#WITH (PPandPP) OR (PpPp) - (prep) IF (pr (@obl)) {
-#  MAP @obl (*) ;
-#  SETPARENT UNSAFE (*) TO (jC1 (*) LINK p (*)) ;
-#  SETCHILD (*) TO (jC1 (*)) ;
-#  SUBSTITUTE @obl @conj _C1_ ;
-#} ;
-
 WITH (subs ppre c) IF (p @obl) {
   MAP @obl (*) ;
   SUBSTITUTE @obl @compound:smixut (*) IF (jC1A (*)) ;
   SETPARENT (*) TO (jC1 (*) LINK p (*)) ;
-  SETCHILD (*) TO (jC1 (*)) ;
-} ;
-
-LIST PPConj = Conj3Pp ;
-
-WITH PPConj IF (p @obl) (NEGATE ls (*)) {
-  MAP @obl (*) ;
-  MAP REPEAT @conj (*) IF (sA PPConj - (conj)) ;
-  SETCHILD (*) TO (s @conj) ; # TODO: REPEAT does weird things?
-  SETPARENT (*) TO (p (*) LINK p (*)) ;
-  SUBSTITUTE @obl @conj _C1_ ;
   SETCHILD (*) TO (jC1 (*)) ;
 } ;
 

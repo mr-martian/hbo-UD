@@ -11,6 +11,7 @@ xml_id = '{http://www.w3.org/XML/1998/namespace}id'
 
 HEAD_OVERRIDE = {
     'PpAdvp': 1,
+    'ppCL': 0,
     'PpRelp': 0, # TODO: should we just use case:outer for this instead?
 
     '2PpaPp': 0,
@@ -124,6 +125,11 @@ def is_nouny(node):
     else:
         return any(is_nouny(ch) for ch in node)
 
+def is_timey(node):
+    if node.attrib.get('CoreDomain') == '168':
+        return True
+    return any(is_timey(ch) for ch in node)
+
 def propogate_heads(node):
     if node.tag == 'm':
         node.attrib['headword'] = node.attrib[xml_id]
@@ -158,7 +164,12 @@ def propogate_heads(node):
                 if 'O' in ls:
                     node.attrib['Head'] = str(ls.index('O'))
                 elif 'PP' in ls and cop != 'juss':
-                    node.attrib['Head'] = str(ls.index('PP'))
+                    possible = [p for p in enumerate(ls) if p[1] == 'PP']
+                    possible2 = [p for p in possible if not is_timey(node[p[0]])]
+                    if possible2:
+                        node.attrib['Head'] = str(possible2[0][0])
+                    else:
+                        node.attrib['Head'] = str(possible[0][0])
     elif r == 'PpPp' and is_nouny(node[0]):
         node.attrib['Head'] = '0'
     elif r == '2Pp':

@@ -238,6 +238,11 @@ LIST ObjOverrides = (Genesis w45) ;
 
 MAP @obj ObjOverrides ;
 
+WITH ("נגד" subs role:PP) IF (-1 ("כ" prep) LINK -1 ("עזר" subs)) {
+  SETPARENT (*) TO (jC1 (*)) ;
+  MAP @nmod (*) ;
+} ;
+
 ####################
 # Consistent labels
 ####################
@@ -281,6 +286,8 @@ MAP @conj ConjSeq IF (c (conj)) ;
 
 MAP @conj $$Function IF (c ("ו" conj)) (p $$Function) ;
 MAP @conj (_) IF (c ("ו" conj)) (p (_)) ;
+
+MAP @compound:smixut (NP) IF (p (subs ptcp c)) ;
 
 ####################
 # By role
@@ -338,7 +345,7 @@ WITH (role:V) OR (role:P) {
 
 SECTION
 
-LIST AclRules = NpRelp PpRelp NpCL ;
+LIST AclRules = NpRelp PpRelp NpCL ppCL ;
 LIST ApposRules = NpNpNp NP3NP ;
 LIST FlatRules = NumpNump ;
 LIST NmodRules = 2Pp NpPp NumpPp ;
@@ -349,6 +356,10 @@ MAP @appos ApposRules ;
 MAP @flat FlatRules ;
 MAP @nmod NmodRules ;
 MAP @nummod NummodRules ;
+
+MAP @advmod (AdjpAdvp) ;
+MAP @amod (AdjpNp) ;
+MAP @parataxis (ClClCl) ;
 
 ####################
 # Other rules
@@ -364,7 +375,8 @@ WITH (NpAdjp) {
 
 MAP @appos (prde NPofNP) ;
 MAP @nmod:poss (prn NPofNP) OR (prn PrepNp+NomPrep) ;
-LIST CompoundAble = (NP NPofNP) (PP NPofNP) QuanNP (subs NPofNP) ;
+LIST CompoundAble = (NP NPofNP) (PP NPofNP) QuanNP (subs NPofNP)
+                    PrepNp+NomPrep AdjpofNp ;
 MAP @compound:smixut CompoundAble IF (p (c)) ;
 MAP @advcl (verb infc ClCl) IF (p (verb) - (infc)) ;
 MAP @vocative (Voct ClCl) OR (Voct ClCl2) IF (p (_) OR (role:P) OR (role:V)) ;
@@ -381,7 +393,7 @@ WITH (AdjpPp) {
   MAP @nmod (*) ;
 } ;
 
-MAP @advcl (ClCl) IF (c (conj) - ("ו")) ;
+MAP @advcl (ClCl) OR (ClCl2) IF (c (conj) - ("ו")) ;
 LIST ListRules = 2PpaPp AdjpAdjpandAdjp AdjpandAdjpAdjp CLaCL
 	 		     2CLaCL 2Np 2NpaNpaNp 2Pp 3NpaNp AdjpaAdjp aNpaNp aNpaNpaNp
 				 CLaCL CLandCL2 ClCl Conj3CL Conj4Np Conj4Pp Conj5Np
@@ -398,7 +410,8 @@ WITH (verb infc) + FinCLPP IF (c (prep PrepCL)) {
 
 SETPARENT (@case PpPp) TO (p @case LINK p (*)) ;
 
-MAP @dislocated (NP CPen Frnt ClCl2) ;
+LIST NorP = NP PP PrNP ;
+MAP @dislocated (CPen Frnt ClCl2) + NorP OR (Subj ClCl2) + NorP ;
 
 SECTION
 
@@ -452,8 +465,7 @@ WITH Top + (/^<txt:\(\\d+\)>$/r)
 } ;
 
 WITH Top + (/^<txt:\(\\d+\)>$/r)
-  IF (-1*O (>>>) OR Top + (VSTR:<txt<$1>) LINK 1* Top + (VSTR:<txt=$1>))
-     (NOT p (*)) {
+  IF (-1*O (>>>) OR Top + (VSTR:<txt<$1>) LINK 1* Top + (VSTR:<txt=$1>)) {
     SETPARENT (*) TO (jC1 (*)) ;
     MAP @conj (*) IF (c (conj)) ;
 	SETPARENT (verb infc) (c (prep)) TO (p (*) LINK c (@xcomp verb infc)) ;
@@ -470,7 +482,11 @@ WITH Top + (/^<txt:\(\\d+\)>$/r)
 
 MAP @ccomp (/^<txt:\(\\d+\)>$/r) + FinCL IF (p SpeakingVerb + (VSTR:<txt<$1>)) ;
 
-SETPARENT (advb PP _) (p (>>>)) TO (sllr (*)) ;
+SETPARENT SAFE (SCONJ /^<txt:\(\\d+\)>$/r) TO (1* (_ VSTR:<txt>$1>)) ;
+MAP @advcl (*) IF (c (SCONJ)) ;
+
+SETPARENT (advb _) (p (>>>)) TO (sllr (*)) ;
+SETPARENT (@cc CjpCjp) TO (p @advmod LINK p (*)) ;
 
 SECTION
 
@@ -487,6 +503,8 @@ SETPARENT (_ <txt:1>) (p (<txt:0>)) TO (slll (_ <txt:1>) - (conj)) ;
 SETPARENT @conj TO (p @conj LINK p (*)) ;
 
 AFTER-SECTIONS
+
+MAP @dep (*) - (_) ;
 
 MAP @root (*) ;
 

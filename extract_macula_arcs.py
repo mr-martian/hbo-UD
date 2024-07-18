@@ -115,6 +115,7 @@ HEAD_OVERRIDE = {
 def is_nouny(node):
     prep_noun_lemmas = [
         '8478', # תחת
+        '5978', # עמד
     ]
     if node.attrib.get('Cat') == 'np':
         return True
@@ -142,7 +143,7 @@ def propogate_heads(node):
     if r in HEAD_OVERRIDE:
         node.attrib['Head'] = str(HEAD_OVERRIDE[r])
     elif r is None and node.attrib.get('Cat') == 'S':
-        if node[0].attrib.get('Rule') in ['Cj2Cjp', 'CjpCjp']:
+        if node[0].attrib.get('Cat') == 'cjp':
             node.attrib['Head'] = '1'
     elif r == 'PrepNp':
         if node[0].attrib.get('Rule') == 'PrepNp' or is_nouny(node[0]):

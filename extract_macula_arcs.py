@@ -11,7 +11,6 @@ xml_id = '{http://www.w3.org/XML/1998/namespace}id'
 
 HEAD_OVERRIDE = {
     'PpAdvp': 1,
-    'PpPp': 0,
     'PpRelp': 0, # TODO: should we just use case:outer for this instead?
 
     '2PpaPp': 0,
@@ -20,7 +19,6 @@ HEAD_OVERRIDE = {
     '2CLaCL': 0,
     '2Np': 0,
     '2NpaNpaNp': 0,
-    '2Pp': 0,
     '3NpaNp': 0,
     'AdjpaAdjp': 0,
     'CLaCL': 0,
@@ -114,6 +112,17 @@ HEAD_OVERRIDE = {
 
 }
 
+def is_nouny(node):
+    prep_noun_lemmas = [
+        '8478', # תחת
+    ]
+    if node.attrib.get('Cat') == 'np':
+        return True
+    elif node.attrib.get('lemma') in prep_noun_lemmas:
+        return True
+    else:
+        return any(is_nouny(ch) for ch in node)
+
 def propogate_heads(node):
     if node.tag == 'm':
         node.attrib['headword'] = node.attrib[xml_id]
@@ -135,9 +144,10 @@ def propogate_heads(node):
     elif r is None and node.attrib.get('Cat') == 'S':
         if node[0].attrib.get('Rule') in ['Cj2Cjp', 'CjpCjp']:
             node.attrib['Head'] = '1'
-    elif r == 'PrepNp' and node[0].attrib.get('Rule') == 'PrepNp':
-        node.attrib['Head'] = '0'
-        node.attrib['Rule'] = 'PrepNp+NomPrep'
+    elif r == 'PrepNp':
+        if node[0].attrib.get('Rule') == 'PrepNp' or is_nouny(node[0]):
+            node.attrib['Head'] = '0'
+            node.attrib['Rule'] = 'PrepNp+NomPrep'
     elif r and '-' in r:
         ls = r.split('-')
         if 'V' in ls:
@@ -148,6 +158,15 @@ def propogate_heads(node):
                     node.attrib['Head'] = str(ls.index('O'))
                 elif 'PP' in ls and cop != 'juss':
                     node.attrib['Head'] = str(ls.index('PP'))
+    elif r == 'PpPp' and is_nouny(node[0]):
+        node.attrib['Head'] = '0'
+    elif r == '2Pp':
+        if is_nouny(node[0]):
+            node.attrib['Head'] = '0'
+        else:
+            node.attrib['Head'] = '1'
+    elif r == 'ClClCl' and node[0].attrib.get('Rule') == 'Intj2CL':
+        node.attrib['Head'] = '1'
     h = int(node.attrib['Head'])
     node.attrib['headword'] = node[h].attrib['headword']
 
@@ -309,7 +328,7 @@ def align_to_bhsa(sentence, bhsa0):
         wid = m2b[mid]
         head = heads[mid]
         tagstr = ''.join(f'<{x}>' for x in tags[mid])
-        if head in m2b:
+        if head in m2b and '_' not in tags[mid]:
             head = 'w' + str(m2b[head])
         print(f'w{wid}\t{head}\t{tagstr}')
 

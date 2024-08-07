@@ -11,7 +11,7 @@ books = [
 ]
 
 def iter_trees(macula_name):
-    for fname in sorted(glob.glob(f'macula-hebrew/nodes/{macula_name}-*.xml')):
+    for fname in sorted(glob.glob(f'macula-hebrew/WLC/nodes/{macula_name}-*.xml')):
         tree = ET.parse(fname)
         yield from tree.getroot()
 
@@ -169,4 +169,3 @@ def process_book(ud_name, macula_name):
 
 for b in books:
     process_book(*b)
-

@@ -365,7 +365,7 @@ bhsa_skip_nodes = bhsa_skip_nodes.get(book, [])
 
 utils.load_volume(book, globals())
 
-for fname in sorted(glob.glob(f'macula-hebrew/nodes/{book_names[book]}-*.xml')):
+for fname in sorted(glob.glob(f'macula-hebrew/WLC/nodes/{book_names[book]}-*.xml')):
     tree = ET.parse(fname)
     for sent in tree.getroot().iter('Sentence'):
         process_sentence(sent)

@@ -8,7 +8,7 @@ parser.add_argument('book', action='store')
 parser.add_argument('sent', type=int, nargs='+')
 args = parser.parse_args()
 
-with open(f'temp/merged/{args.book}.conllu') as fin:
+with open(f'temp/macula-merged/{args.book}.conllu') as fin:
     blocks = fin.read().strip().split('\n\n')
     with open(f'data/checked/{args.book}.conllu', 'a') as fout:
         for sent in args.sent:

@@ -16,7 +16,7 @@ temp/macula-arcs/%.tsv: extract_macula_arcs.py
 
 temp/macula-cg3/%.txt: to-CG.py temp/macula-arcs/%.tsv add-macula.py
 	mkdir -p temp/macula-cg3
-	./to-CG.py $* | apertium-cleanstream -n | ./add-macula.py temp/macula-arcs/$*.tsv | cg-conv -al > $@
+	./to-CG.py $* | apertium-cleanstream -n | ./add-macula.py temp/macula-arcs/$*.tsv | cg-conv -al | sed -E 's/(txt:[[:digit:]]+)/<\1>/g' > $@
 
 temp/macula-parsed-cg3/%.txt: temp/macula-cg3/%.txt hbo-macula.bin
 	mkdir -p temp/macula-parsed-cg3
@@ -41,8 +41,8 @@ hbo.bin: hbo-with.cg3
 hbo-macula.bin: hbo-macula.cg3
 	cg-comp $< $@
 
-%-book: temp/merged/%.conllu data/checked/%.conllu data/manual/%.conllu
-	./check.py $*
+%-book: temp/macula-merged/%.conllu data/checked/%.conllu data/manual/%.conllu
+	./check.py -m $*
 	./update_manual.py $*
 	./filter-ready.py $*
 	./rule-stats.py $*
@@ -76,4 +76,4 @@ export:
 	./export.py genesis 31-50 > UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-train.conllu
 	./export.py ruth 1-4 >> UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-train.conllu
 
-.PRECIOUS: temp/parsed-cg3/%.txt temp/merged/%.conllu temp/macula-parsed-cg3/%.txt
+.PRECIOUS: temp/parsed-cg3/%.txt temp/merged/%.conllu temp/macula-parsed-cg3/%.txt temp/macula-merged/%.conllu temp/macula-cg3/%.txt

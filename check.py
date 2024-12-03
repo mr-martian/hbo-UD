@@ -6,10 +6,12 @@ import sys
 import utils
 
 parser = argparse.ArgumentParser()
+parser.add_argument('--macula', '-m', action='store_true')
 parser.add_argument('book', action='store')
 args = parser.parse_args()
 
-fgen = f'temp/merged/{args.book}.conllu'
+m = 'macula-' if args.macula else ''
+fgen = f'temp/{m}merged/{args.book}.conllu'
 fref = f'data/checked/{args.book}.conllu'
 fman = f'data/manual/{args.book}.conllu'
 
@@ -20,11 +22,10 @@ man = utils.load_conllu(fman, True)
 fail = []
 for k in ref:
     if k in gen and gen[k][1] != ref[k][1]:
-        print(f'Sentence {gen[k][0]} ({k}) differs!')
+        #print(f'Sentence {gen[k][0]} ({k}) differs!')
         fail.append(str(gen[k][0]))
 
 if fail:
     print(f'{len(fail)} sentences in {fgen} differ from accepted!')
     print(' '.join(fail))
     sys.exit(1)
-

@@ -334,7 +334,8 @@ WITH (role:S) {
 } ;
 
 WITH (role:V) OR (role:P) {
-  MAP @cop (vbcp) + FinCL ;
+  MAP @conj (CLaCL) ;
+  #MAP @cop (vbcp) + FinCL ;
   MAP @acl:relcl (verb ptca Np-Appos) ;
   SETPARENT @acl:relcl TO (p (QuanNP @compound:smixut) LINK p (*)) ;
 } ;
@@ -500,7 +501,32 @@ SETPARENT (@ccomp <txt:1>) TO (srrl (_ <txt:0>) - (conj)) ;
 
 SETPARENT (_ <txt:1>) (p (<txt:0>)) TO (slll (_ <txt:1>) - (conj)) ;
 
-SETPARENT @conj TO (p @conj LINK p (*)) ;
+LIST NPConj = NpaNp ;
+LIST PPConj = PpaPp Conj3Pp ;
+SET ConjTypes = NPConj OR PPConj ;
+SETPARENT @conj + &&ConjTypes TO (p @conj + &&ConjTypes LINK p (*)) ;
+
+SECTION
+
+LIST PredFunction = Cmpl PreC ;
+SET CopPredicate =
+      (@obj)
+   OR (role:O)
+   OR (role:PP @obl) + PredFunction - (/-O-|^O-|-O$/r Time)
+   OR (PreC V-O)
+   OR (role:ADV infa) ;
+
+WITH CopPredicate IF (p (vbcp) - @cop)
+  (NEGATE 0 (Cmpl) LINK s (PreC))
+{
+  UNMAP (*) ;
+  MAP (VSTR:$1) (*) (jC1 (/^\(@.*\)$/r)) ;
+  UNMAP _C1_ ;
+  MAP @cop _C1_ ;
+  SETCHILD REPEAT (*) TO (s (*)) ;
+  SETPARENT (*) TO (jC1 (*) LINK p (*)) ;
+  SETCHILD (*) TO (jC1 (*)) ;
+} ;
 
 AFTER-SECTIONS
 

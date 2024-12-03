@@ -120,7 +120,7 @@ def is_nouny(node):
     ]
     if node.attrib.get('Cat') == 'np':
         return True
-    elif node.attrib.get('lemma') in prep_noun_lemmas:
+    elif node.attrib.get('StrongNumberX') in prep_noun_lemmas:
         return True
     else:
         return any(is_nouny(ch) for ch in node)
@@ -356,6 +356,9 @@ def process_sentence(sent):
 book_names = {
     'genesis': '01-Gen',
     'exodus': '02-Exo',
+    'leviticus': '03-Lev',
+    'numbers': '04-Num',
+    'deuteronomy': '05-Deu',
     'ruth': '08-Rut',
 }
 

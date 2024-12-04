@@ -1,0 +1,66 @@
+<html>
+  <head>
+    <title>Tree Diff</title>
+  </head>
+  <body>
+    <svg id="canvas">
+    </svg>
+    <table>
+      <tbody>
+	[[WORDS]]
+      </tbody>
+    </table>
+    <script type="text/javascript">
+      const arcs = [[ARCS]];
+      const max_height = [[HEIGHT]];
+
+      function arc_path(baseline, head, dep, height) {
+	  let d = (head < dep) ? +1 : -1;
+	  return `M ${head} ${baseline}
+L ${head + d*10*(height + 1)} ${baseline - 70*height}
+L ${dep - d*10*(height + 1)} ${baseline - 70*height}
+L ${dep} ${baseline}`;
+      }
+
+      function arc_head(baseline, dep) {
+	  let s = 'M '+dep + ' ' + baseline + ' ';
+	  s += 'L ' + (dep - 6) + ' ' + (baseline - 10) + ' ';
+	  s += 'L ' + (dep + 6) + ' ' + (baseline - 10) + ' Z';
+	  return s;
+      }
+
+      let canvas = document.getElementById('canvas');
+      let offset = canvas.getBoundingClientRect().left;
+      let row = document.getElementById('words0');
+      let centers = Array.from(row.children).map(
+	  function(w) {
+	      let r = w.getBoundingClientRect();
+	      return ((r.left + r.right) / 2) - offset;
+	  });
+
+      let baseline = max_height * 100 - 20;
+      canvas.setAttribute('width', row.getBoundingClientRect().width);
+      canvas.setAttribute('height', max_height * 100);
+      canvas.innerHTML = arcs.map(
+	  function(arc) {
+	      let head = centers[arc.head];
+	      let dep = centers[arc.dep];
+	      let label = arc.label;
+	      if (head < dep) {
+		  label += '&gt;';
+	      } else {
+		  label = '&lt;' + label;
+	      }
+	      return `
+<g stroke="${arc.color}" fill="none">
+  <path d="${arc_path(baseline, head, dep, arc.height)}"/>
+  <path d="${arc_head(baseline, dep)}"/>
+  <text x="${(head+dep)/2}" y="${baseline - arc.height*70 - 20}">${label}</text>
+</g>`;
+	  }
+      ).join('');
+    </script>
+  </body>
+</html>
+
+	  

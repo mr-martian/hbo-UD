@@ -166,7 +166,7 @@ SUBSTITUTE ("אוני" nmpr) ("און" subs retag:nmpr has_prn) ("אוני" wp2)
 ADDCOHORT ("<prn>" "אני" prn p1 sg) AFTER ("עם" subs retag:nmpr) ;
 ADDCOHORT ("<prn>" "אני" prn p1 sg) AFTER ("און" subs retag:nmpr) ;
 
-MAP @flat:name (nmpr wp2) IF (-1 (nmpr wp1)) ;
+MAP @flat:name (nmpr wp2) IF (-1* (nmpr wp1) BARRIER (*) - (punct)) ;
 SETPARENT @flat:name TO (-1* (nmpr wp1)) ;
 
 SETPARENT (wp2) TO (-1 (wp1)) ;
@@ -177,9 +177,17 @@ MAP @compound:smixut (wp2) IF (p (wp1 c)) ;
 # MWE conjunctions
 ####################
 
-SETPARENT ("אם" conj) OR ("כי" conj) TO (-1 ("עד" prep)) ;
-MAP @fixed ("אם" conj) OR ("כי" conj) IF (-1 ("עד" prep)) ;
-SUBSTITUTE (prep) (conj retag:prep) ("עד") IF (c @fixed) ;
+WITH ("אם" conj) OR ("כי" conj) IF (-1 ("עד" prep)) {
+  SETPARENT (*) TO (jC1 (*)) ;
+  MAP @fixed (*) ;
+  SUBSTITUTE (prep) (conj retag:prep ExtPos=SCONJ) _C1_ ;
+} ;
+
+WITH ("בלת" subs) - @fixed IF (-1 ("ל" prep)) {
+  SETPARENT (*) TO (jC1 (*)) ;
+  MAP @fixed (*) ;
+  ADD (ExtPos=SCONJ) _C1_ ;
+} ;
 
 ####################
 # Retagging
@@ -248,11 +256,11 @@ WITH ("נגד" subs role:PP) IF (-1 ("כ" prep) LINK -1 ("עזר" subs)) {
 ####################
 
 MAP @det Det ;
-MAP @mark SCONJ + (conj CP) ;
+MAP @mark SCONJ + (conj CP) OR (ExtPos=SCONJ) ;
 MAP @mark ("ה" inrg) ;
 MAP @obj ("את") + Pr IF (1 RelMark) ;
 MAP @obl Pr IF (1 RelMark) ;
-MAP @case Pr ;
+MAP @case Pr - (ExtPos=SCONJ) ;
 MAP @cc (conj) - (Rela) ;
 MAP @advmod ADV - (role:P) ;
 MAP @advmod ("למה" inrg) ;
@@ -314,7 +322,7 @@ WITH (role:Appos) {
   MAP @appos (*) ;
 } ;
 
-WITH (role:O) {
+WITH (role:O) - (Ellp CLaCL) {
   MAP @ccomp (verb) - Participle ;
   MAP @obj (*) IF (NEGATE c (vbcp)) ;
 } ;
@@ -323,12 +331,12 @@ MAP @xcomp (role:O2) ;
 
 WITH (role:PP) {
   MAP @mark (SCONJ) ;
-  MAP @advcl (verb infc) IF (c ("ל" prep)) ;
+  MAP @advcl (verb infc) IF (c ("ל" prep) OR ("מן" prep)) ;
   MAP @nmod (*) IF (p (subs retag:verb)) ;
   MAP @obl (*) IF (NEGATE c (vbcp)) ;
 } ;
 
-WITH (role:S) {
+WITH (role:S) - (_) {
   MAP @nsubj:outer (S-P) IF (p (role:V)) ;
   MAP @nsubj (*) ;
 } ;
@@ -375,7 +383,9 @@ WITH (NpAdjp) {
 } ;
 
 MAP @appos (prde NPofNP) ;
+MAP @obj (prn NPofNP) IF (-1 (verb ptca)) ;
 MAP @nmod:poss (prn NPofNP) OR (prn PrepNp+NomPrep) ;
+MAP @acl:relcl (verb ptca a) IF (p (c)) ;
 LIST CompoundAble = (NP NPofNP) (PP NPofNP) QuanNP (subs NPofNP)
                     PrepNp+NomPrep AdjpofNp ;
 MAP @compound:smixut CompoundAble IF (p (c)) ;
@@ -383,6 +393,8 @@ MAP @advcl (verb infc ClCl) IF (p (verb) - (infc)) ;
 MAP @vocative (Voct ClCl) OR (Voct ClCl2) IF (p (_) OR (role:P) OR (role:V)) ;
 MAP @acl:relcl (verb infc NpInf) ; # TODO: maybe actually plain @acl?
 
+MAP @nmod (NPofNP adjv) ;
+MAP @obj (NPofNP) IF (p (verb ptca a)) ;
 MAP @appos (NPofNP) ;
 
 MAP @csubj FinCL + (rela:Subj) ;
@@ -459,16 +471,16 @@ SETPARENT (conj _) (p (>>>)) TO (1* (_)) ;
 
 LIST NonAdvclConj = "ו" retag:art ;
 
-WITH Top + (/^<txt:\(\\d+\)>$/r)
+WITH Top + (/^<txt:\(\\d+\)>$/r) - @advcl
   IF (-1* Top + (VSTR:<txt=$1>) BARRIER Top) (c (conj) - NonAdvclConj) {
     SETPARENT (*) TO (jC1 (*)) ;
 	MAP @advcl (*) ;
 } ;
 
-WITH Top + (/^<txt:\(\\d+\)>$/r)
+WITH Top + (/^<txt:\(\\d+\)>$/r) - @advcl
   IF (-1*O (>>>) OR Top + (VSTR:<txt<$1>) LINK 1* Top + (VSTR:<txt=$1>)) {
     SETPARENT (*) TO (jC1 (*)) ;
-    MAP @conj (*) IF (c (conj)) ;
+    MAP @conj (*) IF (c (conj) - (retag:art)) ;
 	SETPARENT (verb infc) (c (prep)) TO (p (*) LINK c (@xcomp verb infc)) ;
 } ;
 
@@ -482,6 +494,12 @@ WITH Top + (/^<txt:\(\\d+\)>$/r)
 } ;
 
 MAP @ccomp (/^<txt:\(\\d+\)>$/r) + FinCL IF (p SpeakingVerb + (VSTR:<txt<$1>)) ;
+
+WITH Top + NPish + (CPen Frnt) + $$TextLevel
+  IF (1* Top + $$TextLevel) {
+    SETPARENT (*) TO (jC1 (*)) ;
+    MAP @dislocated (*) ;
+} ;
 
 SETPARENT SAFE (SCONJ /^<txt:\(\\d+\)>$/r) TO (1* (_ VSTR:<txt>$1>)) ;
 MAP @advcl (*) IF (c (SCONJ)) ;
@@ -501,9 +519,11 @@ SETPARENT (@ccomp <txt:1>) TO (srrl (_ <txt:0>) - (conj)) ;
 
 SETPARENT (_ <txt:1>) (p (<txt:0>)) TO (slll (_ <txt:1>) - (conj)) ;
 
-LIST NPConj = NpaNp ;
-LIST PPConj = PpaPp Conj3Pp ;
-SET ConjTypes = NPConj OR PPConj ;
+LIST NPConj = NpaNp 2Np 2NpaNpaNp NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP
+              NPaNPNPaNP NpNpNp ;
+LIST PPConj = PpaPp Conj3Pp PPandPP 2PpaPp PPandPP PpaPpPpaPp ;
+LIST ClauseConj = CLaCL 2CLaCL ;
+SET ConjTypes = NPConj OR PPConj OR ClauseConj ;
 SETPARENT @conj + &&ConjTypes TO (p @conj + &&ConjTypes LINK p (*)) ;
 
 SECTION
@@ -520,6 +540,7 @@ WITH CopPredicate IF (p (vbcp) - @cop)
   (NEGATE 0 (Cmpl) LINK s (PreC))
 {
   UNMAP (*) ;
+  ADD (_) (*) IF (jC1 (_)) ;
   MAP (VSTR:$1) (*) (jC1 (/^\(@.*\)$/r)) ;
   UNMAP _C1_ ;
   MAP @cop _C1_ ;
@@ -527,6 +548,15 @@ WITH CopPredicate IF (p (vbcp) - @cop)
   SETPARENT (*) TO (jC1 (*) LINK p (*)) ;
   SETCHILD (*) TO (jC1 (*)) ;
 } ;
+
+# Don't call it apposition if it's on the other side of the verb
+WITH (@appos) IF (pl @nsubj LINK prw (*) LINK ccr _TARGET_) {
+  SETPARENT (*) TO (jC1 (*)) ;
+  SUBSTITUTE @appos @dislocated (*) ;
+} ;
+
+# guideline examples all have comparatives with @obl
+SUBSTITUTE @nmod @obl (AdjpPp) IF (s @cop) (c ("מן" prep @case)) ;
 
 AFTER-SECTIONS
 
@@ -536,6 +566,7 @@ MAP @root (*) ;
 
 WITH @root IF (p (*) LINK p (*)) {
   SUBSTITUTE @root @conj (*) IF (c @cc) ;
+  SUBSTITUTE @root @conj (*) IF (sr (*) LINK c @cc) ;
   SUBSTITUTE @root @parataxis (*) ;
 } ;
 

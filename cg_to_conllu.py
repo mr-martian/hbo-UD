@@ -137,6 +137,8 @@ class Word:
         for tg in parts:
             if tg in MORPH:
                 self.feats += MORPH[tg]
+            elif tg.startswith('ExtPos='):
+                self.feats.append(tg)
             elif tg.startswith('wp'):
                 self.seg = int(tg[2:])
             elif tg[0] == 'w' and tg[-1] != 'p':
@@ -153,7 +155,7 @@ class Word:
                 self.rel = tg[1:]
                 if self.rel == 'advmod' and self.upos == 'VERB':
                     self.upos = 'ADV'
-                elif self.rel == 'mark' and self.xpos == 'prep':
+                elif self.rel == 'mark' and self.xpos == 'prep' and 'ExtPos=SCONJ' not in self.feats:
                     self.upos = 'SCONJ'
                 elif self.rel == 'fixed' and self.xpos == 'conj':
                     self.upos = 'SCONJ'
@@ -173,7 +175,7 @@ class Word:
             elif self.rel == 'mark':
                 self.upos = 'SCONJ'
         if self.upos in ['ADP', 'SCONJ']:
-            self.feats = []
+            self.feats = [x for x in self.feats if 'ExtPos' in x]
         elif self.upos == 'ADV':
             self.feats = [x for x in self.feats if 'Polarity' in x]
         elif self.upos == 'VERB' and self.lemma in ['ישׁ', 'אין']:

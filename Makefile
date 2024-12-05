@@ -42,7 +42,7 @@ hbo-macula.bin: hbo-macula.cg3
 	cg-comp $< $@
 
 %-book: temp/macula-merged/%.conllu data/checked/%.conllu data/manual/%.conllu
-	./check.py -m $*
+	./check.sh $*
 	./update_manual.py $*
 	./filter-ready.py $*
 	./rule-stats.py $*

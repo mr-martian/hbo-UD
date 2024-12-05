@@ -77,8 +77,8 @@ for k, v in arcs.items():
     if v[0] == v[1]:
         als.append({'head': h0, 'dep': dep, 'label': v[0][1], 'color': 'black'})
     else:
-        als.append({'head': h0, 'dep': dep, 'label': v[0][1], 'color': 'red'})
-        als.append({'head': h1, 'dep': dep, 'label': v[1][1], 'color': 'green'})
+        als.append({'head': h0, 'dep': dep, 'label': v[0][1], 'color': 'green'})
+        als.append({'head': h1, 'dep': dep, 'label': v[1][1], 'color': 'red'})
 
 for i in range(len(als)):
     als[i]['height'] = 0

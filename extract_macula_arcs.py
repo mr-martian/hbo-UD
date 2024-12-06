@@ -156,6 +156,12 @@ def propogate_heads(node):
             node.attrib['Head'] = '0'
             node.attrib['Rule'] = 'PrepNp+NomPrep'
     elif r and '-' in r:
+        if r == 'P-S':
+            m = list(node[0].iter('m'))
+            if len(m) == 1 and m[0].attrib.get('pos') == 'pronoun':
+                r = 'S-P'
+                node.attrib['Rule'] = 'S-P'
+                node.attrib['Head'] = '1'
         ls = r.split('-')
         if 'V' in ls:
             v = ls.index('V')
@@ -191,6 +197,8 @@ def distribute_heads(node, headword, parentrule, rulepiece=None):
             node.attrib['head'] = '0'
         if rulepiece is not None:
             node.attrib['rulepiece'] = rulepiece
+            if '+' in rulepiece:
+                node.attrib['rulepiece'], node.attrib['uprule'] = rulepiece.split('+')[:2]
     else:
         n = node.attrib.get('Head', '*')
         r = node.attrib.get('Rule', parentrule)
@@ -204,7 +212,10 @@ def distribute_heads(node, headword, parentrule, rulepiece=None):
             roles[int(n)] = rulepiece
         for i, (ch, role) in enumerate(zip(node, roles)):
             if n == '*' or int(n) == i:
-                distribute_heads(ch, headword, parentrule, role)
+                rl = role
+                if rulepiece:
+                    rl = role+'+'+rulepiece
+                distribute_heads(ch, headword, parentrule, rl)
             else:
                 distribute_heads(ch, node.attrib['headword'], r, role)
 
@@ -304,6 +315,8 @@ def align_to_bhsa(sentence, bhsa0):
         tags[mid].append(m.attrib['parentrule'])
         if 'rulepiece' in m.attrib:
             tags[mid].append('role:'+m.attrib['rulepiece'])
+        if 'uprule' in m.attrib:
+            tags[mid].append('uprole:'+m.attrib['uprule'])
         heads[mid] = m.attrib['head']
         if m.attrib['pos'] == 'suffix':
             if m.attrib['type'] == 'pronominal':

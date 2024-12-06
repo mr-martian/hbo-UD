@@ -49,6 +49,8 @@ LIST QuoteLevel = NQ Q QQ ;
 # Word lists
 ####################
 
+LIST Lemma = ".*"r ;
+
 LIST ConjAblePrep = "כמו" "למען" "עד" ;
 LIST ConjAbleSubsPrep = "בלת" ;
 LIST SubsToPrep = "אחר" "בין" "אצל" "בעד" ;
@@ -138,6 +140,8 @@ SUBSTITUTE (infc) (infa) (Ruth w797) ;
 
 ADD (m) Noun - AGen IF (0 Masculine OR MasculineMixed) ;
 ADD (f) Noun - AGen IF (0 FeminineMixed) ;
+
+SUBSTITUTE (a) (c) (Genesis w3485) ;
 
 ####################
 # Nested Quotations
@@ -309,7 +313,8 @@ WITH (role:ADV) {
   MAP @obj (Objc) IF (NEGATE s (role:O)) ;
   MAP @obl (NP rela:Attr) OR (NP Time) OR (adjv ordn) ;
   MAP @xcomp (NP) + VerbCL ;
-  MAP @obl:npmod (infa) ;
+  MAP @obl:npmod (infa) + $$Lemma IF (p $$Lemma) ;
+  MAP @advcl (infa) ;
   MAP @obl (subs) OR (nmpr) ;
   MAP @advmod (*) ;
 } ;
@@ -342,6 +347,8 @@ WITH (role:S) - (_) {
 } ;
 
 WITH (role:V) OR (role:P) {
+  MAP @xcomp (infc uprole:O) ;
+  MAP @ccomp (uprole:O) ;
   MAP @conj (CLaCL) ;
   #MAP @cop (vbcp) + FinCL ;
   MAP @acl:relcl (verb ptca Np-Appos) ;
@@ -357,10 +364,11 @@ SECTION
 LIST AclRules = NpRelp PpRelp NpCL ppCL ;
 LIST ApposRules = NpNpNp NP3NP ;
 LIST FlatRules = NumpNump ;
-LIST NmodRules = 2Pp NpPp NumpPp ;
+LIST NmodRules = NpPp NumpPp ;
 LIST NummodRules = NpNump NumpNP ;
 
 MAP @acl:relcl AclRules ;
+MAP @conj (NP3NP) IF (sr (*) LINK c @cc) ;
 MAP @appos ApposRules ;
 MAP @flat FlatRules ;
 MAP @nmod NmodRules ;
@@ -375,6 +383,9 @@ MAP @parataxis (ClClCl) ;
 ####################
 
 SECTION
+
+MAP @appos (2Pp) IF (c @case + $$Lemma) (s @case + $$Lemma) ;
+MAP @nmod (2Pp) ;
 
 WITH (NpAdjp) {
   MAP @det (prde) OR (ppde) ;
@@ -395,6 +406,7 @@ MAP @acl:relcl (verb infc NpInf) ; # TODO: maybe actually plain @acl?
 
 MAP @nmod (NPofNP adjv) ;
 MAP @obj (NPofNP) IF (p (verb ptca a)) ;
+MAP @compound:smixut (NPofNP) IF (p (c)) ;
 MAP @appos (NPofNP) ;
 
 MAP @csubj FinCL + (rela:Subj) ;
@@ -412,7 +424,7 @@ LIST ListRules = 2PpaPp AdjpAdjpandAdjp AdjpandAdjpAdjp CLaCL
 				 CLaCL CLandCL2 ClCl Conj3CL Conj4Np Conj4Pp Conj5Np
 				 NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP NPaNPNPaNP NpNpNp
 				 NPNPNPaNPaNP NpNpNpNp NpPp NumpAndNump
-				 PPandPP PpaPpPpaPp Relp3Relp PpPp ;
+				 PPandPP PpaPpPpaPp Relp3Relp PpPp PpandPpPp ;
 MAP @conj ListRules ;
 
 LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "קרב" "יאל" "לאה" "צוה" "נתן" ;
@@ -423,7 +435,7 @@ WITH (verb infc) + FinCLPP IF (c (prep PrepCL)) {
 
 SETPARENT (@case PpPp) TO (p @case LINK p (*)) ;
 
-LIST NorP = NP PP PrNP ;
+LIST NorP = NP PP PrNP PPrP ;
 MAP @dislocated (CPen Frnt ClCl2) + NorP OR (Subj ClCl2) + NorP ;
 
 SECTION
@@ -521,7 +533,7 @@ SETPARENT (_ <txt:1>) (p (<txt:0>)) TO (slll (_ <txt:1>) - (conj)) ;
 
 LIST NPConj = NpaNp 2Np 2NpaNpaNp NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP
               NPaNPNPaNP NpNpNp ;
-LIST PPConj = PpaPp Conj3Pp PPandPP 2PpaPp PPandPP PpaPpPpaPp ;
+LIST PPConj = PpaPp Conj3Pp PPandPP 2PpaPp PPandPP PpaPpPpaPp PpandPpPp ;
 LIST ClauseConj = CLaCL 2CLaCL ;
 SET ConjTypes = NPConj OR PPConj OR ClauseConj ;
 SETPARENT @conj + &&ConjTypes TO (p @conj + &&ConjTypes LINK p (*)) ;

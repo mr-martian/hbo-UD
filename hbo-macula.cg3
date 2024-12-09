@@ -348,6 +348,7 @@ WITH (role:S) - (_) {
 
 WITH (role:V) OR (role:P) {
   MAP @xcomp (infc uprole:O) ;
+  MAP @advcl (infc uprole:ADV) ;
   MAP @ccomp (uprole:O) ;
   MAP @conj (CLaCL) ;
   #MAP @cop (vbcp) + FinCL ;
@@ -466,6 +467,11 @@ SETPARENT @nsubj TO (p @discourse LINK p (*)) ;
 WITH (nmpr) IF (-1 (subs c)) (NOT p (*)) {
 	SETPARENT (*) TO (-1 (*)) ;
 	MAP @compound:smixut (*) ;
+} ;
+
+WITH (PpPpPpPp) IF (p @obl) {
+  SETPARENT (*) TO (p (*) LINK p (*)) ;
+  MAP @obl (*) ;
 } ;
 
 ####################

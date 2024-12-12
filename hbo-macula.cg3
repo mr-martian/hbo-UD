@@ -285,6 +285,10 @@ SUBSTITUTE ("prn") ("היא") ("prn" prn p3 f sg) ;
 SUBSTITUTE ("prn") ("הם") ("prn" prn p3 m pl) ;
 SUBSTITUTE ("prn") ("הן") ("prn" prn p3 f pl) ;
 
+####################
+# Role overrides
+####################
+
 SETPARENT ("ו" conj) - (_) (pl (*)) TO (sllr (*)) ;
 
 LIST FinCL = /((S|V|O2?|PP?|ADV)-)+(S|V|O2?|PP?|ADV)/r ;
@@ -301,6 +305,12 @@ MAP @conj (_) IF (c ("ו" conj)) (p (_)) ;
 
 MAP @compound:smixut (NP) IF (p (subs ptcp c)) ;
 
+LIST ReflexiveNouns = "אח" "רע" ;
+WITH ("אישׁ" subs role:ADV) IF (c ReflexiveNouns + (subs NpPp)) {
+  MAP @parataxis (*) ;
+  MAP @orphan _C1_ ;
+} ;
+
 ####################
 # By role
 ####################
@@ -309,7 +319,7 @@ SECTION
 
 MAP @orphan EllpCL ;
 
-WITH (role:ADV) {
+WITH NOMAPPED (role:ADV) {
   MAP @obj (Objc) IF (NEGATE s (role:O)) ;
   MAP @obl (NP rela:Attr) OR (NP Time) OR (adjv ordn) ;
   MAP @xcomp (NP) + VerbCL ;
@@ -327,21 +337,21 @@ WITH (role:Appos) {
   MAP @appos (*) ;
 } ;
 
-WITH (role:O) - (Ellp CLaCL) {
+WITH NOMAPPED (role:O) - (Ellp CLaCL) {
   MAP @ccomp (verb) - Participle ;
   MAP @obj (*) IF (NEGATE c (vbcp)) ;
 } ;
 
 MAP @xcomp (role:O2) ;
 
-WITH (role:PP) {
+WITH NOMAPPED (role:PP) {
   MAP @mark (SCONJ) ;
   MAP @advcl (verb infc) IF (c ("ל" prep) OR ("מן" prep)) ;
   MAP @nmod (*) IF (p (subs retag:verb)) ;
-  MAP @obl (*) IF (NEGATE c (vbcp)) ;
+  MAP @obl (*) IF (NEGATE c (vbcp) - (NpRelp)) ;
 } ;
 
-WITH (role:S) - (_) {
+WITH NOMAPPED (role:S) - (_) {
   MAP @nsubj:outer (S-P) IF (p (role:V)) ;
   MAP @nsubj (*) ;
 } ;
@@ -354,6 +364,7 @@ WITH (role:V) OR (role:P) {
   #MAP @cop (vbcp) + FinCL ;
   MAP @acl:relcl (verb ptca Np-Appos) ;
   SETPARENT @acl:relcl TO (p (QuanNP @compound:smixut) LINK p (*)) ;
+  MAP @parataxis (NpCL) - (ptca) - (ptcp) IF (NEGATE c @mark) ;
 } ;
 
 ####################
@@ -523,10 +534,11 @@ SETPARENT SAFE (SCONJ /^<txt:\(\\d+\)>$/r) TO (1* (_ VSTR:<txt>$1>)) ;
 MAP @advcl (*) IF (c (SCONJ)) ;
 
 SETPARENT (advb _) (p (>>>)) TO (sllr (*)) ;
-SETPARENT (@cc CjpCjp) TO (p @advmod LINK p (*)) ;
+SETPARENT (@cc CjpCjp) TO (pr @advmod LINK pr (*)) ;
 
 SECTION
 
+SETPARENT (_ @advmod) (p (>>>)) TO (1* (_)) ;
 SETPARENT (_) (p (>>>)) TO (slll (*)) ;
 
 SECTION
@@ -543,6 +555,14 @@ LIST PPConj = PpaPp Conj3Pp PPandPP 2PpaPp PPandPP PpaPpPpaPp PpandPpPp ;
 LIST ClauseConj = CLaCL 2CLaCL ;
 SET ConjTypes = NPConj OR PPConj OR ClauseConj ;
 SETPARENT @conj + &&ConjTypes TO (p @conj + &&ConjTypes LINK p (*)) ;
+
+SETPARENT (intj @discourse) TO (p (intj @discourse) LINK p (*)) ;
+
+WITH @acl:relcl IF (p ("למען" conj @mark)) {
+  SUBSTITUTE @acl:relcl @advcl (*) ;
+  SETPARENT (*) TO (jC1 (*) LINK p (*)) ;
+  SETCHILD (*) TO (jC1 (*)) ;
+} ;
 
 SECTION
 

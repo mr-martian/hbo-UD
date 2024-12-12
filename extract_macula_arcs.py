@@ -267,14 +267,14 @@ name_groups = {
 }
 
 def is_merge_prefix(node, idx):
-    if node.attrib.get('lemma') == 'l' and F.lex.v(idx) in ['LMH', 'LKN']:
+    if node.attrib.get('oshb-strongs') == 'l' and F.lex.v(idx) in ['LMH', 'LKN']:
         return True
     return False
 
 def is_merge_main(node, idx):
-    if F.lex.v(idx) == 'LMH' and node.attrib.get('lemma') == '4100':
+    if F.lex.v(idx) == 'LMH' and node.attrib.get('oshb-strongs') == '4100':
         return True
-    if F.lex.v(idx) == 'LKN' and node.attrib.get('lemma') == '3651 c':
+    if F.lex.v(idx) == 'LKN' and node.attrib.get('oshb-strongs') == '3651 c':
         return True
     return False
 
@@ -284,7 +284,7 @@ def is_np_second(node, idx):
     return False
 
 def is_name_group(node, idx):
-    lm = node.attrib.get('lemma')
+    lm = node.attrib.get('oshb-strongs')
     if lm in name_groups:
         for i in range(len(name_groups[lm])):
             if F.lex.v(idx+i) != name_groups[lm][i]:

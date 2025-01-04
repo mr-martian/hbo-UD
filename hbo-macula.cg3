@@ -217,7 +217,8 @@ SUBSTITUTE (verb) (subs retag:verb) Participle + NPish IF (NEGATE c (role:O));
 # Adverbs tagged subs
 SET AdvOk = (*) - (punct) - (prn ModS) - ("מאד" padv) ;
 SUBSTITUTE (subs) (advb retag:subs) (padv) - (NP) (-1* BD BARRIER AdvOk) (1* BD BARRIER AdvOk) ;
-SUBSTITUTE (subs) (advb retag:subs) (padv AdvpNp) OR (padv AdvpNump) ;
+LIST AdvRules = AdvpNp AdvpNump AdjpAdvp ;
+SUBSTITUTE (subs) (advb retag:subs) (padv) + AdvRules ;
 
 # Determiner on clause participles
 SUBSTITUTE (art) (conj retag:art) (CP Rela) ;
@@ -331,6 +332,7 @@ WITH NOMAPPED (role:ADV) {
   MAP @obl:npmod (infa) + $$Lemma IF (p $$Lemma) ;
   MAP @advcl (infa) ;
   MAP @obl (subs) OR (nmpr) ;
+  MAP @xcomp (adjv) ;
   MAP @advmod (*) ;
 } ;
 
@@ -485,6 +487,14 @@ WITH NOPARENT (subs) IF (-1 (subs c) - (ppre) - @nummod OR (nmpr c)) {
   MAP @compound:smixut (*) ;
 } ;
 
+SETPARENT SAFE @det TO (1 (subs)) ;
+SETPARENT SAFE (subs) TO (-1* (subs c) BARRIER (*) - Det - (punct)) ;
+WITH NOPARENT (subs) IF (-1 @det) (-2 (subs c) - (ppre) - @nummod) {
+  SETCHILD (*) TO (jC1 (*)) ;
+  SETPARENT (*) TO (jC2 (*)) ;
+  MAP @compound:smixut (*) ;
+} ;
+
 WITH NOMAPPED (subs PrepNp) IF (p (*)) {
   SETPARENT (*) TO (p (*) LINK p (*)) ;
   MAP @obl (*) ;
@@ -504,7 +514,7 @@ WITH @ccomp IF (sl @ccomp) (c @cc) {
   SUBSTITUTE @ccomp @conj (*) ;
 } ;
 
-WITH (subs ppre c) IF (p @obl) {
+WITH (subs ppre c) - @acl:relcl IF (p @obl) {
   MAP @obl (*) ;
   SUBSTITUTE @obl @compound:smixut (*) IF (jC1A (*)) ;
   SETPARENT (*) TO (jC1 (*) LINK p (*)) ;

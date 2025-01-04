@@ -1,4 +1,5 @@
 DELIMITERS = "<svb>" ;
+OPTIONS += addcohort-attach ;
 
 ####################
 # Boundaries
@@ -169,12 +170,13 @@ SUBSTITUTE ("עמי" nmpr) ("עם" subs retag:nmpr has_prn) ("עמי" wp2) ;
 SUBSTITUTE ("אוני" nmpr) ("און" subs retag:nmpr has_prn) ("אוני" wp2) ;
 ADDCOHORT ("<prn>" "אני" prn p1 sg) AFTER ("עם" subs retag:nmpr) ;
 ADDCOHORT ("<prn>" "אני" prn p1 sg) AFTER ("און" subs retag:nmpr) ;
+MAP @nmod:poss (prn) IF (p (wp2)) ;
 
 MAP @flat:name (nmpr wp2) IF (-1* (nmpr wp1) BARRIER (*) - (punct)) ;
 SETPARENT @flat:name TO (-1* (nmpr wp1)) ;
 
-SETPARENT (wp2) TO (-1 (wp1)) ;
-SETPARENT (*) TO (p (wp2) LINK p (wp1)) ;
+SETPARENT (wp2) TO (-1* (wp1)) ;
+SETPARENT (*) - (prn) TO (p (wp2) LINK p (wp1)) ;
 MAP @compound:smixut (wp2) IF (p (wp1 c)) ;
 
 ####################
@@ -210,11 +212,12 @@ SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl) (-1* Noun + (c) BARRIER (*) - De
 SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl) (NEGATE 0* (subs) - (retag:adjv gntl) OR (nmpr) BARRIER PB) ;
 
 # Participles in smixut
-SUBSTITUTE (verb) (subs retag:verb) Participle + NPish ;
+SUBSTITUTE (verb) (subs retag:verb) Participle + NPish IF (NEGATE c (role:O));
 
 # Adverbs tagged subs
 SET AdvOk = (*) - (punct) - (prn ModS) - ("מאד" padv) ;
 SUBSTITUTE (subs) (advb retag:subs) (padv) - (NP) (-1* BD BARRIER AdvOk) (1* BD BARRIER AdvOk) ;
+SUBSTITUTE (subs) (advb retag:subs) (padv AdvpNp) OR (padv AdvpNump) ;
 
 # Determiner on clause participles
 SUBSTITUTE (art) (conj retag:art) (CP Rela) ;
@@ -266,7 +269,7 @@ MAP @obj ("את") + Pr IF (1 RelMark) ;
 MAP @obl Pr IF (1 RelMark) ;
 MAP @case Pr - (ExtPos=SCONJ) ;
 MAP @cc (conj) - (Rela) ;
-MAP @advmod ADV - (role:P) ;
+MAP @advmod ADV - (role:P) - (ClCl2) ;
 MAP @advmod ("למה" inrg) ;
 MAP @discourse (intj) - (role:P) OR (intj uprole:S) ; # TODO: is there a better way to handle הנה?
 
@@ -361,15 +364,28 @@ WITH NOMAPPED (role:S) - (_) {
 } ;
 
 WITH (role:V) OR (role:P) {
-  MAP @xcomp (infc uprole:O) ;
+  MAP @xcomp (infc uprole:O) OR (uprole:O2) ;
   MAP @advcl (infc uprole:ADV) OR (infa uprole:ADV) ;
   MAP @ccomp (uprole:O) IF (NEGATE c (relCL @mark)) ;
   MAP @conj (CLaCL) ;
   #MAP @cop (vbcp) + FinCL ;
-  MAP @acl:relcl (verb ptca Np-Appos) ;
+  # TODO: perf error in genesis 427?
+  MAP @acl:relcl (verb ptca Np-Appos) OR (verb perf Np-Appos) ;
   SETPARENT @acl:relcl TO (p (QuanNP @compound:smixut) LINK p (*)) ;
   MAP @parataxis (NpCL) - (ptca) - (ptcp) IF (NEGATE c @mark) ;
-  MAP @obl (uvf:H AdvP uprole:ADV) ;
+  MAP @obl (uvf:H AdvP uprole:ADV) OR (Cmpl V-ADV uprole:ADV) ;
+  MAP @csubj (verb ptca uprole:S) ;
+} ;
+
+LIST NorP = NP PP PrNP PPrP ;
+LIST dislocatedClCl2 = (CPen Frnt) Subj Adju PreC ;
+WITH (ClCl2) {
+  MAP @obl (PP Time) ;
+  MAP @vocative (Voct) IF (p (_) OR (role:P) OR (role:V)) ;
+  MAP @vocative (<txt:0>) IF (p (<txt:1>)) ;
+  MAP @dislocated dislocatedClCl2 + NorP ;
+  MAP @obl (Modi) + NorP ;
+  MAP @advcl (nmcp) OR (role:V uprole:V) ;
 } ;
 
 ####################
@@ -381,7 +397,7 @@ SECTION
 LIST AclRules = NpRelp PpRelp NpCL ppCL AdvpRelp ;
 LIST ApposRules = NpNpNp NP3NP (2Advp_h2 subs) ;
 LIST FlatRules = NumpNump ;
-LIST NmodRules = NpPp NumpPp ;
+LIST NmodRules = NpPp NumpPp AdvpPp2 ;
 LIST NummodRules = NpNump NumpNP ;
 
 MAP (@acl) (infc NpPp) ;
@@ -395,7 +411,8 @@ MAP @nummod NummodRules ;
 MAP @advmod (AdjpAdvp) ;
 MAP @amod (AdjpNp) ;
 MAP @det (prde NumpAdjp) ;
-MAP @parataxis (ClClCl) ;
+MAP @obl (prin AdvpAdjp) ;
+MAP @parataxis (ClClCl) OR (ClClClCl) ;
 
 ####################
 # Other rules
@@ -406,11 +423,10 @@ SECTION
 MAP @appos (2Pp) IF (c @case + $$Lemma) (s @case + $$Lemma) ;
 MAP @nmod (2Pp) ;
 
-MAP @obl (PP Time ClCl2) ;
-
 WITH (NpAdjp) {
   MAP @det (prde) OR (ppde) ;
   MAP @acl:relcl (verb) ;
+  MAP @nummod (adjv ordn) ;
   MAP @amod (*) - (verb) ;
 } ;
 
@@ -422,8 +438,7 @@ LIST CompoundAble = (NP NPofNP) (PP NPofNP) QuanNP (subs NPofNP)
                     PrepNp+NomPrep AdjpofNp ;
 MAP @compound:smixut CompoundAble IF (p (c)) ;
 MAP @advcl (verb infc ClCl) IF (p (verb) - (infc)) ;
-MAP @vocative (Voct ClCl) OR (Voct ClCl2) IF (p (_) OR (role:P) OR (role:V)) ;
-MAP @vocative (ClCl2 <txt:0>) IF (p (<txt:1>)) ;
+MAP @vocative (Voct ClCl) IF (p (_) OR (role:P) OR (role:V)) ;
 MAP @acl:relcl (verb infc NpInf) ; # TODO: maybe actually plain @acl?
 
 MAP @nmod (NPofNP adjv) ;
@@ -450,17 +465,13 @@ LIST ListRules = 2PpaPp AdjpAdjpandAdjp AdjpandAdjpAdjp CLaCL
 MAP @conj ListRules ;
 MAP @parataxis (ClCl) ;
 
-LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "קרב" "יאל" "לאה" "צוה" "נתן" ;
+LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "קרב" "יאל" "לאה" "צוה" "נתן" "אבה" ;
 WITH (verb infc) + FinCLPP IF (c (prep PrepCL)) {
   MAP @xcomp (*) IF (p XcompInf) ;
   MAP @advcl (*) ;
 } ;
 
 SETPARENT (@case PpPp) TO (p @case LINK p (*)) ;
-
-LIST NorP = NP PP PrNP PPrP ;
-MAP @dislocated (CPen Frnt ClCl2) + NorP OR (Subj ClCl2) + NorP ;
-MAP @obl (Modi ClCl2) + NorP ;
 
 WITH @obl + Pr OR @obj + Pr IF (p (*)) (s (relCL @mark)) {
   SETPARENT (*) TO (jC1 (*) LINK p (*)) ;
@@ -469,9 +480,17 @@ WITH @obl + Pr OR @obj + Pr IF (p (*)) (s (relCL @mark)) {
 } ;
 
 # fixes genesis 896 - fragile, may break other things
-WITH NOPARENT (subs) IF (-1 (subs c) - (ppre) - @nummod) {
+WITH NOPARENT (subs) IF (-1 (subs c) - (ppre) - @nummod OR (nmpr c)) {
   SETPARENT SAFE (*) TO (jC1 (*)) ;
   MAP @compound:smixut (*) ;
+} ;
+
+WITH NOMAPPED (subs PrepNp) IF (p (*)) {
+  SETPARENT (*) TO (p (*) LINK p (*)) ;
+  MAP @obl (*) ;
+  SETCHILD (*) TO (jC1 (*)) ;
+  SUBSTITUTE @obl @nmod:poss _C1_ IF (0 (prn)) ;
+  SUBSTITUTE @obl @compound:smixut _C1_ ;
 } ;
 
 SETPARENT SAFE Det TO (1 (prde)) ;
@@ -623,6 +642,16 @@ WITH (@appos) IF (pl @nsubj LINK prw (*) LINK ccr _TARGET_) {
 
 # guideline examples all have comparatives with @obl
 SUBSTITUTE @nmod @obl (AdjpPp) IF (s @cop) (c ("מן" prep @case)) ;
+
+# for some reason this breaks @det rules if run in the MWE section
+# e.g. genesis 766 - probably a bug that should be investigated
+# (git blame for commit immediately after adding this rule)
+WITH ("כי" conj CjpCjp) IF (p ("אם" conj)) {
+  SETPARENT (*) TO (p (*) LINK p (*)) ;
+  SETCHILD (*) TO (jC1 (*)) ;
+  SUBSTITUTE (conj) (conj ExtPos=SCONJ) (*) ;
+  SUBSTITUTE @mark @fixed _C1_ ;
+} ;
 
 AFTER-SECTIONS
 

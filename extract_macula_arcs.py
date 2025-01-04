@@ -110,7 +110,7 @@ HEAD_OVERRIDE = {
     'ppPP5PP': 0,
     'ppPP6PP': 0,
     'ppappPP5PP': 0,
-
+    '2Advp_h2': 0,
 }
 
 def is_nouny(node):
@@ -253,7 +253,7 @@ def matches(node, idx):
     return False
 
 bhsa_skip_nodes = {
-    'genesis': [28427, 28426, 28460, 28461, 16564],
+    'genesis': [28427, 28426, 28460, 28461, 16564, 17279],
 }
 
 name_groups = {
@@ -266,6 +266,12 @@ name_groups = {
     '4772': ['MRGLT/'],
 }
 
+def is_split_prefix(node, idx):
+    if node.attrib.get('oshb-strongs') == '1976' and F.lex.v(idx) == 'H' \
+       and F.lex.v(idx+1) == 'LZH':
+        return True
+    return False
+
 def is_merge_prefix(node, idx):
     if node.attrib.get('oshb-strongs') == 'l' and F.lex.v(idx) in ['LMH', 'LKN']:
         return True
@@ -274,7 +280,7 @@ def is_merge_prefix(node, idx):
 def is_merge_main(node, idx):
     if F.lex.v(idx) == 'LMH' and node.attrib.get('oshb-strongs') == '4100':
         return True
-    if F.lex.v(idx) == 'LKN' and node.attrib.get('oshb-strongs') == '3651 c':
+    if F.lex.v(idx) == 'LKN' and node.attrib.get('oshb-strongs') == '3651c':
         return True
     return False
 
@@ -302,14 +308,21 @@ def extract_morphemes(node):
             yield from extract_morphemes(ch)
 
 def align_to_bhsa(sentence, bhsa0):
+    debug = (sentence.attrib['verse'] == 'GEN 24:65')
     morphs = list(extract_morphemes(sentence))
     morphs.sort(key=lambda m: m.attrib[xml_id])
     m2b = {}
     tags = defaultdict(list)
     heads = {}
     idx = bhsa0
-    for m in morphs:
+    if debug:
+        print('#####', len(morphs), file=sys.stderr)
+    for mi, m in enumerate(morphs):
+        if debug:
+            print('##', 'macula', m.text, 'bhsa', F.lex.v(idx), file=sys.stderr)
         while idx in bhsa_skip_nodes:
+            idx += 1
+        if is_np_second(m, idx):
             idx += 1
         mid = m.attrib[xml_id]
         tags[mid].append(m.attrib['parentrule'])
@@ -333,11 +346,13 @@ def align_to_bhsa(sentence, bhsa0):
                 continue
         if is_merge_prefix(m, idx):
             continue
-        if is_np_second(m, idx):
-            continue
         if is_merge_main(m, idx):
             m2b[mid] = idx
             idx += 1
+            continue
+        if is_split_prefix(m, idx):
+            m2b[mid] = idx + 1
+            idx += 2
             continue
         ok, n = is_name_group(m, idx)
         if ok:

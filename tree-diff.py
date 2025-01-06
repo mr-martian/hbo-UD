@@ -115,6 +115,7 @@ while todo:
 
 with open('tree-diff.html') as fin, open('index.html', 'w') as fout:
     page = fin.read()
+    page = page.replace('[[SENT_ID]]', sid)
     page = page.replace('[[WORDS]]', rows)
     page = page.replace('[[ARCS]]', json.dumps(als))
     page = page.replace('[[HEIGHT]]', str(max(h['height'] for h in als)))

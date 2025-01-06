@@ -124,8 +124,8 @@ BEFORE-SECTIONS
 # Hide Punctuation
 ####################
 
-MAP @punct (punct) ;
-REMCOHORT IGNORED (punct) ;
+MAP REPEAT @punct (punct) ;
+REMCOHORT IGNORED REPEAT (punct) ;
 
 ####################
 # Corrections
@@ -172,7 +172,7 @@ ADDCOHORT ("<prn>" "אני" prn p1 sg) AFTER ("עם" subs retag:nmpr) ;
 ADDCOHORT ("<prn>" "אני" prn p1 sg) AFTER ("און" subs retag:nmpr) ;
 MAP @nmod:poss (prn) IF (p (wp2)) ;
 
-MAP @flat:name (nmpr wp2) IF (-1* (nmpr wp1) BARRIER (*) - (punct)) ;
+MAP @flat:name (nmpr wp2) IF (-1 (nmpr wp1)) ;
 SETPARENT @flat:name TO (-1* (nmpr wp1)) ;
 
 SETPARENT (wp2) TO (-1* (wp1)) ;
@@ -215,7 +215,7 @@ SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl) (NEGATE 0* (subs) - (retag:adjv 
 SUBSTITUTE (verb) (subs retag:verb) Participle + NPish IF (NEGATE c (role:O));
 
 # Adverbs tagged subs
-SET AdvOk = (*) - (punct) - (prn ModS) - ("מאד" padv) ;
+SET AdvOk = (*) - (prn ModS) - ("מאד" padv) ;
 SUBSTITUTE (subs) (advb retag:subs) (padv) - (NP) (-1* BD BARRIER AdvOk) (1* BD BARRIER AdvOk) ;
 LIST AdvRules = AdvpNp AdvpNump AdjpAdvp ;
 SUBSTITUTE (subs) (advb retag:subs) (padv) + AdvRules ;
@@ -482,13 +482,13 @@ WITH @obl + Pr OR @obj + Pr IF (p (*)) (s (relCL @mark)) {
 } ;
 
 # fixes genesis 896 - fragile, may break other things
-WITH NOPARENT (subs) IF (-1 (subs c) - (ppre) - @nummod OR (nmpr c)) {
+WITH NOPARENT (subs) - (_) IF (-1 (subs c) - (ppre) - @nummod OR (nmpr c)) {
   SETPARENT SAFE (*) TO (jC1 (*)) ;
   MAP @compound:smixut (*) ;
 } ;
 
 SETPARENT SAFE @det TO (1 (subs)) ;
-SETPARENT SAFE (subs) TO (-1* (subs c) BARRIER (*) - Det - (punct)) ;
+SETPARENT SAFE (subs) TO (-1* (subs c) BARRIER (*) - Det) ;
 WITH NOPARENT (subs) IF (-1 @det) (-2 (subs c) - (ppre) - @nummod) {
   SETCHILD (*) TO (jC1 (*)) ;
   SETPARENT (*) TO (jC2 (*)) ;
@@ -542,6 +542,12 @@ WITH (PpPpPpPp) OR (PpPpPp) IF (p @obl) {
 
 MAP @obl (uprole:PP) IF (c @case) ;
 
+LIST CcAdvList = PPandPP NpaNp ;
+WITH @cc + (CjpCjp) IF (p @advmod + CcAdvList) {
+  SETPARENT (*) TO (p (*) LINK sr (*)) ;
+  SETPARENT _C1_ TO (srll (*)) ;
+} ;
+
 ####################
 # Clause Connections
 ####################
@@ -564,8 +570,9 @@ WITH Top + (/^<txt:\(\\d+\)>$/r) - @advcl
 } ;
 
 WITH Top + (/^<txt:\(\\d+\)>$/r) - @advcl
-  IF (-1*O (>>>) OR Top + (VSTR:<txt<$1>) LINK 1* Top + (VSTR:<txt=$1>)) {
+  IF (-1*O (>>>) OR Top + (VSTR:<txt<$1>) LINK 1* Top + (VSTR:<txt=$1>) LINK ppSrr Top + (VSTR:<txt=$1>)) {
     SETPARENT (*) TO (jC1 (*)) ;
+    MAP @advcl (*) IF (c @mark - (retag:art) - (inrg)) ;
     MAP @conj (*) IF (c (conj) - (retag:art)) ;
 	SETPARENT (verb infc) (c (prep)) TO (p (*) LINK c (@xcomp verb infc)) ;
 } ;
@@ -573,10 +580,11 @@ WITH Top + (/^<txt:\(\\d+\)>$/r) - @advcl
 LIST SpeakingVerb = quot "ברך" "צוה" "נגד" "דבר" "ענה" "שׁמע" ;
 
 WITH Top + (/^<txt:\(\\d+\)>$/r)
-  IF (-1* Top + (VSTR:<txt<$1>) BARRIER Top) {
+  IF (llccS Top LINK -1* Top + (VSTR:<txt<$1>) BARRIER Top)
+     (NEGATE pr (*)) {
     SETPARENT (*) TO (jC1 (*)) ;
     MAP @ccomp (*) IF (jC1 SpeakingVerb) ;
-	MAP @xcomp (verb infc) IF (jC1 XcompInf) (c (prep)) ;
+	  MAP @xcomp (verb infc) IF (jC1 XcompInf) (c (prep)) ;
 } ;
 
 MAP @ccomp (/^<txt:\(\\d+\)>$/r) + FinCL IF (p SpeakingVerb + (VSTR:<txt<$1>)) ;
@@ -590,6 +598,10 @@ WITH Top + NPish + (CPen Frnt) + $$TextLevel
 SETPARENT SAFE (SCONJ /^<txt:\(\\d+\)>$/r) TO (1* (_ VSTR:<txt>$1>)) ;
 MAP @advcl (*) IF (c (SCONJ)) ;
 
+SETPARENT @advmod + (_) TO (p @advmod + (_) LINK p (*)) ;
+SETPARENT @advmod + (_) OR @cc + (_) OR @cc + (CjpCjp) (pr (_) LINK sl (_) LINK -1* _TARGET_)
+  TO (1* Top - @advmod - @cc) ;
+
 SETPARENT (advb _) (p (>>>)) TO (sllr (*)) ;
 SETPARENT (@cc CjpCjp) TO (pr @advmod LINK pr (*)) ;
 
@@ -597,6 +609,12 @@ SECTION
 
 SETPARENT (_ @advmod) (p (>>>)) TO (1* (_)) ;
 SETPARENT (_) (p (>>>)) TO (slll (*)) ;
+
+WITH (ptca @acl:relcl) IF (p @case) (NEGATE c @mark) {
+  SETPARENT (*) TO (p (*) LINK p (*)) ;
+  SUBSTITUTE @acl:relcl @advcl (*) ;
+  SETCHILD (*) TO (jC1 (*)) ;
+} ;
 
 SECTION
 
@@ -662,6 +680,8 @@ WITH ("כי" conj CjpCjp) IF (p ("אם" conj)) {
   SUBSTITUTE (conj) (conj ExtPos=SCONJ) (*) ;
   SUBSTITUTE @mark @fixed _C1_ ;
 } ;
+
+SETPARENT (*) - @fixed TO (p @mark LINK p (*)) ;
 
 AFTER-SECTIONS
 

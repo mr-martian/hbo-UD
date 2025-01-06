@@ -113,6 +113,24 @@ HEAD_OVERRIDE = {
     '2Advp_h2': 0,
 }
 
+book_names = {
+    'genesis': '01-Gen',
+    'exodus': '02-Exo',
+    'leviticus': '03-Lev',
+    'numbers': '04-Num',
+    'deuteronomy': '05-Deu',
+    'ruth': '08-Rut',
+}
+
+book = sys.argv[1]
+
+manual = {}
+with open(f'data/manual-arcs/{book}.tsv') as fin:
+    for line in fin:
+        ls = line.strip().split('\t')
+        if len(ls) > 1:
+            manual[ls[0]] = ls[1:]
+
 def is_nouny(node):
     prep_noun_lemmas = [
         '8478', # תחת
@@ -308,7 +326,7 @@ def extract_morphemes(node):
             yield from extract_morphemes(ch)
 
 def align_to_bhsa(sentence, bhsa0):
-    debug = (sentence.attrib['verse'] == 'GEN 24:65')
+    debug = (sentence.attrib['verse'] == 'GEN 24:65 (!!)')
     morphs = list(extract_morphemes(sentence))
     morphs.sort(key=lambda m: m.attrib[xml_id])
     m2b = {}
@@ -370,6 +388,12 @@ def align_to_bhsa(sentence, bhsa0):
         tagstr = ''.join(f'<{x}>' for x in tags[mid])
         if head in m2b and '_' not in tags[mid]:
             head = 'w' + str(m2b[head])
+        man = manual.get(f'w{wid}', [])
+        if man:
+            if man[0] != '_':
+                head = man[0]
+            if len(man) > 1:
+                tagstr += f'<{man[1]}>'
         print(f'w{wid}\t{head}\t{tagstr}')
 
 def process_sentence(sent):
@@ -380,17 +404,6 @@ def process_sentence(sent):
     vl = L.d(cl, otype='verse')[0] + int(v) - 1
     wl = L.d(vl, otype='word')[0]
     align_to_bhsa(sent, wl)
-
-book_names = {
-    'genesis': '01-Gen',
-    'exodus': '02-Exo',
-    'leviticus': '03-Lev',
-    'numbers': '04-Num',
-    'deuteronomy': '05-Deu',
-    'ruth': '08-Rut',
-}
-
-book = sys.argv[1]
 
 bhsa_skip_nodes = bhsa_skip_nodes.get(book, [])
 

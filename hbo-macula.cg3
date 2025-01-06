@@ -381,7 +381,7 @@ WITH (role:V) OR (role:P) {
 
 LIST NorP = NP PP PrNP PPrP ;
 LIST dislocatedClCl2 = (CPen Frnt) Subj Adju PreC ;
-WITH (ClCl2) {
+WITH NOMAPPED (ClCl2) {
   MAP @obl (PP Time) ;
   MAP @vocative (Voct) IF (p (_) OR (role:P) OR (role:V)) ;
   MAP @vocative (<txt:0>) IF (p (<txt:1>)) ;
@@ -391,20 +391,19 @@ WITH (ClCl2) {
 } ;
 
 ####################
-# Simple rules
+# Static labels
 ####################
 
 SECTION
 
 LIST AclRules = NpRelp PpRelp NpCL ppCL AdvpRelp ;
-LIST ApposRules = NpNpNp NP3NP (2Advp_h2 subs) ;
+LIST ApposRules = NpNpNp (2Advp_h2 subs) ;
 LIST FlatRules = NumpNump ;
 LIST NmodRules = NpPp NumpPp AdvpPp2 ;
 LIST NummodRules = NpNump NumpNP ;
 
 MAP (@acl) (infc NpPp) ;
 MAP @acl:relcl AclRules ;
-MAP @conj (NP3NP) IF (sr (*) LINK c @cc) ;
 MAP @appos ApposRules ;
 MAP @flat FlatRules ;
 MAP @nmod NmodRules ;
@@ -413,8 +412,51 @@ MAP @nummod NummodRules ;
 MAP @advmod (AdjpAdvp) ;
 MAP @amod (AdjpNp) ;
 MAP @det (prde NumpAdjp) ;
+MAP @nmod:poss (prn PrepNp+NomPrep) OR (prn QuanNP) ;
 MAP @obl (prin AdvpAdjp) ;
 MAP @parataxis (ClClCl) OR (ClClClCl) ;
+
+####################
+# Simple labels
+####################
+
+SECTION
+
+WITH NOMAPPED (2Pp) {
+  MAP @appos (*) IF (c @case + $$Lemma) (s @case + $$Lemma) ;
+  MAP @nmod (*) ;
+} ;
+
+WITH NOMAPPED (AdjpPp) {
+  MAP @obl (*) IF (p (*) LINK c @cop) ;
+  MAP @obl (*) IF (p (verb)) ;
+  MAP @obl (*) IF (p @conj LINK p (verb)) ;
+  MAP @nmod (*) ;
+} ;
+
+WITH NOMAPPED (NP3NP) {
+  MAP @conj (*) IF (sr (*) LINK c @cc) ;
+  MAP @appos (*) ;
+} ;
+
+WITH NOMAPPED (NpAdjp) {
+  MAP @det (prde) OR (ppde) ;
+  MAP @acl:relcl (verb) ;
+  MAP @nummod (adjv ordn) ;
+  MAP @amod (*) - (verb) ;
+} ;
+
+WITH NOMAPPED (NPofNP) {
+  MAP @appos (prde) ;
+  MAP @obj (prn) IF (-1 (verb ptca)) ;
+  MAP @nmod:poss (prn) ;
+  MAP @acl:relcl (verb ptca) ;
+  MAP @compound:smixut (NP) OR (PP) OR (subs) IF (p (c)) ;
+  MAP @nmod (adjv) ;
+  MAP @obj (*) IF (p (verb ptca a)) ;
+  MAP @compound:smixut (*) IF (p (c)) ;
+  MAP @appos (*) ;
+} ;
 
 ####################
 # Other rules
@@ -422,40 +464,14 @@ MAP @parataxis (ClClCl) OR (ClClClCl) ;
 
 SECTION
 
-MAP @appos (2Pp) IF (c @case + $$Lemma) (s @case + $$Lemma) ;
-MAP @nmod (2Pp) ;
-
-WITH (NpAdjp) {
-  MAP @det (prde) OR (ppde) ;
-  MAP @acl:relcl (verb) ;
-  MAP @nummod (adjv ordn) ;
-  MAP @amod (*) - (verb) ;
-} ;
-
-MAP @appos (prde NPofNP) ;
-MAP @obj (prn NPofNP) IF (-1 (verb ptca)) ;
-MAP @nmod:poss (prn NPofNP) OR (prn PrepNp+NomPrep) OR (prn QuanNP) ;
 MAP @acl:relcl (verb ptca a) IF (p (c)) ;
-LIST CompoundAble = (NP NPofNP) (PP NPofNP) QuanNP (subs NPofNP)
-                    PrepNp+NomPrep AdjpofNp ;
+LIST CompoundAble = QuanNP PrepNp+NomPrep AdjpofNp ;
 MAP @compound:smixut CompoundAble IF (p (c)) ;
 MAP @advcl (verb infc ClCl) IF (p (verb) - (infc)) ;
 MAP @vocative (Voct ClCl) IF (p (_) OR (role:P) OR (role:V)) ;
 MAP @acl:relcl (verb infc NpInf) ; # TODO: maybe actually plain @acl?
 
-MAP @nmod (NPofNP adjv) ;
-MAP @obj (NPofNP) IF (p (verb ptca a)) ;
-MAP @compound:smixut (NPofNP) IF (p (c)) ;
-MAP @appos (NPofNP) ;
-
 MAP @csubj FinCL + (rela:Subj) ;
-
-WITH (AdjpPp) {
-  MAP @obl (*) IF (p (*) LINK c @cop) ;
-  MAP @obl (*) IF (p (verb)) ;
-  MAP @obl (*) IF (p @conj LINK p (verb)) ;
-  MAP @nmod (*) ;
-} ;
 
 MAP @advcl (ClCl) OR (ClCl2) IF (c (conj) - ("ו")) ;
 LIST ListRules = 2PpaPp AdjpAdjpandAdjp AdjpandAdjpAdjp CLaCL

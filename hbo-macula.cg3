@@ -305,7 +305,6 @@ LIST ConjSeq = /Conj\\d.*/r ;
 MAP @conj ConjSeq IF (c (conj)) ;
 
 MAP @conj $$Function IF (c ("ו" conj)) (p $$Function) ;
-MAP @conj (_) IF (c ("ו" conj)) (p (_)) ;
 
 MAP @compound:smixut (NP) IF (p (subs ptcp c)) ;
 
@@ -316,13 +315,11 @@ WITH ("אישׁ" subs role:ADV) IF (c ReflexiveNouns + (subs NpPp)) {
   MAP @orphan _C1_ ;
 } ;
 
+MAP @orphan EllpCL ;
+
 ####################
 # By role
 ####################
-
-SECTION
-
-MAP @orphan EllpCL ;
 
 WITH NOMAPPED (role:ADV) {
   MAP @obj (Objc) IF (NEGATE s (role:O)) ;
@@ -336,9 +333,8 @@ WITH NOMAPPED (role:ADV) {
   MAP @advmod (*) ;
 } ;
 
-WITH (role:Appos) {
+WITH NOMAPPED (role:Appos) {
   MAP @dislocated (*) IF (pl (role:S) LINK pr (*) LINK 1* _TARGET_) ;
-  SETPARENT @dislocated TO (p @nsubj LINK p (*)) ;
   MAP @amod (adjv) ;
   MAP @acl:relcl (verb ptca) ;
   MAP @compound:smixut (*) IF (-1 (c) LINK c _TARGET_) ;
@@ -365,7 +361,8 @@ WITH NOMAPPED (role:S) - (_) {
   MAP @nsubj (*) ;
 } ;
 
-WITH (role:V) OR (role:P) {
+LIST roleVP = role:V role:P ;
+WITH NOMAPPED roleVP {
   MAP @xcomp (infc uprole:O) OR (uprole:O2) ;
   MAP @advcl (infc uprole:ADV) OR (infa uprole:ADV) ;
   MAP @ccomp (uprole:O) IF (NEGATE c (relCL @mark)) ;
@@ -373,30 +370,17 @@ WITH (role:V) OR (role:P) {
   #MAP @cop (vbcp) + FinCL ;
   # TODO: perf error in genesis 427?
   MAP @acl:relcl (verb ptca Np-Appos) OR (verb perf Np-Appos) ;
-  SETPARENT @acl:relcl TO (p (QuanNP @compound:smixut) LINK p (*)) ;
   MAP @parataxis (NpCL) - (ptca) - (ptcp) IF (NEGATE c @mark) ;
   MAP @obl (uvf:H AdvP uprole:ADV) OR (Cmpl V-ADV uprole:ADV) ;
   MAP @csubj (verb ptca uprole:S) ;
-} ;
-
-LIST NorP = NP PP PrNP PPrP ;
-LIST dislocatedClCl2 = (CPen Frnt) Subj Adju PreC ;
-WITH NOMAPPED (ClCl2) {
-  MAP @obl (PP Time) ;
-  MAP @vocative (Voct) IF (p (_) OR (role:P) OR (role:V)) ;
-  MAP @vocative (<txt:0>) IF (p (<txt:1>)) ;
-  MAP @dislocated dislocatedClCl2 + NorP ;
-  MAP @obl (Modi) + NorP ;
-  MAP @advcl (nmcp) OR (role:V uprole:V) ;
 } ;
 
 ####################
 # Static labels
 ####################
 
-SECTION
-
-LIST AclRules = NpRelp PpRelp NpCL ppCL AdvpRelp ;
+LIST AclRules = NpRelp PpRelp NpCL ppCL AdvpRelp
+                (verb infc NpInf) ; # TODO: maybe actually plain @acl?
 LIST ApposRules = NpNpNp (2Advp_h2 subs) ;
 LIST FlatRules = NumpNump ;
 LIST NmodRules = NpPp NumpPp AdvpPp2 ;
@@ -409,9 +393,9 @@ MAP @flat FlatRules ;
 MAP @nmod NmodRules ;
 MAP @nummod NummodRules ;
 
-MAP @advmod (AdjpAdvp) ;
 MAP @amod (AdjpNp) ;
 MAP @det (prde NumpAdjp) ;
+MAP @mark (SCONJ) ;
 MAP @nmod:poss (prn PrepNp+NomPrep) OR (prn QuanNP) ;
 MAP @obl (prin AdvpAdjp) ;
 MAP @parataxis (ClClCl) OR (ClClClCl) ;
@@ -420,18 +404,34 @@ MAP @parataxis (ClClCl) OR (ClClClCl) ;
 # Simple labels
 ####################
 
-SECTION
-
 WITH NOMAPPED (2Pp) {
   MAP @appos (*) IF (c @case + $$Lemma) (s @case + $$Lemma) ;
   MAP @nmod (*) ;
 } ;
 
 WITH NOMAPPED (AdjpPp) {
-  MAP @obl (*) IF (p (*) LINK c @cop) ;
   MAP @obl (*) IF (p (verb)) ;
   MAP @obl (*) IF (p @conj LINK p (verb)) ;
   MAP @nmod (*) ;
+} ;
+
+WITH NOMAPPED (ClCl) {
+  MAP @advcl (verb infc) IF (p (verb) - (infc)) ;
+  MAP @vocative (Voct) IF (p (_) OR roleVP) ;
+  MAP @advcl (*) IF (c (conj) - ("ו")) ;
+  MAP @parataxis (*) ;
+} ;
+
+LIST NorP = NP PP PrNP PPrP ;
+LIST dislocatedClCl2 = (CPen Frnt) Subj Adju PreC ;
+WITH NOMAPPED (ClCl2) {
+  MAP @obl (PP Time) ;
+  MAP @vocative (Voct) IF (p (_) OR (role:P) OR (role:V)) ;
+  MAP @vocative (<txt:0>) IF (p (<txt:1>)) ;
+  MAP @dislocated dislocatedClCl2 + NorP ;
+  MAP @obl (Modi) + NorP ;
+  MAP @advcl (nmcp) OR (role:V uprole:V) ;
+  MAP @advcl (*) IF (c (conj) - ("ו")) ;
 } ;
 
 WITH NOMAPPED (NP3NP) {
@@ -443,7 +443,7 @@ WITH NOMAPPED (NpAdjp) {
   MAP @det (prde) OR (ppde) ;
   MAP @acl:relcl (verb) ;
   MAP @nummod (adjv ordn) ;
-  MAP @amod (*) - (verb) ;
+  MAP @amod (*) ;
 } ;
 
 WITH NOMAPPED (NPofNP) {
@@ -451,29 +451,17 @@ WITH NOMAPPED (NPofNP) {
   MAP @obj (prn) IF (-1 (verb ptca)) ;
   MAP @nmod:poss (prn) ;
   MAP @acl:relcl (verb ptca) ;
-  MAP @compound:smixut (NP) OR (PP) OR (subs) IF (p (c)) ;
+  MAP @compound:smixut (*) IF (p (c)) ;
   MAP @nmod (adjv) ;
   MAP @obj (*) IF (p (verb ptca a)) ;
-  MAP @compound:smixut (*) IF (p (c)) ;
   MAP @appos (*) ;
 } ;
 
-####################
-# Other rules
-####################
-
-SECTION
-
 MAP @acl:relcl (verb ptca a) IF (p (c)) ;
+
 LIST CompoundAble = QuanNP PrepNp+NomPrep AdjpofNp ;
 MAP @compound:smixut CompoundAble IF (p (c)) ;
-MAP @advcl (verb infc ClCl) IF (p (verb) - (infc)) ;
-MAP @vocative (Voct ClCl) IF (p (_) OR (role:P) OR (role:V)) ;
-MAP @acl:relcl (verb infc NpInf) ; # TODO: maybe actually plain @acl?
 
-MAP @csubj FinCL + (rela:Subj) ;
-
-MAP @advcl (ClCl) OR (ClCl2) IF (c (conj) - ("ו")) ;
 LIST ListRules = 2PpaPp AdjpAdjpandAdjp AdjpandAdjpAdjp CLaCL
 	 		     2CLaCL 2Np 2NpaNpaNp 2Pp 3NpaNp AdjpaAdjp aNpaNp aNpaNpaNp
 				 CLaCL CLandCL2 Conj3CL Conj4Np Conj4Pp Conj5Np
@@ -481,13 +469,24 @@ LIST ListRules = 2PpaPp AdjpAdjpandAdjp AdjpandAdjpAdjp CLaCL
 				 NPNPNPaNPaNP NpNpNpNp NpPp NumpAndNump
 				 PPandPP PpaPpPpaPp Relp3Relp PpPp PpandPpPp ;
 MAP @conj ListRules ;
-MAP @parataxis (ClCl) ;
+
+MAP @csubj FinCL + (rela:Subj) ;
 
 LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "קרב" "יאל" "לאה" "צוה" "נתן" "אבה" ;
 WITH (verb infc) + FinCLPP IF (c (prep PrepCL)) {
   MAP @xcomp (*) IF (p XcompInf) ;
   MAP @advcl (*) ;
 } ;
+
+####################
+# Other rules
+####################
+
+# end of BEFORE-SECTIONS
+SECTION
+
+SETPARENT @acl:relcl + roleVP TO (p (QuanNP @compound:smixut) LINK p (*)) ;
+SETPARENT @dislocated + (role:Appos) TO (p @nsubj LINK p (*)) ;
 
 SETPARENT (@case PpPp) TO (p @case LINK p (*)) ;
 
@@ -525,11 +524,6 @@ SECTION
 
 SETPARENT (*) TO (p ("ו" conj) LINK p (*)) ;
 
-WITH @ccomp IF (sl @ccomp) (c @cc) {
-  SETPARENT (*) TO (jC1 (*)) ;
-  SUBSTITUTE @ccomp @conj (*) ;
-} ;
-
 WITH (subs ppre c) - @acl:relcl IF (p @obl) {
   MAP @obl (*) ;
   SUBSTITUTE @obl @compound:smixut (*) IF (jC1A (*)) ;
@@ -537,12 +531,9 @@ WITH (subs ppre c) - @acl:relcl IF (p @obl) {
   SETCHILD (*) TO (jC1 (*)) ;
 } ;
 
-SETPARENT @cc TO (p @case LINK p (*)) ;
-
 SETPARENT @appos OR @nmod TO (p (QuanNP) LINK p (*)) ;
 
 SETPARENT SAFE (SCONJ) TO (1* @ccomp) ;
-MAP @mark (SCONJ) ;
 
 SETPARENT @nsubj TO (p @discourse LINK p (*)) ;
 
@@ -600,7 +591,6 @@ WITH Top + (/^<txt:\(\\d+\)>$/r)
      (NEGATE pr (*)) {
     SETPARENT (*) TO (jC1 (*)) ;
     MAP @ccomp (*) IF (jC1 SpeakingVerb) ;
-	  MAP @xcomp (verb infc) IF (jC1 XcompInf) (c (prep)) ;
 } ;
 
 MAP @ccomp (/^<txt:\(\\d+\)>$/r) + FinCL IF (p SpeakingVerb + (VSTR:<txt<$1>)) ;
@@ -635,8 +625,6 @@ WITH (ptca @acl:relcl) IF (p @case) (NEGATE c @mark) {
 SECTION
 
 MAP @ccomp (rela:Objc) ;
-
-SETPARENT (@ccomp <txt:1>) TO (srrl (_ <txt:0>) - (conj)) ;
 
 SETPARENT (_ <txt:1>) (p (<txt:0>)) TO (slll (_ <txt:1>) - (conj)) ;
 

@@ -23,11 +23,11 @@ bad = []
 checked = []
 manual_ls = []
 
-for i, (n, b) in enumerate(utils.iter_conllu(f'temp/merged/{book}.conllu'), 1):
+for i, (n, b) in enumerate(utils.iter_conllu(f'temp/macula-merged/{book}.conllu'), 1):
     if n in check:
         checked.append(check[n][1])
     elif n in manual:
-        if manual[n][1] == b:
+        if utils.clean_ref(manual[n][1]) == utils.clean_ref(b):
             checked.append(manual[n][1])
         else:
             manual_ls.append(manual[n][1])

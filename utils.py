@@ -98,3 +98,9 @@ def get_coref(book):
             if len(ls) != 2:
                 continue
             yield (tuple(ls[0].split('-')), ls[1])
+
+def iter_words(block):
+    for ln in block.splitlines():
+        ls = ln.strip().split('\t')
+        if len(ls) == 10 and ls[0].isdigit():
+            yield ls

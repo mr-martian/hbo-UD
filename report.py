@@ -3,17 +3,8 @@
 from collections import defaultdict, Counter
 import math
 import sys
-from utils import get_coref
+from utils import get_coref, get_chapter
 book = sys.argv[1]
-
-def get_chapter(sid):
-    def single(s):
-        return int(s.split('-')[-1])
-    p = sid.split(':')
-    if len(p) == 2:
-        return [single(p[0])]
-    else:
-        return [single(p[0]), single(p[1])]
 
 total_sents = 0
 total_words = 0

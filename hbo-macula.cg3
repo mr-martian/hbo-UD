@@ -322,6 +322,7 @@ MAP @orphan EllpCL ;
 ####################
 
 WITH NOMAPPED (role:ADV) {
+  MAP @xcomp (PrAd) ;
   MAP @obj (Objc) IF (NEGATE s (role:O)) ;
   MAP @obl (NP rela:Attr) OR (NP Time) OR (adjv ordn) ;
   MAP @obl (NP) + VerbCL IF (NEGATE s (role:O)) ;
@@ -418,6 +419,7 @@ WITH NOMAPPED (AdjpPp) {
 WITH NOMAPPED (ClCl) {
   MAP @advcl (verb infc) IF (p (verb) - (infc)) ;
   MAP @vocative (Voct) IF (p (_) OR roleVP) ;
+  MAP @xcomp (*) IF (p ("ראה")) (c ("כי")) ;
   MAP @advcl (*) IF (c (conj) - ("ו")) ;
   MAP @parataxis (*) ;
 } ;

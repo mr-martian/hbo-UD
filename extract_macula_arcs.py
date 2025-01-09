@@ -13,6 +13,7 @@ HEAD_OVERRIDE = {
     'PpAdvp': 1,
     'ppCL': 0,
     'PpRelp': 0, # TODO: should we just use case:outer for this instead?
+    'OmpRelp': 0,
 
     '2PpaPp': 0,
     'QuanNP': 0,

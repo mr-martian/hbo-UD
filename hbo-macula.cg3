@@ -214,6 +214,7 @@ SUBSTITUTE (adjv) (subs retag:adjv) (adjv gntl) (NEGATE 0* (subs) - (retag:adjv 
 
 # Participles in smixut
 SUBSTITUTE (verb) (subs retag:verb) Participle + NPish - (NpAdjp) IF (NEGATE c (role:O));
+SUBSTITUTE (verb) (subs retag:verb) Participle + (c) IF (c (NPofNP)) ;
 
 # Adverbs tagged subs
 SET AdvOk = (*) - (prn ModS) - ("מאד" padv) ;
@@ -311,8 +312,11 @@ MAP @compound:smixut (NP) IF (p (subs ptcp c)) ;
 
 # TODO: genesis 261 has smixut
 LIST ReflexiveNouns = "אח" "רע" ;
-WITH ("אישׁ" subs role:ADV) IF (c ReflexiveNouns + (subs NpPp)) {
+WITH ("אישׁ" subs role:ADV)
+  IF ((c ReflexiveNouns + (subs NpPp))
+      OR (sw (c role:O) LINK c ReflexiveNouns)) {
   MAP @parataxis (*) ;
+  SETCHILD (*) TO (jC1 (*)) ;
   MAP @orphan _C1_ ;
 } ;
 
@@ -325,7 +329,7 @@ MAP @orphan EllpCL ;
 WITH NOMAPPED (role:ADV) {
   MAP @xcomp (PrAd) OR (Subj) ;
   MAP @obj (Objc) IF (NEGATE s (role:O)) ;
-  MAP @obl (NP rela:Attr) OR (NP Time) OR (adjv ordn) ;
+  MAP @obl (NP rela:Attr) OR (NP Time) OR (adjv ordn) OR (NP Modi) ;
   MAP @obl (NP) + VerbCL IF (NEGATE s (role:O)) ;
   MAP @xcomp (NP) + VerbCL ;
   MAP @obl:npmod (infa) + $$Lemma IF (p $$Lemma) ;
@@ -339,7 +343,7 @@ WITH NOMAPPED (role:Appos) {
   MAP @dislocated (*) IF (pl (role:S) LINK pr (*) LINK 1* _TARGET_) ;
   MAP @amod (adjv) ;
   MAP @acl:relcl (verb ptca) ;
-  MAP @compound:smixut (*) IF (-1 (c) LINK c _TARGET_) ;
+  MAP @compound:smixut (*) IF (-1* (c) BARRIER (*) - Det LINK c _TARGET_) ;
   MAP @appos (*) ;
 } ;
 
@@ -396,7 +400,6 @@ MAP @flat FlatRules ;
 MAP @nmod NmodRules ;
 MAP @nummod NummodRules ;
 
-MAP @amod (AdjpNp) ;
 MAP @det (prde NumpAdjp) ;
 MAP @mark (SCONJ) ;
 MAP @nmod:poss (prn PrepNp+NomPrep) OR (prn QuanNP) ;
@@ -412,6 +415,11 @@ WITH NOMAPPED (2Pp) {
   MAP @nmod (*) ;
 } ;
 
+WITH NOMAPPED (AdjpNp) {
+  MAP @det (prde) ;
+  MAP @amod (*) ;
+} ;
+
 WITH NOMAPPED (AdjpPp) {
   MAP @obl (*) IF (p (verb)) ;
   MAP @obl (*) IF (p @conj LINK p (verb)) ;
@@ -422,6 +430,8 @@ WITH NOMAPPED (ClCl) {
   MAP @advcl (verb infc) IF (p (verb) - (infc)) ;
   MAP @vocative (Voct) IF (p (_) OR roleVP) ;
   MAP @xcomp (*) IF (p ("ראה")) (c ("כי")) ;
+  MAP @acl:relcl (*) IF (c (relCL @mark)) (p (NP) OR (PrNP)) ;
+  MAP @acl:relcl (*) IF (c (relCL @mark) LINK sl (prep)) ;
   MAP @advcl (*) IF (c (conj) - ("ו")) ;
   MAP @parataxis (*) ;
 } ;
@@ -434,6 +444,7 @@ WITH NOMAPPED (ClCl2) {
   MAP @vocative (<txt:0>) IF (p (<txt:1>)) ;
   MAP @dislocated dislocatedClCl2 + NorP ;
   MAP @obl (Modi) + NorP ;
+  MAP @xcomp (role:V) IF (c (relCL @mark)) ;
   MAP @advcl (nmcp) OR (role:V uprole:V) ;
   MAP @advcl (*) IF (c (conj) - ("ו")) ;
 } ;
@@ -447,6 +458,8 @@ WITH NOMAPPED (NpAdjp) {
   MAP @det (prde) OR (ppde) ;
   MAP @acl:relcl (verb) ;
   MAP @nummod (adjv ordn) ;
+  MAP @nmod (subs retag:adjv) IF (NOT p (c)) ;
+  MAP @compound:smixut (subs retag:adjv) ;
   MAP @amod (*) ;
 } ;
 
@@ -496,6 +509,9 @@ SECTION
 
 SETPARENT @acl:relcl + roleVP TO (p (QuanNP @compound:smixut) LINK p (*)) ;
 SETPARENT @dislocated + (role:Appos) TO (p @nsubj LINK p (*)) ;
+
+LIST AdvConj = CLaCL aNpaNp ;
+SETPARENT @advmod + $$AdvConj (pl (*)) TO (sr $$AdvConj) ;
 
 WITH (PpPp @conj) IF (pr @obl) {
   SETPARENT (*) TO (p (*) LINK p (*)) ;
@@ -596,7 +612,7 @@ WITH Top + (/^<txt:\(\\d+\)>$/r) - @advcl - (_override)
 	  MAP @advcl (*) ;
 } ;
 
-WITH Top + (/^<txt:\(\\d+\)>$/r) - @advcl - (_override)
+WITH Top + (/^<txt:\(\\d+\)>$/r) - @advcl - (_override) - (SCONJ)
   IF (-1*O (>>>) OR Top + (VSTR:<txt<$1>) LINK 1* Top + (VSTR:<txt=$1>) LINK ppSrr Top + (VSTR:<txt=$1>)) {
     SETPARENT (*) TO (jC1 (*)) ;
     MAP @advcl (*) IF (c @mark - (retag:art) - (inrg)) ;
@@ -604,10 +620,10 @@ WITH Top + (/^<txt:\(\\d+\)>$/r) - @advcl - (_override)
 	SETPARENT (verb infc) (c (prep)) TO (p (*) LINK c (@xcomp verb infc)) ;
 } ;
 
-LIST SpeakingVerb = quot "ברך" "צוה" "נגד" "דבר" "ענה" "שׁמע" ;
+LIST SpeakingVerb = quot "ברך" "צוה" "נגד" "דבר" "ענה" "שׁמע" "מלל" ;
 
 WITH Top + (/^<txt:\(\\d+\)>$/r)
-  IF (llccS Top LINK -1* Top + (VSTR:<txt<$1>) BARRIER Top)
+  IF (llccS Top LINK -1* Top + (VSTR:<txt<$1>) - (SCONJ) BARRIER Top - (SCONJ))
      (NEGATE pr (*)) {
     SETPARENT (*) TO (jC1 (*)) ;
     MAP @ccomp (*) IF (jC1 SpeakingVerb) ;
@@ -622,6 +638,7 @@ WITH Top + NPish + (CPen Frnt) + $$TextLevel
 } ;
 
 SETPARENT SAFE (SCONJ /^<txt:\(\\d+\)>$/r) TO (1* (_ VSTR:<txt>$1>)) ;
+SETPARENT (SCONJ /^<txt:\(\\d+\)>$/r) (p (<<<)) TO (1* (_ VSTR:<txt>$1>)) ;
 MAP @advcl (*) IF (c (SCONJ)) ;
 
 SETPARENT @advmod + (_) TO (p @advmod + (_) LINK p (*)) ;
@@ -629,7 +646,8 @@ SETPARENT @advmod + (_) OR @cc + (_) OR @cc + (CjpCjp) (pr (_) LINK sl (_) LINK 
   TO (1* Top - @advmod - @cc) ;
 
 SETPARENT (advb _) (p (>>>)) TO (sllr (*)) ;
-SETPARENT (@cc CjpCjp) TO (pr @advmod LINK pr (*)) ;
+LIST AdvChild2Sibling = (@cc CjpCjp) (@mark CjpCjp) (@advmod CjpAdvp2Advp) ;
+SETPARENT AdvChild2Sibling TO (pr @advmod LINK pr (*)) ;
 
 SECTION
 

@@ -157,6 +157,8 @@ def propogate_heads(node):
                 node.attrib['copula'] = 'juss'
             else:
                 node.attrib['copula'] = 'yes'
+        elif node.attrib.get('oshb-strongs') in ['3426', '369']:
+            node.attrib['copula'] = 'nmcp'
         return
     for ch in node:
         propogate_heads(ch)
@@ -182,7 +184,10 @@ def propogate_heads(node):
                 node.attrib['Rule'] = 'S-P'
                 node.attrib['Head'] = '1'
         ls = r.split('-')
-        if 'V' in ls:
+        for i, role in enumerate(ls):
+            if role == 'ADV' and node[i].attrib.get('copula') == 'nmcp':
+                node.attrib['Head'] = str(i)
+        if 'Head' not in node.attrib and 'V' in ls:
             v = ls.index('V')
             cop = node[v].attrib.get('copula')
             if cop in ['yes', 'juss']:

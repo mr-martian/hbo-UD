@@ -337,6 +337,7 @@ WITH NOMAPPED (role:ADV) {
   MAP @advcl (infa) OR (infc) ;
   MAP @obl (subs) OR (nmpr) ;
   MAP @xcomp (adjv) ;
+  MAP @advcl (verb perf) IF (c (relCL @mark)) ;
   MAP @advmod (*) - (nmcp) ;
 } ;
 
@@ -349,6 +350,7 @@ WITH NOMAPPED (role:Appos) {
 } ;
 
 WITH NOMAPPED (role:O) - (Ellp CLaCL) {
+  MAP @xcomp (verb infc) IF (p XcompInf) ;
   MAP @ccomp (verb) - Participle ;
   MAP @obj (*) IF (NEGATE c (vbcp) - (NpRelp)) ;
 } ;
@@ -365,7 +367,7 @@ WITH NOMAPPED (role:PP) {
 } ;
 
 WITH NOMAPPED (role:S) - (_) {
-  MAP @nsubj:outer (S-P) IF (p (role:V)) ;
+  MAP @nsubj:outer (S-P) OR (ADV-S-P) IF (p (role:V)) ;
   MAP @csubj (*) IF (c (relCL @mark)) ;
   MAP @nsubj (*) ;
 } ;
@@ -380,7 +382,7 @@ WITH NOMAPPED roleVP {
   #MAP @cop (vbcp) + FinCL ;
   # TODO: perf error in genesis 427?
   MAP @acl:relcl (verb ptca Np-Appos) OR (verb perf Np-Appos) ;
-  MAP @parataxis (NpCL) - (ptca) - (ptcp) IF (NEGATE c @mark) ;
+  MAP @parataxis (NpCL) - (ptca) - (ptcp) - (nmcp) - (rela:Attr) IF (NEGATE c @mark) ;
   MAP @obl (uvf:H AdvP uprole:ADV) OR (Cmpl V-ADV uprole:ADV) ;
   MAP @csubj (verb ptca uprole:S) ;
   MAP @xcomp (verb ptca uprole:ADV) ;
@@ -538,9 +540,12 @@ WITH (PpPp @conj) IF (pr @obl) {
 SETPARENT (@case PpPp) TO (p @case LINK p (*)) ;
 
 WITH @obl + Pr IF (p (*)) (s (relCL @mark)) {
+  SETCHILD (*) TO (sl @cc) ;
   SETPARENT (*) TO (jC1 (*) LINK p (*)) ;
   SETCHILD (*) TO (jC1 (*)) ;
   MAP @acl:relcl _C1_ ;
+  SUBSTITUTE @conj @acl:relcl _C1_ ;
+  SUBSTITUTE @obl @conj (*) IF (jC1 (Conj4Pp)) ;
 } ;
 
 # fixes genesis 896 - fragile, may break other things
@@ -594,6 +599,7 @@ WITH (PpPpPpPp) OR (PpPpPp) IF (p @obl) {
   MAP @obl (*) ;
 } ;
 
+MAP @advcl (infc uprole:PP) IF (c @case) ;
 MAP @obl (uprole:PP) IF (c @case) ;
 
 LIST CcAdvList = PPandPP NpaNp ;

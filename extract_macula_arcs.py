@@ -132,6 +132,13 @@ with open(f'data/manual-arcs/{book}.tsv') as fin:
         if len(ls) > 1:
             manual[ls[0]] = ls[1:]
 
+manual_heads = {}
+with open(f'data/manual-heads/{book}.tsv') as fin:
+    for line in fin:
+        ls = line.strip().split('\t')
+        if len(ls) > 1:
+            manual_heads[ls[0]] = ls[1]
+
 def is_nouny(node):
     prep_noun_lemmas = [
         '8478', # תחת
@@ -209,6 +216,8 @@ def propogate_heads(node):
             node.attrib['Head'] = '1'
     elif r == 'ClClCl' and node[0].attrib.get('Rule') == 'Intj2CL':
         node.attrib['Head'] = '1'
+    if node.attrib.get('nodeId') in manual_heads:
+        node.attrib['Head'] = manual_heads[node.attrib['nodeId']]
     h = int(node.attrib['Head'])
     node.attrib['headword'] = node[h].attrib['headword']
 

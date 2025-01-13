@@ -10,7 +10,7 @@ temp/plain-cg3/%.txt: to-CG.py find_clause_root.py
 	mkdir -p temp/plain-cg3
 	./to-CG.py $* | apertium-cleanstream -n | ./find_clause_root.py | cg-conv -al > $@
 
-temp/macula-arcs/%.tsv: extract_macula_arcs.py data/manual-arcs/%.tsv
+temp/macula-arcs/%.tsv: extract_macula_arcs.py data/manual-arcs/%.tsv data/manual-heads/%.tsv
 	mkdir -p temp/macula-arcs
 	./extract_macula_arcs.py $* > $@
 

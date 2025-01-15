@@ -328,7 +328,8 @@ MAP @orphan EllpCL - (role:S) ;
 ####################
 
 WITH NOMAPPED (role:ADV) {
-  MAP @parataxis (Subj Ellp) ;
+  MAP @parataxis (Subj Ellp) IF (pl (*)) ;
+  MAP @nsubj (Subj Ellp) ;
   MAP @xcomp (PrAd) OR (Subj) ;
   MAP @obj (Objc) IF (NEGATE s (role:O)) ;
   MAP @obl (NP rela:Attr) OR (NP Time) OR (adjv ordn) OR (NP Modi)
@@ -352,6 +353,7 @@ WITH NOMAPPED (role:Appos) {
 } ;
 
 WITH NOMAPPED (role:O) - (Ellp CLaCL) - (Ellp ClCl) {
+  MAP @compound:smixut (*) IF (p (subs c)) ;
   MAP @xcomp (verb infc) IF (p XcompInf) ;
   MAP @ccomp (verb) - Participle ;
   MAP @obj (*) - (CLaCL) - (_) IF (NEGATE c (vbcp) - (NpRelp)) ;
@@ -362,7 +364,7 @@ MAP @xcomp (role:O2) ;
 WITH NOMAPPED (role:PP) {
   MAP @mark (SCONJ) ;
   MAP @xcomp (verb infc) IF (p XcompInf) (c ("ל" prep) OR ("מן" prep)) ;
-  MAP @advcl (verb infc) IF (c ("ל" prep) OR ("מן" prep)) ;
+  MAP @advcl (verb infc) IF (c ("ל" prep) OR ("מן" prep) OR ("כ" prep)) ;
   MAP @nmod (*) IF (p (subs retag:verb)) ;
   MAP @xcomp (PrAd) IF (NEGATE s (role:O2)) ;
   MAP @obl (*) - (_) IF (NEGATE c (vbcp) - (NpRelp) OR (relCL @mark)) ;
@@ -437,13 +439,14 @@ WITH NOMAPPED (AdjpPp) {
 
 WITH NOMAPPED (ClCl) {
   MAP @advcl (verb infc) IF (p (verb) - (infc)) ;
+  MAP @parataxis (NP Voct) OR (PrNP Voct) IF (p (NP Voct) OR (PrNP Voct)) ;
   MAP @vocative (Voct) IF (p (_) OR roleVP OR (intj ClCl2)) ;
   MAP @xcomp (*) IF (p ("ראה")) (c ("כי")) ;
   MAP @acl:relcl (*) IF (c (relCL @mark)) (p (NP) OR (PrNP)) ;
   MAP @acl:relcl (*) IF (c (relCL @mark) LINK sl (prep)) ;
-  MAP @advcl (*) IF (c (conj) - ("ו")) ;
+  MAP @advcl (*) IF (c (conj) - ("ו") - ("ה")) ;
   MAP @dislocated (NP Subj) IF (NEGATE c (nega @advmod) OR @orphan) ;
-  MAP @xcomp (ptca) IF (NEGATE c @nsubj) ;
+  MAP @xcomp (ptca) IF (NEGATE c @nsubj OR @nsubj:outer OR @csubj) ;
   MAP @parataxis (*) ;
 } ;
 
@@ -485,6 +488,7 @@ WITH NOMAPPED (NPofNP) {
   MAP @nmod:poss (prn) ;
   MAP @acl:relcl (verb ptca) ;
   MAP @obj (*) IF (p (verb ptca @acl:relcl)) ;
+  MAP @nsubj (Subj) IF (p (infc c)) ;
   MAP @compound:smixut (*) IF (p (c) OR (subs a dir_he)) ;
   MAP @amod (adjv gntl) IF (p (a)) ;
   MAP @nmod (adjv) ;
@@ -760,6 +764,22 @@ WITH ("כי" conj CjpCjp) IF (p ("אם" conj)) {
 
 SETPARENT SAFE (SCONJ) TO (-1* SpeakingVerb) ;
 SUBSTITUTE @mark @ccomp (SCONJ) IF (NEGATE c (*)) (NEGATE 1* (*) - BD - (prn) - (prep)) ;
+
+WITH @appos IF (p (*) LINK p (role:V)) (p (*) LINK sllr (*) LINK 1* _TARGET_) {
+  SETCHILD REPEAT (*) TO (sr @conj) ;
+  SETPARENT (*) TO (p (*) LINK p (*)) ;
+  SUBSTITUTE @appos @dislocated (*) ;
+} ;
+
+WITH @conj IF (p @obl LINK sllr (*) LINK 1* _TARGET_) (NEGATE c @cc) {
+  SETPARENT (*) TO (p (*) LINK p (*)) ;
+  SUBSTITUTE @conj @obl (*) ;
+} ;
+
+WITH @amod IF (p (*) LINK p (role:V)) (p (*) LINK sllr (*) LINK 1* _TARGET_) {
+  SETPARENT (*) TO (p (*) LINK p (*)) ;
+  SUBSTITUTE @amod @xcomp (*) ;
+} ;
 
 SETPARENT @acl:relcl TO (p @compound:smixut LINK p ("כל")) ;
 

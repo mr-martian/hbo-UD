@@ -15,6 +15,8 @@ HEAD_OVERRIDE = {
     'PpRelp': 0, # TODO: should we just use case:outer for this instead?
     'OmpRelp': 0,
 
+    'ADV-ADV': 0, # TODO: check which adverbs?
+
     '2PpaPp': 0,
     'QuanNP': 0,
 

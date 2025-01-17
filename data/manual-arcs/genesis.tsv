@@ -26,6 +26,11 @@ w9462	_	@advcl
 w9739	w9740
 w9740	w9737	@obj
 w9748	_	@xcomp
+#545
+w10579	w10596	_override
+w10596	_	@ccomp
+w10599	w10596	_override
+w10616	w10596	_override
 #592
 w11574	w11570	_override
 #594
@@ -40,6 +45,11 @@ w11951	w11937
 w12090	w12085
 #667
 w12937	w12936p	@nsubj
+#676
+w13109	w13105	_override><@advcl
+w13112	w13111	_override><@ccomp
+w13114	w13109	_override><@advcl
+w13121	w13109	_override><@advcl
 #687
 w13320	w13314	_override
 #724
@@ -52,8 +62,15 @@ w14913	w14911	@acl
 w14914	w14915
 w14915	w14911	@conj
 w14917	w14915	@acl
+#773
+w14984	w14987
+w14986	w14987	@nsubj
+w14987	w14960	@conj
+w14989	w14987	@obl><_override
 #892
 w17230	w17223	_override><@conj
+#921
+w17852	w17845	_override><@advcl
 #967
 w18695	w18689	@appos
 #1050
@@ -85,3 +102,5 @@ w28088	w28089
 w28089	w28081
 #1464
 w28123	_	@conj
+#1467
+w28181	w28209

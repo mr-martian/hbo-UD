@@ -26,7 +26,6 @@ HEAD_OVERRIDE = {
     '3NpaNp': 0,
     'AdjpaAdjp': 0,
     'CLaCL': 0,
-    'CLandCL2': 0,
     'ClCl': 0,
     'Conj3CL': 0,
     'Conj4Np': 0,
@@ -52,7 +51,6 @@ HEAD_OVERRIDE = {
     'AdjpandAdjpAdjp': 0,
     'AdvpandAdvp': 0,
     'AdvpandPp': 0,
-    'CLandCL2': 0,
     'NPandPP2np': 0,
     'NumpAndNump': 0,
     'PPandPP': 0,
@@ -158,10 +156,21 @@ def is_timey(node):
         return True
     return any(is_timey(ch) for ch in node)
 
+def is_cond(node):
+    if node.attrib.get('oshb-strongs') == '518a':
+        return True
+    if node.attrib.get('Cat') == 'relp':
+        return True
+    if node.attrib.get('Cat') == 'CL' and '-' in node.attrib.get('Rule', ''):
+        return False
+    return any(is_cond(ch) for ch in node)
+
 def propogate_heads(node):
     if node.tag == 'm':
         node.attrib['headword'] = node.attrib[xml_id]
-        if node.attrib.get('lemma') == '1961':
+        if node.attrib.get('oshb-strongs') == '1961' and False:
+            # TODO: copulas have been broken for a while
+            # and updating the CG might be messy
             if node.attrib.get('type') == 'jussive':
                 node.attrib['copula'] = 'juss'
             else:
@@ -185,6 +194,14 @@ def propogate_heads(node):
         if node[0].attrib.get('Rule') == 'PrepNp' or is_nouny(node[0]):
             node.attrib['Head'] = '0'
             node.attrib['Rule'] = 'PrepNp+NomPrep'
+    elif r == 'CLandCL2':
+        cl0 = node[0]
+        if cl0.attrib.get('Rule') == 'Np2CL' and len(cl0) == 1 and cl0[0].attrib.get('Cat') == 'np':
+            node.attrib['Rule'] = 'CLandCL2+disloc'
+        elif not is_cond(cl0):
+            node.attrib['Head'] = '0'
+        else:
+            node.attrib['Rule'] = 'CLandCL2+if'
     elif r and '-' in r:
         if r == 'P-S':
             m = list(node[0].iter('m'))
@@ -196,10 +213,10 @@ def propogate_heads(node):
         for i, role in enumerate(ls):
             if role == 'ADV' and node[i].attrib.get('copula') == 'nmcp':
                 node.attrib['Head'] = str(i)
-        if 'Head' not in node.attrib and 'V' in ls:
+        if 'V' in ls:
             v = ls.index('V')
             cop = node[v].attrib.get('copula')
-            if cop in ['yes', 'juss']:
+            if cop in ['yes', 'juss'] and node.attrib.get('Head', str(v)) == str(v):
                 if 'O' in ls:
                     node.attrib['Head'] = str(ls.index('O'))
                 elif 'PP' in ls and cop != 'juss':
@@ -415,6 +432,8 @@ def align_to_bhsa(sentence, bhsa0):
 
 def process_sentence(sent):
     propogate_heads(sent)
+    if sent.attrib['verse'] == 'GEN 1:6 (!!)':
+        print(ET.tostring(sent, encoding='utf-8').decode('utf-8'), file=sys.stderr)
     distribute_heads(sent, sent.attrib['headword'], '_')
     c, v = sent.attrib['verse'].split()[-1].split(':')
     cl = L.u(1, otype='chapter')[0] + int(c) - 1

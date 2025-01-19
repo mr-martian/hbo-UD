@@ -246,6 +246,8 @@ SUBSTITUTE (subs) (verb retag:subs ClauseRoot) (nmcp) ;
 # interrogative adverbs
 SUBSTITUTE (inrg) (advb retag:inrg) ItgAdv ;
 
+SUBSTITUTE (subs) (advb retag:subs) ("עוד" padv role:ADV) ;
+
 ####################
 # Lookup table overrides
 ####################
@@ -353,6 +355,7 @@ WITH NOMAPPED (role:ADV) {
 
 WITH NOMAPPED (role:Appos) {
   MAP @dislocated (*) IF (pl (role:S) LINK pr (*) LINK 1* _TARGET_) ;
+  MAP @xcomp (adjv) IF (p (verb ptca)) ;
   MAP @amod (adjv) ;
   MAP @acl:relcl (verb ptca) ;
   MAP @compound:smixut (*) IF (-1* (c) BARRIER (*) - Det LINK c _TARGET_) ;
@@ -382,6 +385,7 @@ WITH NOMAPPED (role:S) - (_) {
   MAP @nsubj:outer (S-P) OR (ADV-S-P) IF (p (role:V)) ;
   MAP @csubj (*) IF (c (relCL @mark)) ;
   MAP @vocative (Voct) ;
+  MAP @csubj (verb ptca) ;
   MAP @nsubj (*) - (ClCl) - (CLaCL) ;
 } ;
 
@@ -521,10 +525,14 @@ WITH NOMAPPED (NPofNP) {
 
 LIST ppCL2advcl = ExtPos=SCONJ ("טרם" subs) ("עבור" subs) ;
 WITH NOMAPPED (ppCL) IF (p ppCL2advcl) {
+  ADD (_) (*) IF (jC1 (_)) ;
   MAP @advcl (*) ;
   SETPARENT @advcl TO (p (*) LINK p (*)) ;
   SETCHILD @advcl TO (jC1 (*)) ;
   SUBSTITUTE @parataxis @obl _C1_ ;
+  SUBSTITUTE (_) (*) _C1_ ;
+  MAP @obl _C1_ ;
+  SETCHILD (*) TO (jC1 (*) LINK c (CLandCL2)) ;
 } ;
 MAP @acl:relcl (ppCL) ;
 
@@ -535,6 +543,7 @@ MAP @acl:relcl (verb ptca a) IF (p (c)) ;
 LIST CompoundAble = QuanNP PrepNp+NomPrep AdjpofNp ;
 MAP @compound:smixut CompoundAble IF (p (c)) ;
 
+MAP @advcl (CLaCL) IF ((c @mark) OR (sl @mark)) ;
 MAP @dislocated (CPen Frnt CLandCL2) IF (pr (*)) ;
 LIST ListRules = 2PpaPp AdjpAdjpandAdjp AdjpandAdjpAdjp CLaCL
 	 		     2CLaCL 2Np 2NpaNpaNp 2Pp 3NpaNp AdjpaAdjp aNpaNp aNpaNpaNp
@@ -548,6 +557,7 @@ MAP @csubj FinCL + (rela:Subj) ;
 
 WITH (verb infc) + FinCLPP IF (c (prep PrepCL)) {
   MAP @xcomp (*) IF (p XcompInf) (NEGATE c ("עד" @case)) ;
+  MAP @csubj (*) IF (c ("מן" @case)) (p ("חלילה" intj)) ;
   MAP @advcl (*) ;
 } ;
 
@@ -575,11 +585,12 @@ WITH (PpPp @conj) IF (pr @obl) {
 
 SETPARENT (@case PpPp) TO (p @case LINK p (*)) ;
 
-WITH @obl + Pr IF (p (*)) (s (relCL @mark)) {
+WITH @obl + Pr OR @obj + Pr IF (p (*)) (s (relCL @mark)) {
   SETCHILD (*) TO (sl @cc) ;
   SETPARENT (*) TO (jC1 (*) LINK p (*)) ;
   SETCHILD (*) TO (jC1 (*)) ;
   MAP @acl:relcl _C1_ ;
+  SUBSTITUTE @obj @acl:relcl _C1_ ;
   SUBSTITUTE @conj @acl:relcl _C1_ ;
   SUBSTITUTE @obl @conj (*) IF (jC1 (Conj4Pp)) ;
 } ;
@@ -635,7 +646,7 @@ WITH (PpPpPpPp) OR (PpPpPp) IF (p @obl) {
   MAP @obl (*) ;
 } ;
 
-MAP @advcl (infc uprole:PP) OR (verb ptca uprole:PP) IF (c @case) ;
+MAP @advcl (infc uprole:PP) OR (verb ptca uprole:PP) OR (AdjP AjCl uprole:PP) IF (c @case) ;
 MAP @obl (uprole:PP) - (_) IF (c @case) ;
 
 LIST CcAdvList = PPandPP NpaNp ;
@@ -715,6 +726,8 @@ WITH Top + NPish + (CPen Frnt) + $$TextLevel
     MAP @dislocated (*) ;
 } ;
 
+SETPARENT @mark + (CLaCL) TO (sr (*)) ;
+
 SETPARENT SAFE (SCONJ /^<txt:\(\\d+\)>$/r) TO (1* (_ VSTR:<txt>$1>) - @advmod) ;
 SETPARENT (SCONJ /^<txt:\(\\d+\)>$/r) (p (<<<)) TO (1* (_ VSTR:<txt>$1>)) ;
 MAP @advcl (*) IF (c (SCONJ)) ;
@@ -756,11 +769,11 @@ MAP @ccomp (rela:Objc) ;
 SETPARENT (_ <txt:1>) - (_override) (p (<txt:0>)) TO (slll (_ <txt:1>) - (conj)) ;
 
 LIST NPConj = NpaNp 2Np 2NpaNpaNp NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP
-              NPaNPNPaNP NpNpNp NpNp Conj3Np ;
+              NPaNPNPaNP NpNpNp NpNp Conj3Np Conj4Np Conj5Np NpNpNpNp ;
 LIST PPConj = PpaPp Conj3Pp PPandPP 2PpaPp PPandPP PpaPpPpaPp PpandPpPp ;
-LIST ClauseConj = CLaCL 2CLaCL (VP _) ;
+LIST ClauseConj = CLaCL 2CLaCL Conj3CL Conj4CL (VP _) ;
 SET ConjTypes = NPConj OR PPConj OR ClauseConj ;
-SETPARENT @conj + &&ConjTypes (NEGATE sr @acl:relcl OR @nmod) (NEGATE c ("או" conj))
+SETPARENT @conj + &&ConjTypes (NEGATE sr @acl:relcl OR @nmod OR @appos) (NEGATE c ("או" conj))
   TO (p @conj + &&ConjTypes LINK p (*)) ;
 SETPARENT @conj + NPConj TO (p @conj + (NP _) LINK p (NP _)) ;
 
@@ -868,6 +881,9 @@ WITH @root IF (p (*) LINK p (*)) {
   SUBSTITUTE @root @conj (*) IF (sr (*) LINK c @cc) ;
   SUBSTITUTE @root @parataxis (*) ;
 } ;
+
+# 1240 - hack because MERGECOHORTS doesn't retain deps
+SETPARENT (Genesis w23794) TO (1* (w23797)) ;
 
 REMCOHORT (pb) ;
 REMCOHORT (cb) ;

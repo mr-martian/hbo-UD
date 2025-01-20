@@ -204,7 +204,8 @@ WITH ("בלת" subs) - @fixed IF (-1 ("ל" prep)) {
 ####################
 
 # quotation
-MERGECOHORTS ("<le'emor>" "$2$1"v SCONJ *) ("(אמר)"r verb infc) - ActuallyInf WITH (-1 ("(ל)"r prep)) ;
+# TODO: use attach version and/or don't retokenize
+MERGECOHORTS DETACH ("<le'emor>" "$2$1"v SCONJ *) ("(אמר)"r verb infc) - ActuallyInf WITH (-1 ("(ל)"r prep)) ;
 
 # Substantivized adjectives
 SUBSTITUTE (adjv) (subs retag:adjv) (c) ;
@@ -602,10 +603,9 @@ WITH NOPARENT (subs) - (_) IF (-1 (subs c) - (ppre) - @nummod OR (nmpr c)) {
 } ;
 
 SETPARENT SAFE @det TO (1 (subs)) ;
-SETPARENT SAFE (subs) TO (-1* (subs c) BARRIER (*) - Det) ;
-WITH NOPARENT (subs) IF (-1 @det) (-2 (subs c) - (ppre) - @nummod) {
-  SETCHILD (*) TO (jC1 (*)) ;
-  SETPARENT (*) TO (jC2 (*)) ;
+WITH NOPARENT (subs) IF (-1* (subs c) - (ppre) - @nummod BARRIER (*) - Det) {
+  SETCHILD (*) TO (-1 Det) ;
+  SETPARENT (*) TO (jC1 (*)) ;
   MAP @compound:smixut (*) ;
 } ;
 

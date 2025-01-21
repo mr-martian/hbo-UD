@@ -407,6 +407,7 @@ WITH NOMAPPED roleVP {
   MAP @xcomp (verb ptca uprole:ADV) ;
   MAP @nsubj (PrNP uprole:S) ;
   MAP @obl (role:P uprole:P) IF (c @case) (p (role:ADV)) ;
+  MAP @advcl (uprole:PP) IF (c (PrepCL @mark)) (NEGATE p XcompInf) ;
 } ;
 
 ####################
@@ -471,6 +472,7 @@ WITH NOMAPPED (ClCl) {
   MAP @advcl (*) IF (c (conj) - ("ו") - ("ה")) ;
   MAP @dislocated (NP Subj) OR (PPrP Subj) IF (NEGATE c (nega @advmod) OR @orphan) ;
   MAP @xcomp (ptca) IF (NEGATE c @nsubj OR @nsubj:outer OR @csubj) ;
+  MAP @ccomp (rela:Objc) ;
   MAP @parataxis (*) ;
 } ;
 
@@ -507,6 +509,7 @@ MAP @conj (subs padv NpAdvp) IF (p (subs padv)) ;
 
 WITH NOMAPPED (NpNpNp) {
   MAP @conj (*) IF (p (_)) ;
+  MAP @conj (*) IF (sl (NpaNp)) ;
   MAP @appos (*) ;
 } ;
 
@@ -550,7 +553,7 @@ LIST ListRules = 2PpaPp AdjpAdjpandAdjp AdjpandAdjpAdjp CLaCL
 	 		     2CLaCL 2Np 2NpaNpaNp 2Pp 3NpaNp AdjpaAdjp aNpaNp aNpaNpaNp
 				 CLaCL CLandCL2 Conj3CL Conj4Np Conj4Pp Conj5Np
 				 NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP NPaNPNPaNP NpNpNp
-				 NPNPNPaNPaNP NpNpNpNp NpPp NumpAndNump
+				 NPNPNPaNPaNP NpNpNp NpNpNpNp NpPp NumpAndNump
 				 PPandPP PpaPpPpaPp Relp3Relp PpPp PpandPpPp ;
 MAP @conj ListRules ;
 
@@ -586,7 +589,7 @@ WITH (PpPp @conj) IF (pr @obl) {
 
 SETPARENT (@case PpPp) TO (p @case LINK p (*)) ;
 
-WITH @obl + Pr OR @obj + Pr IF (p (*)) (s (relCL @mark)) {
+WITH @obl + Pr OR @obj + Pr IF (pr (*)) (s (relCL @mark)) {
   SETCHILD (*) TO (sl @cc) ;
   SETPARENT (*) TO (jC1 (*) LINK p (*)) ;
   SETCHILD (*) TO (jC1 (*)) ;
@@ -647,7 +650,7 @@ WITH (PpPpPpPp) OR (PpPpPp) IF (p @obl) {
 } ;
 
 MAP @advcl (infc uprole:PP) OR (verb ptca uprole:PP) OR (AdjP AjCl uprole:PP) IF (c @case) ;
-MAP @obl (uprole:PP) - (_) IF (c @case) ;
+MAP @obl (uprole:PP) - (_) - (role:P) IF (c @case) ;
 
 LIST CcAdvList = PPandPP NpaNp ;
 WITH @cc + (CjpCjp) IF (p @advmod + CcAdvList) {
@@ -671,7 +674,7 @@ SETPARENT @mark TO (p @obl LINK p (*)) ;
 
 LIST NonAdvclConj = "ו" retag:art "או" ;
 
-WITH (PP Adju _) + $$TextLevel - (_override) IF (1* (_ role:V) + $$TextLevel) {
+WITH (PP Adju _) + $$TextLevel - (_override) IF (1* (_ role:V) + $$TextLevel) (NEGATE c @nsubj) {
   SETPARENT (*) TO (jC1 (*)) ;
   MAP @obl (*) ;
 } ;
@@ -769,7 +772,8 @@ MAP @ccomp (rela:Objc) ;
 SETPARENT (_ <txt:1>) - (_override) (p (<txt:0>)) TO (slll (_ <txt:1>) - (conj)) ;
 
 LIST NPConj = NpaNp 2Np 2NpaNpaNp NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP
-              NPaNPNPaNP NpNpNp NpNp Conj3Np Conj4Np Conj5Np NpNpNpNp ;
+              NPaNPNPaNP NpNpNp NpNp Conj3Np Conj4Np Conj5Np
+              NpNpNp NpNpNpNp ;
 LIST PPConj = PpaPp Conj3Pp PPandPP 2PpaPp PPandPP PpaPpPpaPp PpandPpPp ;
 LIST ClauseConj = CLaCL 2CLaCL Conj3CL Conj4CL (VP _) ;
 SET ConjTypes = NPConj OR PPConj OR ClauseConj ;
@@ -860,6 +864,8 @@ WITH (NpCL) OR (ClCl) OR (VP P-S) IF (p (inrg InrP) OR (prin InrP)) {
   SUBSTITUTE Relation @obl (*) IF (jC1A (prin)) ;
 } ;
 
+SUBSTITUTE @obj @conj Pr IF (pl (Objc)) (c @cc) ;
+
 SETPARENT @acl:relcl TO (p @compound:smixut LINK p ("כל")) ;
 
 SETPARENT (*) - @fixed TO (p @mark LINK p (*)) ;
@@ -879,11 +885,17 @@ MAP @root (*) ;
 WITH @root IF (p (*) LINK p (*)) {
   SUBSTITUTE @root @conj (*) IF (c @cc) ;
   SUBSTITUTE @root @conj (*) IF (sr (*) LINK c @cc) ;
+  SUBSTITUTE @root @advcl (verb infc) IF (c @case) ;
   SUBSTITUTE @root @parataxis (*) ;
 } ;
 
-# 1240 - hack because MERGECOHORTS doesn't retain deps
+# 1240 - hack because MERGECOHORTS retaining deps requires refactoring
 SETPARENT (Genesis w23794) TO (1* (w23797)) ;
+# 1263
+SETPARENT (Genesis w24243) TO (1* (w24247)) ;
+# 1107
+SETPARENT (Genesis w21218) TO (1* (w21219)) ;
+SUBSTITUTE @conj @advcl (Genesis w21219) ;
 
 REMCOHORT (pb) ;
 REMCOHORT (cb) ;

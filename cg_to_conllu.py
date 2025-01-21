@@ -134,6 +134,8 @@ class Word:
             self.upos = POS_MAP[self.xpos]
             if self.upos == 'VERB' and self.lemma == 'היה':
                 self.upos = 'AUX'
+        elif self.lemma == 'עד' and self.xpos == 'conj':
+            self.upos = 'ADP'
         for tg in parts:
             if tg in MORPH:
                 self.feats += MORPH[tg]

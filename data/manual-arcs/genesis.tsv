@@ -24,11 +24,22 @@ w4680	_	@nsubj
 w5923	w5898	@obl
 #321
 w6179	w6164	@acl:relcl
+#328
+w6308	w6289	@conj><_override
+w6313	w6287	@obl
+#345
+w6651	w6650p	@parataxis
+w6653	w6651	@acl:relcl
 #349
 w6728	w6731p
 w6729	w6731p	@nsubj
 w6731p	0	_
 w6735	w6731p	_><@advcl
+#355
+w6839	_	@parataxis
+w6840	w6839	@orphan
+#363
+w6995	w6980	@appos><_override
 #376
 w7270	_	@ccomp
 #377
@@ -37,6 +48,16 @@ w7286	_	@xcomp
 w8160	_	@conj
 #431
 w8244	w8239	_override
+#441
+w8452	w8454
+w8453	w8454
+w8454	w8451	@ccomp
+w8455	w8454	_override
+#458
+w8866	w8867
+w8867	w8863	_override
+#480
+w9288	_	c
 #487
 w9462	_	@advcl
 #504
@@ -67,6 +88,8 @@ w11951	w11937
 w12090	w12085
 #645
 w12575	w12584
+#665
+w12906	w12902
 #667
 w12937	w12936p	@nsubj
 #676
@@ -85,6 +108,8 @@ w13961	w13963	@advmod><ExtPos=ADV
 w13962	w13961	@fixed
 w13963	w13957	@ccomp
 w13966	w13963
+#748
+w14450	_	@advcl
 #769
 w14913	w14911	@acl
 w14914	w14915
@@ -97,14 +122,39 @@ w14987	w14960	@conj
 w14989	w14987	@obl><_override
 #786
 w15254	w15252	_override
+#791
+w15327p	_	@nmod:poss
+w15328p	_	@nmod
+#869
+w16737	w16738	@case
+w16739	w16730	@advcl
+#873
+w16803	_	c
 #886
 w17080	w17085	_override><@advcl
+#891
+w17182	w17189	_override><@advcl
 #892
 w17230	w17223	_override><@conj
+#913
+w17658	w17650	_override
+#917
+w17750	_	@parataxis
+w17752	_	@orphan
 #921
 w17852	w17845	_override><@advcl
+#944
+w18279	w18275	_override><@conj
 #967
 w18695	w18689	@appos
+#978
+w18912	w18907
+w18915	w18914	@orphan
+#1015
+w19580	w19582
+w19582	w19566	_override
+#1027
+w19794	w19786	_override><NpNp><@conj
 #1040
 w19986	w19978	NpNp><_override><@conj
 #1050
@@ -113,36 +163,81 @@ w20143	w20131	_override><@conj
 w20149	w20131	_override><@conj
 #1052
 w20200	w20199	@appos><_override
+#1082
+w20775	w20772	_override
+#1121
+w21492	w21493	@advmod
+w21493	w21490	@conj
 #1144
 w21987	w21984	@parataxis
 w21988	w21987	@orphan
 w21990	w21987	@orphan
+#1148
+w22092	w22091	@xcomp><_override
+#1189
+w22870	_	@parataxis
 #1204
 w23138	w23135	@ccomp><_override
+#1210
+w23261	w23254	@xcomp
+w23269	w23265	_override><@advcl
 #1228
 w23596	_	@ccomp
+#1243
+w23862	w23860	@orphan
+#1256
+w24125	w24113	_override
+w24134	w24113	_override
 #1263
 w24243	w24247
 w24247	_	@advcl
+#1267
+w24343	_	@obj
+#1272
+w24442p	_	@obl
+w24444	w24440	@obj
+#1293
+w24891	w24892
+w24892	w24890
 #1301
 w25028	w25026	@orphan
 w25029	w25026	f><@orphan
 w25033	w25032	@orphan
 #1330
 w25557	w25561	@obl
+#1335
+w25676	w25667	_override><@advcl
+#1347
+w25887	w25883	@obj
+#1372
+w26313	_	@obj
 #1386
-w26532	_	@ccomp
+w26534	_	@ccomp
 w26542	w26532	@dislocated
+#1424
+w27436	w27437	@case
+w27437	w27435	@nmod
+w27438	w27437	@compound:smixut
+w27441	_	@acl
+#1439
+w27768	w27763	@acl:relcl><_override
+#1444
+w27858	w27853	_override
 #1452
 w27974	w27973	@obj
 w27976	w27973	@xcomp
 w27977	w27980
 w27980	w27973	@conj
 w27982	w27980	@orphan
+#1454
+w28013	w28009	_override
 #1462
 w28088	w28089
 w28089	w28081
 #1464
 w28123	_	@conj
+#1465
+w28150	_	@nsubj
+w28154	w28148	@parataxis><_override
 #1467
 w28181	w28209

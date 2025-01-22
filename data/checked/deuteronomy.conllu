@@ -92,9 +92,9 @@
 3	אֱלֹהֶ֔י	אלהים	NOUN	subs	Gender=Masc|Number=Plur	2	appos	_	Gloss=god(s)|Ref=DEUT_4.24
 4	ךָ	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	3	nmod:poss	_	Ref=DEUT_4.24
 5	אֵ֥שׁ	אשׁ	NOUN	subs	Gender=Fem|Number=Sing	0	root	_	Gloss=fire|Ref=DEUT_4.24
-6	אֹכְלָ֖ה	אכל	NOUN	verb	Gender=Fem|HebBinyan=PAAL|Number=Sing|VerbForm=Part	5	appos	_	Gloss=eat|Ref=DEUT_4.24
+6	אֹכְלָ֖ה	אכל	VERB	verb	Gender=Fem|HebBinyan=PAAL|Number=Sing|VerbForm=Part	5	acl:relcl	_	Gloss=eat|Ref=DEUT_4.24
 7	ה֑וּא	הוא	PRON	prps	Gender=Masc|Number=Sing|Person=3|PronType=Prs	5	nsubj	_	Gloss=he|Ref=DEUT_4.24
-8	אֵ֖ל	אל	NOUN	subs	Gender=Masc|Number=Sing	5	appos	_	Gloss=god|Ref=DEUT_4.24
+8	אֵ֖ל	אל	NOUN	subs	Gender=Masc|Number=Sing	5	parataxis	_	Gloss=god|Ref=DEUT_4.24
 9	קַנָּֽא	קנא	ADJ	adjv	Gender=Masc|Number=Sing	8	amod	_	Gloss=jealous|Ref=DEUT_4.24|SpaceAfter=No
 10	׃	׃	PUNCT	punct	_	5	punct	_	Ref=DEUT_4.24
 11	פ	פ	PUNCT	punct	_	5	punct	_	Ref=DEUT_4.24
@@ -294,7 +294,7 @@
 33	אֲשֶׁ֥ר	אשׁר	SCONJ	conj	_	36	mark	_	Gloss=<relative>|Ref=DEUT_25.9
 34	לֹא	לא	ADV	nega	Polarity=Neg	36	advmod	_	Gloss=not|Ref=DEUT_25.9|SpaceAfter=No
 35	־	־	PUNCT	punct	_	34	punct	_	Ref=DEUT_25.9|SpaceAfter=No
-36	יִבְנֶ֖ה	בנה	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	32	acl	_	Gloss=build|Ref=DEUT_25.9
+36	יִבְנֶ֖ה	בנה	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	32	acl:relcl	_	Gloss=build|Ref=DEUT_25.9
 37	אֶת	את	ADP	prep	_	39	case	_	Gloss=<object marker>|Ref=DEUT_25.9|SpaceAfter=No
 38	־	־	PUNCT	punct	_	37	punct	_	Ref=DEUT_25.9|SpaceAfter=No
 39	בֵּ֥ית	בית	NOUN	subs	Gender=Masc|Number=Sing	36	obj	_	Gloss=house|Ref=DEUT_25.9
@@ -332,25 +332,25 @@
 # sent_id = Masoretic-Deuteronomy-32:9-hbo
 # text = כִּ֛י חֵ֥לֶק יְהֹוָ֖ה עַמֹּ֑ו יַעֲקֹ֖ב חֶ֥בֶל נַחֲלָתֹֽו׃
 # checker = Daniel
-1	כִּ֛י	כי	SCONJ	conj	_	2	mark	_	Gloss=that|Ref=DEUT_32.9
-2	חֵ֥לֶק	חלק	NOUN	subs	Gender=Masc|Number=Sing	7	advcl	_	Gloss=share|Ref=DEUT_32.9
+1	כִּ֛י	כי	SCONJ	conj	_	4	mark	_	Gloss=that|Ref=DEUT_32.9
+2	חֵ֥לֶק	חלק	NOUN	subs	Gender=Masc|Number=Sing	4	nsubj	_	Gloss=share|Ref=DEUT_32.9
 3	יְהֹוָ֖ה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	2	compound:smixut	_	Gloss=YHWH|Ref=DEUT_32.9
 4-5	עַמֹּ֑ו	_	_	_	_	_	_	_	_
-4	עַמֹּ֑	עם	NOUN	subs	Gender=Masc|Number=Sing	2	nsubj	_	Gloss=people|Ref=DEUT_32.9
+4	עַמֹּ֑	עם	NOUN	subs	Gender=Masc|Number=Sing	0	root	_	Gloss=people|Ref=DEUT_32.9
 5	ו	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	4	nmod:poss	_	Ref=DEUT_32.9
-6	יַעֲקֹ֖ב	יעקב	PROPN	nmpr	Gender=Masc|Number=Sing	7	nsubj	_	Gloss=Jacob|Ref=DEUT_32.9
-7	חֶ֥בֶל	חבל	NOUN	subs	Number=Sing	0	root	_	Gloss=cord|Ref=DEUT_32.9
+6	יַעֲקֹ֖ב	יעקב	PROPN	nmpr	Gender=Masc|Number=Sing	4	parataxis	_	Gloss=Jacob|Ref=DEUT_32.9
+7	חֶ֥בֶל	חבל	NOUN	subs	Number=Sing	6	nsubj	_	Gloss=cord|Ref=DEUT_32.9
 8-9	נַחֲלָתֹֽו	_	_	_	_	_	_	_	SpaceAfter=No
 8	נַחֲלָתֹֽ	נחלה	NOUN	subs	Gender=Fem|Number=Sing	7	compound:smixut	_	Gloss=heritage|Ref=DEUT_32.9
 9	ו	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	8	nmod:poss	_	Ref=DEUT_32.9
-10	׃	׃	PUNCT	punct	_	7	punct	_	Ref=DEUT_32.9
+10	׃	׃	PUNCT	punct	_	4	punct	_	Ref=DEUT_32.9
 
 # sent_id = Masoretic-Deuteronomy-32:26-hbo
 # text = אָמַ֖רְתִּי אַפְאֵיהֶ֑ם אַשְׁבִּ֥יתָה מֵאֱנֹ֖ושׁ זִכְרָֽם׃
 # checker = Daniel
 1	אָמַ֖רְתִּי	אמר	VERB	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	0	root	_	Gloss=say|Ref=DEUT_32.26
 2-3	אַפְאֵיהֶ֑ם	_	_	_	_	_	_	_	_
-2	אַפְאֵי	פאה	VERB	verb	Aspect=Imp|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	1	parataxis	_	Gloss=split|Ref=DEUT_32.26
+2	אַפְאֵי	פאה	VERB	verb	Aspect=Imp|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	1	ccomp	_	Gloss=split|Ref=DEUT_32.26
 3	הֶ֑ם	הם	PRON	prn	Gender=Masc|Number=Plur|Person=3|PronType=Prs	2	obj	_	Ref=DEUT_32.26
 4	אַשְׁבִּ֥יתָה	שׁבת	VERB	verb	Aspect=Imp|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	2	parataxis	_	Gloss=cease|Ref=DEUT_32.26
 5-6	מֵאֱנֹ֖ושׁ	_	_	_	_	_	_	_	_

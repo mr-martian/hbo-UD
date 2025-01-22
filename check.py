@@ -13,11 +13,9 @@ args = parser.parse_args()
 m = 'macula-' if args.macula else ''
 fgen = f'temp/{m}merged/{args.book}.conllu'
 fref = f'data/checked/{args.book}.conllu'
-fman = f'data/manual/{args.book}.conllu'
 
 gen = utils.load_conllu(fgen)
 ref = utils.load_conllu(fref, True)
-man = utils.load_conllu(fman, True)
 
 fail = []
 for k in ref:

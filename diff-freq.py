@@ -12,11 +12,9 @@ args = parser.parse_args()
 
 fgen = f'temp/macula-merged/{args.book}.conllu'
 fref = f'data/checked/{args.book}.conllu'
-fman = f'data/manual/{args.book}.conllu'
 
 gen = utils.load_conllu(fgen)
 ref = utils.load_conllu(fref, True)
-man = utils.load_conllu(fman, True)
 
 def parse(block):
     dct = {}
@@ -34,8 +32,6 @@ for sid in gen:
     g = parse(gen[sid][1])
     if sid in ref:
         r = parse(ref[sid][1])
-    elif sid in man:
-        r = parse(man[sid][1])
     else:
         #print(f'Reference for {args.book} {gen[sid][0]} not found.')
         continue

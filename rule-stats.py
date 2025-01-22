@@ -7,7 +7,6 @@ book = sys.argv[1]
 
 parsed = utils.load_conllu(f'temp/merged/{book}.conllu')
 checked = utils.load_conllu(f'data/checked/{book}.conllu')
-manual = utils.load_conllu(f'data/manual/{book}.conllu')
 cg3 = []
 with open(f'temp/parsed-cg3/{book}.txt') as fin:
     cg3 = fin.read().strip().split('\n\n')
@@ -38,24 +37,7 @@ def word_lines(block):
         if not ls[0].isnumeric(): continue
         yield ls[6], ls[7]
 
-for k in manual:
-    rules = get_rules(cg3[parsed[k][0]-1])
-    p = parsed[k][1]
-    m = manual[k][1]
-    for i, (pl, ml) in enumerate(zip(word_lines(p), word_lines(m))):
-        head = [r for r in rules[i] if 'SETPARENT' in r]
-        rel = [r for r in rules[i] if 'MAP' in r]
-        if pl[0] == ml[0]:
-            right.update(head)
-        else:
-            wrong.update(head)
-        if pl[1] == ml[1]:
-            right.update(rel)
-        else:
-            wrong.update(rel)
-
 with open(f'temp/stats/{book}.txt', 'w') as fout:
     l = set(list(right.keys()) + list(wrong.keys()))
     for k in sorted(l):
         fout.write(f'{k}\t{right[k]}\t{wrong[k]}\n')
-

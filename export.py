@@ -23,8 +23,6 @@ for c in args.chapters:
         parser.error("Invalid chapter specifier '%s'" % c)
 
 rule = utils.load_conllu(f'data/checked/{args.book}.conllu', True)
-manual = utils.load_conllu(f'data/manual/{args.book}.conllu', True)
-rule.update(manual)
 ids = sorted(rule.keys(), key=utils.get_first_verse)
 ids = [s for s in ids if any(c in chapters for c in utils.get_chapter(s))]
 

@@ -15,11 +15,9 @@ args = parser.parse_args()
 m = 'macula-' if args.macula else ''
 fgen = f'temp/{m}merged/{args.book}.conllu'
 fref = f'data/checked/{args.book}.conllu'
-fman = f'data/manual/{args.book}.conllu'
 
 gen = utils.load_conllu(fgen)
 ref = utils.load_conllu(fref, True)
-man = utils.load_conllu(fman, True)
 
 for k in gen:
     if str(gen[k][0]) == args.verse:
@@ -58,8 +56,6 @@ rows += f'<tr><td colspan="{len(words)}">{text}</td></tr>'
 
 if sid in ref:
     block = ref[sid][1]
-elif sid in man:
-    block = man[sid][1]
 else:
     print(f'Reference for {args.book} {args.verse} not found.')
     sys.exit(1)

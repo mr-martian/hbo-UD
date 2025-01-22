@@ -41,9 +41,8 @@ hbo.bin: hbo-with.cg3
 hbo-macula.bin: hbo-macula.cg3
 	cg-comp $< $@
 
-%-book: temp/macula-merged/%.conllu data/checked/%.conllu data/manual/%.conllu
+%-book: temp/macula-merged/%.conllu data/checked/%.conllu
 	./check.sh $*
-	./update_manual.py $*
 	./filter-ready.py $*
 	./rule-stats.py $*
 
@@ -54,11 +53,11 @@ hbo-macula.bin: hbo-macula.cg3
 	mkdir -p data/filter
 	cat data/checkable/$*.conllu | udapy -s util.Filter delete_tree_if_node='node.deprel in ["parataxis", "appos"] or node.is_nonprojective()' > data/filter/$*.conllu
 
-coref/base/genesis.conllu: data/checked/genesis.conllu data/manual/genesis.conllu
+coref/base/genesis.conllu: data/checked/genesis.conllu
 	mkdir -p coref/base
 	./export.py genesis 1-50 > $@
 
-coref/base/ruth.conllu: data/checked/ruth.conllu data/manual/ruth.conllu
+coref/base/ruth.conllu: data/checked/ruth.conllu
 	mkdir -p coref/base
 	./export.py ruth 1-4 > $@
 

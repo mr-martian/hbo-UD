@@ -15,7 +15,7 @@ check_sent = 0
 check_word = 0
 by_pos = defaultdict(lambda: [0,0,0,0])
 chapters = defaultdict(lambda: [0,0])
-with open(f'temp/merged/{book}.conllu') as fin:
+with open(f'temp/macula-merged/{book}.conllu') as fin:
     for line in fin:
         if '# sent_id' in line:
             total_sents += 1
@@ -35,7 +35,7 @@ with open(f'temp/merged/{book}.conllu') as fin:
                 head += 1
             else:
                 by_pos[ls[4]][2] += 1
-            if ls[7] != '_':
+            if ls[7] not in ['_', 'dep']:
                 rel += 1
             else:
                 by_pos[ls[4]][3] += 1
@@ -57,7 +57,6 @@ def check(fname):
                     continue
                 check_word += 1
 check(f'data/checked/{book}.conllu')
-check(f'data/manual/{book}.conllu')
 
 def table(headers, rows):
     actual_headers = headers[:2]

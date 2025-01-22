@@ -658,6 +658,9 @@ WITH @cc + (CjpCjp) IF (p @advmod + CcAdvList) {
   SETPARENT _C1_ TO (srll (*)) ;
 } ;
 
+MAP @amod (AdjpAdjp) ;
+SETPARENT (AdjpAdjp) TO (p @amod LINK p (*)) ;
+
 ####################
 # Clause Connections
 ####################

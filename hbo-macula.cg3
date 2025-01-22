@@ -520,7 +520,7 @@ WITH NOMAPPED (NPofNP) {
   MAP @acl:relcl (verb ptca) ;
   MAP @obj (*) IF (p (verb ptca @acl:relcl)) ;
   MAP @nsubj (Subj) IF (p (infc c)) ;
-  MAP @compound:smixut (*) IF (p (c) OR (subs a dir_he)) ;
+  MAP @compound:smixut (*) IF (p (c) OR (subs a dir_he)) (NEGATE sl (subs) LINK pl (*)) ;
   MAP @amod (adjv gntl) IF (p (a)) ;
   MAP @nmod (adjv) ;
   MAP @obj (*) IF (p (verb ptca a)) ;
@@ -549,7 +549,7 @@ MAP @compound:smixut CompoundAble IF (p (c)) ;
 
 MAP @advcl (CLaCL) IF ((c @mark) OR (sl @mark)) ;
 MAP @dislocated (CPen Frnt CLandCL2) IF (pr (*)) ;
-LIST ListRules = 2PpaPp AdjpAdjpandAdjp AdjpandAdjpAdjp CLaCL
+LIST ListRules = 2PpaPp AdjpAdjpandAdjp AdjpandAdjpAdjp CLaCL aCLaCL
 	 		     2CLaCL 2Np 2NpaNpaNp 2Pp 3NpaNp AdjpaAdjp aNpaNp aNpaNpaNp
 				 CLaCL CLandCL2 Conj3CL Conj4Np Conj4Pp Conj5Np
 				 NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP NPaNPNPaNP NpNpNp
@@ -617,7 +617,7 @@ WITH NOMAPPED (subs PrepNp) IF (p (*)) {
   MAP @obl (*) ;
   SETCHILD (*) TO (jC1 (*)) ;
   SUBSTITUTE @obl @nmod:poss _C1_ IF (0 (prn)) ;
-  SUBSTITUTE @obl @compound:smixut _C1_ ;
+  SUBSTITUTE @obl @compound:smixut _C1_ IF (NOT 0 (_override)) ;
 } ;
 
 SETPARENT SAFE Det TO (1 (prde)) ;
@@ -652,7 +652,7 @@ WITH (PpPpPpPp) OR (PpPpPp) IF (p @obl) {
 MAP @advcl (infc uprole:PP) OR (verb ptca uprole:PP) OR (AdjP AjCl uprole:PP) IF (c @case) ;
 MAP @obl (uprole:PP) - (_) - (role:P) IF (c @case) ;
 
-LIST CcAdvList = PPandPP NpaNp ;
+LIST CcAdvList = PPandPP NpaNp aCLaCL ;
 WITH @cc + (CjpCjp) IF (p @advmod + CcAdvList) {
   SETPARENT (*) TO (p (*) LINK sr (*)) ;
   SETPARENT _C1_ TO (srll (*)) ;
@@ -775,7 +775,7 @@ LIST NPConj = NpaNp 2Np 2NpaNpaNp NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP
               NPaNPNPaNP NpNpNp NpNp Conj3Np Conj4Np Conj5Np
               NpNpNp NpNpNpNp ;
 LIST PPConj = PpaPp Conj3Pp PPandPP 2PpaPp PPandPP PpaPpPpaPp PpandPpPp ;
-LIST ClauseConj = CLaCL 2CLaCL Conj3CL Conj4CL (VP _) ;
+LIST ClauseConj = CLaCL aCLaCL 2CLaCL Conj3CL Conj4CL (VP _) ;
 SET ConjTypes = NPConj OR PPConj OR ClauseConj ;
 SETPARENT @conj + &&ConjTypes (NEGATE sr @acl:relcl OR @nmod OR @appos) (NEGATE c ("או" conj))
   TO (p @conj + &&ConjTypes LINK p (*)) ;

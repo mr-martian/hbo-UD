@@ -78,7 +78,7 @@
 19-20	וְכִלְיֹון֙	_	_	_	_	_	_	_	_
 19	וְ	ו	CCONJ	conj	_	20	cc	_	Gloss=and|Ref=RUTH_1.2
 20	כִלְיֹון֙	כליון	PROPN	nmpr	Gender=Masc|Number=Sing	18	conj	_	Gloss=Kilion|Ref=RUTH_1.2
-21	אֶפְרָתִ֔ים	אפרתי	NOUN	adjv	Gender=Masc|Number=Plur	5	parataxis	_	Gloss=Ephrathite|Ref=RUTH_1.2
+21	אֶפְרָתִ֔ים	אפרתי	NOUN	adjv	Gender=Masc|Number=Plur	5	conj	_	Gloss=Ephrathite|Ref=RUTH_1.2
 22-23	מִבֵּ֥ית	_	_	_	_	_	_	_	_
 22	מִ	מן	ADP	prep	_	23	case	_	Gloss=from|Ref=RUTH_1.2
 23	בֵּ֥ית	בית	NOUN	nmpr	Gender=Masc|Number=Sing	21	nmod	_	Gloss=Bethlehem|Ref=RUTH_1.2
@@ -436,11 +436,11 @@
 21	לַּ֨יְלָה֙	לילה	NOUN	subs	Gender=Masc|Number=Sing	23	obl	_	Gloss=night|Ref=RUTH_1.12
 22-23	לְאִ֔ישׁ	_	_	_	_	_	_	_	_
 22	לְ	ל	ADP	prep	_	23	case	_	Gloss=to|Ref=RUTH_1.12
-23	אִ֔ישׁ	אישׁ	NOUN	subs	Gender=Masc|Number=Sing	13	conj	_	Gloss=man|Ref=RUTH_1.12
+23	אִ֔ישׁ	אישׁ	NOUN	subs	Gender=Masc|Number=Sing	13	parataxis	_	Gloss=man|Ref=RUTH_1.12
 24-25	וְגַ֖ם	_	_	_	_	_	_	_	_
 24	וְ	ו	CCONJ	conj	_	26	cc	_	Gloss=and|Ref=RUTH_1.12
 25	גַ֖ם	גם	ADV	advb	_	26	advmod	_	Gloss=even|Ref=RUTH_1.12
-26	יָלַ֥דְתִּי	ילד	VERB	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	13	conj	_	Gloss=bear|Ref=RUTH_1.12
+26	יָלַ֥דְתִּי	ילד	VERB	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=1|VerbForm=Fin	23	conj	_	Gloss=bear|Ref=RUTH_1.12
 27	בָנִֽים	בן	NOUN	subs	Gender=Masc|Number=Plur	26	obj	_	Gloss=son|Ref=RUTH_1.12|SpaceAfter=No
 28	׃	׃	PUNCT	punct	_	1	punct	_	Ref=RUTH_1.12
 
@@ -916,13 +916,13 @@
 15-16	מִקְרֶ֔הָ	_	_	_	_	_	_	_	_
 15	מִקְרֶ֔	מקרה	NOUN	subs	Gender=Masc|Number=Sing	14	nsubj	_	Gloss=accident|Ref=RUTH_2.3
 16	הָ	היא	PRON	prn	Gender=Fem|Number=Sing|Person=3|PronType=Prs	15	nmod:poss	_	Ref=RUTH_2.3
-17	חֶלְקַ֤ת	חלקה	NOUN	subs	Gender=Fem|Number=Sing	21	nsubj	_	Gloss=plot of land|Ref=RUTH_2.3
+17	חֶלְקַ֤ת	חלקה	NOUN	subs	Gender=Fem|Number=Sing	14	xcomp	_	Gloss=plot of land|Ref=RUTH_2.3
 18-19	הַשָּׂדֶה֙	_	_	_	_	_	_	_	_
 18	הַ	ה	DET	art	PronType=Art	19	det	_	Gloss=the|Ref=RUTH_2.3
 19	שָּׂדֶה֙	שׂדה	NOUN	subs	Gender=Masc|Number=Sing	17	compound:smixut	_	Gloss=open field|Ref=RUTH_2.3
 20-21	לְבֹ֔עַז	_	_	_	_	_	_	_	_
 20	לְ	ל	ADP	prep	_	21	case	_	Gloss=to|Ref=RUTH_2.3
-21	בֹ֔עַז	בעז	PROPN	nmpr	Gender=Masc|Number=Sing	2	parataxis	_	Gloss=Boaz|Ref=RUTH_2.3
+21	בֹ֔עַז	בעז	PROPN	nmpr	Gender=Masc|Number=Sing	17	nmod	_	Gloss=Boaz|Ref=RUTH_2.3
 22	אֲשֶׁ֖ר	אשׁר	SCONJ	conj	_	24	mark	_	Gloss=<relative>|Ref=RUTH_2.3
 23-24	מִמִּשְׁפַּ֥חַת	_	_	_	_	_	_	_	_
 23	מִ	מן	ADP	prep	_	24	case	_	Gloss=from|Ref=RUTH_2.3
@@ -1704,7 +1704,7 @@
 19	לִ	ל	ADP	prep	_	20	case	_	Gloss=to|Ref=RUTH_2.21
 20	י֙	אני	PRON	prn	Number=Sing|Person=1|PronType=Prs	16	acl:relcl	_	Ref=RUTH_2.21
 21	תִּדְבָּקִ֔ין	דבק	VERB	verb	Aspect=Imp|Gender=Fem|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	10	ccomp	_	Gloss=cling, cleave to|Ref=RUTH_2.21
-22	עַ֣ד	עד	SCONJ	prep	_	25	mark	_	Gloss=unto|Ref=RUTH_2.21
+22	עַ֣ד	עד	ADP	prep	ExtPos=SCONJ	25	mark	_	Gloss=unto|Ref=RUTH_2.21
 23	אִם	אם	SCONJ	conj	_	22	fixed	_	Gloss=if|Ref=RUTH_2.21|SpaceAfter=No
 24	־	־	PUNCT	punct	_	22	punct	_	Ref=RUTH_2.21|SpaceAfter=No
 25	כִּלּ֔וּ	כלה	VERB	verb	Aspect=Perf|HebBinyan=PIEL|Mood=Ind|Number=Plur|Person=3|VerbForm=Fin	21	advcl	_	Gloss=be complete|Ref=RUTH_2.21

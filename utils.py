@@ -127,7 +127,12 @@ def grapheme_clusters(hbo):
                 yield (c, d, v)
                 c, d, v = None, False, None
             if cat == 'Lo':
-                c = names[ord(ch) - 0x5d0]
+                if ord(ch) == 0xfb2a:
+                    c = 'shin'
+                elif ord(ch) == 0xfb2b:
+                    c = 'sin'
+                else:
+                    c = names[ord(ch) - 0x5d0]
             elif cat in ['Po', 'Pd']:
                 yield ('punct', False, ch)
             elif cat == 'Zs':
@@ -225,7 +230,7 @@ def transliterate_loc(hbo, latex):
             last_vowel_null = False
         else:
             if c in begedkefet:
-                ret += begedkefet[c][int(last_vowel_null)]
+                ret += begedkefet[c][int(last_vowel_null or d)]
             else:
                 ret += letters[c]
             if v in letters:

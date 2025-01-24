@@ -292,7 +292,12 @@ class Sentence:
             verse = f'{chs}:{vs}'
         self.sid = f'Masoretic-{book}-{verse}-hbo'
     def to_conllu(self):
+        for w in self.all_words:
+            if w.xpos != 'punct':
+                tr = utils.transliterate_loc(w.surf, False)
+                w.misc.append('Translit=' + tr)
         ret = f'# sent_id = {self.sid}\n# text = {self.text}\n'
+        ret += '# translit = ' + utils.transliterate_loc(self.text, False) + '\n'
         return ret + '\n'.join(w.to_conllu() for w in self.all_words) + '\n'
 
 if __name__ == '__main__':

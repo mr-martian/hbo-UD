@@ -115,7 +115,6 @@ LIST Relation = @acl:relcl @advcl @advmod @amod @appos @aux @case @cc @ccomp @co
 LIST NPish = NP PP ;
 LIST SubsOverride = (Genesis w20500) (Ruth w1233) (Genesis w13703) (Genesis w14216) ; # actually nouns, don't retag as prep
 LIST ItgAdv = "מתי" "איפה" "איך" "אן" "מדוע" "למה" "אי" "איה" "אין" ;
-LIST VoctNonCROverride = (Genesis s81570) (Genesis s81725) (Genesis s85145) (Genesis s82809) (Genesis w9312) ;
 LIST ActuallyInf = (Genesis w13111) ;
 
 ########################################
@@ -135,30 +134,12 @@ REMCOHORT IGNORED REPEAT (punct) ;
 # Corrections
 ####################
 
-LIST MislabeledAsNarrative = w1404 w1405 w1423 w1424 w14251 w14252 w14253 (Genesis s80885) (Ruth s5672) (Ruth s5673) (Genesis s83562) (Ruth s5647) (Ruth s5650) (Ruth s5651) (Genesis s85072) (Genesis s83308) (Genesis s83309) (Genesis s84608) (Genesis s83116) (Genesis s83082) (Genesis s81615) (Genesis s81616) (Genesis s81881) ;
-SUBSTITUTE (N) (Q) MislabeledAsNarrative ;
-
-LIST UnknownShouldBeNarrative = (Genesis w2137) ;
-SUBSTITUTE (?) (N) UnknownShouldBeNarrative ;
-
 SUBSTITUTE (infc) (infa) (Ruth w797) ;
 
 ADD (m) Noun - AGen IF (0 Masculine OR MasculineMixed) ;
 ADD (f) Noun - AGen IF (0 FeminineMixed) ;
 
 SUBSTITUTE (a) (c) (Genesis w3485) ;
-
-####################
-# Nested Quotations
-####################
-
-LIST DoubleQuoteGen = s80831 s80834 s80836 s80837 s80886 s81424 s81443 s81543 s81737 s81766 s81767 s81785 s81829 s81933 s81999 s82001 s82028 s82037 s82159 s82295 s82315 s82367 s82380 s82382 s82410 s82412 s82413 s82446 s82450 s82599 s82626 s82629 s82776 s82946 s83252 s83255 s83285 s83303 s83318 s83319 s83327 s83431 s83432 s83449 s83459 s83470 s83474 s83479 s83480 s83482 s83510 s83626 s83628 s83906 s83919 s84071 s84283 s84313 s84382 s84435 s84464 s84492 s84537 s84545 s84551 s84552 s84555 s84638 s84673 s84681 s84708 s84709 s84719 s84722 s84765 s84804 s84805 s84828 s84934 s84941 s84943 s85134 s85229 s85230 s85261 s85262
-c29820 ; # TODO: handle rela:Objc properly
-LIST DoubleQuoteRuth = s5648 s5649 s5720 s5825 ;
-SET DoubleQuote = (Genesis) + DoubleQuoteGen OR (Ruth) + DoubleQuoteRuth ;
-SUBSTITUTE (Q) (QQ) DoubleQuote ;
-
-ADD NQ (*) - QuoteLevel ;
 
 ####################
 # MWE names
@@ -252,15 +233,6 @@ SUBSTITUTE (subs) (advb retag:subs) ("עוד" padv role:ADV) ;
 ####################
 # Lookup table overrides
 ####################
-
-LIST ChildOverrides = (Genesis w45) ;
-LIST ParentOverrides = (Genesis w41) ;
-
-SETPARENT ChildOverrides TO (0* ParentOverrides) ;
-
-LIST ObjOverrides = (Genesis w45) ;
-
-MAP @obj ObjOverrides ;
 
 WITH ("נגד" subs role:PP) IF (-1 ("כ" prep) LINK -1 ("עזר" subs)) {
   SETPARENT (*) TO (jC1 (*)) ;

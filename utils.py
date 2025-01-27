@@ -107,7 +107,7 @@ def iter_words(block):
             yield ls
 
 def consonants_only(hbo):
-    return ''.join(c for c in hbo if unicodedata.category(c) in ['Lo', 'Po', 'Zs'])
+    return ''.join(c for c in hbo if unicodedata.category(c) in ['Lo', 'Po', 'Zs', 'Pd'])
 
 def grapheme_clusters(hbo):
     names = ['alef', 'bet', 'gimel', 'dalet', 'he', 'vav', 'zayin',

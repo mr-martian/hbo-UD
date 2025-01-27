@@ -114,7 +114,7 @@ LIST Relation = @acl:relcl @advcl @advmod @amod @appos @aux @case @cc @ccomp @co
 
 LIST NPish = NP PP ;
 LIST SubsOverride = (Genesis w20500) (Ruth w1233) (Genesis w13703) (Genesis w14216) ; # actually nouns, don't retag as prep
-LIST ItgAdv = "מתי" "איפה" "איך" "אן" "מדוע" ;
+LIST ItgAdv = "מתי" "איפה" "איך" "אן" "מדוע" "למה" "אי" "איה" "אין" ;
 LIST VoctNonCROverride = (Genesis s81570) (Genesis s81725) (Genesis s85145) (Genesis s82809) (Genesis w9312) ;
 LIST ActuallyInf = (Genesis w13111) ;
 
@@ -280,7 +280,6 @@ MAP @case Pr - (ExtPos=SCONJ) ;
 MAP @cc (conj) - (Rela) ;
 SET AdvAsNP = (PPandPP) - (focp) ;
 MAP @advmod ADV - (role:P) - (ClCl2) - (ClCl) - AdvAsNP ;
-MAP @advmod ("למה" inrg) ;
 MAP @discourse (intj) - (role:P) OR (intj uprole:S) ; # TODO: is there a better way to handle הנה?
 MAP @expl (prde InrP) - (_) ;
 
@@ -855,15 +854,15 @@ WITH @amod IF (p (*) LINK p (role:V)) (p (*) LINK sllr (*) LINK 1* _TARGET_) {
   SUBSTITUTE @amod @xcomp (*) ;
 } ;
 
-SETPARENT (NpCL) TO (p @expl LINK p (inrg InrP) OR (prin InrP)) ;
-WITH (NpCL) OR (ClCl) OR (VP P-S) IF (p (inrg InrP) OR (prin InrP)) {
+SETPARENT (NpCL) TO (p @expl LINK p (advb retag:inrg InrP) OR (prin InrP)) ;
+WITH (NpCL) OR (ClCl) OR (VP P-S) IF (p (advb retag:inrg InrP) OR (prin InrP)) {
   UNMAP (*) ;
   MAP $$Relation (*) IF (jC1 $$Relation) ;
   ADD (_) (*) IF (jC1 (_)) ;
   SETPARENT (*) TO (p (*) LINK p (*)) ;
   SETCHILD (*) TO (jC1 (*)) ;
   SETCHILD (*) TO (jC1 (*) LINK c @expl) ;
-  SUBSTITUTE Relation @advmod (*) IF (jC1A (inrg)) ;
+  SUBSTITUTE Relation @advmod (*) IF (jC1A (advb retag:inrg)) ;
   SUBSTITUTE Relation @obl (*) IF (jC1A (prin)) ;
 } ;
 

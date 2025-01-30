@@ -21,7 +21,7 @@ LIST Noun = subs nmpr (verb ptcp) (verb ptca) ;
 LIST RelMark = ("אשׁר" conj @mark) ("ה" conj CP Rela) ("שׁ" conj) ;
 LIST PRON = prde prps prn ;
 LIST ADV = advb nega ;
-LIST SCONJ = "כי" "פן" "אשׁר" "אם" "שׁ" "ה" "לולא" "לו" (conj retag:prep) (conj retag:subs ppre) ;
+LIST SCONJ = "כי" "פן" "אשׁר" "אם" "שׁ" "ה" "לולא" "לו" (conj retag:prep) (conj retag:subs ppre) ExtPos=SCONJ ;
 
 ####################
 # Subcategories
@@ -38,13 +38,6 @@ LIST Participle = ptca ptcp ;
 LIST Function = Adju Cmpl Conj EPPr ExsS Exst Frnt Intj IntS Loca Modi ModS NCop NCoS Nega Objc PrAd PrcS PreC Pred PreO PreS PtcO Ques Rela Subj Supp Time Unkn Voct ;
 LIST ClauseType = AjCl CPen Defc Ellp InfA InfC MSyn NmCl Ptcp Reop Unkn Voct Way0 WayX WIm0 WImX WQt0 WQtX WxI0 WXIm WxIX WxQ0 WXQt WxQX WxY0 WXYq WxYX WYq0 WYqX xIm0 XImp xImX XPos xQt0 XQtl xQtX xYq0 XYqt xYqX ZIm0 ZImX ZQt0 ZQtX ZYq0 ZYqX ; # feature typ
 LIST AGen = m f ;
-
-####################
-# Helper labels
-####################
-
-LIST NQ = NQ ;
-LIST QuoteLevel = NQ Q QQ ;
 
 ####################
 # Word lists
@@ -75,7 +68,6 @@ LIST @advmod = @advmod ; # An adverbial modifier
 LIST @case = @case ;     # The relation of an adposition to its head
 LIST @acl:relcl = @acl:relcl ;       # A clause which modifies a nominal
 LIST @nmod = @nmod ;     # Nominal modifier
-LIST @dobj = @dobj ;     # The direct object of the sentence
 LIST @punct = @punct ;   # Any punctuation
 LIST @cop = @cop ;       #
 LIST @nmod:poss = @nmod:poss ;
@@ -83,12 +75,10 @@ LIST @obl = @obl ;
 LIST @obl:npmod = @obl:npmod ;
 LIST @obj = @obj ;
 LIST @advcl = @advcl ;
-LIST @aux = @aux ;
 LIST @parataxis = @parataxis ;
 LIST @det = @det ;
 LIST @csubj = @csubj ;
 LIST @nummod = @nummod ;
-LIST @compound = @compound ;
 LIST @compound:smixut = @compound:smixut ;
 LIST @cc = @cc ;
 LIST @conj = @conj ;
@@ -183,10 +173,6 @@ WITH ("בלת" subs) - @fixed IF (-1 ("ל" prep)) {
 ####################
 # Retagging
 ####################
-
-# quotation
-# TODO: use attach version and/or don't retokenize
-MERGECOHORTS DETACH ("<le'emor>" "$2$1"v SCONJ *) ("(אמר)"r verb infc) - ActuallyInf WITH (-1 ("(ל)"r prep)) ;
 
 # Substantivized adjectives
 SUBSTITUTE (adjv) (subs retag:adjv) (c) ;
@@ -536,6 +522,18 @@ WITH (verb infc) + FinCLPP IF (c (prep PrepCL)) {
   MAP @advcl (*) ;
 } ;
 
+SWITCHPARENT (*) - (prep) IF (p ("אמר" verb infc) - ActuallyInf LINK -1 ("ל" prep)) ;
+WITH ("ל" prep) IF (1 ("אמר" verb infc) - ActuallyInf) {
+REMPARENT (*) - (quoteoverride) ;
+UNMAP (*) ;
+UNMAP _C1_ ;
+SETCHILD (*) TO (jC1 (*)) ;
+MAP @fixed _C1_ ;
+REMCOHORT IGNORED _C1_ ;
+MAP (SCONJ quot ExtPos=SCONJ @mark) (*) ;
+} ;
+
+
 ####################
 # Other rules
 ####################
@@ -862,14 +860,6 @@ WITH @root IF (p (*) LINK p (*)) {
   SUBSTITUTE @root @advcl (verb infc) IF (c @case) ;
   SUBSTITUTE @root @parataxis (*) ;
 } ;
-
-# 1240 - hack because MERGECOHORTS retaining deps requires refactoring
-SETPARENT (Genesis w23794) TO (1* (w23797)) ;
-# 1263
-SETPARENT (Genesis w24243) TO (1* (w24247)) ;
-# 1107
-SETPARENT (Genesis w21218) TO (1* (w21219)) ;
-SUBSTITUTE @conj @advcl (Genesis w21219) ;
 
 REMCOHORT (pb) ;
 REMCOHORT (cb) ;

@@ -1,6 +1,11 @@
 DELIMITERS = "<svb>" ;
 OPTIONS += addcohort-attach ;
 
+# manual-arcs tags
+# - _override: don't apply SETPARENT (_) ... ; rules
+# - actuallyinf: this אמר is not לאמר SCONJ
+# - quoteoverride: don't edit the head of this לאמר (set on prep)
+
 ####################
 # Boundaries
 ####################
@@ -105,7 +110,6 @@ LIST Relation = @acl:relcl @advcl @advmod @amod @appos @aux @case @cc @ccomp @co
 LIST NPish = NP PP ;
 LIST SubsOverride = (Genesis w20500) (Ruth w1233) (Genesis w13703) (Genesis w14216) ; # actually nouns, don't retag as prep
 LIST ItgAdv = "מתי" "איפה" "איך" "אן" "מדוע" "למה" "אי" "איה" "אין" ;
-LIST ActuallyInf = (Genesis w13111) ;
 
 ########################################
 # INDIVIDUAL WORDS
@@ -126,8 +130,8 @@ REMCOHORT IGNORED REPEAT (punct) ;
 
 SUBSTITUTE (infc) (infa) (Ruth w797) ;
 
-ADD (m) Noun - AGen IF (0 Masculine OR MasculineMixed) ;
-ADD (f) Noun - AGen IF (0 FeminineMixed) ;
+SUBSTITUTE (*) (m) Noun - AGen IF (0 Masculine OR MasculineMixed) ;
+SUBSTITUTE (*) (f) Noun - AGen IF (0 FeminineMixed) ;
 
 SUBSTITUTE (a) (c) (Genesis w3485) ;
 
@@ -522,8 +526,8 @@ WITH (verb infc) + FinCLPP IF (c (prep PrepCL)) {
   MAP @advcl (*) ;
 } ;
 
-SWITCHPARENT (*) - (prep) IF (p ("אמר" verb infc) - ActuallyInf LINK -1 ("ל" prep)) ;
-WITH ("ל" prep) IF (1 ("אמר" verb infc) - ActuallyInf) {
+SWITCHPARENT (*) - (prep) IF (p ("אמר" verb infc) - (actuallyinf) LINK -1 ("ל" prep)) ;
+WITH ("ל" prep) IF (1 ("אמר" verb infc) - (actuallyinf)) {
 REMPARENT (*) - (quoteoverride) ;
 UNMAP (*) ;
 UNMAP _C1_ ;

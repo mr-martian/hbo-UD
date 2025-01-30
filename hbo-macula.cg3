@@ -198,7 +198,9 @@ LIST AdvRules = AdvpNp AdvpNump AdjpAdvp ;
 SUBSTITUTE (subs) (advb retag:subs) (padv) + AdvRules ;
 
 # Determiner on clause participles
-SUBSTITUTE (art) (conj retag:art) (CP Rela) ;
+SUBSTITUTE (art) (conj retag:art) (CP Rela)
+        IF (NEGATE 0 (DetAdjp) LINK p (adjv NpAdjp))
+        (NEGATE 0 (DetNP) LINK p (adjv role:O)) ;
 
 # Prepositions tagged as nouns
 SUBSTITUTE (subs) (conj retag:subs) ConjAbleSubsPrep + (CP) ;

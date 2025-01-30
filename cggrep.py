@@ -14,7 +14,7 @@ args = parser.parse_args()
 
 n = 1
 cur = []
-pat = re.compile(args.query)
+pat = re.compile(args.query, re.MULTILINE)
 negpat = None
 if args.v:
     negpat = re.compile(args.v)

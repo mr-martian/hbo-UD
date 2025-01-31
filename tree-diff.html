@@ -56,7 +56,7 @@ L ${dep} ${baseline}`;
 <g stroke="${arc.color}" fill="none">
   <path d="${arc_path(baseline, head, dep, arc.height)}"/>
   <path d="${arc_head(baseline, dep)}"/>
-  <text x="${(head+dep)/2}" y="${baseline - arc.height*70 - 20}">${label}</text>
+  <text x="${(head+dep)/2 - 2*label.length}" y="${baseline - arc.height*70 - 15}" transform="rotate(-20,${(head+dep)/2},${baseline - arc.height*70 - 20})">${label}</text>
 </g>`;
 	  }
       ).join('');

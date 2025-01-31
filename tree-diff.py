@@ -7,13 +7,12 @@ import sys
 import utils
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--macula', '-m', action='store_true')
+parser.add_argument('--show', '-s', action='store_true')
 parser.add_argument('book', action='store')
 parser.add_argument('verse', action='store')
 args = parser.parse_args()
 
-m = 'macula-' if args.macula else ''
-fgen = f'temp/{m}merged/{args.book}.conllu'
+fgen = f'temp/macula-merged/{args.book}.conllu'
 fref = f'data/checked/{args.book}.conllu'
 
 gen = utils.load_conllu(fgen)
@@ -56,6 +55,8 @@ rows += f'<tr><td colspan="{len(words)}">{text}</td></tr>'
 
 if sid in ref:
     block = ref[sid][1]
+elif args.show:
+    block = gen[sid][1]
 else:
     print(f'Reference for {args.book} {args.verse} not found.')
     sys.exit(1)

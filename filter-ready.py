@@ -13,6 +13,10 @@ def is_complete(block):
             continue
         if '_' in [ls[3], ls[6], ls[7]]:
             return False
+        if ls[7] == 'dep':
+            return False
+        if ls[7] != 'root' and ls[6] == '0':
+            return False
     return True
 
 check = utils.load_conllu(f'data/checked/{book}.conllu')

@@ -31,7 +31,7 @@ with open(f'temp/macula-merged/{book}.conllu') as fin:
                 pos += 1
             else:
                 by_pos[ls[4]][1] += 1
-            if ls[6] != '_':
+            if ls[6] != '_' and not (ls[6] == '0' and ls[7] != 'root'):
                 head += 1
             else:
                 by_pos[ls[4]][2] += 1

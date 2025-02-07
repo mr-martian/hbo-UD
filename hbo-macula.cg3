@@ -545,7 +545,6 @@ REMCOHORT IGNORED _C1_ ;
 MAP (SCONJ quot ExtPos=SCONJ @mark) (*) ;
 } ;
 
-
 ####################
 # Other rules
 ####################
@@ -603,6 +602,12 @@ WITH NOMAPPED (subs PrepNp) IF (p (*)) {
 
 SETPARENT SAFE Det TO (1 (prde)) ;
 
+WITH (Ellp Subj @parataxis) IF (sr (Ellp) - (Subj)) {
+SETCHILD (*) TO (jC1 (*)) ;
+UNMAP _C1_ ;
+MAP @orphan _C1_ ;
+} ;
+
 SECTION
 
 SETPARENT (*) TO (p ("ו" conj) LINK p (*)) ;
@@ -652,7 +657,7 @@ SECTION
 LIST TextLevel = <txt:0> <txt:1> <txt:2> ;
 
 SET NonPredAdv = (advb) - (role:P) ;
-SET Top = (_) - (conj) - @discourse - NonPredAdv ;
+SET Top = (_) - (conj) - @discourse - NonPredAdv - @obl ;
 
 SETPARENT (conj _) (p (>>>)) TO (1* (_)) ;
 SETPARENT @mark TO (p @obl LINK p (*)) ;

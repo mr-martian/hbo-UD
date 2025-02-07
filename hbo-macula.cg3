@@ -26,7 +26,7 @@ LIST Noun = subs nmpr (verb ptcp) (verb ptca) ;
 LIST RelMark = ("אשׁר" conj @mark) ("ה" conj CP Rela) ("שׁ" conj) ;
 LIST PRON = prde prps prn ;
 LIST ADV = advb nega ;
-LIST SCONJ = "כי" "פן" "אשׁר" "אם" "שׁ" "ה" "לולא" "לו" (conj retag:prep) (conj retag:subs ppre) ExtPos=SCONJ ;
+LIST SCONJ = "כי" "פן" "אשׁר" "אם" "שׁ" "ה" "לולא" "לו" "זו" (conj retag:prep) (conj retag:subs ppre) ExtPos=SCONJ ;
 
 ####################
 # Subcategories
@@ -194,8 +194,10 @@ SUBSTITUTE (verb) (subs retag:verb) Participle + (c) IF (c (NPofNP)) ;
 # Adverbs tagged subs
 SET AdvOk = (*) - (prn ModS) - ("מאד" padv) ;
 SUBSTITUTE (subs) (advb retag:subs) (padv) - (NP) (-1* BD BARRIER AdvOk) (1* BD BARRIER AdvOk) ;
-LIST AdvRules = AdvpNp AdvpNump AdjpAdvp ;
-SUBSTITUTE (subs) (advb retag:subs) (padv) + AdvRules ;
+LIST AdvRules = AdvpNp AdvpNump AdjpAdvp NpAdvp AdvpNp2advp AdvpPp ;
+SUBSTITUTE (subs) (advb retag:subs) (padv) + AdvRules - (c) ;
+SUBSTITUTE (subs) (advb retag:subs) ("עוד" padv role:ADV) ;
+SUBSTITUTE (subs) (advb retag:subs) ("עוד" padv AdvpNp) ;
 
 # Determiner on clause participles
 SUBSTITUTE (art) (conj retag:art) (CP Rela)
@@ -219,8 +221,6 @@ SUBSTITUTE (subs) (verb retag:subs ClauseRoot) (nmcp) ;
 
 # interrogative adverbs
 SUBSTITUTE (inrg) (advb retag:inrg) ItgAdv ;
-
-SUBSTITUTE (subs) (advb retag:subs) ("עוד" padv role:ADV) ;
 
 ####################
 # Lookup table overrides
@@ -366,11 +366,11 @@ WITH NOMAPPED roleVP {
   MAP @acl:relcl (NpCL) IF (p (prde IPrP)) ;
   MAP @parataxis (NpCL) - (ptca) - (ptcp) - (nmcp) - (rela:Attr) IF (NEGATE c @mark) ;
   MAP @obl (uvf:H AdvP uprole:ADV) OR (Cmpl V-ADV uprole:ADV) ;
-  MAP @csubj (verb ptca uprole:S) ;
+  MAP @csubj (verb uprole:S) ;
   MAP @xcomp (verb ptca uprole:ADV) ;
   MAP @nsubj (PrNP uprole:S) ;
   MAP @obl (role:P uprole:P) IF (c @case) (p (role:ADV)) ;
-  MAP @advcl (uprole:PP) IF (c (PrepCL @mark)) (NEGATE p XcompInf) ;
+  MAP @advcl (uprole:PP) IF (c (PrepCL @mark) OR (subs PrepCL)) (NEGATE p XcompInf) ;
 } ;
 
 ####################
@@ -439,19 +439,20 @@ WITH NOMAPPED (ClCl) {
   MAP @parataxis (*) ;
 } ;
 
-LIST NorP = NP PP PrNP PPrP ;
+LIST NorP = NP PP PrNP PPrP DPrP ;
 LIST dislocatedClCl2 = (CPen Frnt) Subj Adju PreC ;
 WITH NOMAPPED (ClCl2) {
   MAP @obl (PP Time) ;
   MAP @vocative (Voct) IF (p (_) OR (role:P) OR (role:V)) ;
   MAP @vocative (<txt:0>) IF (p (<txt:1>)) ;
-  MAP @dislocated dislocatedClCl2 + NorP OR dislocatedClCl2 + (prde);
+  MAP @dislocated dislocatedClCl2 + NorP OR dislocatedClCl2 + (prde) OR dislocatedClCl2 + (prin) ;
   MAP @obl (Modi) + NorP ;
   MAP @acl:relcl (*) IF (p (prep)) ;
   MAP @acl:relcl (role:V) IF (c (relCL @mark) LINK sl (prep PrepNp)) ;
   MAP @xcomp (role:V) IF (c (relCL @mark)) ;
   MAP @advcl (nmcp) OR (role:V uprole:V) ;
   MAP @advcl (*) IF (c (conj) - ("ו")) ;
+  MAP @advmod (advb) IF (c @acl:relcl) ;
 } ;
 
 WITH NOMAPPED (NP3NP) {
@@ -503,6 +504,8 @@ WITH NOMAPPED (ppCL) IF (p ppCL2advcl) {
 } ;
 MAP @acl:relcl (ppCL) ;
 
+MAP @obl (subs PrepCL) ;
+
 MAP @obl (PtclCL) ;
 
 MAP @acl:relcl (verb ptca a) IF (p (c)) ;
@@ -513,11 +516,14 @@ MAP @compound:smixut CompoundAble IF (p (c)) ;
 MAP @advcl (CLaCL) IF ((c @mark) OR (sl @mark)) ;
 MAP @dislocated (CPen Frnt CLandCL2) IF (pr (*)) ;
 LIST ListRules = 2PpaPp AdjpAdjpandAdjp AdjpandAdjpAdjp CLaCL aCLaCL
-	 		     2CLaCL 2Np 2NpaNpaNp 2Pp 3NpaNp AdjpaAdjp aNpaNp aNpaNpaNp
-				 CLaCL CLandCL2 Conj3CL Conj4Np Conj4Pp Conj5Np
-				 NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP NPaNPNPaNP NpNpNp
-				 NPNPNPaNPaNP NpNpNp NpNpNpNp NpPp NumpAndNump
-				 PPandPP PpaPpPpaPp Relp3Relp PpPp PpandPpPp ;
+	 		  2CLaCL 2Np 2NpaNpaNp 2Pp 3NpaNp AdjpaAdjp aNpaNp aNpaNpaNp
+				CLaCL CLandCL2 Conj3CL Conj4Np Conj4Pp Conj5Np
+				NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP NPaNPNPaNP NpNpNp
+				NPNPNPaNPaNP NpNpNp NpNpNpNp NpPp NumpAndNump
+				PPandPP PpaPpPpaPp Relp3Relp PpPp PpandPpPp NPNPaNPNPaNP
+        CjpAdvpCjpAdvp NPNPaNPaNPaNP NumpaNumpaNumpaNump NPaNPaNPaNPNP
+        PPPP4 NpNpNpNpNp NpNp6 aPpaPpaPp NumpaNumpaNump PpPpPpPpandPp
+        NPaNPaNPaNPNPaNP NpNp5 3Adjp PpPpPpPpPp PpPpPp ;
 MAP @conj ListRules ;
 
 MAP @csubj FinCL + (rela:Subj) ;
@@ -622,6 +628,7 @@ WITH (nmpr) IF (-1 (subs c)) (NOT p (*)) {
 WITH (PpPpPpPp) OR (PpPpPp) IF (p @obl) {
   SETPARENT (*) TO (p (*) LINK p (*)) ;
   MAP @obl (*) ;
+  SUBSTITUTE @conj @obl (*) ;
 } ;
 
 MAP @advcl (infc uprole:PP) OR (verb ptca uprole:PP) OR (AdjP AjCl uprole:PP) IF (c @case) ;
@@ -751,8 +758,9 @@ SETPARENT (_ <txt:1>) - (_override) (p (<txt:0>)) TO (slll (_ <txt:1>) - (conj))
 
 LIST NPConj = NpaNp 2Np 2NpaNpaNp NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP
               NPaNPNPaNP NpNpNp NpNp Conj3Np Conj4Np Conj5Np
-              NpNpNp NpNpNpNp ;
-LIST PPConj = PpaPp Conj3Pp PPandPP 2PpaPp PPandPP PpaPpPpaPp PpandPpPp ;
+              NpNpNp NpNpNpNp NPNPaNPNPaNP NPNPaNPaNPaNP ;
+LIST PPConj = PpaPp Conj3Pp PPandPP 2PpaPp PPandPP PpaPpPpaPp PpandPpPp
+        aPpaPpaPp ;
 LIST ClauseConj = CLaCL aCLaCL 2CLaCL Conj3CL Conj4CL (VP _) ;
 SET ConjTypes = NPConj OR PPConj OR ClauseConj ;
 SETPARENT @conj + &&ConjTypes (NEGATE sr @acl:relcl OR @nmod OR @appos) (NEGATE c ("או" conj))
@@ -866,6 +874,8 @@ WITH @root IF (p (*) LINK p (*)) {
   SUBSTITUTE @root @advcl (verb infc) IF (c @case) ;
   SUBSTITUTE @root @parataxis (*) ;
 } ;
+
+SETPARENT (*) (p (>>>)) TO (slll (*)) ;
 
 REMCOHORT (pb) ;
 REMCOHORT (cb) ;

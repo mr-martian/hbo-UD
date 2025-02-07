@@ -112,6 +112,19 @@ HEAD_OVERRIDE = {
     'ppPP6PP': 0,
     'ppappPP5PP': 0,
     '2Advp_h2': 0,
+    'CjpAdvpCjpAdvp': 1,
+    'NPNPaNPaNPaNP': 0,
+    'NumpaNumpaNumpaNump': 0,
+    'NPaNPaNPaNPNP': 0,
+    'NpNpNpNpNp': 0,
+    'aPpaPpaPp': 1,
+    'NumpaNumpaNump': 0,
+    'PpPpPpPpandPp': 0,
+    'NPaNPaNPaNPNPaNP': 0,
+    'NpNp5': 0,
+    '3Adjp': 0,
+    'PpPpPpPpPp': 0,
+    'PpPpPp': 0,
 }
 
 book_names = {

@@ -53,7 +53,7 @@ LIST Lemma = ".*"r ;
 LIST ConjAblePrep = "כמו" "למען" "עד" ;
 LIST ConjAbleSubsPrep = "בלת" ;
 LIST SubsToPrep = "אחר" "בין" "אצל" "בעד" ;
-LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "קרב" "יאל" "לאה" "צוה" "נתן" "אבה" ;
+LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "קרב" "יאל" "לאה" "צוה" "נתן" "אבה" "מאן" ;
 
 LIST Masculine = "מכיר" "אשׁר" "בצע" "בקר" ;
 # TODO: BDB says sometimes masculine
@@ -243,7 +243,7 @@ MAP @obl Pr IF (1 RelMark) ;
 MAP @case Pr - (ExtPos=SCONJ) ;
 MAP @cc (conj) - (Rela) ;
 SET AdvAsNP = (PPandPP) - (focp) ;
-MAP @advmod ADV - (role:P) - (ClCl2) - (ClCl) - AdvAsNP ;
+MAP @advmod ADV - (role:P) - (ClCl2) - (ClCl) - AdvAsNP - (AdvpandAdvp) ;
 MAP @discourse (intj) - (role:P) OR (intj uprole:S) ; # TODO: is there a better way to handle הנה?
 MAP @expl (prde InrP) - (_) ;
 
@@ -306,6 +306,7 @@ WITH NOMAPPED (role:ADV) {
   MAP @obl (NP rela:Attr) OR (NP Time) OR (adjv ordn) OR (NP Modi)
     IF (NOT 0 (Ellp CLaCL)) ;
   MAP @obl (NP) + VerbCL IF (NEGATE s (role:O)) ;
+  MAP @obl (NP Loca) + VerbCL ;
   MAP @xcomp (NP) + VerbCL - (Adju) ;
   MAP @obl:npmod (infa) + $$Lemma IF (p $$Lemma) (NEGATE c (CLaCL) OR (AdvpandAdvp)) ;
   MAP @advcl (infa) OR (infc) ;
@@ -445,7 +446,7 @@ WITH NOMAPPED (ClCl2) {
   MAP @obl (PP Time) ;
   MAP @vocative (Voct) IF (p (_) OR (role:P) OR (role:V)) ;
   MAP @vocative (<txt:0>) IF (p (<txt:1>)) ;
-  MAP @dislocated dislocatedClCl2 + NorP OR dislocatedClCl2 + (prde) OR dislocatedClCl2 + (prin) ;
+  MAP @dislocated dislocatedClCl2 + NorP OR dislocatedClCl2 + (prde) OR dislocatedClCl2 + (prin) IF (NEGATE c @nsubj) ;
   MAP @obl (Modi) + NorP ;
   MAP @acl:relcl (*) IF (p (prep)) ;
   MAP @acl:relcl (role:V) IF (c (relCL @mark) LINK sl (prep PrepNp)) ;
@@ -465,7 +466,7 @@ WITH NOMAPPED (NpAdjp) {
   MAP @acl:relcl (verb) ;
   MAP @nummod (adjv ordn) ;
   MAP @nmod (subs retag:adjv) IF (NOT p (c)) ;
-  MAP @compound:smixut (subs retag:adjv) ;
+  MAP @compound:smixut (subs retag:adjv) IF (NEGATE sl @compound:smixut) ;
   MAP @amod (*) ;
 } ;
 
@@ -529,7 +530,7 @@ MAP @conj ListRules ;
 MAP @csubj FinCL + (rela:Subj) ;
 
 WITH (verb infc) + FinCLPP IF (c (prep PrepCL)) {
-  MAP @xcomp (*) IF (p XcompInf) (NEGATE c ("עד" @case)) ;
+  MAP @xcomp (*) IF (p XcompInf) (NEGATE c ("עד" @case) OR ("אחר" @case)) (NEGATE s @xcomp) ;
   MAP @csubj (*) IF (c ("מן" @case)) (p ("חלילה" intj)) ;
   MAP @advcl (*) ;
 } ;
@@ -557,7 +558,7 @@ SETPARENT @dislocated + (role:Appos) TO (p @nsubj LINK p (*)) ;
 
 SETPARENT @vocative TO (p @discourse LINK p (*)) ;
 
-LIST AdvConj = CLaCL aNpaNp aNpaNpaNp ;
+LIST AdvConj = CLaCL 2CLaCL aNpaNp aNpaNpaNp CjpAdvpCjpAdvp aPpaPpaPp ;
 SETPARENT @advmod + $$AdvConj (pl (*)) TO (sr $$AdvConj) ;
 
 SETPARENT @obj (p (nmcp role:ADV)) TO (sl (role:V @xcomp)) ;
@@ -825,7 +826,10 @@ WITH ("כי" conj CjpCjp) IF (p ("אם" conj)) {
 } ;
 
 SETPARENT SAFE (SCONJ) TO (-1* SpeakingVerb) ;
-SUBSTITUTE @mark @ccomp (SCONJ) IF (NEGATE c (*)) (NEGATE 1* (*) - BD - (prn) - (prep)) ;
+WITH (SCONJ @mark) IF (NEGATE c (*)) (NEGATE 1* (*) - BD - (prn) - (prep)) {
+SUBSTITUTE @mark @ccomp (*) IF (p SpeakingVerb) ;
+SUBSTITUTE @mark @advcl (*) ;
+} ;
 
 WITH @appos IF (p (*) LINK p (role:V)) (p (*) LINK sllr (*) LINK 1* _TARGET_) {
   SETCHILD REPEAT (*) TO (sr @conj) ;
@@ -862,6 +866,8 @@ SETPARENT @acl:relcl TO (p @compound:smixut LINK p ("כל")) ;
 SETPARENT (*) - @fixed TO (p @mark LINK p (*)) ;
 
 SETPARENT (*) TO (p @obl:npmod LINK p (*)) ;
+
+SETPARENT @appos (NEGATE sr (*)) TO (p @appos LINK p (*)) ;
 
 AFTER-SECTIONS
 

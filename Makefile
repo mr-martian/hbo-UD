@@ -75,4 +75,7 @@ export:
 	./export.py genesis 31-50 > UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-train.conllu
 	./export.py ruth 1-4 >> UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-train.conllu
 
+bugs:
+	cat UD_Ancient_Hebrew-PTNK/*.conllu | udapy -HAM ud.MarkBugs > bugs.html
+
 .PRECIOUS: temp/parsed-cg3/%.txt temp/merged/%.conllu temp/macula-parsed-cg3/%.txt temp/macula-merged/%.conllu temp/macula-cg3/%.txt

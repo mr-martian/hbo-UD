@@ -332,10 +332,14 @@ WITH NOMAPPED (role:O) - (Ellp CLaCL) - (Ellp ClCl) {
   MAP @compound:smixut (*) IF (p (subs c)) ;
   MAP @xcomp (verb infc) IF (p XcompInf) ;
   MAP @ccomp (verb) - Participle ;
+  MAP @obl (*) IF (p ("נתן" verb qal)) (s (role:O2)) (NEGATE s (role:PP) LINK c ("ל") OR ("על") OR ("אל")) ;
   MAP @obj (*) - (CLaCL) - (_) IF (NEGATE c (vbcp) - (NpRelp)) ;
 } ;
 
-MAP @xcomp (role:O2) ;
+WITH NOMAPPED (role:O2) {
+  MAP @obj (*) IF (p ("נתן" verb qal)) (s (role:O @obl)) ;
+  MAP @xcomp (*) ;
+} ;
 
 WITH NOMAPPED (role:PP) {
   MAP @mark (SCONJ) ;

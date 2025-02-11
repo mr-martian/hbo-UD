@@ -54,6 +54,7 @@ LIST ConjAblePrep = "כמו" "למען" "עד" ;
 LIST ConjAbleSubsPrep = "בלת" ;
 LIST SubsToPrep = "אחר" "בין" "אצל" "בעד" ;
 LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "קרב" "יאל" "לאה" "צוה" "נתן" "אבה" "מאן" ;
+LIST XcompNoObj = "מלא" ;
 
 LIST Masculine = "מכיר" "אשׁר" "בצע" "בקר" ;
 # TODO: BDB says sometimes masculine
@@ -558,7 +559,8 @@ SETPARENT @dislocated + (role:Appos) TO (p @nsubj LINK p (*)) ;
 
 SETPARENT @vocative TO (p @discourse LINK p (*)) ;
 
-LIST AdvConj = CLaCL 2CLaCL aNpaNp aNpaNpaNp CjpAdvpCjpAdvp aPpaPpaPp ;
+LIST AdvConj = CLaCL 2CLaCL aNpaNp aNpaNpaNp CjpAdvpCjpAdvp aPpaPpaPp
+        Conj3CL ;
 SETPARENT @advmod + $$AdvConj (pl (*)) TO (sr $$AdvConj) ;
 
 SETPARENT @obj (p (nmcp role:ADV)) TO (sl (role:V @xcomp)) ;
@@ -868,6 +870,8 @@ SETPARENT (*) - @fixed TO (p @mark LINK p (*)) ;
 SETPARENT (*) TO (p @obl:npmod LINK p (*)) ;
 
 SETPARENT @appos (NEGATE sr (*)) TO (p @appos LINK p (*)) ;
+
+SUBSTITUTE @xcomp @advcl (infc) IF (p XcompNoObj) (s @obj) ;
 
 AFTER-SECTIONS
 

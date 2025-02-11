@@ -127,14 +127,7 @@ HEAD_OVERRIDE = {
     'PpPpPp': 0,
 }
 
-book_names = {
-    'genesis': '01-Gen',
-    'exodus': '02-Exo',
-    'leviticus': '03-Lev',
-    'numbers': '04-Num',
-    'deuteronomy': '05-Deu',
-    'ruth': '08-Rut',
-}
+book_names = utils.load_book_data('Macula-file')
 
 book = sys.argv[1]
 

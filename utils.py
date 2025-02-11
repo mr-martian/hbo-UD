@@ -244,3 +244,9 @@ def transliterate_loc(hbo, latex):
                     last_vowel_null = True
         last = (c, d, v)
     return ret.strip()
+
+def load_book_data(col):
+    import csv
+    with open('books.tsv', newline='') as fin:
+        reader = csv.DictReader(fin, dialect='excel-tab')
+        return {row['id']: row[col] for row in reader}

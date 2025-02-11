@@ -3,7 +3,10 @@
 import sys
 import unicodedata
 import utils
-utils.load_volume(sys.argv[1], globals())
+BOOK = sys.argv[1]
+utils.load_volume(BOOK, globals())
+BOOK_ABBR = utils.load_book_data('Ref')[BOOK]
+BOOK_OFFSET = int(utils.load_book_data('BHSA-start')[BOOK])
 
 POS_MAP = {
     'art': 'DET',
@@ -63,15 +66,6 @@ MORPH = {
     #'uvf:H': ['Case=Loc'], # TODO
 }
 
-BOOK_ABBR = {
-    'Genesis': 'GEN',
-    'Exodus': 'EX',
-    'Leviticus': 'LEV',
-    'Numbers': 'NUM',
-    'Deuteronomy': 'DEUT',
-    'Ruth': 'RUTH',
-}
-
 def norm(s):
     return unicodedata.normalize('NFC', s)
 
@@ -114,11 +108,10 @@ class Word:
                 self.surf = self.text
             if (F.prs.v(last_wid) and F.prs.v(last_wid) not in ['absent', 'n/a']):
                 self.is_end = False
-            bk = BOOK_ABBR.get(T.bookName(last_wid))
             ch = F.chapter.v(L.u(last_wid, otype='verse')[0])
             vs = F.verse.v(L.u(last_wid, otype='verse')[0])
-            if bk:
-                self.misc.append(f'Ref={bk}_{ch}.{vs}')
+            self.misc.append(f'Ref={BOOK_ABBR}_{ch}.{vs}')
+            self.misc.append(f'Ref[BHSA]={last_wid+BOOK_OFFSET}')
             lex = L.u(last_wid, otype='lex')
             if lex:
                 gloss = F.gloss.v(lex[0])

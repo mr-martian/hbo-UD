@@ -7,7 +7,6 @@ import sys
 import utils
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--show', '-s', action='store_true')
 parser.add_argument('book', action='store')
 parser.add_argument('verse', action='store')
 args = parser.parse_args()
@@ -27,8 +26,10 @@ else:
     sys.exit(1)
 
 text = ''
-words = [('0', 'ROOT', 'ROOT', 'ROOT', 'ROOT')]
+words = [('0', 'ROOT', 'ROOT', 'ROOT', 'ROOT', '')]
 arcs = {}
+
+offset = int(utils.load_book_data('BHSA-start')[args.book])
 
 for line in gen[sid][1].splitlines():
     if line.startswith('# text ='):
@@ -42,8 +43,11 @@ for line in gen[sid][1].splitlines():
     gls = ''
     if 'Gloss' in cols[9]:
         gls = cols[9].split('Gloss=')[1].split('|')[0]
+    wid = ''
+    if 'Ref[BHSA]' in cols[9]:
+        wid = 'w' + str(int(cols[9].split('Ref[BHSA]=')[1].split('|')[0]) - offset)
     arcs[cols[0]] = [(cols[6], cols[7])]
-    words.append((cols[0], cols[1], cols[2], cols[3], gls))
+    words.append((cols[0], cols[1], cols[2], cols[3], gls, wid))
 
 words.reverse()
 
@@ -54,12 +58,11 @@ rows = ''.join(
 rows += f'<tr><td colspan="{len(words)}">{text}</td></tr>'
 
 if sid in ref:
+    verb = 'compare'
     block = ref[sid][1]
-elif args.show:
-    block = gen[sid][1]
 else:
-    print(f'Reference for {args.book} {args.verse} not found.')
-    sys.exit(1)
+    verb = 'show'
+    block = gen[sid][1]
 
 for line in block.splitlines():
     cols = line.strip().split('\t')
@@ -112,7 +115,8 @@ while todo:
 
 with open('tree-diff.html') as fin, open('index.html', 'w') as fout:
     page = fin.read()
-    page = page.replace('[[SENT_ID]]', sid)
+    page = page.replace('[[VERB]]', verb)
+    page = page.replace('[[SENT_ID]]', sid + f' ({args.verse})')
     page = page.replace('[[WORDS]]', rows)
     page = page.replace('[[ARCS]]', json.dumps(als))
     page = page.replace('[[HEIGHT]]', str(max(h['height'] for h in als)))

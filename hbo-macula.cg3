@@ -462,7 +462,7 @@ WITH NOMAPPED (ClCl2) {
 } ;
 
 WITH NOMAPPED (NP3NP) {
-  MAP @conj (*) IF (sr (*) LINK c @cc) ;
+  MAP @conj (*) IF ((sr (*) LINK c @cc) OR (c @cc)) ;
   MAP @appos (*) ;
 } ;
 
@@ -770,12 +770,15 @@ SETPARENT (_ <txt:1>) - (_override) (p (<txt:0>)) TO (slll (_ <txt:1>) - (conj))
 
 LIST NPConj = NpaNp 2Np 2NpaNpaNp NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP
               NPaNPNPaNP NpNpNp NpNp Conj3Np Conj4Np Conj5Np
-              NpNpNp NpNpNpNp NPNPaNPNPaNP NPNPaNPaNPaNP ;
+              NpNpNp NpNpNpNp NPNPaNPNPaNP NPNPaNPaNPaNP (NP Ellp) ;
 LIST PPConj = PpaPp Conj3Pp PPandPP 2PpaPp PPandPP PpaPpPpaPp PpandPpPp
         aPpaPpaPp ;
 LIST ClauseConj = CLaCL aCLaCL 2CLaCL Conj3CL Conj4CL (VP _) ;
 SET ConjTypes = NPConj OR PPConj OR ClauseConj ;
-SETPARENT @conj + &&ConjTypes (NEGATE sr @acl:relcl OR @nmod OR @appos) (NEGATE c ("או" conj))
+SETPARENT @conj + &&ConjTypes
+        (NEGATE sr @acl:relcl OR @nmod OR @appos OR @nsubj)
+        (NEGATE s @orphan)
+        (NEGATE c ("או" conj))
   TO (p @conj + &&ConjTypes LINK p (*)) ;
 SETPARENT @conj + NPConj TO (p @conj + (NP _) LINK p (NP _)) ;
 

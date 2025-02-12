@@ -125,6 +125,7 @@ HEAD_OVERRIDE = {
     '3Adjp': 0,
     'PpPpPpPpPp': 0,
     'PpPpPp': 0,
+    'NPNPaNPNPaNP': 0,
 }
 
 book_names = utils.load_book_data('Macula-file')

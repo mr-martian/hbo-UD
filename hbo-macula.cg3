@@ -5,6 +5,7 @@ OPTIONS += addcohort-attach ;
 # - _override: don't apply SETPARENT (_) ... ; rules
 # - actuallyinf: this אמר is not לאמר SCONJ
 # - quoteoverride: don't edit the head of this לאמר (set on prep)
+# - longlist: move @conj children of this up (list crossing verses)
 
 ####################
 # Boundaries
@@ -601,10 +602,11 @@ WITH NOPARENT (subs) IF (-1* (subs c) - (ppre) - @nummod BARRIER (*) - Det) {
 
 WITH NOMAPPED (subs PrepNp) IF (p (*)) {
   SETPARENT (*) TO (p (*) LINK p (*)) ;
+  MAP @orphan (*) IF (jC1 @orphan) ;
   MAP @obl (*) ;
   SETCHILD (*) TO (jC1 (*)) ;
   SUBSTITUTE @obl @nmod:poss _C1_ IF (0 (prn)) ;
-  SUBSTITUTE @obl @compound:smixut _C1_ IF (NOT 0 (_override)) ;
+  SUBSTITUTE @obl OR @orphan @compound:smixut _C1_ IF (NOT 0 (_override)) ;
 } ;
 
 SETPARENT SAFE Det TO (1 (prde)) ;
@@ -667,7 +669,7 @@ SET NonPredAdv = (advb) - (role:P) ;
 SET Top = (_) - (conj) - @discourse - NonPredAdv - @obl ;
 
 SETPARENT (conj _) (p (>>>)) TO (1* (_)) ;
-SETPARENT @mark TO (p @obl LINK p (*)) ;
+SETPARENT @mark - (_override) TO (p @obl LINK p (*)) ;
 
 LIST NonAdvclConj = "ו" retag:art "או" ;
 
@@ -775,12 +777,13 @@ LIST PPConj = PpaPp Conj3Pp PPandPP 2PpaPp PPandPP PpaPpPpaPp PpandPpPp
         aPpaPpaPp ;
 LIST ClauseConj = CLaCL aCLaCL 2CLaCL Conj3CL Conj4CL (VP _) ;
 SET ConjTypes = NPConj OR PPConj OR ClauseConj ;
-SETPARENT @conj + &&ConjTypes
+SETPARENT @conj + &&ConjTypes - (_override)
         (NEGATE sr @acl:relcl OR @nmod OR @appos OR @nsubj)
         (NEGATE s @orphan)
         (NEGATE c ("או" conj))
   TO (p @conj + &&ConjTypes LINK p (*)) ;
-SETPARENT @conj + NPConj TO (p @conj + (NP _) LINK p (NP _)) ;
+SETPARENT @conj + NPConj - (_override) TO (p @conj + (NP _) LINK p (NP _)) ;
+SETPARENT @conj TO (p @conj + (longlist) LINK p (*)) ;
 
 SETPARENT (intj @discourse) TO (p (intj @discourse) LINK p (*)) ;
 
@@ -883,6 +886,8 @@ SUBSTITUTE @xcomp @advcl (infc) IF (p XcompNoObj) (s @obj) ;
 SUBSTITUTE @ccomp @advcl (*) IF (s @obj) (c (SCONJ quot @mark)) ;
 
 SUBSTITUTE @compound:smixut @appos (*) IF (sl @compound:smixut) ;
+
+SUBSTITUTE @case @conj (*) IF (c @acl:relcl) (pl (prep) LINK c @acl:relcl) ;
 
 AFTER-SECTIONS
 

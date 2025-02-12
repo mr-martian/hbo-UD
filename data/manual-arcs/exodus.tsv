@@ -9,12 +9,18 @@ w1336	_	@conj
 #66
 w1363	_	@obj
 w1365	w1363	@compound:smixut
+#82 - double acc
+w1728p	_	@obl
 #93
 w1946	_	@ccomp
 #106
 w2213	w2208	_override
 #108
 w2254p	w2253
+#117
+w2392	w2392p
+w2392p	w2388	@obj
+w2394	_	@xcomp
 #121
 w2466	_	@advmod
 #149
@@ -31,8 +37,16 @@ w5045	w5046	@mark
 w5046	w5039	@conj
 #250
 w5214	_	@obj
+#252
+w5274	w5271	@advcl
+w5272	w5274
+#253
+w5291	w5277	@parataxis
 #273
 w5729	_	@orphan
+#284
+w5956	_	@obl
+w5970	_	@parataxis
 #289
 w6074	_	@xcomp
 #297
@@ -82,7 +96,8 @@ w10916	w10903	_override
 w11140	w11143
 w11146	_	@conj
 #547
-#w11381	w11373	_override
+w11381	_	@conj
+w11373	w11386	@advcl
 #551
 w11425	_	@csubj
 w11428	_	@conj
@@ -105,6 +120,8 @@ w12074	w12087	@advcl><_override
 w12084	w12074	_override
 #589
 w12101	w12111	@advcl><_override
+#593
+w12142	_	_override
 #609
 w12346	w12353	@advcl><_override
 #612
@@ -117,6 +134,8 @@ w12622	_	@advcl
 w12773	_	@conj
 #658
 w13245	_	@parataxis
+w13250	w13251	longlist
+w13251	w13245	longlist
 #660
 w13306	_	@obl
 #671
@@ -132,6 +151,8 @@ w13962	_	@orphan
 #697
 w13973	_	@parataxis
 w13975	_	@orphan
+#707
+w14181	w14179	_override
 #708
 w14199	_	@orphan
 #729
@@ -140,13 +161,26 @@ w14634	_	@xcomp
 w15023	_	@parataxis
 #759
 w15202	_	@dislocated
+#765
+w15294	_	@csubj
+#766
+w15310	_	@obl
+w15313	_	@parataxis
+w15315	w15313	@orphan
+w15316	w15307
+#788
+w15800	w15791	_override
+#814
+w16415	_	@parataxis
 #827
 w16673	_	@obl
+#853
+w17139p	w17137	@obl
 #855
 w17176	w17158	_override><@conj
 #857
-w17215	w17205	_override><@conj
-w17234	w17205	_override><@conj
+w17215	w17205	_override><@conj><longlist
+w17234	w17205	_override><@conj><longlist
 #872
 w17479	_	c
 #874
@@ -155,8 +189,14 @@ w17601	w17606	quoteoverride
 w17724	_	@advcl
 #892
 w18025	w18019
+#913
+w18484	_	@obl
 #917
 w18580	w18571	_override><@advcl
+#926
+w18798p	_	@obl
+#945
+w19211	w19199
 #962
 w19525	_	@obl
 #987
@@ -165,12 +205,30 @@ w20287	_	@parataxis
 w20354	w20351	@dislocated
 w20355	w20356
 w20356	w20354
+#1011
+w20855	_	_override
 #1034
 w21310	_	@xcomp
 #1050
 w21600	_	@xcomp
 #1051
 w21613	_	@dislocated
+#1080
+w22272	w22248	_override><@conj><longlist
+#1107
+w22821	w22776
+#1111
+w22893	w22885	@dislocated
+w22894	w22896
+w22896	w22893
+w22907	w22893	longlist><_override><@conj
+w22925	w22893	longlist><_override><@conj
+w22937	w22893	longlist><_override><@conj
+w22948	w22893	longlist><_override><@conj
+w22967	w22893	longlist><_override><@conj
+w22987	w22893	longlist><_override><@conj
+w23010	w22893	longlist><_override><@conj
+w23041	w22893	longlist><_override><@conj
 #1142
 w23572	_	@obl
 #1148

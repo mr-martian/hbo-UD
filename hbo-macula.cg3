@@ -882,6 +882,8 @@ SUBSTITUTE @xcomp @advcl (infc) IF (p XcompNoObj) (s @obj) ;
 
 SUBSTITUTE @ccomp @advcl (*) IF (s @obj) (c (SCONJ quot @mark)) ;
 
+SUBSTITUTE @compound:smixut @appos (*) IF (sl @compound:smixut) ;
+
 AFTER-SECTIONS
 
 SETPARENT @advmod TO (pr @conj LINK pA (*) LINK -1* _TARGET_) ;

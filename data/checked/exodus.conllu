@@ -6390,7 +6390,7 @@
 3	כָל	כל	NOUN	subs	Gender=Masc|Number=Sing	2	nsubj	_	Gloss=whole|Ref=EXO_7.24|Ref[BHSA]=32286|SpaceAfter=No|Translit=kal
 4	־	־	PUNCT	punct	_	5	punct	_	Ref=EXO_7.24|SpaceAfter=No
 5	מִצְרַ֛יִם	מצרים	PROPN	nmpr	Number=Sing	3	compound:smixut	_	Gloss=Egypt|Ref=EXO_7.24|Ref[BHSA]=32287|Translit=mitsrayim
-6	סְבִיבֹ֥ת	סביב	NOUN	subs	Gender=Fem|Number=Plur	8	dep	_	Gloss=surrounding|Ref=EXO_7.24|Ref[BHSA]=32288|Translit=sevivot
+6	סְבִיבֹ֥ת	סביב	NOUN	subs	Gender=Fem|Number=Plur	8	advmod	_	Gloss=surrounding|Ref=EXO_7.24|Ref[BHSA]=32288|Translit=sevivot
 7-8	הַיְאֹ֖ר	_	_	_	_	_	_	_	Translit=hayʼor
 7	הַ	ה	DET	art	PronType=Art	8	det	_	Gloss=the|Ref=EXO_7.24|Ref[BHSA]=32289|Translit=ha
 8	יְאֹ֖ר	יאר	PROPN	nmpr	Number=Sing	2	obl	_	Gloss=Nile|Ref=EXO_7.24|Ref[BHSA]=32290|Translit=yeʼor
@@ -9122,7 +9122,7 @@
 34	׃	׃	PUNCT	punct	_	37	punct	_	Ref=EXO_10.1
 35-36	וּלְמַ֡עַן	_	_	_	_	_	_	_	Translit=ulmaʻan
 35	וּ	ו	CCONJ	conj	_	37	cc	_	Gloss=and|Ref=EXO_10.2|Ref[BHSA]=33808|Translit=u
-36	לְמַ֡עַן	למען	_	prep	_	37	case	_	Gloss=because of|Ref=EXO_10.2|Ref[BHSA]=33809|Translit=lemaʻan
+36	לְמַ֡עַן	למען	SCONJ	prep	_	37	mark	_	Gloss=because of|Ref=EXO_10.2|Ref[BHSA]=33809|Translit=lemaʻan
 37	תְּסַפֵּר֩	ספר	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PIEL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	26	conj	_	Gloss=count|Ref=EXO_10.2|Ref[BHSA]=33810|Translit=tesaper
 38-39	בְּאָזְנֵ֨י	_	_	_	_	_	_	_	Translit=beʼazne
 38	בְּ	ב	ADP	prep	_	39	case	_	Gloss=in|Ref=EXO_10.2|Ref[BHSA]=33811|Translit=be
@@ -24004,6 +24004,40 @@
 10	ם	הם	PRON	prn	Gender=Masc|Number=Plur|Person=3|PronType=Prs	9	nmod:poss	_	Ref=EXO_25.8|Translit=m
 11	׃	׃	PUNCT	punct	_	2	punct	_	Ref=EXO_25.8
 
+# sent_id = Masoretic-Exodus-25:9-hbo
+# text = כְּכֹ֗ל אֲשֶׁ֤ר אֲנִי֙ מַרְאֶ֣ה אֹותְךָ֔ אֵ֚ת תַּבְנִ֣ית הַמִּשְׁכָּ֔ן וְאֵ֖ת תַּבְנִ֣ית כָּל־כֵּלָ֑יו וְכֵ֖ן תַּעֲשֽׂוּ׃ ס
+# translit = kekhol ʼasher ʼani marʼeh ʼotka ʼet tavnit hamishkan ṿeʼet tavnit kal kelaṿ ṿekhen taʻaśu  s
+# checker = Daniel
+1-2	כְּכֹ֗ל	_	_	_	_	_	_	_	Translit=kekhol
+1	כְּ	כ	ADP	prep	_	2	case	_	Gloss=as|Ref=EXO_25.9|Ref[BHSA]=42069|Translit=ke
+2	כֹ֗ל	כל	NOUN	subs	Gender=Masc|Number=Sing	21	obl	_	Gloss=whole|Ref=EXO_25.9|Ref[BHSA]=42070|Translit=kol
+3	אֲשֶׁ֤ר	אשׁר	SCONJ	conj	_	5	mark	_	Gloss=<relative>|Ref=EXO_25.9|Ref[BHSA]=42071|Translit=ʼasher
+4	אֲנִי֙	אני	PRON	prps	Number=Sing|Person=1|PronType=Prs	5	nsubj	_	Gloss=i|Ref=EXO_25.9|Ref[BHSA]=42072|Translit=ʼani
+5	מַרְאֶ֣ה	ראה	VERB	verb	Gender=Masc|HebBinyan=HIFIL|Number=Sing|VerbForm=Part	2	acl:relcl	_	Gloss=see|Ref=EXO_25.9|Ref[BHSA]=42073|Translit=marʼeh
+6-7	אֹותְךָ֔	_	_	_	_	_	_	_	Translit=ʼotka
+6	אֹותְ	את	ADP	prep	_	7	case	_	Gloss=<object marker>|Ref=EXO_25.9|Ref[BHSA]=42074|Translit=ʼot
+7	ךָ֔	אתה	PRON	prn	Gender=Masc|Number=Sing|Person=2|PronType=Prs	5	obj	_	Ref=EXO_25.9|Translit=ka
+8	אֵ֚ת	את	ADP	prep	_	9	case	_	Gloss=<object marker>|Ref=EXO_25.9|Ref[BHSA]=42075|Translit=ʼet
+9	תַּבְנִ֣ית	תבנית	NOUN	subs	Gender=Fem|Number=Sing	2	appos	_	Gloss=model|Ref=EXO_25.9|Ref[BHSA]=42076|Translit=tavnit
+10-11	הַמִּשְׁכָּ֔ן	_	_	_	_	_	_	_	Translit=hamishkan
+10	הַ	ה	DET	art	PronType=Art	11	det	_	Gloss=the|Ref=EXO_25.9|Ref[BHSA]=42077|Translit=ha
+11	מִּשְׁכָּ֔ן	משׁכן	NOUN	subs	Gender=Masc|Number=Sing	9	compound:smixut	_	Gloss=dwelling-place|Ref=EXO_25.9|Ref[BHSA]=42078|Translit=mishkan
+12-13	וְאֵ֖ת	_	_	_	_	_	_	_	Translit=ṿeʼet
+12	וְ	ו	CCONJ	conj	_	14	cc	_	Gloss=and|Ref=EXO_25.9|Ref[BHSA]=42079|Translit=ṿe
+13	אֵ֖ת	את	ADP	prep	_	14	case	_	Gloss=<object marker>|Ref=EXO_25.9|Ref[BHSA]=42080|Translit=ʼet
+14	תַּבְנִ֣ית	תבנית	NOUN	subs	Gender=Fem|Number=Sing	9	conj	_	Gloss=model|Ref=EXO_25.9|Ref[BHSA]=42081|Translit=tavnit
+15	כָּל	כל	NOUN	subs	Gender=Masc|Number=Sing	14	compound:smixut	_	Gloss=whole|Ref=EXO_25.9|Ref[BHSA]=42082|SpaceAfter=No|Translit=kal
+16	־	־	PUNCT	punct	_	17	punct	_	Ref=EXO_25.9|SpaceAfter=No
+17-18	כֵּלָ֑יו	_	_	_	_	_	_	_	Translit=kelaṿ
+17	כֵּלָ֑י	כלי	NOUN	subs	Gender=Masc|Number=Plur	15	compound:smixut	_	Gloss=tool|Ref=EXO_25.9|Ref[BHSA]=42083|Translit=kela
+18	ו	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	17	nmod:poss	_	Ref=EXO_25.9|Translit=ṿ
+19-20	וְכֵ֖ן	_	_	_	_	_	_	_	Translit=ṿekhen
+19	וְ	ו	CCONJ	conj	_	21	cc	_	Gloss=and|Ref=EXO_25.9|Ref[BHSA]=42084|Translit=ṿe
+20	כֵ֖ן	כן	ADV	advb	_	21	advmod	_	Gloss=thus|Ref=EXO_25.9|Ref[BHSA]=42085|Translit=ken
+21	תַּעֲשֽׂוּ	עשׂה	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=2|VerbForm=Fin	0	root	_	Gloss=make|Ref=EXO_25.9|Ref[BHSA]=42086|SpaceAfter=No|Translit=taʻaśu
+22	׃	׃	PUNCT	punct	_	21	punct	_	Ref=EXO_25.9
+23	ס	ס	PUNCT	punct	_	21	punct	_	Ref=EXO_25.9
+
 # sent_id = Masoretic-Exodus-25:10-hbo
 # text = וְעָשׂ֥וּ אֲרֹ֖ון עֲצֵ֣י שִׁטִּ֑ים אַמָּתַ֨יִם וָחֵ֜צִי אָרְכֹּ֗ו וְאַמָּ֤ה וָחֵ֨צִי֙ רָחְבֹּ֔ו וְאַמָּ֥ה וָחֵ֖צִי קֹמָתֹֽו׃
 # translit = ṿeʻaśu ʼaron ʻatse shiṭim ʼamatayim ṿaḥetsi ʼarko ṿeʼamah ṿaḥetsi raḥbo ṿeʼamah ṿaḥetsi ḳomato
@@ -24314,6 +24348,53 @@
 29	קְצֹותָֽי	קצה	NOUN	subs	Gender=Fem|Number=Plur	21	obl	_	Gloss=end|Ref=EXO_25.19|Ref[BHSA]=42247|Translit=ḳetsota
 30	ו	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	29	nmod:poss	_	Ref=EXO_25.19|Translit=ṿ
 31	׃	׃	PUNCT	punct	_	2	punct	_	Ref=EXO_25.19
+
+# sent_id = Masoretic-Exodus-25:20-hbo
+# text = וְהָי֣וּ הַכְּרֻבִים֩ פֹּרְשֵׂ֨י כְנָפַ֜יִם לְמַ֗עְלָה סֹכְכִ֤ים בְּכַנְפֵיהֶם֙ עַל־הַכַּפֹּ֔רֶת וּפְנֵיהֶ֖ם אִ֣ישׁ אֶל־אָחִ֑יו אֶל־הַכַּפֹּ֔רֶת יִהְי֖וּ פְּנֵ֥י הַכְּרֻבִֽים׃
+# translit = ṿehau hakruvim porśe kenafayim lemaʻlah sokhkim bekhanpehem ʻal hakaporet ufnehem ʼish ʼel ʼaḥiṿ ʼel hakaporet yihu pene hakruvim
+# checker = Daniel
+1-2	וְהָי֣וּ	_	_	_	_	_	_	_	Translit=ṿehau
+1	וְ	ו	CCONJ	conj	_	5	cc	_	Gloss=and|Ref=EXO_25.20|Ref[BHSA]=42248|Translit=ṿe
+2	הָי֣וּ	היה	AUX	verb	Aspect=Perf|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|VerbForm=Fin	5	cop	_	Gloss=be|Ref=EXO_25.20|Ref[BHSA]=42249|Translit=hau
+3-4	הַכְּרֻבִים֩	_	_	_	_	_	_	_	Translit=hakruvim
+3	הַ	ה	DET	art	PronType=Art	4	det	_	Gloss=the|Ref=EXO_25.20|Ref[BHSA]=42250|Translit=ha
+4	כְּרֻבִים֩	כרוב	NOUN	subs	Gender=Masc|Number=Plur	5	nsubj	_	Gloss=cherub|Ref=EXO_25.20|Ref[BHSA]=42251|Translit=keruvim
+5	פֹּרְשֵׂ֨י	פרשׂ	VERB	verb	Gender=Masc|HebBinyan=PAAL|Number=Plur|VerbForm=Part	0	root	_	Gloss=spread out|Ref=EXO_25.20|Ref[BHSA]=42252|Translit=porśe
+6	כְנָפַ֜יִם	כנף	NOUN	subs	Gender=Fem|Number=Dual	5	obj	_	Gloss=wing|Ref=EXO_25.20|Ref[BHSA]=42253|Translit=kenafayim
+7-8	לְמַ֗עְלָה	_	_	_	_	_	_	_	Translit=lemaʻlah
+7	לְ	ל	ADP	prep	_	8	case	_	Gloss=to|Ref=EXO_25.20|Ref[BHSA]=42254|Translit=le
+8	מַ֗עְלָה	מעל	NOUN	subs	Number=Sing	5	obl	_	Gloss=top|Ref=EXO_25.20|Ref[BHSA]=42255|Translit=maʻlah
+9	סֹכְכִ֤ים	סכך	VERB	verb	Gender=Masc|HebBinyan=PAAL|Number=Plur|VerbForm=Part	5	xcomp	_	Gloss=block|Ref=EXO_25.20|Ref[BHSA]=42256|Translit=sokhkim
+10-12	בְּכַנְפֵיהֶם֙	_	_	_	_	_	_	_	Translit=bekhanpehem
+10	בְּ	ב	ADP	prep	_	11	case	_	Gloss=in|Ref=EXO_25.20|Ref[BHSA]=42257|Translit=be
+11	כַנְפֵי	כנף	NOUN	subs	Gender=Fem|Number=Dual	9	obl	_	Gloss=wing|Ref=EXO_25.20|Ref[BHSA]=42258|Translit=kanpe
+12	הֶם֙	הם	PRON	prn	Gender=Masc|Number=Plur|Person=3|PronType=Prs	11	nmod:poss	_	Ref=EXO_25.20|Translit=hem
+13	עַל	על	ADP	prep	_	16	case	_	Gloss=upon|Ref=EXO_25.20|Ref[BHSA]=42259|SpaceAfter=No|Translit=ʻal
+14	־	־	PUNCT	punct	_	13	punct	_	Ref=EXO_25.20|SpaceAfter=No
+15-16	הַכַּפֹּ֔רֶת	_	_	_	_	_	_	_	Translit=hakaporet
+15	הַ	ה	DET	art	PronType=Art	16	det	_	Gloss=the|Ref=EXO_25.20|Ref[BHSA]=42260|Translit=ha
+16	כַּפֹּ֔רֶת	כפרת	NOUN	subs	Gender=Fem|Number=Sing	9	obl	_	Gloss=cover|Ref=EXO_25.20|Ref[BHSA]=42261|Translit=kaporet
+17-19	וּפְנֵיהֶ֖ם	_	_	_	_	_	_	_	Translit=ufnehem
+17	וּ	ו	CCONJ	conj	_	20	cc	_	Gloss=and|Ref=EXO_25.20|Ref[BHSA]=42262|Translit=u
+18	פְנֵי	פנה	NOUN	subs	Gender=Masc|Number=Plur	20	nsubj	_	Gloss=face|Ref=EXO_25.20|Ref[BHSA]=42263|Translit=pene
+19	הֶ֖ם	הם	PRON	prn	Gender=Masc|Number=Plur|Person=3|PronType=Prs	18	nmod:poss	_	Ref=EXO_25.20|Translit=hem
+20	אִ֣ישׁ	אישׁ	NOUN	subs	Gender=Masc|Number=Sing	5	conj	_	Gloss=man|Ref=EXO_25.20|Ref[BHSA]=42264|Translit=ʼish
+21	אֶל	אל	ADP	prep	_	23	case	_	Gloss=to|Ref=EXO_25.20|Ref[BHSA]=42265|SpaceAfter=No|Translit=ʼel
+22	־	־	PUNCT	punct	_	21	punct	_	Ref=EXO_25.20|SpaceAfter=No
+23-24	אָחִ֑יו	_	_	_	_	_	_	_	Translit=ʼaḥiṿ
+23	אָחִ֑י	אח	NOUN	subs	Gender=Masc|Number=Sing	20	nmod	_	Gloss=brother|Ref=EXO_25.20|Ref[BHSA]=42266|Translit=ʼaḥi
+24	ו	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	23	nmod:poss	_	Ref=EXO_25.20|Translit=ṿ
+25	אֶל	אל	ADP	prep	_	28	case	_	Gloss=to|Ref=EXO_25.20|Ref[BHSA]=42267|SpaceAfter=No|Translit=ʼel
+26	־	־	PUNCT	punct	_	25	punct	_	Ref=EXO_25.20|SpaceAfter=No
+27-28	הַכַּפֹּ֔רֶת	_	_	_	_	_	_	_	Translit=hakaporet
+27	הַ	ה	DET	art	PronType=Art	28	det	_	Gloss=the|Ref=EXO_25.20|Ref[BHSA]=42268|Translit=ha
+28	כַּפֹּ֔רֶת	כפרת	NOUN	subs	Gender=Fem|Number=Sing	5	parataxis	_	Gloss=cover|Ref=EXO_25.20|Ref[BHSA]=42269|Translit=kaporet
+29	יִהְי֖וּ	היה	AUX	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|VerbForm=Fin	28	cop	_	Gloss=be|Ref=EXO_25.20|Ref[BHSA]=42270|Translit=yihu
+30	פְּנֵ֥י	פנה	NOUN	subs	Gender=Masc|Number=Plur	28	nsubj	_	Gloss=face|Ref=EXO_25.20|Ref[BHSA]=42271|Translit=pene
+31-32	הַכְּרֻבִֽים	_	_	_	_	_	_	_	SpaceAfter=No|Translit=hakruvim
+31	הַ	ה	DET	art	PronType=Art	32	det	_	Gloss=the|Ref=EXO_25.20|Ref[BHSA]=42272|Translit=ha
+32	כְּרֻבִֽים	כרוב	NOUN	subs	Gender=Masc|Number=Plur	30	compound:smixut	_	Gloss=cherub|Ref=EXO_25.20|Ref[BHSA]=42273|Translit=keruvim
+33	׃	׃	PUNCT	punct	_	5	punct	_	Ref=EXO_25.20
 
 # sent_id = Masoretic-Exodus-25:21-hbo
 # text = וְנָתַתָּ֧ אֶת־הַכַּפֹּ֛רֶת עַל־הָאָרֹ֖ן מִלְמָ֑עְלָה וְאֶל־הָ֣אָרֹ֔ן תִּתֵּן֙ אֶת־הָ֣עֵדֻ֔ת אֲשֶׁ֥ר אֶתֵּ֖ן אֵלֶֽיךָ׃
@@ -24644,6 +24725,44 @@
 12	תָּמִֽיד	תמיד	ADV	subs	_	2	advmod	_	Gloss=continuity|Ref=EXO_25.30|Ref[BHSA]=42441|SpaceAfter=No|Translit=tamid
 13	׃	׃	PUNCT	punct	_	2	punct	_	Ref=EXO_25.30
 14	פ	פ	PUNCT	punct	_	2	punct	_	Ref=EXO_25.30
+
+# sent_id = Masoretic-Exodus-25:31-hbo
+# text = וְעָשִׂ֥יתָ מְנֹרַ֖ת זָהָ֣ב טָהֹ֑ור מִקְשָׁ֞ה תֵּעָשֶׂ֤ה הַמְּנֹורָה֙ יְרֵכָ֣הּ וְקָנָ֔הּ גְּבִיעֶ֛יהָ כַּפְתֹּרֶ֥יהָ וּפְרָחֶ֖יהָ מִמֶּ֥נָּה יִהְיֽוּ׃
+# translit = ṿeʻaśita menorat zahav ṭahor miḳshah teʻaśeh hamnorah yerekhah ṿeḳanah geviʻeha kaftoreha ufraḥeha mimenah yihu
+# checker = Daniel
+1-2	וְעָשִׂ֥יתָ	_	_	_	_	_	_	_	Translit=ṿeʻaśita
+1	וְ	ו	CCONJ	conj	_	2	cc	_	Gloss=and|Ref=EXO_25.31|Ref[BHSA]=42442|Translit=ṿe
+2	עָשִׂ֥יתָ	עשׂה	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	0	root	_	Gloss=make|Ref=EXO_25.31|Ref[BHSA]=42443|Translit=ʻaśita
+3	מְנֹרַ֖ת	מנורה	NOUN	subs	Gender=Fem|Number=Sing	2	obj	_	Gloss=lamp stand|Ref=EXO_25.31|Ref[BHSA]=42444|Translit=menorat
+4	זָהָ֣ב	זהב	NOUN	subs	Gender=Masc|Number=Sing	3	compound:smixut	_	Gloss=gold|Ref=EXO_25.31|Ref[BHSA]=42445|Translit=zahav
+5	טָהֹ֑ור	טהר	ADJ	adjv	Gender=Masc|Number=Sing	4	amod	_	Gloss=pure|Ref=EXO_25.31|Ref[BHSA]=42446|Translit=ṭahor
+6	מִקְשָׁ֞ה	מקשׁה	NOUN	subs	Gender=Fem|Number=Sing	7	xcomp	_	Gloss=hammered work|Ref=EXO_25.31|Ref[BHSA]=42447|Translit=miḳshah
+7	תֵּעָשֶׂ֤ה	עשׂה	VERB	verb	Aspect=Imp|Gender=Fem|HebBinyan=NIFAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	2	parataxis	_	Gloss=make|Ref=EXO_25.31|Ref[BHSA]=42448|Translit=teʻaśeh
+8-9	הַמְּנֹורָה֙	_	_	_	_	_	_	_	Translit=hamnorah
+8	הַ	ה	DET	art	PronType=Art	9	det	_	Gloss=the|Ref=EXO_25.31|Ref[BHSA]=42449|Translit=ha
+9	מְּנֹורָה֙	מנורה	NOUN	subs	Gender=Fem|Number=Sing	7	nsubj	_	Gloss=lamp stand|Ref=EXO_25.31|Ref[BHSA]=42450|Translit=menorah
+10-11	יְרֵכָ֣הּ	_	_	_	_	_	_	_	Translit=yerekhah
+10	יְרֵכָ֣	ירך	NOUN	subs	Gender=Fem|Number=Sing	9	conj	_	Gloss=upper thigh|Ref=EXO_25.31|Ref[BHSA]=42451|Translit=yerekha
+11	הּ	היא	PRON	prn	Gender=Fem|Number=Sing|Person=3|PronType=Prs	10	nmod:poss	_	Ref=EXO_25.31|Translit=h
+12-14	וְקָנָ֔הּ	_	_	_	_	_	_	_	Translit=ṿeḳanah
+12	וְ	ו	CCONJ	conj	_	13	cc	_	Gloss=and|Ref=EXO_25.31|Ref[BHSA]=42452|Translit=ṿe
+13	קָנָ֔	קנה	NOUN	subs	Gender=Masc|Number=Sing	9	conj	_	Gloss=reed|Ref=EXO_25.31|Ref[BHSA]=42453|Translit=ḳana
+14	הּ	היא	PRON	prn	Gender=Fem|Number=Sing|Person=3|PronType=Prs	13	nmod:poss	_	Ref=EXO_25.31|Translit=h
+15-16	גְּבִיעֶ֛יהָ	_	_	_	_	_	_	_	Translit=geviʻeha
+15	גְּבִיעֶ֛י	גביע	NOUN	subs	Gender=Masc|Number=Plur	23	nsubj	_	Gloss=cup|Ref=EXO_25.31|Ref[BHSA]=42454|Translit=geviʻe
+16	הָ	היא	PRON	prn	Gender=Fem|Number=Sing|Person=3|PronType=Prs	15	nmod:poss	_	Ref=EXO_25.31|Translit=ha
+17-18	כַּפְתֹּרֶ֥יהָ	_	_	_	_	_	_	_	Translit=kaftoreha
+17	כַּפְתֹּרֶ֥י	כפתור	NOUN	subs	Gender=Masc|Number=Plur	15	conj	_	Gloss=bulb|Ref=EXO_25.31|Ref[BHSA]=42455|Translit=kaftore
+18	הָ	היא	PRON	prn	Gender=Fem|Number=Sing|Person=3|PronType=Prs	17	nmod:poss	_	Ref=EXO_25.31|Translit=ha
+19-21	וּפְרָחֶ֖יהָ	_	_	_	_	_	_	_	Translit=ufraḥeha
+19	וּ	ו	CCONJ	conj	_	20	cc	_	Gloss=and|Ref=EXO_25.31|Ref[BHSA]=42456|Translit=u
+20	פְרָחֶ֖י	פרח	NOUN	subs	Gender=Masc|Number=Plur	15	conj	_	Gloss=bud|Ref=EXO_25.31|Ref[BHSA]=42457|Translit=peraḥe
+21	הָ	היא	PRON	prn	Gender=Fem|Number=Sing|Person=3|PronType=Prs	20	nmod:poss	_	Ref=EXO_25.31|Translit=ha
+22-23	מִמֶּ֥נָּה	_	_	_	_	_	_	_	Translit=mimenah
+22	מִמֶּ֥נָּ	מן	ADP	prep	_	23	case	_	Gloss=from|Ref=EXO_25.31|Ref[BHSA]=42458|Translit=mimena
+23	ה	היא	PRON	prn	Gender=Fem|Number=Sing|Person=3|PronType=Prs	2	parataxis	_	Ref=EXO_25.31|Translit=h
+24	יִהְיֽוּ	היה	AUX	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Plur|Person=3|VerbForm=Fin	23	cop	_	Gloss=be|Ref=EXO_25.31|Ref[BHSA]=42459|SpaceAfter=No|Translit=yihu
+25	׃	׃	PUNCT	punct	_	2	punct	_	Ref=EXO_25.31
 
 # sent_id = Masoretic-Exodus-25:32-hbo
 # text = וְשִׁשָּׁ֣ה קָנִ֔ים יֹצְאִ֖ים מִצִּדֶּ֑יהָ שְׁלֹשָׁ֣ה׀ קְנֵ֣י מְנֹרָ֗ה מִצִּדָּהּ֙ הָאֶחָ֔ד וּשְׁלֹשָׁה֙ קְנֵ֣י מְנֹרָ֔ה מִצִּדָּ֖הּ הַשֵּׁנִֽי׃
@@ -27163,6 +27282,46 @@
 33	זִכָּרֹֽן	זכרון	NOUN	subs	Gender=Masc|Number=Sing	18	obl	_	Gloss=remembrance|Ref=EXO_28.12|Ref[BHSA]=43959|Translit=zikaron
 34	׃	׃	PUNCT	punct	_	2	punct	_	Ref=EXO_28.12
 35	ס	ס	PUNCT	punct	_	2	punct	_	Ref=EXO_28.12
+
+# sent_id = Masoretic-Exodus-28:13-14-hbo
+# text = וְעָשִׂ֥יתָ מִשְׁבְּצֹ֖ת זָהָֽב׃ וּשְׁתֵּ֤י שַׁרְשְׁרֹת֙ זָהָ֣ב טָהֹ֔ור מִגְבָּלֹ֛ת תַּעֲשֶׂ֥ה אֹתָ֖ם מַעֲשֵׂ֣ה עֲבֹ֑ת וְנָתַתָּ֛ה אֶת־שַׁרְשְׁרֹ֥ת הָעֲבֹתֹ֖ת עַל־הַֽמִּשְׁבְּצֹֽת׃ ס
+# translit = ṿeʻaśita mishbetsot zahav  ushte sharsherot zahav ṭahor migbalot taʻaśeh ʼotam maʻaśeh ʻavot ṿenatatah ʼet sharsherot haʻavotot ʻal hamishbetsot  s
+# checker = Daniel
+1-2	וְעָשִׂ֥יתָ	_	_	_	_	_	_	_	Translit=ṿeʻaśita
+1	וְ	ו	CCONJ	conj	_	2	cc	_	Gloss=and|Ref=EXO_28.13|Ref[BHSA]=43960|Translit=ṿe
+2	עָשִׂ֥יתָ	עשׂה	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	0	root	_	Gloss=make|Ref=EXO_28.13|Ref[BHSA]=43961|Translit=ʻaśita
+3	מִשְׁבְּצֹ֖ת	משׁבצות	NOUN	subs	Gender=Fem|Number=Plur	2	obj	_	Gloss=settings|Ref=EXO_28.13|Ref[BHSA]=43962|Translit=mishbetsot
+4	זָהָֽב	זהב	NOUN	subs	Gender=Masc|Number=Sing	3	compound:smixut	_	Gloss=gold|Ref=EXO_28.13|Ref[BHSA]=43963|SpaceAfter=No|Translit=zahav
+5	׃	׃	PUNCT	punct	_	12	punct	_	Ref=EXO_28.13
+6-7	וּשְׁתֵּ֤י	_	_	_	_	_	_	_	Translit=ushte
+6	וּ	ו	CCONJ	conj	_	12	cc	_	Gloss=and|Ref=EXO_28.14|Ref[BHSA]=43964|Translit=u
+7	שְׁתֵּ֤י	שׁנים	NUM	subs	Gender=Fem|Number=Dual|NumType=Card	8	nummod	_	Gloss=two|Ref=EXO_28.14|Ref[BHSA]=43965|Translit=shete
+8	שַׁרְשְׁרֹת֙	שׁרשׁרה	NOUN	subs	Gender=Fem|Number=Plur	12	dislocated	_	Gloss=chain|Ref=EXO_28.14|Ref[BHSA]=43966|Translit=sharsherot
+9	זָהָ֣ב	זהב	NOUN	subs	Gender=Masc|Number=Sing	8	compound:smixut	_	Gloss=gold|Ref=EXO_28.14|Ref[BHSA]=43967|Translit=zahav
+10	טָהֹ֔ור	טהר	ADJ	adjv	Gender=Masc|Number=Sing	9	amod	_	Gloss=pure|Ref=EXO_28.14|Ref[BHSA]=43968|Translit=ṭahor
+11	מִגְבָּלֹ֛ת	מגבלת	NOUN	subs	Gender=Fem|Number=Plur	12	xcomp	_	Gloss=cords|Ref=EXO_28.14|Ref[BHSA]=43969|Translit=migbalot
+12	תַּעֲשֶׂ֥ה	עשׂה	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	2	conj	_	Gloss=make|Ref=EXO_28.14|Ref[BHSA]=43970|Translit=taʻaśeh
+13-14	אֹתָ֖ם	_	_	_	_	_	_	_	Translit=ʼotam
+13	אֹתָ֖	את	ADP	prep	_	14	case	_	Gloss=<object marker>|Ref=EXO_28.14|Ref[BHSA]=43971|Translit=ʼota
+14	ם	הם	PRON	prn	Gender=Masc|Number=Plur|Person=3|PronType=Prs	12	obj	_	Ref=EXO_28.14|Translit=m
+15	מַעֲשֵׂ֣ה	מעשׂה	NOUN	subs	Gender=Masc|Number=Sing	12	dislocated	_	Gloss=deed|Ref=EXO_28.14|Ref[BHSA]=43972|Translit=maʻaśeh
+16	עֲבֹ֑ת	עבת	NOUN	subs	Number=Sing	15	compound:smixut	_	Gloss=rope|Ref=EXO_28.14|Ref[BHSA]=43973|Translit=ʻavot
+17-18	וְנָתַתָּ֛ה	_	_	_	_	_	_	_	Translit=ṿenatatah
+17	וְ	ו	CCONJ	conj	_	18	cc	_	Gloss=and|Ref=EXO_28.14|Ref[BHSA]=43974|Translit=ṿe
+18	נָתַתָּ֛ה	נתן	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=2|VerbForm=Fin	2	conj	_	Gloss=give|Ref=EXO_28.14|Ref[BHSA]=43975|Translit=natatah
+19	אֶת	את	ADP	prep	_	21	case	_	Gloss=<object marker>|Ref=EXO_28.14|Ref[BHSA]=43976|SpaceAfter=No|Translit=ʼet
+20	־	־	PUNCT	punct	_	19	punct	_	Ref=EXO_28.14|SpaceAfter=No
+21	שַׁרְשְׁרֹ֥ת	שׁרשׁרה	NOUN	subs	Gender=Fem|Number=Plur	18	obj	_	Gloss=chain|Ref=EXO_28.14|Ref[BHSA]=43977|Translit=sharsherot
+22-23	הָעֲבֹתֹ֖ת	_	_	_	_	_	_	_	Translit=haʻavotot
+22	הָ	ה	DET	art	PronType=Art	23	det	_	Gloss=the|Ref=EXO_28.14|Ref[BHSA]=43978|Translit=ha
+23	עֲבֹתֹ֖ת	עבת	NOUN	subs	Gender=Fem|Number=Plur	21	appos	_	Gloss=rope|Ref=EXO_28.14|Ref[BHSA]=43979|Translit=ʻavotot
+24	עַל	על	ADP	prep	_	27	case	_	Gloss=upon|Ref=EXO_28.14|Ref[BHSA]=43980|SpaceAfter=No|Translit=ʻal
+25	־	־	PUNCT	punct	_	24	punct	_	Ref=EXO_28.14|SpaceAfter=No
+26-27	הַֽמִּשְׁבְּצֹֽת	_	_	_	_	_	_	_	SpaceAfter=No|Translit=hamishbetsot
+26	הַֽ	ה	DET	art	PronType=Art	27	det	_	Gloss=the|Ref=EXO_28.14|Ref[BHSA]=43981|Translit=ha
+27	מִּשְׁבְּצֹֽת	משׁבצות	NOUN	subs	Gender=Fem|Number=Plur	18	obl	_	Gloss=settings|Ref=EXO_28.14|Ref[BHSA]=43982|Translit=mishbetsot
+28	׃	׃	PUNCT	punct	_	2	punct	_	Ref=EXO_28.14
+29	ס	ס	PUNCT	punct	_	2	punct	_	Ref=EXO_28.14
 
 # sent_id = Masoretic-Exodus-28:15-hbo
 # text = וְעָשִׂ֜יתָ חֹ֤שֶׁן מִשְׁפָּט֙ מַעֲשֵׂ֣ה חֹשֵׁ֔ב כְּמַעֲשֵׂ֥ה אֵפֹ֖ד תַּעֲשֶׂ֑נּוּ זָ֠הָב תְּכֵ֨לֶת וְאַרְגָּמָ֜ן וְתֹולַ֧עַת שָׁנִ֛י וְשֵׁ֥שׁ מָשְׁזָ֖ר תַּעֲשֶׂ֥ה אֹתֹֽו׃
@@ -35096,6 +35255,37 @@
 34	יהוָֽה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	28	obl	_	Gloss=YHWH|Ref=EXO_35.29|Ref[BHSA]=49043|Translit=hṿah
 35	׃	׃	PUNCT	punct	_	28	punct	_	Ref=EXO_35.29
 36	פ	פ	PUNCT	punct	_	28	punct	_	Ref=EXO_35.29
+
+# sent_id = Masoretic-Exodus-35:30-hbo
+# text = וַיֹּ֤אמֶר מֹשֶׁה֙ אֶל־בְּנֵ֣י יִשְׂרָאֵ֔ל רְא֛וּ קָרָ֥א יְהוָ֖ה בְּשֵׁ֑ם בְּצַלְאֵ֛ל בֶּן־אוּרִ֥י בֶן־ח֖וּר לְמַטֵּ֥ה יְהוּדָֽה׃
+# translit = ṿayoʼmer mosheh ʼel bene yiśraʼel reʼu ḳaraʼ yehṿah beshem betsalʼel ben ʼuri ben ḥur lemaṭeh yehudah
+# checker = Daniel
+1-2	וַיֹּ֤אמֶר	_	_	_	_	_	_	_	Translit=ṿayoʼmer
+1	וַ	ו	CCONJ	conj	_	2	cc	_	Gloss=and|Ref=EXO_35.30|Ref[BHSA]=49044|Translit=ṿa
+2	יֹּ֤אמֶר	אמר	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|Tense=Past|VerbForm=Fin	0	root	_	Gloss=say|Ref=EXO_35.30|Ref[BHSA]=49045|Translit=yoʼmer
+3	מֹשֶׁה֙	משׁה	PROPN	nmpr	Gender=Masc|Number=Sing	2	nsubj	_	Gloss=Moses|Ref=EXO_35.30|Ref[BHSA]=49046|Translit=mosheh
+4	אֶל	אל	ADP	prep	_	6	case	_	Gloss=to|Ref=EXO_35.30|Ref[BHSA]=49047|SpaceAfter=No|Translit=ʼel
+5	־	־	PUNCT	punct	_	4	punct	_	Ref=EXO_35.30|SpaceAfter=No
+6	בְּנֵ֣י	בן	NOUN	subs	Gender=Masc|Number=Plur	2	obl	_	Gloss=son|Ref=EXO_35.30|Ref[BHSA]=49048|Translit=bene
+7	יִשְׂרָאֵ֔ל	ישׂראל	PROPN	nmpr	Number=Sing	6	compound:smixut	_	Gloss=Israel|Ref=EXO_35.30|Ref[BHSA]=49049|Translit=yiśraʼel
+8	רְא֛וּ	ראה	VERB	verb	Gender=Masc|HebBinyan=PAAL|Mood=Imp|Number=Plur|Person=2|VerbForm=Fin	2	ccomp	_	Gloss=see|Ref=EXO_35.30|Ref[BHSA]=49050|Translit=reʼu
+9	קָרָ֥א	קרא	VERB	verb	Aspect=Perf|Gender=Masc|HebBinyan=PAAL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	8	parataxis	_	Gloss=call|Ref=EXO_35.30|Ref[BHSA]=49051|Translit=ḳaraʼ
+10	יְהוָ֖ה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	9	nsubj	_	Gloss=YHWH|Ref=EXO_35.30|Ref[BHSA]=49052|Translit=yehṿah
+11-12	בְּשֵׁ֑ם	_	_	_	_	_	_	_	Translit=beshem
+11	בְּ	ב	ADP	prep	_	12	case	_	Gloss=in|Ref=EXO_35.30|Ref[BHSA]=49053|Translit=be
+12	שֵׁ֑ם	שׁם	NOUN	subs	Gender=Masc|Number=Sing	9	obl	_	Gloss=name|Ref=EXO_35.30|Ref[BHSA]=49054|Translit=shem
+13	בְּצַלְאֵ֛ל	בצלאל	PROPN	nmpr	Gender=Masc|Number=Sing	9	obj	_	Gloss=Bezalel|Ref=EXO_35.30|Ref[BHSA]=49055|Translit=betsalʼel
+14	בֶּן	בן	NOUN	subs	Gender=Masc|Number=Sing	13	appos	_	Gloss=son|Ref=EXO_35.30|Ref[BHSA]=49056|SpaceAfter=No|Translit=ben
+15	־	־	PUNCT	punct	_	16	punct	_	Ref=EXO_35.30|SpaceAfter=No
+16	אוּרִ֥י	אורי	PROPN	nmpr	Gender=Masc|Number=Sing	14	compound:smixut	_	Gloss=Uri|Ref=EXO_35.30|Ref[BHSA]=49057|Translit=ʼuri
+17	בֶן	בן	NOUN	subs	Gender=Masc|Number=Sing	16	appos	_	Gloss=son|Ref=EXO_35.30|Ref[BHSA]=49058|SpaceAfter=No|Translit=ben
+18	־	־	PUNCT	punct	_	19	punct	_	Ref=EXO_35.30|SpaceAfter=No
+19	ח֖וּר	חור	PROPN	nmpr	Gender=Masc|Number=Sing	17	compound:smixut	_	Gloss=Hur|Ref=EXO_35.30|Ref[BHSA]=49059|Translit=ḥur
+20-21	לְמַטֵּ֥ה	_	_	_	_	_	_	_	Translit=lemaṭeh
+20	לְ	ל	ADP	prep	_	21	case	_	Gloss=to|Ref=EXO_35.30|Ref[BHSA]=49060|Translit=le
+21	מַטֵּ֥ה	מטה	NOUN	subs	Gender=Masc|Number=Sing	13	nmod	_	Gloss=staff|Ref=EXO_35.30|Ref[BHSA]=49061|Translit=maṭeh
+22	יְהוּדָֽה	יהודה	PROPN	nmpr	Number=Sing	21	compound:smixut	_	Gloss=Judah|Ref=EXO_35.30|Ref[BHSA]=49062|SpaceAfter=No|Translit=yehudah
+23	׃	׃	PUNCT	punct	_	2	punct	_	Ref=EXO_35.30
 
 # sent_id = Masoretic-Exodus-35:31-33-hbo
 # text = וַיְמַלֵּ֥א אֹתֹ֖ו ר֣וּחַ אֱלֹהִ֑ים בְּחָכְמָ֛ה בִּתְבוּנָ֥ה וּבְדַ֖עַת וּבְכָל־מְלָאכָֽה׃ וְלַחְשֹׁ֖ב מַֽחַשָׁבֹ֑ת לַעֲשֹׂ֛ת בַּזָּהָ֥ב וּבַכֶּ֖סֶף וּבַנְּחֹֽשֶׁת׃ וּבַחֲרֹ֥שֶׁת אֶ֛בֶן לְמַלֹּ֖את וּבַחֲרֹ֣שֶׁת עֵ֑ץ לַעֲשֹׂ֖ות בְּכָל־מְלֶ֥אכֶת מַחֲשָֽׁבֶת׃

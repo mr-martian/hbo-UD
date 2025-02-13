@@ -47,12 +47,12 @@ MORPH = {
     'p3': ['Person=3'],
     'hif': ['HebBinyan=HIFIL'],
     'hit': ['HebBinyan=HITPAEL'],
-#    'htpo': '???', # hitpo'el
-#    'hof': '???', # hof'al
+    #'htpo': ['HebBinyan=HITPOEL'], #TODO
+    'hof': ['HebBinyan=HUFAL'], # TODO: rename?
     'nif': ['HebBinyan=NIFAL'],
     'piel': ['HebBinyan=PIEL'],
-#    'poal': '???' # po'al
-#    'poel': '???' # po'el
+    'poal': ['HebBinyan=PUAL'], # TODO: separate?
+    'poel': ['HebBinyan=PIEL'], # TODO: separate?
     'pual': ['HebBinyan=PUAL'],
     'qal': ['HebBinyan=PAAL'],
     'nega': ['Polarity=Neg'],

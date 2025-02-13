@@ -79,4 +79,7 @@ export:
 bugs:
 	cat UD_Ancient_Hebrew-PTNK/*.conllu | udapy -HAM ud.MarkBugs > bugs.html
 
+check:
+	cat UD_Ancient_Hebrew-PTNK/*.conllu | udapy -HAM .HebrewCheck > check.html
+
 .PRECIOUS: temp/parsed-cg3/%.txt temp/merged/%.conllu temp/macula-parsed-cg3/%.txt temp/macula-merged/%.conllu temp/macula-cg3/%.txt

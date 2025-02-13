@@ -1,5 +1,6 @@
 /hbo.bin
 /__pycache__/*
+*/__pycache__/*
 /UD_Ancient_Hebrew-PTNK/
 *.png
 /*.conllu
@@ -14,10 +15,10 @@
 *.tar.gz
 *.req
 *.bin
-index.html
+*.html
+!tree-diff.html
 !/data/manual-arcs/*.tsv
 !/data/manual-heads/*.tsv
 !books.tsv
 /to_check/*
-bugs.html
 /venv/*

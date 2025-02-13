@@ -889,6 +889,8 @@ SUBSTITUTE @compound:smixut @appos (*) IF (sl @compound:smixut) ;
 
 SUBSTITUTE @case @conj (*) IF (c @acl:relcl) (pl (prep) LINK c @acl:relcl) ;
 
+SUBSTITUTE @case @ccomp $$TextLevel IF (pl SpeakingVerb - $$TextLevel) ;
+
 AFTER-SECTIONS
 
 SETPARENT @advmod TO (pr @conj LINK pA (*) LINK -1* _TARGET_) ;

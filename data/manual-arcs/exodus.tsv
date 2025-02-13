@@ -74,6 +74,8 @@ w8119	_	@xcomp
 #416
 w8697	w8681
 w8704	_	@conj
+#420
+w17536	_	@ccomp
 #424
 w8857	w8862	quoteoverride
 #428
@@ -134,8 +136,17 @@ w12622	_	@advcl
 w12773	_	@conj
 #658
 w13245	_	@parataxis
-w13250	w13251	longlist
-w13251	w13245	longlist
+w13250	w13251
+w13251	w13245	longlist><@conj><_override
+w13261	w13262
+w13262	w13245	longlist><@conj><_override
+w13271	w13245	longlist><@conj><_override
+w13274	_	@nmod
+w13275	w13245	longlist><@conj><_override
+w13277	_	@nmod
+w13285	w13245	@conj><_override
+w13288	_	_override
+w13292	_	@nmod
 #660
 w13306	_	@obl
 #671
@@ -165,11 +176,16 @@ w15202	_	@dislocated
 w15294	_	@csubj
 #766
 w15310	_	@obl
+w15311	_	@xcomp
 w15313	_	@parataxis
 w15315	w15313	@orphan
 w15316	w15307
 #788
 w15800	w15791	_override
+#813
+w16383	w16384
+w16384	w16379	@conj
+w16387	w16384	@acl:relcl
 #814
 w16415	_	@parataxis
 #827
@@ -194,16 +210,35 @@ w17601	w17606	quoteoverride
 w17724	_	@advcl
 #892
 w18025	w18019
+#906
+w18345	w18346
+w18346	w18342	_override><@conj
+w18349	w18350
+w18350	w18342	_override><@conj
+#908
+w18391	_	@obl
 #913
 w18484	_	@obl
 #917
 w18580	w18571	_override><@advcl
 #926
 w18798p	_	@obl
+#930
+w18874	_	@parataxis
+w18879	w18874	_override
 #945
+w19210	w19211
 w19211	w19199
+#955
+w19403	_	@acl:relcl
 #962
 w19525	_	@obl
+#976
+w19828	w19822	longlist><_override><@conj
+w19839	w19822	longlist><_override><@conj
+w19849	w19822	longlist><_override><@conj
+w19865	w19822	_override><@conj
+w19872	_	@nmod
 #977
 w19892	w19886	@appos
 w19895	w19897
@@ -234,6 +269,8 @@ w21600	_	@xcomp
 w21613	_	@dislocated
 #1080
 w22272	w22248	_override><@conj><longlist
+#1086
+w22419	_	@appos
 #1107
 w22821	w22776
 #1111

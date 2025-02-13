@@ -100,6 +100,10 @@ class Word:
                 self.tail = ' '
             if self.tail:
                 self.text = self.text.rstrip(self.tail)
+            if last_wid == 12311 and T.bookName(last_wid) == 'Exodus':
+                self.tail = self.tail.strip()
+                self.text += 'ס'
+                self.misc.append('SpaceAfter=No')
             if (' ' in self.surf or '־' in self.surf) and self.seg != 0:
                 if self.seg == 1:
                     self.tail = ' ' if ' ' in self.text else '־'

@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 
-# The structure of this block is heavily based on https://github.com/udapi/udapi-python/blob/master/udapi/block/ud/markbugs.py
-
 import collections
 import logging
 import re
@@ -21,7 +19,10 @@ REQUIRED_FEATURE_FOR_UPOS = {
 }
 
 class HebrewCheck(MarkBugs):
-    """Block for checking suspicious/wrong constructions in Ancient Greek (grc) UD v2."""
+    """Block for checking suspicious/wrong constructions in Ancient Hebrew (hbo) UD v2.
+
+    See ud.MarkBugs for documentation of the options of this block.
+    """
 
     def is_distributive(self, node):
         if node.udeprel != 'parataxis':
@@ -71,6 +72,17 @@ class HebrewCheck(MarkBugs):
             for i_feat in ['Gender', 'Number']:
                 if not feats[i_feat]:
                     self.log(node, 'partverb-no-' + i_feat, 'VerbForm=Part but %s feature is missing' % i_feat)
+
+        if udeprel == 'case' and node.lemma == 'את':
+            # it could in principle also be comitative,
+            # but that's still not nsubj
+            if parent.udeprel == 'nsubj':
+                self.log(parent, 'acc-subj', 'Subjects should not have accusative marking.')
+        if udeprel == 'case' and parent.feats['VerbForm'] == 'Fin':
+            self.log(node, 'case-finverb', 'Prepositions should not attach to finite verbs. Maybe this should be acl:relcl or obj+xcomp?')
+
+        if udeprel in ['obj', 'ccomp'] and parent.upos == 'AUX':
+            self.log(node, 'aux-'+udeprel, f'AUX should not have dependent {udeprel}.')
 
     def after_process_document(self, document):
         total = 0

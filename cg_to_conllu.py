@@ -66,6 +66,12 @@ MORPH = {
     #'uvf:H': ['Case=Loc'], # TODO
 }
 
+MISC = {
+    'sdbh': 'LId[SDBH]',
+    'mid': 'Ref[MACULA]',
+    'strong': 'LId[Strongs]',
+}
+
 def norm(s):
     return unicodedata.normalize('NFC', s)
 
@@ -168,6 +174,9 @@ class Word:
                 self.is_end = False
             if tg in ['card', 'ordn']:
                 self.upos = 'NUM'
+            for pfx in MISC:
+                if tg.startswith(pfx+':'):
+                    self.misc.append(MISC[pfx] + '=' + tg[len(pfx)+1:])
         if self.xpos == 'conj':
             if self.lemma == 'ו' or self.lemma == 'או':
                 self.upos = 'CCONJ'

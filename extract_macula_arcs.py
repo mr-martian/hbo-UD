@@ -389,6 +389,11 @@ def align_to_bhsa(sentence, bhsa0):
             tags[mid].append('role:'+m.attrib['rulepiece'])
         if 'uprule' in m.attrib:
             tags[mid].append('uprole:'+m.attrib['uprule'])
+        tags[mid].append('mid:'+mid)
+        if 'SDBH' in m.attrib:
+            tags[mid].append('sdbh:'+m.attrib['SDBH'].replace(' ', ','))
+        if 'oshb-strongs' in m.attrib:
+            tags[mid].append('strong:'+m.attrib['oshb-strongs'])
         heads[mid] = m.attrib['head']
         if m.attrib['pos'] == 'suffix':
             if m.attrib['type'] == 'pronominal':

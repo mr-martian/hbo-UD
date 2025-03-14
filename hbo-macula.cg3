@@ -233,6 +233,9 @@ WITH ("נגד" subs role:PP) IF (-1 ("כ" prep) LINK -1 ("עזר" subs)) {
   MAP @nmod (*) ;
 } ;
 
+SUBSTITUTE @cc @advmod (advb focp) ;
+SUBSTITUTE @cc @mark SCONJ ;
+
 ####################
 # Consistent labels
 ####################
@@ -649,10 +652,7 @@ MAP @advcl (infc uprole:PP) OR (verb ptca uprole:PP) OR (AdjP AjCl uprole:PP) IF
 MAP @obl (uprole:PP) - (_) - (role:P) IF (c @case) ;
 
 LIST CcAdvList = PPandPP NpaNp aCLaCL ;
-WITH @cc + (CjpCjp) IF (p @advmod + CcAdvList) {
-  SETPARENT (*) TO (p (*) LINK sr (*)) ;
-  SETPARENT _C1_ TO (srll (*)) ;
-} ;
+SETPARENT @cc + (CjpCjp) TO (p @advmod + CcAdvList LINK p (*)) ;
 
 MAP @amod (AdjpAdjp) ;
 SETPARENT (AdjpAdjp) TO (p @amod LINK p (*)) ;

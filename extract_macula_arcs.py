@@ -3,6 +3,7 @@
 import utils
 import xml.etree.ElementTree as ET
 import glob
+import re
 import sys
 import unicodedata
 from collections import defaultdict
@@ -14,95 +15,41 @@ HEAD_OVERRIDE = {
     'ppCL': 0,
     'PpRelp': 0, # TODO: should we just use case:outer for this instead?
     'OmpRelp': 0,
-
     'ADV-ADV': 0, # TODO: check which adverbs?
-
-    '2PpaPp': 0,
     'QuanNP': 0,
-
-    '2CLaCL': 0,
-    '2Np': 0,
-    '2NpaNpaNp': 0,
-    '3NpaNp': 0,
-    'AdjpaAdjp': 0,
     'CLaCL': 0,
-    'ClCl': 0,
-    'Conj3CL': 0,
-    'Conj4Np': 0,
-    'Conj4Pp': 0,
-    'Conj5Np': 0,
-    'NP3NP': 0,
-    'NpaNp': 0,
-    'NPaNPaNPNPaNP': 0,
-    'NPaNPNP': 0,
-    'NPaNPNPaNP': 0,
-    'NpNpNp': 0,
-    'NPNPNPaNPaNP': 0,
-    'NpNpNpNp': 0,
-    'NpPp': 0,
-    'NumpAndNump': 0,
-    'NumpNump': 0,
-    'PPandPP': 0,
-    'PpaPpPpaPp': 0,
-    'Relp3Relp': 0,
-
-
-    'AdjpAdjpandAdjp': 0,
-    'AdjpandAdjpAdjp': 0,
-    'AdvpandAdvp': 0,
-    'AdvpandPp': 0,
-    'NPandPP2np': 0,
-    'NumpAndNump': 0,
-    'PPandPP': 0,
-    'PpPpPpPpandPp': 0,
-    'PpPpPpandPp': 0,
-    'PpPpPpandPpPp': 0,
-    'PpPpandPpPp': 0,
-    'PpandAdvp': 0,
-    'PpandPpPp': 0,
-    'RelpandRelp': 0,
-    'VPandVP': 0,
-
-    'Conj11Np': 0,
-    'Conj2Pp': 0,
-    'Conj3Adjp': 0,
-    'Conj3CL': 0,
-    'Conj3Np': 0,
-    'Conj3Pp': 0,
-    'Conj4Adjp': 0,
-    'Conj4CL': 0,
-    'Conj4Np': 0,
-    'Conj4Pp': 0,
-    'Conj5CL': 0,
-    'Conj5Np': 0,
-    'Conj5Pp': 0,
-    'Conj6Np': 0,
-    'Conj6Pp': 0,
-    'Conj7Np': 0,
-    'Conj7Pp': 0,
-    'Conj8Np': 0,
-    'Conj9Np': 0,
 
     '12Np': 0,
     '2Advp_h1': 0,
+    '2Advp_h2': 0,
+    '2Np': 0,
     '3Adjp': 0,
-    '3NpaNp': 0,
-    '4NpaNp': 0,
     '7Np': 0,
-
+    'AdvpandPp': 0,
+    'CjpAdvpCjpAdvp': 1,
+    'ClCl': 0,
     'NP10NP': 0,
     'NP3NP': 0,
+    'NPandPP2np': 0,
     'NPnp4NP': 0,
     'NPnp5NP': 0,
     'Np5Np': 0,
     'NpNp5': 0,
     'NpNp6': 0,
+    'NpNpNp': 0,
     'NpNpNp11': 0,
+    'NpNpNpNp': 0,
+    'NpNpNpNpNp': 0,
+    'NpPp': 0,
+    'NumpNump': 0,
     'PP8PP': 0,
     'PP9PP': 0,
     'PPPP4': 0,
     'PPPP5': 0,
     'PpPp9': 0,
+    'PpPpPp': 0,
+    'PpPpPpPpPp': 0,
+    'PpandAdvp': 0,
     'Relp3Relp': 0,
     'Relp5Relp': 0,
     'VP3VP': 0,
@@ -111,22 +58,11 @@ HEAD_OVERRIDE = {
     'ppPP5PP': 0,
     'ppPP6PP': 0,
     'ppappPP5PP': 0,
-    '2Advp_h2': 0,
-    'CjpAdvpCjpAdvp': 1,
-    'NPNPaNPaNPaNP': 0,
-    'NumpaNumpaNumpaNump': 0,
-    'NPaNPaNPaNPNP': 0,
-    'NpNpNpNpNp': 0,
-    'aPpaPpaPp': 1,
-    'NumpaNumpaNump': 0,
-    'PpPpPpPpandPp': 0,
-    'NPaNPaNPaNPNPaNP': 0,
-    'NpNp5': 0,
-    '3Adjp': 0,
-    'PpPpPpPpPp': 0,
-    'PpPpPp': 0,
-    'NPNPaNPNPaNP': 0,
 }
+
+r_and = re.compile(r'^\d*([A-Z]{1,2}[a-z]*?)\1*(?:[aA]nd\1+)+$')
+r_a = re.compile(r'^a?\d*([A-Z]+[a-z]*?)\1*(?:a\1+)+$')
+r_conj = re.compile(r'^Conj\d+([A-Z]+[a-z]*)$')
 
 book_names = utils.load_book_data('Macula-file')
 
@@ -242,6 +178,15 @@ def propogate_heads(node):
             node.attrib['Head'] = '1'
     elif r == 'ClClCl' and node[0].attrib.get('Rule') == 'Intj2CL':
         node.attrib['Head'] = '1'
+    elif r and (m := r_and.match(r)):
+        node.attrib['Head'] = '0'
+        node.attrib['ConjType'] = m.group(1)
+    elif r and (m := r_a.match(r)):
+        node.attrib['Head'] = '1' if r[0] == 'a' else '0'
+        node.attrib['ConjType'] = m.group(1)
+    elif r and (m := r_conj.match(r)):
+        node.attrib['ConjType'] = m.group(1)
+        node.attrib['Head'] = '0'
     if node.attrib.get('nodeId') in manual_heads:
         node.attrib['Head'] = manual_heads[node.attrib['nodeId']]
     h = int(node.attrib['Head'])
@@ -266,6 +211,52 @@ def distribute_heads(node, headword, parentrule, rulepiece=None):
             roles = [rulepiece]
         elif r == 'Np-Appos':
             roles = [rulepiece, 'Appos']
+        elif 'ConjType' in node.attrib:
+            ct = node.attrib.get('ConjType')
+            seq = []
+            s = r
+            while s:
+                if s.startswith(ct):
+                    seq.append('conj')
+                    s = s[len(ct):]
+                elif s.startswith('Conj'):
+                    c = 0
+                    s = s[4:]
+                    while s[0].isdigit():
+                        c = c * 10 + int(s[0])
+                        s = s[1:]
+                    seq += ['conj', 'cc'] * (c-1)
+                elif s.startswith('and') or s.startswith('And'):
+                    seq.append('cc')
+                    s = s[3:]
+                elif s.startswith('a'):
+                    seq.append('cc')
+                    s = s[1:]
+                elif s[0].isdigit():
+                    c = 0
+                    while s[0].isdigit():
+                        c = c * 10 + int(s[0])
+                        s = s[1:]
+                    seq += [ct] * (c-1)
+                else:
+                    break
+            if not s and len(seq) == len(node) and seq[-1] != 'cc':
+                hw = None
+                for i, (ch, role) in enumerate(zip(node, seq)):
+                    if role == 'cc':
+                        h = node[seq.index('conj', i)]
+                        distribute_heads(ch, h.attrib['headword'],
+                                         r+'><@cc><'+ct+'-cc', None)
+                    elif not hw:
+                        distribute_heads(ch, headword, parentrule, rulepiece)
+                        hw = ch.attrib['headword']
+                    else:
+                        distribute_heads(ch, hw, r+'><@conj><'+ct+'-conj',
+                                         None)
+                return
+            else:
+                roles = [None] * len(node)
+                roles[int(n)] = rulepiece
         elif len(roles) != len(node):
             roles = [None] * len(node)
             roles[int(n)] = rulepiece

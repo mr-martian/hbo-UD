@@ -52,7 +52,7 @@ for line in gen[sid][1].splitlines():
 words.reverse()
 
 rows = ''.join(
-    f'<tr id="words{i}"><td>' + '</td><td>'.join(r) + '</td></tr>'
+    f'<tr id="words{i}" class="center"><td>' + '</td><td>'.join(r) + '</td></tr>'
     for i, r in enumerate(zip(*words))
 )
 rows += f'<tr><td colspan="{len(words)}">{text}</td></tr>'

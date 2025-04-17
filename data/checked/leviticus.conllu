@@ -2300,6 +2300,29 @@
 39	׃	׃	PUNCT	punct	_	8	punct	_	Ref=LEV_4.31
 40	פ	פ	PUNCT	punct	_	8	punct	_	Ref=LEV_4.31
 
+# sent_id = Masoretic-Leviticus-4:32-hbo
+# text = וְאִם־כֶּ֛בֶשׂ יָבִ֥יא קָרְבָּנֹ֖ו לְחַטָּ֑את נְקֵבָ֥ה תְמִימָ֖ה יְבִיאֶֽנָּה׃
+# translit = ṿeʼim keveś yaviʼ ḳarbano leḥaṭaʼt neḳevah temimah yeviʼenah
+# checker = Daniel
+1-2	וְאִם	_	_	_	_	_	_	_	SpaceAfter=No|Translit=ṿeʼim
+1	וְ	ו	CCONJ	conj	_	12	cc	_	Gloss=and|LId[Strongs]=c|Ref=LEV_4.32|Ref[BHSA]=54199|Ref[MACULA]=o030040320011|Translit=ṿe
+2	אִם	אם	SCONJ	conj	_	5	mark	_	Gloss=if|LId[Strongs]=518a|Ref=LEV_4.32|Ref[BHSA]=54200|Ref[MACULA]=o030040320012|Translit=ʼim
+3	־	־	PUNCT	punct	_	2	punct	_	Ref=LEV_4.32|SpaceAfter=No
+4	כֶּ֛בֶשׂ	כבשׂ	NOUN	subs	Gender=Masc|Number=Sing	5	obj	_	Gloss=young ram|LId[SDBH]=003238001001000|LId[Strongs]=3532|Ref=LEV_4.32|Ref[BHSA]=54201|Ref[MACULA]=o030040320021|Translit=keveś
+5	יָבִ֥יא	בוא	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	12	advcl	_	Gloss=come|LId[Strongs]=935|Ref=LEV_4.32|Ref[BHSA]=54202|Ref[MACULA]=o030040320031|Translit=yaviʼ
+6-7	קָרְבָּנֹ֖ו	_	_	_	_	_	_	_	Translit=ḳarbano
+6	קָרְבָּנֹ֖	קרבן	NOUN	subs	Gender=Masc|Number=Sing	5	xcomp	_	Gloss=offering|LId[Strongs]=7133a|Ref=LEV_4.32|Ref[BHSA]=54203|Ref[MACULA]=o030040320041|Translit=ḳarbano
+7	ו	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	6	nmod:poss	_	Ref=LEV_4.32|Ref[MACULA]=o030040320042|Translit=ṿ
+8-9	לְחַטָּ֑את	_	_	_	_	_	_	_	Translit=leḥaṭaʼt
+8	לְ	ל	ADP	prep	_	9	case	_	Gloss=to|LId[Strongs]=l|Ref=LEV_4.32|Ref[BHSA]=54204|Ref[MACULA]=o030040320051|Translit=le
+9	חַטָּ֑את	חטאת	NOUN	subs	Gender=Fem|Number=Sing	5	obl	_	Gloss=sin|LId[SDBH]=002218001005000|LId[Strongs]=2403b|Ref=LEV_4.32|Ref[BHSA]=54205|Ref[MACULA]=o030040320052|Translit=ḥaṭaʼt
+10	נְקֵבָ֥ה	נקבה	NOUN	subs	Gender=Fem|Number=Sing	12	xcomp	_	Gloss=female|LId[SDBH]=004898001001000|LId[Strongs]=5347|Ref=LEV_4.32|Ref[BHSA]=54206|Ref[MACULA]=o030040320061|Translit=neḳevah
+11	תְמִימָ֖ה	תמים	ADJ	adjv	Gender=Fem|Number=Sing	10	amod	_	Gloss=complete|LId[SDBH]=007844001003000|LId[Strongs]=8549|Ref=LEV_4.32|Ref[BHSA]=54207|Ref[MACULA]=o030040320071|Translit=temimah
+12-13	יְבִיאֶֽנָּה	_	_	_	_	_	_	_	SpaceAfter=No|Translit=yeviʼenah
+12	יְבִיאֶֽנָּ	בוא	VERB	verb	Aspect=Imp|Gender=Masc|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	0	root	_	Gloss=come|LId[Strongs]=935|Ref=LEV_4.32|Ref[BHSA]=54208|Ref[MACULA]=o030040320081|Translit=yeviʼena
+13	ה	היא	PRON	prn	Gender=Fem|Number=Sing|Person=3|PronType=Prs	12	obj	_	Ref=LEV_4.32|Ref[MACULA]=o030040320082|Translit=h
+14	׃	׃	PUNCT	punct	_	12	punct	_	Ref=LEV_4.32
+
 # sent_id = Masoretic-Leviticus-4:33-hbo
 # text = וְסָמַךְ֙ אֶת־יָדֹ֔ו עַ֖ל רֹ֣אשׁ הַֽחַטָּ֑את וְשָׁחַ֤ט אֹתָהּ֙ לְחַטָּ֔את בִּמְקֹ֕ום אֲשֶׁ֥ר יִשְׁחַ֖ט אֶת־הָעֹלָֽה׃
 # translit = ṿesamakh ʼet yado ʻal roʼsh haḥaṭaʼt ṿeshaḥaṭ ʼotah leḥaṭaʼt bimḳom ʼasher yishḥaṭ ʼet haʻolah
@@ -12022,6 +12045,33 @@
 25	פְנֵ֥י	פנה	NOUN	subs	Gender=Masc|Number=Plur	21	obl	_	Gloss=face|LId[Strongs]=6440|Ref=LEV_14.29|Ref[BHSA]=60919|Ref[MACULA]=o030140290142|Translit=pene
 26	יְהוָֽה	יהוה	PROPN	nmpr	Gender=Masc|Number=Sing	25	compound:smixut	_	Gloss=YHWH|LId[SDBH]=002823001001000|LId[Strongs]=3068|Ref=LEV_14.29|Ref[BHSA]=60920|Ref[MACULA]=o030140290151|SpaceAfter=No|Translit=yehṿah
 27	׃	׃	PUNCT	punct	_	14	punct	_	Ref=LEV_14.29
+
+# sent_id = Masoretic-Leviticus-14:32-hbo
+# text = זֹ֣את תֹּורַ֔ת אֲשֶׁר־בֹּ֖ו נֶ֣גַע צָרָ֑עַת אֲשֶׁ֛ר לֹֽא־תַשִּׂ֥יג יָדֹ֖ו בְּטָהֳרָתֹֽו׃ פ
+# translit = zoʼt torat ʼasher bo negaʻ tsaraʻat ʼasher loʼ taśig yado beṭahorato  p
+# checker = Daniel
+1	זֹ֣את	זאת	PRON	prde	Gender=Fem|Number=Sing|PronType=Dem	2	nsubj	_	Gloss=this|LId[Strongs]=2063|Ref=LEV_14.32|Ref[BHSA]=60964|Ref[MACULA]=o030140320011|Translit=zoʼt
+2	תֹּורַ֔ת	תורה	NOUN	subs	Gender=Fem|Number=Sing	0	root	_	Gloss=instruction|LId[SDBH]=007755001001000|LId[Strongs]=8451|Ref=LEV_14.32|Ref[BHSA]=60965|Ref[MACULA]=o030140320021|Translit=torat
+3	אֲשֶׁר	אשׁר	SCONJ	conj	_	6	mark	_	Gloss=<relative>|LId[Strongs]=834a|Ref=LEV_14.32|Ref[BHSA]=60966|Ref[MACULA]=o030140320031|SpaceAfter=No|Translit=ʼasher
+4	־	־	PUNCT	punct	_	3	punct	_	Ref=LEV_14.32|SpaceAfter=No
+5-6	בֹּ֖ו	_	_	_	_	_	_	_	Translit=bo
+5	בֹּ֖	ב	ADP	prep	_	6	case	_	Gloss=in|LId[Strongs]=b|Ref=LEV_14.32|Ref[BHSA]=60967|Ref[MACULA]=o030140320041|Translit=bo
+6	ו	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	2	acl:relcl	_	Ref=LEV_14.32|Ref[MACULA]=o030140320042|Translit=ṿ
+7	נֶ֣גַע	נגע	NOUN	subs	Gender=Masc|Number=Sing	6	nsubj	_	Gloss=stroke|LId[SDBH]=004638001002000|LId[Strongs]=5061|Ref=LEV_14.32|Ref[BHSA]=60968|Ref[MACULA]=o030140320051|Translit=negaʻ
+8	צָרָ֑עַת	צרעת	NOUN	subs	Gender=Fem|Number=Sing	7	compound:smixut	_	Gloss=skin-disease|LId[SDBH]=006335001001000|LId[Strongs]=6883|Ref=LEV_14.32|Ref[BHSA]=60969|Ref[MACULA]=o030140320061|Translit=tsaraʻat
+9	אֲשֶׁ֛ר	אשׁר	SCONJ	conj	_	12	mark	_	Gloss=<relative>|LId[Strongs]=834a|Ref=LEV_14.32|Ref[BHSA]=60970|Ref[MACULA]=o030140320071|Translit=ʼasher
+10	לֹֽא	לא	ADV	nega	Polarity=Neg	12	advmod	_	Gloss=not|LId[Strongs]=3808|Ref=LEV_14.32|Ref[BHSA]=60971|Ref[MACULA]=o030140320081|SpaceAfter=No|Translit=loʼ
+11	־	־	PUNCT	punct	_	10	punct	_	Ref=LEV_14.32|SpaceAfter=No
+12	תַשִּׂ֥יג	נשׂג	VERB	verb	Aspect=Imp|Gender=Fem|HebBinyan=HIFIL|Mood=Ind|Number=Sing|Person=3|VerbForm=Fin	6	appos	_	Gloss=overtake|LId[SDBH]=004926001005000|LId[Strongs]=5381|Ref=LEV_14.32|Ref[BHSA]=60972|Ref[MACULA]=o030140320091|Translit=taśig
+13-14	יָדֹ֖ו	_	_	_	_	_	_	_	Translit=yado
+13	יָדֹ֖	יד	NOUN	subs	Gender=Fem|Number=Sing	12	nsubj	_	Gloss=hand|LId[SDBH]=002787001067000|LId[Strongs]=3027|Ref=LEV_14.32|Ref[BHSA]=60973|Ref[MACULA]=o030140320101|Translit=yado
+14	ו	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	13	nmod:poss	_	LId[SDBH]=002787001067000|Ref=LEV_14.32|Ref[MACULA]=o030140320102|Translit=ṿ
+15-17	בְּטָהֳרָתֹֽו	_	_	_	_	_	_	_	SpaceAfter=No|Translit=beṭahorato
+15	בְּ	ב	ADP	prep	_	16	case	_	Gloss=in|LId[Strongs]=b|Ref=LEV_14.32|Ref[BHSA]=60974|Ref[MACULA]=o030140320111|Translit=be
+16	טָהֳרָתֹֽ	טהרה	NOUN	subs	Gender=Fem|Number=Sing	12	obl	_	Gloss=purification|LId[SDBH]=002663001001000|LId[Strongs]=2893|Ref=LEV_14.32|Ref[BHSA]=60975|Ref[MACULA]=o030140320112|Translit=ṭahorato
+17	ו	הוא	PRON	prn	Gender=Masc|Number=Sing|Person=3|PronType=Prs	16	nmod:poss	_	LId[SDBH]=002663001001000|Ref=LEV_14.32|Ref[MACULA]=o030140320113|Translit=ṿ
+18	׃	׃	PUNCT	punct	_	2	punct	_	Ref=LEV_14.32
+19	פ	פ	PUNCT	punct	_	2	punct	_	Ref=LEV_14.32
 
 # sent_id = Masoretic-Leviticus-14:33-hbo
 # text = וַיְדַבֵּ֣ר יְהוָ֔ה אֶל־מֹשֶׁ֥ה וְאֶֽל־אַהֲרֹ֖ן לֵאמֹֽר׃

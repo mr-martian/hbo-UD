@@ -306,6 +306,10 @@ bhsa_skip_nodes = {
     'genesis': [28427, 28426, 28460, 28461, 16564, 17279],
 }
 
+macula_skip_nodes = {
+    'leviticus': ['o030270330051ה'],
+}
+
 name_groups = {
     '883+': ['B>R/', 'LXJ_R>J/'],
     '884+': ['B>R/', 'CB<==/'],
@@ -350,7 +354,8 @@ def is_name_group(node, idx):
 
 def extract_morphemes(node):
     if node.tag == 'm':
-        yield node
+        if node.attrib[xml_id] not in macula_skip_nodes:
+            yield node
     elif node.tag == 'c':
         yield node[0]
     else:
@@ -445,6 +450,7 @@ def process_sentence(sent):
     align_to_bhsa(sent, wl)
 
 bhsa_skip_nodes = bhsa_skip_nodes.get(book, [])
+macula_skip_nodes = macula_skip_nodes.get(book, [])
 
 utils.load_volume(book, globals())
 

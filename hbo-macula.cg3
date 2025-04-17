@@ -381,6 +381,8 @@ WITH NOMAPPED roleVP {
   MAP @nsubj (PrNP uprole:S) ;
   MAP @obl (role:P uprole:P) IF (c @case) (p (role:ADV)) ;
   MAP @advcl (uprole:PP) IF (c (PrepCL @mark) OR (subs PrepCL)) (NEGATE p XcompInf) ;
+    MAP @nsubj (subs retag:verb uprole:S) ;
+    MAP @appos (uprole:Appos) IF (cl (relCL)) (sl (relCL)) ;
 } ;
 
 ####################
@@ -390,7 +392,7 @@ WITH NOMAPPED roleVP {
 LIST AclRules = NpRelp PpRelp NpCL AdvpRelp OmpRelp ;
 LIST ApposRules = (2Advp_h2 subs) ;
 LIST FlatRules = NumpNump ;
-LIST NmodRules = NpPp NumpPp AdvpPp2 ;
+LIST NmodRules = NpPp NumpPp AdvpPp2 PpNp2Np PpNump2 ;
 LIST NummodRules = NpNump NumpNP ;
 
 MAP (@acl) (infc NpPp) OR (infc NpInf) ;
@@ -462,7 +464,8 @@ WITH NOMAPPED (ClCl2) {
   MAP @xcomp (role:V) IF (c (relCL @mark)) ;
   MAP @advcl (nmcp) OR (role:V uprole:V) ;
   MAP @advcl (*) IF (c (conj) - ("ו")) ;
-  MAP @advmod (advb) IF (c @acl:relcl) ;
+    MAP @advmod (advb) IF (c @acl:relcl) ;
+    MAP @xcomp (PrAd) ;
 } ;
 
 WITH NOMAPPED (NP3NP) {
@@ -488,6 +491,7 @@ WITH NOMAPPED (NpNpNp) {
 } ;
 
 WITH NOMAPPED (NPofNP) {
+    MAP @acl:relcl (*) IF (cl (relCL)) ;
   MAP @appos (prde) ;
   MAP @obj (prn) IF (-1 (verb ptca)) ;
   MAP @nmod:poss (prn) ;
@@ -533,7 +537,7 @@ LIST ListRules = 2PpaPp AdjpAdjpandAdjp AdjpandAdjpAdjp CLaCL aCLaCL
 				PPandPP PpaPpPpaPp Relp3Relp PpPp PpandPpPp NPNPaNPNPaNP
         CjpAdvpCjpAdvp NPNPaNPaNPaNP NumpaNumpaNumpaNump NPaNPaNPaNPNP
         PPPP4 NpNpNpNpNp NpNp6 aPpaPpaPp NumpaNumpaNump PpPpPpPpandPp
-        NPaNPaNPaNPNPaNP NpNp5 3Adjp PpPpPpPpPp PpPpPp ;
+        NPaNPaNPaNPNPaNP NpNp5 3Adjp PpPpPpPpPp PpPpPp ppPP5PP ;
 MAP @conj ListRules ;
 
 MAP @csubj FinCL + (rela:Subj) ;
@@ -546,13 +550,13 @@ WITH (verb infc) + FinCLPP IF (c (prep PrepCL)) {
 
 SWITCHPARENT (*) - (prep) IF (p ("אמר" verb infc) - (actuallyinf) LINK -1 ("ל" prep)) ;
 WITH ("ל" prep) IF (1 ("אמר" verb infc) - (actuallyinf)) {
-REMPARENT (*) - (quoteoverride) ;
-UNMAP (*) ;
-UNMAP _C1_ ;
-SETCHILD (*) TO (jC1 (*)) ;
-MAP @fixed _C1_ ;
-REMCOHORT IGNORED _C1_ ;
-MAP (SCONJ quot ExtPos=SCONJ @mark) (*) ;
+    REMPARENT (*) - (quoteoverride) ;
+    UNMAP (*) ;
+    UNMAP _C1_ ;
+    SETCHILD (*) TO (jC1 (*)) ;
+    MAP @fixed _C1_ ;
+    REMCOHORT IGNORED _C1_ ;
+    MAP (SCONJ quot ExtPos=SCONJ @mark) (*) ;
 } ;
 
 ####################
@@ -703,7 +707,7 @@ WITH Top + (/^<txt:\(\\d+\)>$/r) - @advcl - (_override)
 WITH Top + (/^<txt:\(\\d+\)>$/r) - @advcl - (_override) - (SCONJ)
   IF (-1*O (>>>) OR Top + (VSTR:<txt<$1>) LINK 1* Top + (VSTR:<txt=$1>) LINK ppSrr Top + (VSTR:<txt=$1>)) (NEGATE c ("או" conj)) {
     SETPARENT (*) TO (jC1 (*)) ;
-    MAP @advcl (*) IF (c @mark - (retag:art) - (inrg)) ;
+    MAP @advcl (*) IF (cl @mark - (retag:art) - (inrg)) ;
     MAP @conj (*) IF (c (conj) - (retag:art)) ;
 	SETPARENT (verb infc) (c (prep)) TO (p (*) LINK c (@xcomp verb infc)) ;
 } ;

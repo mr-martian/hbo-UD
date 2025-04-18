@@ -100,11 +100,11 @@ def is_timey(node):
     return any(is_timey(ch) for ch in node)
 
 def is_cond(node):
-    if node.attrib.get('oshb-strongs') == '518a':
+    if node.attrib.get('oshb-strongs') in ['518a', '3588a']:
         return True
     if node.attrib.get('Cat') == 'relp':
         return True
-    if node.attrib.get('Cat') == 'CL' and '-' in node.attrib.get('Rule', ''):
+    if node.attrib.get('Cat') == 'CL' and ('-' in node.attrib.get('Rule', '') or node.attrib.get('Rule').startswith('CL')):
         return False
     return any(is_cond(ch) for ch in node)
 

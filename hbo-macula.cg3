@@ -73,6 +73,7 @@ LIST @nsubj:outer = @nsubj:outer ;
 LIST @amod = @amod ;       #
 LIST @advmod = @advmod ; # An adverbial modifier
 LIST @case = @case ;     # The relation of an adposition to its head
+LIST @acl = @acl ;
 LIST @acl:relcl = @acl:relcl ;       # A clause which modifies a nominal
 LIST @nmod = @nmod ;     # Nominal modifier
 LIST @punct = @punct ;   # Any punctuation
@@ -103,7 +104,7 @@ LIST @fixed = @fixed ;
 LIST @expl = @expl ;
 LIST @dep = @dep ;       # Any remaining dependency
 
-LIST Relation = @acl:relcl @advcl @advmod @amod @appos @aux @case @cc @ccomp @compound @compound:smixut @conj @cop @csubj @dep @det @discourse @dislocated @dobj @expl @fixed @flat @flat:name @mark @nmod @nmod:poss @nsubj @nsubj:outer @nummod @obj @obl @obl:npmod @orphan @parataxis @punct @root @vocative @xcomp ;
+LIST Relation = @acl @acl:relcl @advcl @advmod @amod @appos @aux @case @cc @ccomp @compound @compound:smixut @conj @cop @csubj @dep @det @discourse @dislocated @dobj @expl @fixed @flat @flat:name @mark @nmod @nmod:poss @nsubj @nsubj:outer @nummod @obj @obl @obl:npmod @orphan @parataxis @punct @root @vocative @xcomp ;
 
 ####################
 # Unsorted lists
@@ -283,7 +284,7 @@ LIST ConjSeq = /Conj\\d.*/r ;
 
 MAP @conj ConjSeq IF (c (conj)) ;
 
-MAP @conj $$Function IF (c ("ו" conj)) (p $$Function) ;
+MAP @conj $$Function - (CLandCL2+if) IF (c ("ו" conj)) (p $$Function) ;
 
 MAP @compound:smixut (NP) IF (p (subs ptcp c)) ;
 
@@ -312,7 +313,7 @@ WITH NOMAPPED (role:ADV) {
     IF (NOT 0 (Ellp CLaCL)) ;
   MAP @obl (NP) + VerbCL IF (NEGATE s (role:O)) ;
   MAP @obl (NP Loca) + VerbCL ;
-  MAP @xcomp (NP) + VerbCL - (Adju) ;
+  MAP @xcomp (NP) + VerbCL - (Adju) IF (NEGATE s (role:O2)) ;
   MAP @obl:npmod (infa) + $$Lemma IF (p $$Lemma) (NEGATE c (CLaCL) OR (AdvpandAdvp)) ;
   MAP @advcl (infa) OR (infc) ;
   MAP @obl (subs) OR (nmpr) OR (prn) IF (NOT 0 (Ellp CLaCL)) ;
@@ -333,6 +334,7 @@ WITH NOMAPPED (role:Appos) {
 } ;
 
 WITH NOMAPPED (role:O) - (Ellp CLaCL) - (Ellp ClCl) {
+    MAP @parataxis (ClCl) IF (c @orphan) ;
   MAP @compound:smixut (*) IF (p (subs c)) ;
   MAP @xcomp (verb infc) IF (p XcompInf) ;
   MAP @ccomp (verb) - Participle ;
@@ -395,7 +397,7 @@ LIST FlatRules = NumpNump ;
 LIST NmodRules = NpPp NumpPp AdvpPp2 PpNp2Np PpNump2 ;
 LIST NummodRules = NpNump NumpNP ;
 
-MAP (@acl) (infc NpPp) OR (infc NpInf) ;
+MAP @acl (infc NpPp) OR (infc NpInf) ;
 MAP @acl:relcl AclRules ;
 MAP @appos ApposRules ;
 MAP @flat FlatRules ;
@@ -659,7 +661,7 @@ LIST CcAdvList = PPandPP NpaNp aCLaCL ;
 SETPARENT @cc + (CjpCjp) TO (p @advmod + CcAdvList LINK p (*)) ;
 
 MAP @amod (AdjpAdjp) ;
-SETPARENT (AdjpAdjp) TO (p @amod LINK p (*)) ;
+SETPARENT (AdjpAdjp) - (_override) TO (p @amod LINK p (*)) ;
 
 ####################
 # Clause Connections

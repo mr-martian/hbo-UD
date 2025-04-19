@@ -77,6 +77,9 @@ export:
 	./export.py leviticus 1-27 >> UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-train.conllu
 	./export.py ruth 1-4 >> UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-train.conllu
 
+tf:
+	./export_tf.py
+
 bugs:
 	cat UD_Ancient_Hebrew-PTNK/*.conllu | udapy -HAM ud.MarkBugs > bugs.html
 

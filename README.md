@@ -4,16 +4,18 @@ This is an in-progress conversion of the Old Testament in Hebrew using data from
 
 # Status
 
-Manually-verified trees can be found in the files named `[book].checked.conllu`. The statistics are roughly the following, though I will probably forget to update this table, so run `make [book]-report` for up-to-date numbers.
+Manually-verified trees can be found in the files named `data/checked/[book].conllu`. The statistics are roughly the following, though I will probably forget to update this table, so run `make [book]-report` for up-to-date numbers.
 
 | Book | Sentences | Words |
 |---|---|---|
-| Genesis | 1494 / 1494 (100%) | 36741 / 36741 (100%) |
-| Exodus | 118 / 1151 (10%) | 2260 / 29878 (8%) |
-| Leviticus | 53 / 820 (6%) | 685 / 21769 (3%) |
-| Numbers | 116 / 1179 (10%) | 1249 / 28888 (4%) |
-| Deuteronomy | 21 / 879 (2%) | 224 / 26155 (1%) |
-| Ruth | 85 / 85 (100%) | 2294 / 2294 (100%) |
+| Genesis | 1494 / 1494 (100%) | 36822 / 36822 (100%) |
+| Exodus | 1151 / 1151 (100%) | 29882 / 29882 (100%) |
+| Leviticus | 820 / 820 (100%) | 21769 / 21769 (100%) |
+| Numbers | 116 / 1179 (10%) | 1288 / 28923 (4%) |
+| Deuteronomy | 21 / 879 (2%) | 226 / 26171 (1%) |
+| Ruth | 85 / 85 (100%) | 2297 / 2297 (100%) |
+
+As books are completed, they are released in CoNLL-U format to [the UD repo](https://github.com/UniversalDependencies/UD_Ancient_Hebrew-PTNK/) and in text-fabric format to [the BHSA extension module repo](https://github.com/mr-martian/bhsa-ud-tf).
 
 # License
 

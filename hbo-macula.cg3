@@ -54,7 +54,7 @@ LIST Lemma = ".*"r ;
 LIST ConjAblePrep = "כמו" "למען" "עד" ;
 LIST ConjAbleSubsPrep = "בלת" ;
 LIST SubsToPrep = "אחר" "בין" "אצל" "בעד" ;
-LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "קרב" "יאל" "לאה" "צוה" "נתן" "אבה" "מאן" ;
+LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "יאל" "לאה" "צוה" "נתן" "אבה" "מאן" ;
 LIST XcompNoObj = "מלא" ;
 
 LIST Masculine = "מכיר" "אשׁר" "בצע" "בקר" "כנען" "יהודה" "יאר" ;
@@ -777,8 +777,9 @@ MAP @ccomp (rela:Objc) ;
 SETPARENT (_ <txt:1>) - (_override) (p (<txt:0>)) TO (slll (_ <txt:1>) - (conj)) ;
 
 LIST NPConj = NpaNp 2Np 2NpaNpaNp NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP
-              NPaNPNPaNP NpNpNp NpNp Conj3Np Conj4Np Conj5Np
-              NpNpNp NpNpNpNp NPNPaNPNPaNP NPNPaNPaNPaNP (NP Ellp) ;
+    NPaNPNPaNP NpNpNp NpNp Conj3Np Conj4Np Conj5Np
+    NpNpNp NpNpNpNp NPNPaNPNPaNP NPNPaNPaNPaNP (NP Ellp)
+    longlist ;
 LIST PPConj = PpaPp Conj3Pp PPandPP 2PpaPp PPandPP PpaPpPpaPp PpandPpPp
         aPpaPpaPp ;
 LIST ClauseConj = CLaCL aCLaCL 2CLaCL Conj3CL Conj4CL (VP _) ;
@@ -789,7 +790,6 @@ SETPARENT @conj + &&ConjTypes - (_override)
         (NEGATE c ("או" conj))
   TO (p @conj + &&ConjTypes LINK p (*)) ;
 SETPARENT @conj + NPConj - (_override) TO (p @conj + (NP _) LINK p (NP _)) ;
-SETPARENT @conj TO (p @conj + (longlist) LINK p (*)) ;
 
 SETPARENT (intj @discourse) TO (p (intj @discourse) LINK p (*)) ;
 
@@ -877,6 +877,8 @@ WITH (NpCL) OR (ClCl) OR (VP P-S) IF (p (advb retag:inrg InrP) OR (prin InrP)) {
   SUBSTITUTE Relation @obl (*) IF (jC1A (prin)) ;
 } ;
 
+SETPARENT REPEAT @conj TO (p @conj + (longlist) LINK p (*)) ;
+
 SUBSTITUTE @obj @conj Pr IF (pl (Objc)) (c @cc) ;
 
 SETPARENT @acl:relcl TO (p @compound:smixut LINK p ("כל")) ;
@@ -896,6 +898,8 @@ SUBSTITUTE @compound:smixut @appos (*) IF (sl @compound:smixut) ;
 SUBSTITUTE @case @conj (*) IF (c @acl:relcl) (pl (prep) LINK c @acl:relcl) ;
 
 SUBSTITUTE @case @ccomp $$TextLevel IF (pl SpeakingVerb - $$TextLevel) ;
+
+SUBSTITUTE @obj @appos (prep Np-Appos) IF (p @obj) ;
 
 MAP @advmod (advb) IF (NEGATE c (*)) ;
 

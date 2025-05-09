@@ -310,6 +310,7 @@ MAP @orphan EllpCL - (role:S) ;
 
 SETPARENT SAFE (prep) TO (1 (verb infc)) ;
 SETPARENT SAFE Det TO (1 (subs) OR (nmpr)) ;
+SETPARENT SAFE (prn) TO (-1 (subs)) ;
 
 ####################
 # By role
@@ -397,6 +398,9 @@ WITH NOMAPPED roleVP {
     MAP @nsubj (subs retag:verb uprole:S) ;
     MAP @appos (uprole:Appos) IF (cl (relCL)) (sl (relCL)) ;
     MAP @parataxis (uprole:Appos) ;
+    MAP @advcl (subs uprole:PP) OR (adjv uprole:PP)
+            IF (c (role:PP) OR (role:O) OR (role:S)) ;
+    MAP @ccomp (role:V uprole:P) IF (p ("ידע" verb)) ;
 } ;
 
 ####################
@@ -427,6 +431,9 @@ MAP @parataxis (ClClCl) OR (ClClClCl) ;
 # Simple labels
 ####################
 
+MAP @advcl (2Advp_h1 verb) ;
+MAP @advcl (2Advp_h2 verb) ;
+
 WITH NOMAPPED (2Pp) {
   MAP @appos (*) IF (c @case + $$Lemma) (s @case + $$Lemma) ;
   MAP @nmod (*) ;
@@ -444,6 +451,8 @@ WITH NOMAPPED (AdjpPp) {
   MAP @obl (*) IF (p @conj LINK p (verb)) ;
   MAP @nmod (*) ;
 } ;
+
+MAP @advmod (AdvpCL inrg) ;
 
 WITH NOMAPPED (CLandCL2+if) {
   MAP @dislocated (NP CPen Frnt) ;
@@ -502,7 +511,7 @@ WITH NOMAPPED (NpAdjp) {
 
 WITH NOMAPPED (NpAdvp) {
     MAP @conj (subs padv) IF (p (subs padv)) ;
-    MAP @nmod (subs) OR (nmpr) IF (p (subs) OR (nmpr)) ;
+    MAP @nmod (subs) OR (nmpr) OR (prn) IF (p (subs) OR (nmpr)) ;
 } ;
 
 WITH NOMAPPED (NpNpNp) {
@@ -513,6 +522,7 @@ WITH NOMAPPED (NpNpNp) {
 
 WITH NOMAPPED (NPofNP) {
     MAP @acl:relcl (*) IF (cl (relCL)) ;
+    MAP @compound:smixut (prde) IF (p (c) LINK 1 _TARGET_) ;
   MAP @appos (prde) ;
   MAP @obj (prn) IF (-1 (verb ptca)) ;
   MAP @nmod:poss (prn) ;
@@ -550,11 +560,11 @@ MAP @compound:smixut CompoundAble IF (p (c)) ;
 
 MAP @advcl (CLaCL) IF ((c @mark) OR (sl @mark)) ;
 MAP @dislocated (CPen Frnt CLandCL2) IF (pr (*)) ;
-LIST ListRules = 2PpaPp AdjpAdjpandAdjp AdjpandAdjpAdjp CLaCL aCLaCL
+LIST ListRules = 2PpaPp AdjpAdjpandAdjp AdjpandAdjpAdjp CLaCL aCLaCL CLa2CL
 	 		  2CLaCL 2Np 2NpaNpaNp 2Pp 3NpaNp AdjpaAdjp aNpaNp aNpaNpaNp
 				CLaCL CLandCL2 Conj3CL Conj4Np Conj4Pp Conj5Np
 				NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP NPaNPNPaNP NpNpNp
-				NPNPNPaNPaNP NpNpNp NpNpNpNp NpPp NumpAndNump
+				NPNPNPaNPaNP NpNpNp NpNpNpNp NpPp NumpAndNump ppPP6PP
 				PPandPP PpaPpPpaPp Relp3Relp PpPp PpandPpPp NPNPaNPNPaNP
         CjpAdvpCjpAdvp NPNPaNPaNPaNP NumpaNumpaNumpaNump NPaNPaNPaNPNP
         PPPP4 NpNpNpNpNp NpNp6 aPpaPpaPp NumpaNumpaNump PpPpPpPpandPp
@@ -651,6 +661,8 @@ WITH (PpAdvp) IF (pr (NpRelp)) (sl @mark) {
     MAP @acl:relcl (*) ;
     SWITCHPARENT WITHCHILD (*) (*) ;
 } ;
+
+MAP @nmod:poss (prn) IF (p (subs) LINK 1 _TARGET_) ;
 
 SECTION
 
@@ -815,8 +827,8 @@ LIST NPConj = NpaNp 2Np 2NpaNpaNp NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP
     NpNpNp NpNpNpNp NPNPaNPNPaNP NPNPaNPaNPaNP (NP Ellp) NPnp4NP
     longlist ;
 LIST PPConj = PpaPp Conj3Pp PPandPP 2PpaPp PPandPP PpaPpPpaPp PpandPpPp
-        aPpaPpaPp ;
-LIST ClauseConj = CLaCL aCLaCL 2CLaCL Conj3CL Conj4CL (VP _) ;
+        aPpaPpaPp ppPP6PP ;
+LIST ClauseConj = CLaCL aCLaCL 2CLaCL Conj3CL Conj4CL CLa2CL (VP _) ;
 SET ConjTypes = NPConj OR PPConj OR ClauseConj ;
 SETPARENT @conj + &&ConjTypes - (_override)
         (NEGATE sr @acl:relcl OR @nmod OR @appos OR @nsubj)

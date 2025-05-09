@@ -304,10 +304,12 @@ def matches(node, idx):
 
 bhsa_skip_nodes = {
     'genesis': [28427, 28426, 28460, 28461, 16564, 17279],
+    'numbers': [8083, 21962],
 }
 
 macula_skip_nodes = {
     'leviticus': ['o030270330051ה'],
+    'numbers': ['o040340040061'],
 }
 
 name_groups = {
@@ -324,10 +326,15 @@ def is_split_prefix(node, idx):
     if node.attrib.get('oshb-strongs') == '1976' and F.lex.v(idx) == 'H' \
        and F.lex.v(idx+1) == 'LZH':
         return True
+    if node.attrib.get('oshb-strongs') == '935' and F.lex.v(idx) == 'L' \
+       and F.lex.v(idx+1) == 'BW>[':
+        return True
     return False
 
 def is_merge_prefix(node, idx):
     if node.attrib.get('oshb-strongs') == 'l' and F.lex.v(idx) in ['LMH', 'LKN']:
+        return True
+    if node.attrib.get('oshb-strongs') == 'd' and F.lex.v(idx) in ['HXJRWT/']:
         return True
     return False
 
@@ -335,6 +342,8 @@ def is_merge_main(node, idx):
     if F.lex.v(idx) == 'LMH' and node.attrib.get('oshb-strongs') == '4100':
         return True
     if F.lex.v(idx) == 'LKN' and node.attrib.get('oshb-strongs') == '3651c':
+        return True
+    if F.lex.v(idx) == 'HXJRWT/' and node.attrib.get('oshb-strongs') == '6367':
         return True
     return False
 
@@ -363,7 +372,7 @@ def extract_morphemes(node):
             yield from extract_morphemes(ch)
 
 def align_to_bhsa(sentence, bhsa0):
-    debug = (sentence.attrib['verse'] == 'GEN 24:65 (!!)')
+    debug = (sentence.attrib['verse'] == 'NUM 13:28')
     morphs = list(extract_morphemes(sentence))
     morphs.sort(key=lambda m: m.attrib[xml_id])
     m2b = {}
@@ -424,6 +433,8 @@ def align_to_bhsa(sentence, bhsa0):
             idx += 1
             continue
         print('NOMATCH', mid, idx, 'BHSA', F.voc_lex_utf8.v(idx), 'Macula', m.text, 'context', ' '.join((F.lex.v(i) or '_') + ':' + (F.lex_utf8.v(i) or '_') for i in range(idx-2,idx+3)), file=sys.stderr)
+    if debug:
+        print(m2b, file=sys.stderr)
     for mid in sorted(m2b.keys()):
         wid = m2b[mid]
         head = heads[mid]
@@ -437,6 +448,8 @@ def align_to_bhsa(sentence, bhsa0):
             if len(man) > 1:
                 tagstr += f'<{man[1]}>'
         print(f'w{wid}\t{head}\t{tagstr}')
+        if debug:
+            print(f'w{wid}\t{head}\t{tagstr}', file=sys.stderr)
 
 def process_sentence(sent):
     propogate_heads(sent)

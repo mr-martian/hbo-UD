@@ -1,0 +1,25 @@
+<html>
+  <head>
+    <title>{{book_id}} chapter {{chapter}}</title>
+    <style>
+      td { text-align: center; }
+      div.sentence {
+	  width: 100%;
+	  overflow-x: scroll;
+      }
+    </style>
+  </head>
+  <body>
+    <a href="/book/{{book_id}}/">Back to {{book_id}}</a>
+    <form method="POST">
+      {% for sent in sentences %}
+      <div class="sentence" data-sent="{{sent.1}}"></div>
+      <label for="acc-{{sent.0}}">Accept {{book_id}} {{sent.0}}</label>
+      <input type="checkbox" name="{{sent.0}}" id="acc-{{sent.0}}"></input>
+      {% endfor %}
+      <br/>
+      <button type="submit">Submit</button>
+    </form>
+    <script type="text/javascript" src="/static/tree-diff.js"></script>
+  </body>
+</html>

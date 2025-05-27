@@ -1,0 +1,28 @@
+<html>
+  <head>
+    <title>{{book_id}} | hbo treebanking</title>
+  </head>
+  <body>
+    <h1>{{book_id}}</h1>
+    <table>
+      <tr>
+	<th>Chapter</th>
+	<th>Accepted</th>
+	<th>Total</th>
+	<th>Percent</th>
+      </tr>
+      {% for ch in chapters %}
+      <tr>
+	{% if ch.0 == 0 %}
+	<td>Total</td>
+	{% else %}
+	<td><a href="/book/{{book_id}}/chapter/{{ch.0}}/">{{ch.0}}</a></td>
+	{% endif %}
+	<td>{{ch.1}}</td>
+	<td>{{ch.2}}</td>
+	<td>{{ch.3}}%</td>
+      </tr>
+      {% endfor %}
+    </table>
+  </body>
+</html>

@@ -250,3 +250,85 @@ def load_book_data(col):
     with open('books.tsv', newline='') as fin:
         reader = csv.DictReader(fin, dialect='excel-tab')
         return {row['id']: row[col] for row in reader}
+
+def feature_dict(s):
+    if s == '_':
+        return {}
+    else:
+        return dict(p.split('=', 1) for p in s.split('|'))
+
+def conllu2display(block1, block2=None):
+    text = ''
+    words = [['0', 'ROOT', 'ROOT', 'ROOT', 'ROOT', '', {}]]
+    arcs = {}
+    for line in block1.splitlines():
+        if line.startswith('# text'):
+            text = line.split('=')[1].strip()
+            break
+    for word in iter_words(block1):
+        d = feature_dict(word[5])
+        d.update(feature_dict(word[9]))
+        words.append([word[0], word[1], word[2], word[3],
+                      d.get('Gloss', ''), d.get('Ref[BHSA]', ''), d])
+        arcs[int(word[0])] = [(int(word[6].replace('_', '0')), word[7])]
+    words.reverse()
+    if block2:
+        for word in iter_words(block2):
+            arcs[int(word[0])].append((int(word[6].replace('_', '0')),
+                                       word[7]))
+    als = []
+    for k, v in arcs.items():
+        dep = len(words) - k - 1
+        h0 = len(words) - v[0][0] - 1
+        if v[0] == v[-1]:
+            als.append({'head': h0, 'dep': dep, 'label': v[0][1],
+                        'color': 'black', 'height': 0})
+        else:
+            h2 = len(words) - v[1][0] - 1
+            als.append({'head': h0, 'dep': dep, 'label': v[0][1],
+                        'color': 'green', 'height': 0})
+            als.append({'head': h1, 'dep': dep, 'label': v[1][1],
+                        'color': 'red', 'height': 0})
+    def contains(big, little):
+        bh, bd = big['head'], big['dep']
+        lh, ld = little['head'], little['dep']
+        if (bh, bd) == (ld, lh):
+            return bh < lh
+        elif (bh, bd) == (lh, ld):
+            return big['color'] == 'green'
+        elif (bh <= lh <= bd) and (bh <= ld <= bd):
+            return True
+        else:
+            return (bd <= lh <= bh) and (bd <= ld <= bh)
+    relevant = {}
+    for i in range(len(als)):
+        relevant[i] = [j for j in range(len(als))
+                       if i != j and contains(als[i], als[j])]
+    todo = list(relevant.keys())
+    while todo:
+        nt = []
+        for t in todo:
+            h = [als[i]['height'] for i in relevant[t]]
+            if not h:
+                als[t]['height'] = 1
+            elif 0 not in h:
+                als[t]['height'] = max(h) + 1
+            else:
+                nt.append(t)
+        todo = nt
+    return {'text': text, 'words': words, 'arcs': als,
+            'height': max(h['height'] for h in als)}
+
+def accept(book, annotator, ids):
+    with open(f'temp/macula-merged/{book}.conllu') as fin:
+        blocks = fin.read().strip().split('\n\n')
+        with open(f'data/checked/{book}.conllu', 'a') as fout:
+            for sent in ids:
+                block = blocks[sent-1]
+                written = False
+                for ln in block.splitlines():
+                    if ln[0] != '#' and not written:
+                        fout.write(f'# checker = {annotator}\n')
+                        written = True
+                    fout.write(ln + '\n')
+                fout.write('\n')

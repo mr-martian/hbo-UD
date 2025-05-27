@@ -1,0 +1,12 @@
+<html>
+  <head>
+    <title>hbo treebanking</title>
+  </head>
+  <body>
+    <ul>
+      {% for book in books %}
+      <li><a href="/book/{{book}}/">{{book}}</a></li>
+      {% endfor %}
+    </ul>
+  </body>
+</html>

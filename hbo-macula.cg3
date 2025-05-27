@@ -613,6 +613,8 @@ WITH (PpPp @conj) IF (pr @obl) {
   SUBSTITUTE @conj @obl (*) ;
 } ;
 
+SUBSTITUTE @acl:relcl @parataxis (adjv) OR (card) IF (NEGATE c @mark) ;
+
 SETPARENT (@case PpPp) TO (p @case LINK p (*)) ;
 
 SETPARENT SAFE SCONJ + (_) TO (1* (_)) ;

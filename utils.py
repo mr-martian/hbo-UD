@@ -257,7 +257,8 @@ def feature_dict(s):
     else:
         return dict(p.split('=', 1) for p in s.split('|'))
 
-def conllu2display(block1, block2=None):
+def conllu2display(book, block1, block2=None):
+    word_offset = int(load_book_data('BHSA-start')[book])
     text = ''
     words = [['0', 'ROOT', 'ROOT', 'ROOT', 'ROOT', '', {}]]
     arcs = {}
@@ -272,8 +273,11 @@ def conllu2display(block1, block2=None):
     for word in iter_words(block1):
         d = feature_dict(word[5])
         d.update(feature_dict(word[9]))
+        wid = d.get('Ref[BHSA]', '_')
+        if wid.isdigit():
+            wid = 'w' + str(int(wid)-word_offset)
         words.append([word[0], word[1], word[2], word[3],
-                      d.get('Gloss', ''), d.get('Ref[BHSA]', ''), d])
+                      d.get('Gloss', ''), wid, d])
         arcs[int(word[0])] = [(int(word[6].replace('_', '0')), word[7])]
     words.reverse()
     if block2:
@@ -288,7 +292,7 @@ def conllu2display(block1, block2=None):
             als.append({'head': h0, 'dep': dep, 'label': v[0][1],
                         'color': 'black', 'height': 0})
         else:
-            h2 = len(words) - v[1][0] - 1
+            h1 = len(words) - v[1][0] - 1
             als.append({'head': h0, 'dep': dep, 'label': v[0][1],
                         'color': 'green', 'height': 0})
             als.append({'head': h1, 'dep': dep, 'label': v[1][1],

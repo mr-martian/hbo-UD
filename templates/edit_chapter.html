@@ -16,6 +16,7 @@
       <div class="sentence" data-sent="{{sent.1}}"></div>
       <label for="acc-{{sent.0}}">Accept {{book_id}} {{sent.0}}</label>
       <input type="checkbox" name="{{sent.0}}" id="acc-{{sent.0}}"></input>
+      <a href="/check/{{book_id}}/{{sent.0}}/">Details</a>
       {% endfor %}
       <br/>
       <button type="submit">Submit</button>

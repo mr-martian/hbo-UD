@@ -82,7 +82,8 @@ for w in F.otype.s('word'):
     if p != prev_p:
         print('^pb/pb<pb>$', end=' ')
         prev_p = p
-    phr_ft = f'<ph{p}><c{c}><s{s}><{T.bookName(w)}>'
+    phr_ft = f'<ph{p}><c{c}><s{s}><{T.bookName(w)}><v{v}>'
+    phr_ft += f'<pn{p%10}><cn{c%10}><sn{s%10}><vn{v%10}>'
     for f in feats:
         phr_ft += get(p, f)
         phr_ft += get(c, f)

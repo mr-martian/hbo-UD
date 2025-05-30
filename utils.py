@@ -261,9 +261,13 @@ def conllu2display(block1, block2=None):
     text = ''
     words = [['0', 'ROOT', 'ROOT', 'ROOT', 'ROOT', '', {}]]
     arcs = {}
+    sent_id = ''
     for line in block1.splitlines():
         if line.startswith('# text'):
             text = line.split('=')[1].strip()
+        elif line.startswith('# sent_id'):
+            sent_id = line.split('=')[1].strip()
+        elif not line.startswith('#'):
             break
     for word in iter_words(block1):
         d = feature_dict(word[5])
@@ -316,7 +320,7 @@ def conllu2display(block1, block2=None):
             else:
                 nt.append(t)
         todo = nt
-    return {'text': text, 'words': words, 'arcs': als,
+    return {'sent_id': sent_id, 'text': text, 'words': words, 'arcs': als,
             'height': max(h['height'] for h in als)}
 
 def accept(book, annotator, ids):
@@ -332,3 +336,84 @@ def accept(book, annotator, ids):
                         written = True
                     fout.write(ln + '\n')
                 fout.write('\n')
+
+def show(book, idx, mode):
+    if mode == 'cg':
+        with open(f'temp/macula-parsed-cg3/{book}.txt') as fin:
+            return fin.read().strip().split('\n\n')[idx-1]
+    elif mode == 'raw':
+        with open(f'temp/macula-cg3/{book}.txt') as fin:
+            cur = []
+            i = -1
+            for line in fin:
+                if not line.strip():
+                    continue
+                cur.append(line.rstrip())
+                if '#1→' in cur[-1]:
+                    if i == idx:
+                        return '\n'.join(cur[:-2])
+                    else:
+                        cur = cur[-2:]
+                        i += 1
+    gen = load_conllu(f'temp/macula-merged/{book}.conllu')
+    sid = None
+    for k in gen:
+        if gen[k][0] == idx:
+            sid = k
+            break
+    if not sid:
+        return None
+    if mode == 'conllu':
+        return gen[sid][1]
+    elif mode == 'ref':
+        ref = load_conllu(f'data/checked/{book}.conllu', True)
+        return ref.get(sid, (None, None))[1]
+    elif mode == 'docs':
+        block = gen[sid][1]
+        ret = f'<!-- {book} {idx} -->\n'
+        ret += '~~~ conllu\n'
+        text = ''
+        for line in block.splitlines():
+            if line.startswith('# text ='):
+                text = line[9:].strip()
+            if line.count('\t') != 9:
+                ret += line + '\n'
+            else:
+                ls = line.split('\t')
+                if not ls[0].isdigit():
+                    ls[9] = '_'
+                else:
+                    ls[9] = ls[9].replace(' ', '.')
+                ret += '\t'.join(ls) + '\n'
+        ret += '\n~~~\n'
+        text = [l for l in block.splitlines() if l.startswith('# text')][0]
+        text = text.split('=')[1].strip()
+        ret += '\n_' + consonants_only(text) + '_\n\n'
+        ret += '_' + transliterate_loc(text, False) + '_'
+        return ret
+    elif mode == 'latex':
+        forms = []
+        translit = []
+        pos = []
+        arcs = []
+        block = gen[sid][1]
+        words = list(iter_words(block))
+        for ls in reversed(words):
+            wid = len(words) - int(ls[0]) + 1
+            head = 0 if ls[6] == '0' else len(words) - int(ls[6]) + 1
+            forms.append(transliterate_latex(ls[1]))
+            translit.append(transliterate_loc(ls[1], True))
+            pos.append(ls[3])
+            if head == 0:
+                arcs.append(f'\\deproot{{{wid}}}{{root}}')
+            else:
+                arcs.append(f'\\depedge{{{head}}}{{{wid}}}{{{ls[7]}}}')
+        ret  = '\\begin{dependency}\n'
+        ret += '  \\begin{deptext}\n'
+        ret += '    ' + ' \\& '.join(forms) + ' \\\\\n'
+        ret += '    ' + ' \\& '.join(translit) + ' \\\\\n'
+        ret += '    ' + ' \\& '.join(pos) + ' \\\\\n'
+        ret += '  \\end{deptext}\n'
+        ret += '  ' + '\n  '.join(arcs) + '\n'
+        ret += '\\end{dependency}\n'
+        return ret

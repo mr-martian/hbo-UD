@@ -1,0 +1,17 @@
+<html>
+  <head>
+    <title>Check {{book_id}}</title>
+  </head>
+  <body>
+    <h1>Check {{book_id}}</h1>
+    {% if fail %}
+    <ul>
+      {% for f in fail %}
+      <li><a href="/check/{{book_id}}/{{f}}/">Review sentence {{f}}</a></li>
+      {% endfor %}
+    </ul>
+    {% else %}
+    <p>All outputs match expected.</p>
+    {% endif %}
+  </body>
+</html>

@@ -54,7 +54,7 @@ LIST Lemma = ".*"r ;
 LIST ConjAblePrep = "כמו" "למען" "עד" ;
 LIST ConjAbleSubsPrep = "בלת" ;
 LIST SubsToPrep = "אחר" "בין" "אצל" "בעד" ;
-LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "יאל" "לאה" "צוה" "נתן" "אבה" "מאן" ;
+LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "יאל" "לאה" "צוה" "נתן" "אבה" "מאן" "שׁבע" "הון" ;
 LIST XcompNoObj = "מלא" ;
 
 LIST Masculine = "מכיר" "אשׁר" "בצע" "בקר" "כנען" "יהודה" "יאר" ;
@@ -702,6 +702,18 @@ SETPARENT @cc + (CjpCjp) TO (p @advmod + CcAdvList LINK p (*)) ;
 
 MAP @amod (AdjpAdjp) ;
 SETPARENT (AdjpAdjp) - (_override) TO (p @amod LINK p (*)) ;
+
+WITH NOMAPPED NOPARENT (NP _ rela:Coor) {
+    SETPARENT (/^par:\(.*\)$/r) TO (-1* (@conj VSTR:$1)) ;
+    SETPARENT REPEAT (*) TO (p @conj LINK p (*)) ;
+    MAP @conj (*) IF (p @conj) ;
+} ;
+
+WITH NOMAPPED (PP Objc _) IF (p (>>>)) {
+    SETPARENT (/^\(s\\d+\)$/r) TO (-1* (@conj Objc VSTR:$1) BARRIER (VP _) LINK p @obj) ;
+    SETCHILD (*) TO (cl (prep) LINK -1* (conj) BARRIER (*) - BD) ;
+    SUBSTITUTE (_) (@conj longlist) (*) IF (sl @conj) ;
+} ;
 
 ####################
 # Clause Connections

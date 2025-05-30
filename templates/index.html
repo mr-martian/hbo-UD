@@ -3,10 +3,19 @@
     <title>hbo treebanking</title>
   </head>
   <body>
-    <ul>
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Validate</th>
+        <th>Check</th>
+      </tr>
       {% for book in books %}
-      <li><a href="/book/{{book}}/">{{book}}</a></li>
+      <tr>
+        <td>{{book}}</td>
+        <td><a href="/book/{{book}}/">validate</a></td>
+        <td><a href="/check/{{book}}/">check</a></td>
+      </tr>
       {% endfor %}
-    </ul>
+    </table>
   </body>
 </html>

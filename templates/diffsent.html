@@ -1,0 +1,24 @@
+<html>
+  <head>
+    <title>Diff {{book_id}} {{sent}}</title>
+    <style>
+      td { text-align: center; }
+      div.sentence {
+	  width: 100%;
+	  overflow-x: scroll;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sentence" data-sent="{{tree}}"></div>
+    <details>
+      <summary>Final CG</summary>
+      <pre>{{cg}}</pre>
+    </details>
+    <details>
+      <summary>Initial CG</summary>
+      <pre>{{raw}}</pre>
+    </details>
+    <script type="text/javascript" src="/static/tree-diff.js"></script>
+  </body>
+</html>

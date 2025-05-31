@@ -239,6 +239,8 @@ SUBSTITUTE (subs) (verb retag:subs ClauseRoot) (nmcp) - ("אפס") ;
 # interrogative adverbs
 SUBSTITUTE (inrg) (advb retag:inrg) ItgAdv ;
 
+SUBSTITUTE (conj) (intj retag:conj) ("לו") ;
+
 ####################
 # Lookup table overrides
 ####################
@@ -300,7 +302,7 @@ MAP @conj ConjSeq IF (c (conj)) ;
 
 MAP @conj $$Function - (CLandCL2+if) IF (c ("ו" conj)) (p $$Function) ;
 
-MAP @compound:smixut (NP) IF (p (subs ptcp c)) ;
+MAP @compound:smixut (NP) IF (pl (subs ptcp c)) (NEGATE c @case) ;
 
 # TODO: genesis 261 has smixut
 LIST ReflexiveNouns = "אח" "רע" ;
@@ -330,6 +332,7 @@ WITH NOMAPPED (role:ADV) {
     MAP @nsubj (Subj Ellp) ;
     MAP @obl (adjv ordn) ;
     MAP @parataxis ("אישׁ") IF (0 (ClCl) OR (Ellp) OR (CPen Frnt)) ;
+    MAP @parataxis ("אישׁ" sg Subj) IF (p (pl)) ;
     MAP @xcomp (PrAd) OR (Subj) ;
   MAP @obj (Objc) OR (prn PreO) IF (NEGATE s (role:O)) ;
   MAP @obl (NP rela:Attr) OR (NP Time) OR (adjv ordn) OR (NP Modi)
@@ -480,12 +483,12 @@ MAP @dislocated (CLandCL2+disloc) ;
 WITH NOMAPPED (ClCl) {
   MAP @advcl (verb infc) IF (p (verb) - (infc)) ;
   MAP @parataxis (NP Voct) OR (PrNP Voct) IF (p (NP Voct) OR (PrNP Voct)) ;
-  MAP @vocative (Voct) IF (p (_) OR roleVP OR (intj ClCl2)) ;
+  MAP @vocative (Voct) IF (p (_) OR roleVP OR (intj ClCl2) OR (ClCl)) ;
   MAP @xcomp (*) IF (p ("ראה")) (c ("כי")) ;
   MAP @acl:relcl (*) IF (c (relCL @mark)) (p (NP) OR (PrNP)) ;
   MAP @acl:relcl (*) IF (c (relCL @mark) LINK sl (prep)) ;
   MAP @advcl (*) IF (c (conj) - ("ו") - ("ה")) ;
-  MAP @dislocated (NP Subj) OR (PPrP Subj) IF (NEGATE c (nega @advmod) OR @orphan) ;
+  MAP @dislocated (NP Subj) OR (PPrP Subj) IF (NEGATE c (nega @advmod) OR @orphan OR (Voct)) ;
   MAP @xcomp (ptca) IF (NEGATE c @nsubj OR @nsubj:outer OR @csubj) ;
   MAP @ccomp (rela:Objc) ;
   MAP @parataxis (*) ;
@@ -533,6 +536,7 @@ WITH NOMAPPED (NpNpNp) {
     MAP @conj (*) IF (p (_)) ;
     MAP @conj (*) IF (sl (NpaNp) OR @conj) ;
     MAP @conj (sg) IF (sr (adjv pl)) ;
+    MAP @conj ("איל" subs) IF (p ("פר" subs)) ; # hack because this keeps coming up in Numbers
     MAP @appos (*) ;
 } ;
 
@@ -541,7 +545,8 @@ WITH NOMAPPED (NPofNP) {
     MAP @compound:smixut (prde) IF (p (c) LINK 1 _TARGET_) ;
   MAP @appos (prde) ;
   MAP @obj (prn) IF (-1 (verb ptca)) ;
-  MAP @nmod:poss (prn) ;
+    MAP @nmod:poss (prn) ;
+    MAP @compound:smixut (verb ptca rela:RgRc) IF (p (c)) ;
   MAP @acl:relcl (verb ptca) ;
   MAP @obj (*) IF (p (verb ptca @acl:relcl)) ;
   MAP @nsubj (Subj) IF (p (infc c)) ;
@@ -710,7 +715,7 @@ WITH (PpPpPpPp) OR (PpPpPp) IF (p @obl) {
   SUBSTITUTE @conj @obl (*) ;
 } ;
 
-MAP @advcl (infc uprole:PP) OR (verb ptca uprole:PP) OR (AdjP AjCl uprole:PP) IF (c @case) ;
+MAP @advcl (infc uprole:PP) OR (infa uprole:PP) OR (verb ptca uprole:PP) OR (AdjP AjCl uprole:PP) IF (c @case) ;
 MAP @obl (uprole:PP) - (_) - (role:P) IF (c @case) ;
 
 LIST CcAdvList = PPandPP NpaNp aCLaCL ;
@@ -726,14 +731,14 @@ WITH NOMAPPED NOPARENT (NP _ rela:Coor) {
 } ;
 
 WITH NOMAPPED (PP Objc _) IF (p (>>>)) {
-    SETPARENT (/^\(s\\d+\)$/r) TO (-1* (@conj Objc VSTR:$1) BARRIER (VP _) LINK p @obj) ;
+    SETPARENT $$SentNum TO (-1* (@conj Objc) + $$SentNum BARRIER (VP _) LINK p @obj OR (longlist)) ;
     SETCHILD (*) TO (cl (prep) LINK -1* (conj) BARRIER (*) - BD) ;
     SUBSTITUTE (_) (@conj longlist) (*) IF (sl @conj) ;
 } ;
 
-WITH @obl IF (srrl ("אישׁ" @parataxis)) (cc (prn p3 m sg)) {
+WITH @obl OR @obj IF (srrl ("אישׁ" @parataxis)) (cc (prn p3 m sg)) {
     SETPARENT (*) TO (jC1 (*)) ;
-    SUBSTITUTE @obl @orphan (*) ;
+    SUBSTITUTE @obl OR @obj @orphan (*) ;
 } ;
 
 ####################
@@ -765,10 +770,11 @@ WITH (ppCL) IF (p @mark + (retag:prep)) {
 } ;
 
 WITH (prep PrepNp) IF (p (verb ptca)) (s (conj retag:art)) {
-  SETPARENT (*) TO (p (*) LINK p (*)) ;
-  SETCHILD (*) TO (jC1 (*)) ;
-  SUBSTITUTE Relation @acl:relcl _C1_ ;
-  MAP @acl:relcl _C1_ ;
+    SETPARENT (*) TO (p (*) LINK p (*)) ;
+    SETCHILD (*) TO (jC1 (*)) ;
+    SETCHILD (*) TO (jC1 (*) LINK c @cc) ;
+    SUBSTITUTE Relation @acl:relcl _C1_ ;
+    MAP @acl:relcl _C1_ ;
 } ;
 
 WITH Top + (/^<txt:\(\\d+\)>$/r) - @advcl - (_override)
@@ -780,14 +786,14 @@ WITH Top + (/^<txt:\(\\d+\)>$/r) - @advcl - (_override)
 } ;
 
 WITH Top + (/^<txt:\(\\d+\)>$/r) - @advcl - (_override) - (SCONJ)
-  IF (-1*O (>>>) OR Top + (VSTR:<txt<$1>) LINK 1* Top + (VSTR:<txt=$1>) LINK ppSrr Top + (VSTR:<txt=$1>)) (NEGATE c ("או" conj)) {
+  IF (-1*O (>>>) OR Top + (VSTR:<txt<$1>) LINK 1* Top + (VSTR:<txt=$1>) - (@advmod InrP) LINK ppSrr Top + (VSTR:<txt=$1>)) (NEGATE c ("או" conj)) {
     SETPARENT (*) TO (jC1 (*)) ;
     MAP @advcl (*) IF (cl @mark - (retag:art) - (inrg)) ;
     MAP @conj (*) IF (c (conj) - (retag:art)) ;
 	SETPARENT (verb infc) (c (prep)) TO (p (*) LINK c (@xcomp verb infc)) ;
 } ;
 
-LIST SpeakingVerb = quot "ברך" "צוה" "נגד" "דבר" "ענה" "שׁמע" "מלל" ;
+LIST SpeakingVerb = quot "ברך" "צוה" "נגד" "דבר" "ענה" ("שׁמע" verb) "מלל" ;
 
 WITH Top + (/^<txt:\(\\d+\)>$/r) - (_override)
   IF (llccS Top LINK -1* Top + (VSTR:<txt<$1>) - (SCONJ) BARRIER Top - (SCONJ))
@@ -863,12 +869,15 @@ LIST NPConj = NpaNp 2Np 2NpaNpaNp NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP
     longlist ;
 LIST PPConj = PpaPp Conj3Pp PPandPP 2PpaPp PPandPP PpaPpPpaPp PpandPpPp
         aPpaPpaPp ppPP6PP ;
-LIST ClauseConj = CLaCL aCLaCL 2CLaCL Conj3CL Conj4CL CLa2CL (VP _) ;
+LIST ClauseConj = CLaCL aCLaCL 2CLaCL Conj3CL Conj4CL CLa2CL (VP _)
+    CLandCL2 ;
 SET ConjTypes = NPConj OR PPConj OR ClauseConj ;
+LIST ScopedModifier = @acl:relcl @nmod @appos @nsubj @amod @flat @parataxis ;
 SETPARENT @conj + &&ConjTypes - (_override)
-        (NEGATE sr @acl:relcl OR @nmod OR @appos OR @nsubj OR @amod)
+        (NEGATE sr ScopedModifier)
         (NEGATE s @orphan)
         (NEGATE c ("או" conj))
+        (NEGATE sl ("או" conj))
   TO (p @conj + &&ConjTypes LINK p (*)) ;
 SETPARENT @conj + NPConj - (_override) TO (p @conj + (NP _) - (longlist) LINK p (NP _)) ;
 
@@ -965,7 +974,7 @@ WITH (NpCL) OR (ClCl) OR (VP P-S) IF (p (advb retag:inrg InrP) OR (prin InrP)) {
   SUBSTITUTE Relation @obl (*) IF (jC1A (prin)) ;
 } ;
 
-SETPARENT REPEAT @conj (NEGATE sr @amod OR @nmod) TO (p @conj + (longlist) LINK p (*)) ;
+SETPARENT REPEAT @conj (NEGATE sr ScopedModifier) TO (p @conj + (longlist) LINK p (*)) ;
 
 SETPARENT SAFE (SCONJ quot @advcl) TO (-1* (verb)) ;
 
@@ -991,7 +1000,27 @@ SUBSTITUTE @case @ccomp $$TextLevel IF (pl SpeakingVerb - $$TextLevel) ;
 
 SUBSTITUTE @obj @appos (prep Np-Appos) IF (p @obj) ;
 
+SUBSTITUTE @obl @dislocated (subs rela:Spec) IF (NEGATE c @case) ;
+
+SUBSTITUTE @obl @conj Pr IF (p @obl) (c @cc) ;
+SUBSTITUTE @obl @nmod Pr IF (p @obl OR @nsubj OR @obj) ;
+
+SUBSTITUTE @case @obl Pr IF (p (_)) (c @acl:relcl) ;
+
+SUBSTITUTE @advmod @conj (*) IF (pl @obl) (cl @cc) ;
+
+SUBSTITUTE @nsubj @nsubj:outer (*) IF (sr ("אשׁר" conj)) ;
+
+SUBSTITUTE @advmod @conj $$ClauseNum IF (p (*) - $$ClauseNum) (c @cc) ;
+
 MAP @advmod (advb) IF (NEGATE c (*)) ;
+
+WITH (verb @ccomp) OR (verb @xcomp) IF (c ("את" @case)) (cl @nsubj) (p (*)) {
+    SETPARENT _C1_ TO (jC2 (*)) ;
+    SETPARENT _C2_ TO (jC3 (*)) ;
+    SUBSTITUTE @nsubj @obj _C2_ ;
+    SUBSTITUTE @ccomp @xcomp (*) ;
+} ;
 
 AFTER-SECTIONS
 

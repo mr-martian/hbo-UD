@@ -397,6 +397,8 @@ def align_to_bhsa(sentence, bhsa0):
         tags[mid].append('mid:'+mid)
         if 'SDBH' in m.attrib:
             tags[mid].append('sdbh:'+m.attrib['SDBH'].replace(' ', ','))
+        if 'LexDomain' in m.attrib:
+            tags[mid].append('ld:'+m.attrib['LexDomain'].replace(' ', ','))
         if 'oshb-strongs' in m.attrib:
             tags[mid].append('strong:'+m.attrib['oshb-strongs'])
         heads[mid] = m.attrib['head']

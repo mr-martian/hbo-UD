@@ -68,6 +68,7 @@ MORPH = {
 
 MISC = {
     'sdbh': 'LId[SDBH]',
+    'ld': 'LexDomain[SDBH]',
     'mid': 'Ref[MACULA]',
     'strong': 'LId[Strongs]',
 }
@@ -99,9 +100,6 @@ class Word:
         last_wid = self.wid
         if isinstance(self.wid, list):
             last_wid = self.wid[-1]
-        if last_wid == 6941:
-            print('AAAAAAAAAAAAAAAAAAAAA', file=sys.stderr)
-            print(self.__dict__, file=sys.stderr)
         if last_wid != 0:
             self.text = norm(T.text(self.wid))
             self.tail = norm(F.trailer_utf8.v(last_wid))
@@ -117,10 +115,8 @@ class Word:
                 if self.seg == 1:
                     self.tail = ' ' if ' ' in self.text else '־'
                     self.wid = 0
-                oldtext = self.text
                 self.text = self.text.replace('־', ' ').split()[self.seg-1]
                 self.surf = self.text
-                print(f'{last_wid=}, {oldtext=}, {self.text=}', file=sys.stderr)
             if (F.prs.v(last_wid) and F.prs.v(last_wid) not in ['absent', 'n/a']):
                 self.is_end = False
             ch = F.chapter.v(L.u(last_wid, otype='verse')[0])
@@ -134,9 +130,6 @@ class Word:
                     self.misc.append(f'Gloss={gloss}')
         if self.xpos not in ['punct', 'prn'] and not self.tail:
             self.is_end = False
-        if last_wid == 6941:
-            print('AAAAAAAAAAAAAAAAAAAAA', file=sys.stderr)
-            print(self.__dict__, file=sys.stderr)
     def from_cg(self, inp):
         self.lemma = inp.split('"')[1]
         parts = inp.split('"')[-1].split()

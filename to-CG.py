@@ -105,6 +105,9 @@ for w in F.otype.s('word'):
             lu += f'^{srf}/{l}{tags}<wp{i+1}>$'
             if '־' in srf and i == 0:
                 lu += '^־/־<punct>$'
+    elif ' ' in srf:
+        for i, s in enumerate(srf.split()):
+            lu += f'^{s}/{lem}{tags}<wp{i+1}>$'
     else:
         lu = f'^{srf}/{lem}{tags}$'
     prn = ''

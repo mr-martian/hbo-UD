@@ -6,6 +6,11 @@ w832	_	_override
 w1059	w1054	@obl
 #123
 w1894	_	@nsubj:outer
+#133
+w2112	w2113	@case
+w2113	w2106	@obl
+w2114	_	CP><Rela
+w2115	w2113	@acl:relcl
 #174
 w3069	_	@dislocated
 #175
@@ -37,6 +42,13 @@ w7723	w7721	@compound:smixut
 #385
 w7837	_	@obj
 w7840	_	@xcomp
+#387
+w7878	w7883
+w7880	w7883	@obl
+w7882	w7883
+w7883	w7859	@conj
+w7885	w7883	@compound:smixut
+w7888	_	@conj
 #404
 w8189	w8191	quoteoverride
 w8191	_	@ccomp
@@ -64,6 +76,10 @@ w9866	w9862	@parataxis
 w9999	_	@ccomp
 #505
 w10058	w10047	@appos><_override
+#528
+w10535	w10537	quoteoverride
+w10537	w10528	@ccomp
+w10549	w10537	_override><@conj
 #539
 w10765	w10758
 #540
@@ -117,7 +133,11 @@ w16481	w16471	_override><@conj
 #870
 w17086	_	@obj
 #893
-w17540	w17530	_override
+w17540	w17530	_override><RelpandRelp
+#895
+w17584	w17582	@acl:relcl><_override
+w17594	w17584	@conj><_override
+w17597	w17584	@conj><_override
 #914
 w18012	w18010
 #923
@@ -163,5 +183,13 @@ w20498	_	@advcl
 w20500	_	CP
 #1045
 w20962	w20941	@appos
+#1054
+w21125	w21124	@obj
+w21127	w21125	@acl:relcl
+w21130	w21127	@obj
+#1140
+w22327	w22350
+w22330	w22350	@dislocated
+w22338	w22330	@appos><_override
 #1173
 w23054	w23040	_override

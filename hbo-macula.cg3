@@ -807,7 +807,7 @@ MAP @ccomp (/^<txt:\(\\d+\)>$/r) + FinCL IF (p SpeakingVerb + (VSTR:<txt<$1>)) ;
 SUBSTITUTE @advmod @ccomp (/^<txt:\(\\d+\)>$/r) + Top
   IF (p SpeakingVerb + (VSTR:<txt<$1>)) ;
 
-WITH Top + NPish + (CPen Frnt) + $$TextLevel
+WITH Top + NPish + (CPen Frnt) + $$TextLevel - (_override)
   IF (1* Top + $$TextLevel) {
     SETPARENT (*) TO (jC1 (*)) ;
     MAP @dislocated (*) ;
@@ -871,7 +871,8 @@ LIST PPConj = PpaPp Conj3Pp PPandPP 2PpaPp PPandPP PpaPpPpaPp PpandPpPp
         aPpaPpaPp ppPP6PP ;
 LIST ClauseConj = CLaCL aCLaCL 2CLaCL Conj3CL Conj4CL CLa2CL (VP _)
     CLandCL2 ;
-SET ConjTypes = NPConj OR PPConj OR ClauseConj ;
+LIST RelConj = RelpandRelp ;
+SET ConjTypes = NPConj OR PPConj OR ClauseConj OR RelConj ;
 LIST ScopedModifier = @acl:relcl @nmod @appos @nsubj @amod @flat @parataxis ;
 SETPARENT @conj + &&ConjTypes - (_override)
         (NEGATE sr ScopedModifier)
@@ -906,7 +907,7 @@ SET CopPredicate =
    OR (PreC V-O)
    OR (role:ADV infa) ;
 
-WITH CopPredicate IF (p (vbcp) - @cop)
+WITH CopPredicate - @conj IF (p (vbcp) - @cop)
   (NEGATE 0 (Cmpl) LINK s (PreC))
 {
   UNMAP (*) ;

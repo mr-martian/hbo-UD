@@ -59,7 +59,7 @@ LIST Lemma = ".*"r ;
 LIST ConjAblePrep = "כמו" "למען" "עד" ;
 LIST ConjAbleSubsPrep = "בלת" ;
 LIST SubsToPrep = "אחר" "בין" "אצל" "בעד" ;
-LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "יאל" "לאה" "צוה" "נתן" "אבה" "מאן" "שׁבע" "הון" ;
+LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "יאל" "לאה" "צוה" "נתן" "אבה" "מאן" "שׁבע" "הון" "בקשׁ" "בחר" ("שׁמר" sdbh:007493001007000) ("למד" qal) ;
 LIST XcompNoObj = "מלא" ;
 
 LIST Masculine = "מכיר" "אשׁר" "בצע" "בקר" "כנען" "יהודה" "יאר" ;
@@ -266,7 +266,7 @@ MAP @case Pr - (ExtPos=SCONJ) ;
 MAP @cc (conj) - (Rela) ;
 SET AdvAsNP = (PPandPP) - (focp) ;
 MAP @advmod ADV - (role:P) - (ClCl2) - (ClCl) - AdvAsNP - (AdvpandAdvp) ;
-MAP @discourse (intj) - (role:P) OR (intj uprole:S) ; # TODO: is there a better way to handle הנה?
+MAP @discourse (intj) - (role:P) - (_) OR (intj uprole:S) ; # TODO: is there a better way to handle הנה?
 MAP @expl (prde InrP) - (_) ;
 
 ####################
@@ -359,6 +359,7 @@ WITH NOMAPPED (role:Appos) {
   MAP @appos (*) - (uprole:P) ;
 } ;
 
+LIST IobjVerb = (verb hif) ("למד" verb piel) ("צוה" verb piel) ;
 LIST HifilNoIobj = "קרב" "קטר" "בוא" "נוף" "קדשׁ" "רום" ;
 WITH NOMAPPED (role:O) - (Ellp CLaCL) - (Ellp ClCl) {
     MAP @parataxis (ClCl) IF (c @orphan) ;
@@ -366,13 +367,13 @@ WITH NOMAPPED (role:O) - (Ellp CLaCL) - (Ellp ClCl) {
     MAP @xcomp (verb infc) IF (p XcompInf) ;
     MAP @ccomp (verb) - Participle ;
     MAP @obl (*) IF (p ("נתן" verb qal)) (s (role:O2)) (NEGATE s (role:PP) LINK c ("ל") OR ("על") OR ("אל")) ;
-    MAP @iobj (*) IF (p (verb hif) - HifilNoIobj) (s (role:O2)) ;
+    MAP @iobj (*) IF (p IobjVerb - HifilNoIobj) (s (role:O2)) ;
     MAP @obj (*) - (CLaCL) - (_) IF (NEGATE c (vbcp) - (NpRelp)) ;
 } ;
 
 WITH NOMAPPED (role:O2) {
     MAP @obj (*) IF (p ("נתן" verb qal)) (s (role:O @obl)) ;
-    MAP @obj (*) IF (p (verb hif)) (s (role:O @iobj)) ;
+    MAP @obj (*) IF (p IobjVerb) (s (role:O @iobj)) ;
     MAP @xcomp (*) ;
 } ;
 
@@ -415,6 +416,7 @@ WITH NOMAPPED roleVP {
     MAP @advcl (uprole:PP) IF (c (PrepCL @mark) OR (subs PrepCL)) (NEGATE p XcompInf) ;
     MAP @nsubj (subs retag:verb uprole:S) ;
     MAP @appos (uprole:Appos) IF (cl (relCL)) (sl (relCL)) ;
+    MAP @acl:relcl (ptca uprole:Appos) OR (ptcp uprole:Appos) IF (p (subs)) ;
     MAP @parataxis (uprole:Appos) ;
     MAP @advcl (subs uprole:PP) OR (adjv uprole:PP)
             IF (c (role:PP) OR (role:O) OR (role:S)) ;
@@ -499,8 +501,8 @@ LIST dislocatedClCl2 = (CPen Frnt) Subj Adju PreC ;
 WITH NOMAPPED (ClCl2) {
     MAP @obl (PP Time) ;
     MAP @vocative (Voct) IF (p (_) OR (role:P) OR (role:V)) ;
-    MAP @vocative (<txt:0>) IF (p (<txt:1>)) ;
     MAP @dislocated dislocatedClCl2 + NorP OR dislocatedClCl2 + (prde) OR dislocatedClCl2 + (prin) IF (NEGATE c @nsubj) ;
+    MAP @vocative (<txt:0>) IF (p (<txt:1>)) ;
     MAP @obl (Modi) + NorP ;
     MAP @acl:relcl (*) IF (p (prep)) ;
     MAP @acl:relcl (role:V) IF (c (relCL @mark) LINK sl (prep PrepNp)) ;
@@ -762,8 +764,8 @@ WITH (PP Adju _) + $$TextLevel - (_override) IF (1* (_ role:V) + $$TextLevel) (N
   MAP @obl (*) ;
 } ;
 
-WITH (ppCL) IF (p @mark + (retag:prep)) {
-  UNMAP (*) ;
+WITH (ppCL) + $$SentNum IF (p @mark + (retag:prep) + $$SentNum) {
+  UNMAP (*) - @conj ;
   MAP @advcl (*) ;
   SETPARENT (*) TO (p (*) LINK p (*)) ;
   SETCHILD (*) TO (jC1 (*)) ;
@@ -813,7 +815,7 @@ WITH Top + NPish + (CPen Frnt) + $$TextLevel - (_override)
     MAP @dislocated (*) ;
 } ;
 
-SETPARENT @mark + (CLaCL) TO (sr (*)) ;
+SETPARENT @mark + (CLaCL) (NOT pr (ppCL)) TO (sr (*)) ;
 
 SETPARENT SAFE (SCONJ /^<txt:\(\\d+\)>$/r) TO (1* (_ VSTR:<txt>$1>) - @advmod) ;
 SETPARENT (SCONJ /^<txt:\(\\d+\)>$/r) (p (<<<)) TO (1* (_ VSTR:<txt>$1>)) ;
@@ -866,7 +868,7 @@ SETPARENT (_ <txt:1>) - (_override) (p (<txt:0>)) TO (slll (_ <txt:1>) - (conj))
 LIST NPConj = NpaNp 2Np 2NpaNpaNp NP3NP NpaNp NPaNPaNPNPaNP NPaNPNP
     NPaNPNPaNP NpNpNp NpNp Conj3Np Conj4Np Conj5Np
     NpNpNp NpNpNpNp NPNPaNPNPaNP NPNPaNPaNPaNP (NP Ellp) NPnp4NP
-    longlist ;
+    longlist NpNpaNpNp ;
 LIST PPConj = PpaPp Conj3Pp PPandPP 2PpaPp PPandPP PpaPpPpaPp PpandPpPp
         aPpaPpaPp ppPP6PP ;
 LIST ClauseConj = CLaCL aCLaCL 2CLaCL Conj3CL Conj4CL CLa2CL (VP _)

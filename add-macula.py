@@ -24,7 +24,7 @@ def process_cur():
     ls = []
     for i, l in enumerate(cur):
         m = wid.search(l)
-        if m and '<wp2>' not in l:
+        if m and '<wp2>' not in l and '<wp3>' not in l:
             locs[m.group(1)] = i + 1
             ls.append(m.group(1))
         else:

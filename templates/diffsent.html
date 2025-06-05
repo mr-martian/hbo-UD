@@ -22,14 +22,14 @@
       <summary>Initial CG</summary>
       <pre>{{raw}}</pre>
     </details>
-    <details>
+    <details {% if rules %}open{% endif %}>
       <summary>Test Overrides</summary>
       <form method="POST">
         <textarea name="rules">{{rules}}</textarea>
         <button type="submit">Run</button>
       </form>
       <pre>
-        {{diff|safe}}
+{{diff|safe}}
       </pre>
     <script type="text/javascript" src="/static/tree-diff.js"></script>
   </body>

@@ -161,9 +161,10 @@ ADDCOHORT ("<prn>" "אני" prn p1 sg) AFTER ("און" subs retag:nmpr) ;
 MAP @nmod:poss (prn) IF (p (wp2)) ;
 
 MAP @flat:name (nmpr wp2) IF (-1 (nmpr wp1)) ;
+MAP @flat:name (nmpr wp3) IF (-1 (nmpr wp2)) ;
 SETPARENT @flat:name TO (-1* (nmpr wp1)) ;
 
-SETPARENT (wp2) TO (-1* (wp1)) ;
+SETPARENT (wp2) OR (wp3) TO (-1* (wp1)) ;
 SETPARENT (*) - (prn) TO (p (wp2) LINK p (wp1)) ;
 MAP @compound:smixut (wp2) IF (p (wp1 c)) ;
 
@@ -795,7 +796,7 @@ WITH Top + (/^<txt:\(\\d+\)>$/r) - @advcl - (_override) - (SCONJ)
 	SETPARENT (verb infc) (c (prep)) TO (p (*) LINK c (@xcomp verb infc)) ;
 } ;
 
-LIST SpeakingVerb = quot "ברך" "צוה" "נגד" "דבר" "ענה" ("שׁמע" verb) "מלל" ;
+LIST SpeakingVerb = quot "ברך" "צוה" "נגד" ("דבר" verb) "ענה" ("שׁמע" verb) "מלל" ;
 
 WITH Top + (/^<txt:\(\\d+\)>$/r) - (_override)
   IF (llccS Top LINK -1* Top + (VSTR:<txt<$1>) - (SCONJ) BARRIER Top - (SCONJ))
@@ -875,7 +876,7 @@ LIST ClauseConj = CLaCL aCLaCL 2CLaCL Conj3CL Conj4CL CLa2CL (VP _)
     CLandCL2 ;
 LIST RelConj = RelpandRelp ;
 SET ConjTypes = NPConj OR PPConj OR ClauseConj OR RelConj ;
-LIST ScopedModifier = @acl:relcl @nmod @appos @nsubj @amod @flat @parataxis ;
+LIST ScopedModifier = @acl:relcl @nmod @appos @nsubj @amod @flat @parataxis @obl ;
 SETPARENT @conj + &&ConjTypes - (_override)
         (NEGATE sr ScopedModifier)
         (NEGATE s @orphan)

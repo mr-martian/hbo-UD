@@ -78,7 +78,7 @@ def diffsent(book_id, sent):
                 heads.add(ls[1])
     if dct:
         inp = utils.show(book_id, sent, 'raw')
-        head_locs = {}
+        head_locs = {'0': '0'}
         for line in inp.splitlines():
             ls = line.split()
             for h in heads:
@@ -93,7 +93,7 @@ def diffsent(book_id, sent):
                     if dct[k][0] != '_':
                         pieces = line.split('→')
                         subpieces = pieces[1].split(' ', 1)
-                        line = pieces[0] + head_locs[dct[k][0]]
+                        line = pieces[0] + '->' + head_locs[dct[k][0]]
                         if len(subpieces) == 2:
                             line += ' ' + subpieces[1]
                     line += ' ' + ' '.join(dct[k][1:])

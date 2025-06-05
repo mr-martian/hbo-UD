@@ -101,9 +101,12 @@ for w in F.otype.s('word'):
     tags += f'<w{w}>'
     lu = ''
     if ' ' in lem:
-        for i, l in enumerate(lem.split()):
+        lem_segs = lem.split()
+        for i, l in enumerate(lem_segs):
             lu += f'^{srf}/{l}{tags}<wp{i+1}>$'
-            if '־' in srf and i == 0:
+            if '־' in srf and i == 0 and len(lem_segs) == 2:
+                lu += '^־/־<punct>$'
+            elif '־' in srf and i == 1 and len(lem_segs) == 3 and T.bookName(w) == 'Deuteronomy':
                 lu += '^־/־<punct>$'
     elif ' ' in srf:
         for i, s in enumerate(srf.split()):

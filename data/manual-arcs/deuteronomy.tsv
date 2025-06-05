@@ -1,6 +1,8 @@
 #1
 w20	w19	@nmod
 w21	w20	@compound:smixut
+#6
+w157	_	@parataxis
 #14
 w293p	_	@obj
 w294	_	@xcomp
@@ -11,6 +13,10 @@ w575	_	@advcl
 #29
 w633	w622	@conj><_override
 #30
+#95
+w2116	_	@nsubj
+w2132	w2126
+w2156	w2134	_override
 w671	w668	@acl:relcl><_override
 w685	_	@advcl
 w688	_	@advcl
@@ -25,6 +31,9 @@ w754	_	_override
 #35
 w787p	_	@obj
 w789	_	@iobj
+#111
+w2512	_	@acl:relcl><_override
+w2515	_	@acl
 #113
 w2561	w2552	_override><@conj
 #116
@@ -40,8 +49,14 @@ w3251	w3241	_override><@advcl
 w3434	w3424	@obl><_override
 w3463	w3453	@conj><_override
 w3485	w3463	@obl><_override
+#146
+w3545	_	@xcomp
 #150
 w3614	w3610	quoteoverride
+#154
+w3689	w3675	_override
+#160
+w3826	_	@conj
 #179
 w4192	w4193	_override
 w4193	0	@root
@@ -59,6 +74,42 @@ w4640	w4634	@parataxis
 #207
 w4762	w4761	@nmod
 w4763	w4762	@acl:relcl
+#209
+w4822	_	@appos
+w4841	w4825	_override
+#217
+w5031	w5019	@appos><_override
+#226
+w5252	_	@parataxis
+#235
+w5470	w5459	@acl:relcl><_override
+w5489	w5459	@acl:relcl><_override
+w5497	w5459	@acl:relcl><_override
+#239
+w5617	_	@conj
+w5624	w5612	_override><@conj
+#245
+w5822	_	@advcl
+#277
+w6625	w6598	_override><@conj
+#281
+w6717	w6711	_override
+w6723	w6711	_override
+#287
+w6816	_	@ccomp
+w6829	_	@conj
+w6831	_	@conj
+w6840	w6825	_override
+w6859	w6845	_override
+w6889	w6845	_override
+w6903	w6845	_override
+#291
+w7015	_	@parataxis
+#307
+w7363	w7358	@appos><_override
+w7365	w7363	@acl:relcl><_override
+w7378	w7363	_override
+w7381	_	@acl
 #331
 w7955	w7951	_override><@advcl
 #346
@@ -69,13 +120,121 @@ w8385	w8379
 w8411	w8399	@obl><_override
 #364
 w8732	w8726	longlist><@conj><_override
+#371
+w8872	w8863	longlist><_override><@conj
+w8884	w8863	longlist><_override><@conj
+w8890	w8863	longlist><_override><@conj
+w8909	w8863	longlist><_override><@conj
+w8919	w8863	longlist><_override><@conj
+w8930	w8863	longlist><_override><@conj
+#391
+w9368	w9357	_override
+w9376	w9357	_override
+w9379	w9357	_override
+w9384	w9357	_override
+#401
+w9592	w9581
+#414
+w9853	_	@advcl
+#421
+w10028	w10015	_override><@dislocated
+w10048	w10043	_override
+#423
+w10098	w10094	_override
+#431
+w10258	w10233	@parataxis
+#446
+w10660	_	@conj
+w10661	_	@conj
+#455
+w10846	w10831	_override><NpaNp
+#459
+w10918	w10916	_override><@obl
+w10931	w10934	quoteoverride
+w10934	_	@advcl
+#465
+w11042	_	@advcl
+#468
+w11126	w11124
+#470
+w11155	_	@advcl
+#513
+w12136	w12133	_override><@ccomp
 #534
 w12589	_	@acl:relcl
 w12590	_	@obj
+#535
+w12592	w12622	@advcl
+w12607	_	@advcl
+w12613	w12592	_override
+#551
+w12896	w12904	@advcl
+w12898	_	@xcomp
+#562
+w13154	_	@obl
+#577
+w13428	_	@conj
+w13430	_	@conj
+#590
+w13692	_	@xcomp
 #608
 w14057	w14049	_override
 #614
 w14187	w14185	_override><@ccomp
+#641
+w14831	w14818	_override><PPandPP
+#691
+w15754	_	@obj
+w15756	_	@xcomp
+#705
+w16034	_	@obl
+#718
+w16356	_	@advcl
+#719
+w16404	w16394	_override><PPandPP
+w16416	w16391	_override><@advcl
+#739
+w16918	w16910	_override><NPaNP><@conj
+w16944	w16935
+#740
+w16998	_	@advcl
+w17000	_	@acl:relcl
+#749
+w17273	_	@ccomp
+w17291	w17275	_override
+w17293	w17275	_override
+w17297	w17275	_override
+#773
+w17946	_	@appos
+w17951	w17942
+#780
+w18142	_	@conj
+#800
+w18670	_	@nmod
+w18675	_	@nmod
+#802
+w18692	w18686	_override
+w18695	w18686	_override
+#810
+w18817	_	@conj><_override
+w18821	w18812	@parataxis><_override
+#816
+w18914p	_	@acl
+#821
+w18987	w18977	@parataxis
+#830
+w19078	_	@nsubj
+#833
+w19128	w19121	@acl:relcl><_override
+#853
+w19526	_	@obl
+w19527	w19518	CLaCL
+#858
+w19631	_	@nsubj
+w19633	_	@obl
+w19643	w19633	PPandPP
+w19654	w19633	PPandPP
+w19664	w19633	PPandPP
 #859
 w19693	_	@obl
 #868

@@ -76,7 +76,13 @@ export:
 	./export.py exodus 1-40 >> UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-train.conllu
 	./export.py leviticus 1-27 >> UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-train.conllu
 	./export.py numbers 1-36 >> UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-train.conllu
+	./export.py deuteronomy 1-6 >> UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-dev.conllu
+	./export.py deuteronomy 7-12 >> UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-test.conllu
+	./export.py deuteronomy 13-34 >> UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-train.conllu
 	./export.py ruth 1-4 >> UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-train.conllu
+
+validate:
+	../tools/validate.py --lang hbo --level 5 UD_Ancient_Hebrew-PTNK/*.conllu
 
 tf:
 	./export_tf.py

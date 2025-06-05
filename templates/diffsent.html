@@ -4,8 +4,12 @@
     <style>
       td { text-align: center; }
       div.sentence {
-	  width: 100%;
-	  overflow-x: scroll;
+	        width: 100%;
+	        overflow-x: scroll;
+      }
+      pre {
+          width: 95%;
+          overflow-x: scroll;
       }
     </style>
   </head>
@@ -25,12 +29,13 @@
     <details {% if rules %}open{% endif %}>
       <summary>Test Overrides</summary>
       <form method="POST">
-        <textarea name="rules">{{rules}}</textarea>
+        <textarea name="rules" cols="80" rows="5">{{rules}}</textarea>
         <button type="submit">Run</button>
       </form>
       <pre>
 {{diff|safe}}
       </pre>
+      <textarea>{{clean_rules}}</textarea>
     <script type="text/javascript" src="/static/tree-diff.js"></script>
   </body>
 </html>

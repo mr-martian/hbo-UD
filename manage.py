@@ -68,6 +68,7 @@ def review_chapter(book_id, ch):
 @app.route('/check/<book_id>/<int:sent>/', methods=['GET', 'POST'])
 def diffsent(book_id, sent):
     rules = request.form.get('rules', '')
+    clean_rules = f'#{sent}\n'
     dct = {}
     heads = set()
     for line in rules.splitlines():
@@ -102,6 +103,11 @@ def diffsent(book_id, sent):
                               input='\n'.join(lines).encode('utf-8'),
                               capture_output=True)
         diff = proc.stdout.decode('utf-8')
+        for key in sorted(dct):
+            line = key + '\t' + dct[key][0]
+            if len(dct[key]) > 1:
+                line += '\t' + '><'.join(dct[key][1:])
+            clean_rules += line + '\n'
     else:
         diff = ''
     return render_template('diffsent.html', book_id=book_id, sentence=sent,
@@ -111,7 +117,7 @@ def diffsent(book_id, sent):
                                utils.show(book_id, sent, 'ref'))),
                            cg=utils.show(book_id, sent, 'cg'),
                            raw=utils.show(book_id, sent, 'raw'),
-                           diff=diff, rules=rules)
+                           diff=diff, rules=rules, clean_rules=clean_rules)
 
 @app.route('/check/<book_id>/<int:sent>/accept/', methods=['POST'])
 def accept_single(book_id, sent):

@@ -355,7 +355,8 @@ WITH NOMAPPED (role:Appos) {
   MAP @dislocated (*) IF (pl (role:S) LINK pr (*) LINK 1* _TARGET_) ;
   MAP @xcomp (adjv) IF (p (verb ptca)) ;
   MAP @amod (adjv) ;
-  MAP @acl:relcl (verb ptca) ;
+    MAP @acl:relcl (verb ptca) ;
+    MAP @acl (verb infa) ;
   MAP @compound:smixut (*) IF (-1* (c) BARRIER (*) - Det LINK c _TARGET_) ;
   MAP @appos (*) - (uprole:P) ;
 } ;
@@ -369,7 +370,7 @@ WITH NOMAPPED (role:O) - (Ellp CLaCL) - (Ellp ClCl) {
     MAP @ccomp (verb) - Participle ;
     MAP @obl (*) IF (p ("נתן" verb qal)) (s (role:O2)) (NEGATE s (role:PP) LINK c ("ל") OR ("על") OR ("אל")) ;
     MAP @iobj (*) IF (p IobjVerb - HifilNoIobj) (s (role:O2)) ;
-    MAP @obj (*) - (CLaCL) - (_) IF (NEGATE c (vbcp) - (NpRelp)) ;
+    MAP @obj (*) - (CLaCL) - (_) IF (NEGATE c (vbcp) - (NpRelp) OR @orphan) ;
 } ;
 
 WITH NOMAPPED (role:O2) {
@@ -592,7 +593,8 @@ LIST ListRules = 2PpaPp AdjpAdjpandAdjp AdjpandAdjpAdjp CLaCL aCLaCL CLa2CL
 				PPandPP PpaPpPpaPp Relp3Relp PpPp PpandPpPp NPNPaNPNPaNP
         CjpAdvpCjpAdvp NPNPaNPaNPaNP NumpaNumpaNumpaNump NPaNPaNPaNPNP
         PPPP4 NpNpNpNpNp NpNp6 aPpaPpaPp NumpaNumpaNump PpPpPpPpandPp
-        NPaNPaNPaNPNPaNP NpNp5 3Adjp PpPpPpPpPp PpPpPp ppPP5PP NPnp4NP ;
+    NPaNPaNPaNPNPaNP NpNp5 3Adjp PpPpPpPpPp PpPpPp ppPP5PP NPnp4NP
+    ClClClClCl ;
 MAP @conj ListRules ;
 
 MAP @csubj FinCL + (rela:Subj) ;
@@ -637,7 +639,7 @@ WITH (PpPp @conj) IF (pr @obl) {
   SUBSTITUTE @conj @obl (*) ;
 } ;
 
-SUBSTITUTE @acl:relcl @parataxis (adjv) OR (card) IF (NEGATE c @mark) ;
+SUBSTITUTE @acl:relcl @parataxis (adjv) - (_override) OR (card) IF (NEGATE c @mark) ;
 
 SETPARENT (@case PpPp) TO (p @case LINK p (*)) ;
 
@@ -1025,6 +1027,22 @@ WITH (verb @ccomp) OR (verb @xcomp) IF (c ("את" @case)) (cl @nsubj) (p (*)) {
     SUBSTITUTE @nsubj @obj _C2_ ;
     SUBSTITUTE @ccomp @xcomp (*) ;
 } ;
+
+WITH (verb @ccomp) IF (clw @nsubj LINK cl ("את" @case)) (p (*)) {
+    SETPARENT _C1_ TO (jC2 (*)) ;
+    SUBSTITUTE @nsubj @obj _C1_ ;
+    SUBSTITUTE @ccomp @xcomp (*) ;
+} ;
+
+WITH @ccomp IF (p (vbcp)) {
+    SWITCHPARENT WITHCHILD (*) (*) ;
+    SUBSTITUTE @ccomp (_) (*) ;
+    MAP $$Relation (*) IF (jC1 $$Relation) ;
+    SUBSTITUTE Relation @cop _C1_ ;
+    MAP @cop _C1_ ;
+} ;
+
+SUBSTITUTE @ccomp @advcl $$TextLevel IF (p (subs) - $$TextLevel) ;
 
 AFTER-SECTIONS
 

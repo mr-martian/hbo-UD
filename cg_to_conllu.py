@@ -117,6 +117,8 @@ class Word:
                     self.wid = 0
                 self.text = self.text.replace('־', ' ').split()[self.seg-1]
                 self.surf = self.text
+            if last_wid == 6450 and BOOK_ABBR == 'DEUT' and self.seg == 2:
+                self.misc.append('SpaceAfter=No')
             if (F.prs.v(last_wid) and F.prs.v(last_wid) not in ['absent', 'n/a']):
                 self.is_end = False
             ch = F.chapter.v(L.u(last_wid, otype='verse')[0])
@@ -241,6 +243,11 @@ class Sentence:
             elif w.wid != 0:
                 ret.append(w.wid)
         return sorted(set(ret))
+    def get_verses(self):
+        ret = set()
+        for i in self.get_ids():
+            ret.update(L.u(i, otype='verse'))
+        return sorted(ret)
     def add_compounds(self):
         gps = []
         cur = []
@@ -282,7 +289,7 @@ class Sentence:
                     w.misc.append(last_misc)
         self.add_compounds()
         ids = self.get_ids()
-        self.text = norm(T.text(ids).strip())
+        self.text = norm(T.text(self.get_verses()).strip())
         ws = min(ids)
         we = max(ids)
         book = T.bookName(ws)

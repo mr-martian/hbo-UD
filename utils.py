@@ -421,3 +421,11 @@ def show(book, idx, mode):
         ret += '  ' + '\n  '.join(arcs) + '\n'
         ret += '\\end{dependency}\n'
         return ret
+
+def get_cantillation(word):
+    ret = []
+    for c in word:
+        n = unicodedata.name(c)
+        if n.startswith('HEBREW ACCENT'):
+            ret.append(n[14:].title().replace(' ', ''))
+    return ret

@@ -132,6 +132,9 @@ class Word:
                     self.misc.append(f'Gloss={gloss}')
         if self.xpos not in ['punct', 'prn'] and not self.tail:
             self.is_end = False
+        cant = utils.get_cantillation(self.surf)
+        if cant:
+            self.misc.append('Cantillation=' + ','.join(cant))
     def from_cg(self, inp):
         self.lemma = inp.split('"')[1]
         parts = inp.split('"')[-1].split()

@@ -88,6 +88,8 @@ for book, export in utils.load_book_data('Export').items():
                     continue
             else:
                 wid = int(misc['Ref[BHSA]'])
+                if wid == last_wid:
+                    continue
                 heads.append((row[0], row[6]))
             idx2wid[row[0]] = wid
             write_value(prefix+'upos', wid, row[3])

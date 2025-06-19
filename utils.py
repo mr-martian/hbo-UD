@@ -341,7 +341,7 @@ def accept(book, annotator, ids):
                     fout.write(ln + '\n')
                 fout.write('\n')
 
-def show(book, idx, mode):
+def show(book, idx, mode, wrange=None):
     if mode == 'cg':
         with open(f'temp/macula-parsed-cg3/{book}.txt') as fin:
             return fin.read().strip().split('\n\n')[idx-1]
@@ -395,24 +395,36 @@ def show(book, idx, mode):
         ret += '\n_' + consonants_only(text) + '_\n\n'
         ret += '_' + transliterate_loc(text, False) + '_'
         return ret
-    elif mode == 'latex':
+    elif mode in ['latex', 'latexnp']:
         forms = []
         translit = []
         pos = []
         arcs = []
         block = gen[sid][1]
-        words = list(iter_words(block))
-        for ls in reversed(words):
-            wid = len(words) - int(ls[0]) + 1
-            head = 0 if ls[6] == '0' else len(words) - int(ls[6]) + 1
+        words = list(reversed(list(iter_words(block))))
+        if mode == 'latexnp':
+            words = [w for w in words if w[3] != 'PUNCT']
+        if wrange:
+            words = [w for w in words if wrange[0] <= int(w[0]) <= wrange[1]]
+        locs = {'0': 0}
+        for h, w in enumerate(words, 1):
+            locs[w[0]] = h
+        for wid, ls in enumerate(words, 1):
             forms.append(transliterate_latex(ls[1]))
             translit.append(transliterate_loc(ls[1], True))
             pos.append(ls[3])
-            if head == 0:
+            head = locs.get(ls[6])
+            if head is None:
+                pass
+            elif head == 0:
                 arcs.append(f'\\deproot{{{wid}}}{{root}}')
             else:
                 arcs.append(f'\\depedge{{{head}}}{{{wid}}}{{{ls[7]}}}')
-        ret  = '\\begin{dependency}\n'
+        ret = f'% {book} {idx} {mode}'
+        if wrange:
+            ret += f' -w {wrange[0]}-{wrange[1]}'
+        ret += '\n'
+        ret += '\\begin{dependency}\n'
         ret += '  \\begin{deptext}\n'
         ret += '    ' + ' \\& '.join(forms) + ' \\\\\n'
         ret += '    ' + ' \\& '.join(translit) + ' \\\\\n'

@@ -219,6 +219,7 @@ class Sentence:
     def __init__(self):
         self.text = ''
         self.sid = ''
+        self.pid = ''
         self.real_words = []
         self.all_words = []
     def from_cg(self, stream):
@@ -309,6 +310,7 @@ class Sentence:
         else:
             verse = f'{chs}:{vs}'
         self.sid = f'Masoretic-{book}-{verse}-hbo'
+        self.pid = f'{BOOK_ABBR.lower()}-{chs}-{che}'
     def to_conllu(self):
         for w in self.all_words:
             if w.xpos != 'punct':
@@ -316,6 +318,7 @@ class Sentence:
                 w.misc.append('Translit=' + tr)
         ret = f'# sent_id = {self.sid}\n# text = {self.text}\n'
         ret += '# translit = ' + utils.transliterate_loc(self.text, False) + '\n'
+        ret += f'# parallel_id = {self.pid}\n'
         return ret + '\n'.join(w.to_conllu() for w in self.all_words) + '\n'
 
 if __name__ == '__main__':

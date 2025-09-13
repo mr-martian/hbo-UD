@@ -63,6 +63,7 @@ MORPH = {
     'card': ['NumType=Card'],
     'ordn': ['NumType=Ord'],
     'art': ['PronType=Art'],
+    'dir_he': ['Case=Loc'],
     #'uvf:H': ['Case=Loc'], # TODO
 }
 
@@ -223,7 +224,7 @@ class Sentence:
     def from_cg(self, stream):
         surf = ''
         for line in stream:
-            if not line.strip():
+            if not line.strip() or '<svb>' in line:
                 break
             elif line[0] == '"':
                 surf = line.strip()[2:-2]

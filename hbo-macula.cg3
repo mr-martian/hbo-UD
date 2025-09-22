@@ -58,7 +58,7 @@ LIST Lemma = ".*"r ;
 
 LIST ConjAblePrep = "כמו" "למען" "עד" ;
 LIST ConjAbleSubsPrep = "בלת" ;
-LIST SubsToPrep = "אחר" "בין" "אצל" "בעד" ;
+LIST SubsToPrep = "אחר" "בין" "אצל" "בעד" "מול" ;
 LIST XcompInf = "יסף" "יכל" "חפץ" "מהר" "אמץ" "חדל" "כלה" "ירא" "מלא" "חלל" "יאל" "לאה" "צוה" "נתן" "אבה" "מאן" "שׁבע" "הון" "בקשׁ" "בחר" ("שׁמר" sdbh:007493001007000) ("למד" qal) ;
 LIST XcompNoObj = "מלא" ;
 
@@ -670,7 +670,8 @@ WITH NOPARENT (subs) IF (-1* (subs c) - (ppre) - @nummod BARRIER (*) - Det) {
 
 WITH NOMAPPED (subs PrepNp) IF (p (*)) {
   SETPARENT (*) TO (p (*) LINK p (*)) ;
-  MAP @orphan (*) IF (jC1 @orphan) ;
+    MAP @orphan (*) IF (jC1 @orphan) ;
+    MAP @nmod (*) IF (p (PpPpPp)) ;
   MAP @obl (*) ;
   SETCHILD (*) TO (jC1 (*)) ;
   SUBSTITUTE @obl @nmod:poss _C1_ IF (0 (prn)) ;

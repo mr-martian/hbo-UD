@@ -342,18 +342,16 @@ def accept(book, annotator, ids):
                 fout.write('\n')
 
 def show(book, idx, mode, wrange=None):
-    if mode == 'cg':
-        with open(f'temp/macula-parsed-cg3/{book}.txt') as fin:
-            return fin.read().strip().split('\n\n')[idx-1]
-    elif mode == 'raw':
-        with open(f'temp/macula-cg3/{book}.txt') as fin:
+    if mode in ['cg', 'raw']:
+        pr = '-parsed' if mode == 'cg' else ''
+        with open(f'temp/macula{pr}-cg3/{book}.txt') as fin:
             cur = []
-            i = -1
+            i = -1 if mode == 'raw' else 0
             for line in fin:
                 if not line.strip():
                     continue
                 cur.append(line.rstrip())
-                if '#1→' in cur[-1]:
+                if '#1→' in cur[-1] or '#1->' in cur[-1]:
                     if i == idx:
                         return '\n'.join(cur[:-2])
                     else:

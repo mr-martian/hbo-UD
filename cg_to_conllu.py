@@ -225,8 +225,10 @@ class Sentence:
     def from_cg(self, stream):
         surf = ''
         for line in stream:
-            if not line.strip() or '<svb>' in line:
+            if '<svb>' in line:
                 break
+            elif not line.strip():
+                continue
             elif line[0] == '"':
                 surf = line.strip()[2:-2]
                 if surf == 'blah':

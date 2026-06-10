@@ -270,17 +270,18 @@ class Sentence:
                 surf = ''.join(w.text for w in g)
                 tail = ''.join(w.tail for w in g)
                 nw = Word()
-                nw.surf = surf
+                nw.surf = utils.strip_cantillation(surf)
+                if nw.surf != surf:
+                    nw.misc.append('FormWithCantillation=' + surf)
                 nw.pos = g[0].pos + '-' + g[-1].pos
                 if not tail or tail[0] != ' ':
                     nw.misc.append('SpaceAfter=No')
                 self.all_words.append(nw)
                 self.all_words += g
-                #for w in g:
-                #    w.surf = '_'
             else:
                 w = g[0]
                 w.surf = w.lemma if w.xpos == 'punct' else w.text
+                w.surf = utils.strip_cantillation(w.surf)
                 if w.xpos == 'punct' and w.lemma == '־':
                     w.misc.append('SpaceAfter=No')
                 elif w.tail and w.tail[0] != ' ':

@@ -298,7 +298,8 @@ class Sentence:
                     w.misc.append(last_misc)
         self.add_compounds()
         ids = self.get_ids()
-        self.text = norm(T.text(self.get_verses()).strip())
+        self.text = utils.strip_cantillation(
+            norm(T.text(self.get_verses()).strip()))
         ws = min(ids)
         we = max(ids)
         book = T.bookName(ws)

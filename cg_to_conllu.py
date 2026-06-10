@@ -136,6 +136,8 @@ class Word:
         cant = utils.get_cantillation(self.surf)
         if cant:
             self.misc.append('Cantillation=' + ','.join(cant))
+            self.misc.append('FormWithCantillation=' + self.surf)
+            self.surf = utils.strip_cantillation(self.surf)
     def from_cg(self, inp):
         self.lemma = inp.split('"')[1]
         parts = inp.split('"')[-1].split()

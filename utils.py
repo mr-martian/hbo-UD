@@ -439,3 +439,7 @@ def get_cantillation(word):
         if n.startswith('HEBREW ACCENT'):
             ret.append(n[14:].title().replace(' ', ''))
     return ret
+
+def strip_cantillation(word):
+    return ''.join(c for c in word
+                   if not unicodedata.name(c).startswith('HEBREW ACCENT'))

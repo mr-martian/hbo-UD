@@ -72,6 +72,7 @@ MISC = {
     'ld': 'LexDomain[SDBH]',
     'mid': 'Ref[MACULA]',
     'strong': 'LId[Strongs]',
+    'morph': 'Morf[OpenScriptures]',
 }
 
 def norm(s):

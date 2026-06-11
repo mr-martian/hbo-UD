@@ -401,6 +401,8 @@ def align_to_bhsa(sentence, bhsa0):
             tags[mid].append('ld:'+m.attrib['LexDomain'].replace(' ', ','))
         if 'oshb-strongs' in m.attrib:
             tags[mid].append('strong:'+m.attrib['oshb-strongs'])
+        if 'morph' in m.attrib:
+            tags[mid].append('morph:'+m.attrib['morph'])
         heads[mid] = m.attrib['head']
         if m.attrib['pos'] == 'suffix':
             if m.attrib['type'] == 'pronominal':

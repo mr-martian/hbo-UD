@@ -69,6 +69,14 @@ coref/pred-spans/%.txt: coref/pred/%.txt
 	mkdir -p coref/pred-spans
 	./conv_xrenner.py $*
 
+coref/comment-spans/%.conllu: data/checked/%.conllu coref/spans/%.txt spans2comments.py
+	mkdir -p coref/comment-spans
+	python3 spans2comments.py $*
+
+coref/corefUD/%.conllu: coref/comment-spans/%.conllu blocks/importspans.py
+	mkdir -p coref/corefUD
+	cat $< | udapy -s .ImportSpans > $@
+
 export:
 	./export.py genesis 1-18 > UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-dev.conllu
 	./export.py genesis 19-30 > UD_Ancient_Hebrew-PTNK/hbo_ptnk-ud-test.conllu

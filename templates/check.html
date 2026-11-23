@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
   <head>
     <title>Check {{book_id}}</title>
@@ -7,11 +8,22 @@
     {% if fail %}
     <ul>
       {% for f in fail %}
-      <li><a href="/check/{{book_id}}/{{f}}/">Review sentence {{f}}</a></li>
+      <li>
+        <a href="/check/{{book_id}}/{{f}}/">Review sentence {{f}}</a>
+        <button data-link="/check/{{book_id}}/{{f}}/">Review here</button>
+      </li>
       {% endfor %}
     </ul>
     {% else %}
     <p>All outputs match expected.</p>
     {% endif %}
+    <script type="text/javascript">
+      function openFrame(e) {
+          let add = `<iframe src="${e.target.dataset.link}" width="${window.innerWidth}" height="500"/>`;
+          e.target.outerHTML = add;
+      }
+      Array.from(document.querySelectorAll('li button')).forEach(
+          a => a.addEventListener('click', openFrame));
+    </script>
   </body>
 </html>

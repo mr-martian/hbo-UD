@@ -75,8 +75,20 @@ MISC = {
     'morph': 'Morf[OpenScriptures]',
 }
 
+UPOS = {
+    'ADJ',
+    'NUM',
+    'VERB',
+}
+
 def norm(s):
     return unicodedata.normalize('NFC', s)
+
+def is_feat(tg):
+    if '=' not in tg:
+        return False
+    f = tg.split('=')[0]
+    return f in {'Person', 'HebBinyan', 'VerbForm'}
 
 class Word:
     def __init__(self):
@@ -152,6 +164,10 @@ class Word:
         for tg in parts:
             if tg in MORPH:
                 self.feats += MORPH[tg]
+            #elif is_feat(tg):
+            #    self.feats.append(tg)
+            #elif tg in UPOS:
+            #    self.upos = tg
             elif tg.startswith('ExtPos='):
                 self.feats.append(tg)
             elif tg.startswith('wp'):

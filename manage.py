@@ -110,11 +110,12 @@ def diffsent(book_id, sent):
             clean_rules += line + '\n'
     else:
         diff = ''
+    disp = utils.conllu2display(book_id,
+                                utils.show(book_id, sent, 'conllu'),
+                                utils.show(book_id, sent, 'ref'))
     return render_template('diffsent.html', book_id=book_id, sentence=sent,
-                           tree=json.dumps(utils.conllu2display(
-                               book_id,
-                               utils.show(book_id, sent, 'conllu'),
-                               utils.show(book_id, sent, 'ref'))),
+                           tree=json.dumps(disp),
+                           feat_diff=disp['feat_diff'],
                            cg=utils.show(book_id, sent, 'cg'),
                            raw=utils.show(book_id, sent, 'raw'),
                            diff=diff, rules=rules, clean_rules=clean_rules)

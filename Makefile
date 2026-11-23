@@ -10,7 +10,7 @@ temp/plain-cg3/%.txt: to-CG.py find_clause_root.py
 	mkdir -p temp/plain-cg3
 	./to-CG.py $* | apertium-cleanstream -n | ./find_clause_root.py | cg-conv -al > $@
 
-temp/macula-arcs/%.tsv: extract_macula_arcs.py data/manual-arcs/%.tsv data/manual-heads/%.tsv
+temp/macula-arcs/%.tsv: extract_macula_arcs.py data/manual-arcs/%.tsv data/manual-heads/%.tsv utils.py
 	mkdir -p temp/macula-arcs
 	./extract_macula_arcs.py $* > $@
 
@@ -44,6 +44,7 @@ hbo-macula.bin: hbo-macula.cg3
 %-book: temp/macula-merged/%.conllu data/checked/%.conllu
 	./check.sh $*
 	./filter-ready.py $*
+	mkdir -p temp/stats
 	./rule-stats.py $*
 
 %-report:

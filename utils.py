@@ -279,11 +279,26 @@ def conllu2display(book, block1, block2=None):
         words.append([word[0], word[1], word[2], word[3],
                       d.get('Gloss', ''), wid, d])
         arcs[int(word[0])] = [(int(word[6].replace('_', '0')), word[7])]
-    words.reverse()
+    feat_diff = []
     if block2:
-        for word in iter_words(block2):
+        for i, word in enumerate(iter_words(block2), 1):
             arcs[int(word[0])].append((int(word[6].replace('_', '0')),
                                        word[7]))
+            diff = []
+            old_feats = {**words[i][6]}
+            old_feats['upos'] = words[i][3]
+            new_feats = feature_dict(word[5])
+            new_feats.update(feature_dict(word[9]))
+            new_feats['upos'] = word[3]
+            keys = set(old_feats.keys()) | set(new_feats.keys())
+            for k in keys:
+                fo = old_feats.get(k, '_')
+                fn = new_feats.get(k, '_')
+                if fo != fn:
+                    diff.append((k, fo, fn))
+            if diff:
+                feat_diff.append((words[i][0], words[i][2], sorted(diff)))
+    words.reverse()
     als = []
     for k, v in arcs.items():
         dep = len(words) - k - 1
@@ -325,7 +340,7 @@ def conllu2display(book, block1, block2=None):
                 nt.append(t)
         todo = nt
     return {'sent_id': sent_id, 'text': text, 'words': words, 'arcs': als,
-            'height': max(h['height'] for h in als)}
+            'height': max(h['height'] for h in als), 'feat_diff': feat_diff}
 
 def accept(book, annotator, ids):
     with open(f'temp/macula-merged/{book}.conllu') as fin:
@@ -443,3 +458,97 @@ def get_cantillation(word):
 def strip_cantillation(word):
     return ''.join(c for c in word
                    if not unicodedata.name(c).startswith('HEBREW ACCENT'))
+
+def parse_morph(code):
+    fields = list(code.ljust(7, 'x'))
+    tags = []
+    def add_common(idx):
+        nonlocal fields, tags
+        common = [
+            (0, {'f': ['Gender=Fem'], 'm': ['Gender=Masc']}),
+            (1, {'d': ['Number=Dual'], 'p': ['Number=Plur'],
+                 's': ['Number=Sing']}),
+            (2, {'c': ['Definite=Cons']}),
+        ]
+        for f, d in common:
+            tags += d.get(fields[f+idx], [])
+    def add_person(idx):
+        nonlocal fields, tags
+        person = {'1': ['Person=1'], '2': ['Person=2'], '3': ['Person=3']}
+        tags += person.get(fields[idx], [])
+        add_common(idx+1)
+    if fields[0] == 'A':
+        if fields[1] == 'c':
+            tags += ['NUM', 'NumType=Card']
+        elif fields[1] == 'o':
+            tags += ['NUM', 'NumType=Ord']
+        else:
+            tags.append('ADJ')
+        add_common(2)
+    elif fields[0] == 'C':
+        tags.append('CONJ') # TODO
+    elif fields[0] == 'D':
+        tags.append('ADV')
+    elif fields[0] == 'N':
+        if fields[1] == 'p':
+            tags.append('PROPN')
+        else:
+            tags.append('NOUN')
+        add_common(2)
+    elif fields[0] == 'P':
+        tags.append('PRON')
+        ptype = {'d': 'Dem', 'f': 'Ind', 'i': 'Int', 'p': 'Prs', 'r': 'Rel'}
+        if fields[1] in ptype:
+            tags.append('PronType='+ptype[fields[1]])
+        add_person(2)
+    elif fields[0] == 'R':
+        tags.append('ADP')
+        if fields[1] == 'd':
+            tags.append('has_det')
+    elif fields[0] == 'S':
+        if fields[1] == 'd':
+            tags.append('dir_he')
+        elif fields[1] == 'h':
+            tags.append('para_he')
+        elif fields[1] == 'n':
+            tags.append('para_nun')
+        elif fields[1] == 'p':
+            tags += ['PRON', 'PronType=Prs']
+        add_person(2)
+    elif fields[0] == 'T':
+        parts = {
+            'a': [], # TODO
+            'd': ['DET'],
+            'e': [], # TODO
+            'i': [], # TODO
+            'j': ['INTJ'],
+            'm': [], # TOOD
+            'n': ['ADV', 'Polarity=Neg'],
+            'o': ['ADP'],
+            'r': [], # TODO
+        }
+        tags += parts.get(fields[1], [])
+    elif fields[0] == 'V':
+        tags.append('VERB')
+        stems = {'q': ['HebBinyan=PAAL'],
+                 'N': ['HebBinyan=NIFAL'],
+                 }
+        vconj = {'p': ['VerbForm=Fin', 'Mood=Ind', 'Aspect=Perf'],
+                 'q': [], # TODO
+                 'i': ['VerbForm=Fin', 'Mood=Ind', 'Aspect=Imp'],
+                 'w': ['VerbForm=Fin', 'Mood=Ind', 'Tense=Past'],
+                 'h': [], # TODO
+                 'j': [], # TODO
+                 'v': [], # TODO
+                 'r': ['VerbForm=Part'],
+                 's': ['VerbForm=Part', 'Voice=Pass'],
+                 'a': ['VerbForm=Inf'], # TODO
+                 'c': ['VerbForm=Inf'],
+                 }
+        tags += stems.get(fields[1], [])
+        tags += vconj.get(fields[2], [])
+        if fields[2] in 'pqiwhjv':
+            add_person(3)
+        else:
+            add_common(3)
+    return tags

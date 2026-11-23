@@ -1,3 +1,4 @@
+<!doctype html>
 <html>
   <head>
     <title>Diff {{book_id}} {{sent}}</title>
@@ -11,6 +12,16 @@
           width: 95%;
           overflow-x: scroll;
       }
+      del {
+          color: red;
+      }
+      ins {
+          color: green;
+      }
+      li {
+          display: inline-block;
+          margin-right: 2em;
+      }
     </style>
   </head>
   <body>
@@ -18,6 +29,30 @@
       <button type="submit">Accept</button>
     </form>
     <div class="sentence" data-sent="{{tree}}"></div>
+    {% if feat_diff %}
+    <table>
+      <thead>
+        <tr>
+          <th>Word</th>
+          <th>Features</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for idx, lemma, feats in feat_diff %}
+        <tr>
+          <td>{{idx}} {{lemma}}</td>
+          <td>
+            <ul>
+              {% for feat, old, new in feats %}
+              <li>{{feat}}: <ins>{{old}}</ins> <del>{{new}}</del></li>
+              {% endfor %}
+            </ul>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% endif %}
     <details>
       <summary>Final CG</summary>
       <pre>{{cg}}</pre>
@@ -36,6 +71,7 @@
 {{diff|safe}}
       </pre>
       <textarea>{{clean_rules}}</textarea>
+    </details>
     <script type="text/javascript" src="/static/tree-diff.js"></script>
   </body>
 </html>

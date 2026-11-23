@@ -96,7 +96,6 @@ for w in F.otype.s('word'):
     tags = ''
     for f in feats:
         tags += get(w, f)
-    tags += get(w, 'uvf', 'uvf:')
     tags += phr_ft
     tags += f'<w{w}>'
     lu = ''

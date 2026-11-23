@@ -196,6 +196,8 @@ WITH ("אפס" subs CjpCjp) IF (pr ("כי" conj _)) {
 # Retagging
 ####################
 
+SUBSTITUTE (VERB) (AUX) ("היה") ;
+
 # Substantivized adjectives
 SUBSTITUTE (adjv) (subs retag:adjv) (c) ;
 SUBSTITUTE (adjv) (subs retag:adjv) (a) (1 BD) (-1* Noun + (c) BARRIER (*) - Det) ;
@@ -410,7 +412,7 @@ WITH NOMAPPED roleVP {
     MAP @acl:relcl (NpCL) IF (p (prde IPrP)) ;
     MAP @acl (NpCL rela:RgRc perf) ;
     MAP @parataxis (NpCL) - (ptca) - (ptcp) - (nmcp) - (rela:Attr) IF (NEGATE c @mark) ;
-    MAP @obl (uvf:H AdvP uprole:ADV) OR (Cmpl V-ADV uprole:ADV) ;
+    MAP @obl (dir_he AdvP uprole:ADV) OR (subs role:V uprole:ADV) OR (Cmpl V-ADV uprole:ADV) ;
     MAP @csubj (verb uprole:S) ;
     MAP @xcomp (verb ptca uprole:ADV) ;
     MAP @nsubj (PrNP uprole:S) ;
@@ -1064,8 +1066,4 @@ WITH @root IF (p (*) LINK p (*)) {
 
 SETPARENT (*) (p (>>>)) TO (slll (*)) ;
 
-REMCOHORT (pb) ;
-REMCOHORT (cb) ;
-REMCOHORT (sb) ;
-REMCOHORT (svb) ;
-#REMCOHORT (excb) ;
+REMCOHORT REPEAT BD ;

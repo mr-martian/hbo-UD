@@ -5,10 +5,10 @@ import utils
 from collections import Counter
 book = sys.argv[1]
 
-parsed = utils.load_conllu(f'temp/merged/{book}.conllu')
+parsed = utils.load_conllu(f'temp/macula-merged/{book}.conllu')
 checked = utils.load_conllu(f'data/checked/{book}.conllu')
 cg3 = []
-with open(f'temp/parsed-cg3/{book}.txt') as fin:
+with open(f'temp/macula-parsed-cg3/{book}.txt') as fin:
     cg3 = fin.read().strip().split('\n\n')
 
 right = Counter()

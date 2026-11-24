@@ -552,3 +552,9 @@ def parse_morph(code):
         else:
             add_common(3)
     return tags
+
+def bhsa_start_word(macula_sentence, L):
+    c, v = macula_sentence.attrib['verse'].split()[-1].split(':')
+    cl = L.u(1, otype='chapter')[0] + int(c) - 1
+    vl = L.d(cl, otype='verse')[0] + int(v) - 1
+    return L.d(vl, otype='word')[0]

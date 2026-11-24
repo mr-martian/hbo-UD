@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+from alignment import Aligner
 import utils
 import xml.etree.ElementTree as ET
 import glob
@@ -269,183 +270,44 @@ def distribute_heads(node, headword, parentrule, rulepiece=None):
             else:
                 distribute_heads(ch, node.attrib['headword'], r, role)
 
-def skip(c):
-    if ord(c) > 0x5ea:
-        return True # trop
-    if ord(c) == 0x5c3:
-        return True # sof pasuq
-    if ord(c) < 0x5d0:
-        return True # vowel
-    return False
-
-def clean(s):
-    s2 = (s or '').replace(chr(0xfb2a), chr(0x5e9)).replace(chr(0xfb2b), chr(0x5e9))
-    s3 = ''.join(c for c in s2.strip() if not skip(c))
-    return unicodedata.normalize('NFC', s3)
-
-def remsuf(a, b):
-    if not b:
-        return a
-    if not a.endswith(b):
-        return a
-    return a[:-len(b)]
-
-def matches(node, idx):
-    bt = remsuf(T.text(idx) or '', F.trailer_utf8.v(idx))
-    mt = node.text
-    btc = clean(bt)
-    mtc = clean(mt)
-    if btc == mtc:
-        return True
-    if F.prs.v(idx) and btc.startswith(mtc):
-        return True
-    print('BHSA', btc, 'macula', mtc, 'text', [T.text(idx)], 'trailer', [F.trailer_utf8.v(idx)], file=sys.stderr)
-    return False
-
-bhsa_skip_nodes = {
-    'genesis': [28427, 28426, 28460, 28461, 16564, 17279],
-    'numbers': [8083, 21962],
-}
-
-macula_skip_nodes = {
-    'leviticus': ['o030270330051ה'],
-    'numbers': ['o040340040061'],
-}
-
-name_groups = {
-    '883+': ['B>R/', 'LXJ_R>J/'],
-    '884+': ['B>R/', 'CB<==/'],
-    '6636': ['YB>JM/'],
-    '1976': ['H', 'LZH'],
-    '763+': ['>RM/', 'NHR/'],
-    '3026 a': ['JGR/', 'FHDW/'],
-    '4772': ['MRGLT/'],
-}
-
-def is_split_prefix(node, idx):
-    if node.attrib.get('oshb-strongs') == '1976' and F.lex.v(idx) == 'H' \
-       and F.lex.v(idx+1) == 'LZH':
-        return True
-    if node.attrib.get('oshb-strongs') == '935' and F.lex.v(idx) == 'L' \
-       and F.lex.v(idx+1) == 'BW>[':
-        return True
-    return False
-
-def is_merge_prefix(node, idx):
-    if node.attrib.get('oshb-strongs') == 'l' and F.lex.v(idx) in ['LMH', 'LKN']:
-        return True
-    if node.attrib.get('oshb-strongs') == 'd' and F.lex.v(idx) in ['HXJRWT/']:
-        return True
-    return False
-
-def is_merge_main(node, idx):
-    if F.lex.v(idx) == 'LMH' and node.attrib.get('oshb-strongs') == '4100':
-        return True
-    if F.lex.v(idx) == 'LKN' and node.attrib.get('oshb-strongs') == '3651c':
-        return True
-    if F.lex.v(idx) == 'HXJRWT/' and node.attrib.get('oshb-strongs') == '6367':
-        return True
-    return False
-
-def is_np_second(node, idx):
-    if F.lex.v(idx) == '>RM/' and F.lex.v(idx-1) == 'PDN/':
-        return True
-    return False
-
-def is_name_group(node, idx):
-    lm = node.attrib.get('oshb-strongs')
-    if lm in name_groups:
-        for i in range(len(name_groups[lm])):
-            if F.lex.v(idx+i) != name_groups[lm][i]:
-                return (False, 0)
-        return (True, len(name_groups[lm]))
-    return (False, 0)
-
-def extract_morphemes(node):
-    if node.tag == 'm':
-        if node.attrib[xml_id] not in macula_skip_nodes:
-            yield node
-    elif node.tag == 'c':
-        yield node[0]
-    else:
-        for ch in node:
-            yield from extract_morphemes(ch)
+tag_prefixes = [
+    ('', 'parentrule'),
+    ('role:', 'rulepiece'),
+    ('uprole:', 'uprule'),
+    ('mid:', xml_id),
+    ('sdbh:', 'SDBH'),
+    ('ld:', 'LexDomain'),
+    ('strong:', 'oshb-strongs'),
+    ('morph:', 'morph'),
+]
 
 def align_to_bhsa(sentence, bhsa0):
-    debug = (sentence.attrib['verse'] == 'NUM 13:28')
-    morphs = list(extract_morphemes(sentence))
-    morphs.sort(key=lambda m: m.attrib[xml_id])
-    m2b = {}
+    alg = Aligner(book, sentence, bhsa0, F, T)
     tags = defaultdict(list)
     heads = {}
-    idx = bhsa0
-    if debug:
-        print('#####', len(morphs), file=sys.stderr)
-    for mi, m in enumerate(morphs):
-        if debug:
-            print('##', 'macula', m.text, 'bhsa', F.lex.v(idx), file=sys.stderr)
-        while idx in bhsa_skip_nodes:
-            idx += 1
-        if is_np_second(m, idx):
-            idx += 1
+    for mi, m in enumerate(alg.morphs):
         mid = m.attrib[xml_id]
-        tags[mid].append(m.attrib['parentrule'])
-        if 'rulepiece' in m.attrib:
-            tags[mid].append('role:'+m.attrib['rulepiece'])
-        if 'uprule' in m.attrib:
-            tags[mid].append('uprole:'+m.attrib['uprule'])
-        tags[mid].append('mid:'+mid)
-        if 'SDBH' in m.attrib:
-            tags[mid].append('sdbh:'+m.attrib['SDBH'].replace(' ', ','))
-        if 'LexDomain' in m.attrib:
-            tags[mid].append('ld:'+m.attrib['LexDomain'].replace(' ', ','))
-        if 'oshb-strongs' in m.attrib:
-            tags[mid].append('strong:'+m.attrib['oshb-strongs'])
+        for prefix, key in tag_prefixes:
+            if key in m.attrib:
+                tags[mid].append(prefix+m.attrib[key].replace(' ', ','))
         if 'morph' in m.attrib:
-            tags[mid].append('morph:'+m.attrib['morph'])
             tags[mid] += utils.parse_morph(m.attrib['morph'])
         heads[mid] = m.attrib['head']
         if m.attrib['pos'] == 'suffix':
-            if m.attrib['type'] == 'pronominal':
-                m2b[mid] = str(idx-1) + 'p'
-                continue
-            elif m.attrib['type'] == 'paragogic nun':
+            if m.attrib['type'] == 'paragogic nun':
                 tags[m.attrib['head']].append('para_nun')
-                continue
             elif m.attrib['type'] == 'paragogic he':
                 tags[m.attrib['head']].append('para_he')
-                continue
             elif m.attrib['type'] == 'directional he':
                 tags[m.attrib['head']].append('dir_he')
-                continue
-        if is_merge_prefix(m, idx):
+    for mid in sorted(alg.mapping.keys()):
+        if mid not in alg.mapping:
             continue
-        if is_merge_main(m, idx):
-            m2b[mid] = idx
-            idx += 1
-            continue
-        if is_split_prefix(m, idx):
-            m2b[mid] = idx + 1
-            idx += 2
-            continue
-        ok, n = is_name_group(m, idx)
-        if ok:
-            m2b[mid] = idx
-            idx += n
-            continue
-        if matches(m, idx):
-            m2b[mid] = idx
-            idx += 1
-            continue
-        print('NOMATCH', mid, idx, 'BHSA', F.voc_lex_utf8.v(idx), 'Macula', m.text, 'context', ' '.join((F.lex.v(i) or '_') + ':' + (F.lex_utf8.v(i) or '_') for i in range(idx-2,idx+3)), file=sys.stderr)
-    if debug:
-        print(m2b, file=sys.stderr)
-    for mid in sorted(m2b.keys()):
-        wid = m2b[mid]
+        wid = alg.mapping[mid]
         head = heads[mid]
         tagstr = ''.join(f'<{x}>' for x in tags[mid])
-        if head in m2b and '_' not in tags[mid]:
-            head = 'w' + str(m2b[head])
+        if head in alg.mapping and '_' not in tags[mid]:
+            head = 'w' + str(alg.mapping[head])
         man = manual.get(f'w{wid}', [])
         if man:
             if man[0] != '_':
@@ -453,22 +315,11 @@ def align_to_bhsa(sentence, bhsa0):
             if len(man) > 1:
                 tagstr += f'<{man[1]}>'
         print(f'w{wid}\t{head}\t{tagstr}')
-        if debug:
-            print(f'w{wid}\t{head}\t{tagstr}', file=sys.stderr)
 
 def process_sentence(sent):
     propogate_heads(sent)
-    if sent.attrib['verse'] == 'GEN 1:6 (!!)':
-        print(ET.tostring(sent, encoding='utf-8').decode('utf-8'), file=sys.stderr)
     distribute_heads(sent, sent.attrib['headword'], '_')
-    c, v = sent.attrib['verse'].split()[-1].split(':')
-    cl = L.u(1, otype='chapter')[0] + int(c) - 1
-    vl = L.d(cl, otype='verse')[0] + int(v) - 1
-    wl = L.d(vl, otype='word')[0]
-    align_to_bhsa(sent, wl)
-
-bhsa_skip_nodes = bhsa_skip_nodes.get(book, [])
-macula_skip_nodes = macula_skip_nodes.get(book, [])
+    align_to_bhsa(sent, utils.bhsa_start_word(sent, L))
 
 utils.load_volume(book, globals())
 
